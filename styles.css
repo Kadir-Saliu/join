@@ -1,8 +1,60 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;  
+}
+
 body{
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    background-color: rgb(246, 247, 248);
+}
+
+header {  
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+#header-div {
+  display: flex;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.sign-up-btn {
+  margin-left: 35px;
+  background-color: rgb(42, 54, 71);
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  height: 35px;
+  width: 70px;
+}
+
+.sign-up-btn:hover {
+  background-color: rgb(41, 171, 226);
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+}
+
+main {
+  flex-grow: 1;
+}
+
+.animation-hide {
+  display: none;
+}
+
+.mw1920 {
+  max-width: 1920px;
 }
 
 
