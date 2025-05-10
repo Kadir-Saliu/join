@@ -8,6 +8,6 @@ function init() {
  */
 function addDisplayToContent() {
     document.getElementById("header-div").classList.remove("animation-hide");
-    document.getElementById("main").classList.remove("animation-hide");
+    document.getElementById("login-div").classList.remove("animation-hide");
     document.getElementById("footer").classList.remove("animation-hide");
 };
