@@ -15,22 +15,54 @@
   <img class="slide-out-tl" src="./assets/imgs/join_logo.png" alt="">   
     <div class="animation-hide" id="header-div">
       <p>Not a Join user?</p>
-      <button class="grey-btn">Sign up</button>
+      <button class="grey-btn" id="sign-up-btn" onclick="openSignUpMenu()">Sign up</button>
     </div>
   </header>
   
 
   <main class="mw1920" id="main">
-    <div class="animation-hide" id="login-div">
+    <div class="animation-hide menu-div" id="login-div">
       <h1>Log in</h1>
-      <div id="divider"></div>
-      <input type="email" name="" id="email-input" placeholder="Email" required>
-      <input type="text" id="password-input" placeholder="Password" required>
-      <div id="btn-login-div">
-        <button class="grey-btn">Log in</button>
-        <button class="white-btn">Guest Log in</button>
+      <div id="divider" class="divider-line"></div>
+        <div id="email-divider" class="input-divider">
+          <input type="email" name="" id="email-input" class="menu-input" placeholder="Email" required>
+          <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon" class="icon"></img>
+        </div>
+        <div id="password-divider" class="input-divider">
+          <input type="password" id="password-input" class="menu-input" placeholder="Password" required>
+          <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon" class="icon">
+        </div>
+        <div id="btn-login-div" class="btn-menu-div">
+          <button class="grey-btn">Log in</button>
+          <button class="white-btn">Guest Log in</button>
+        </div>
       </div>
-    </div>    
+    </div>   
+    
+    <div class="animation-hide menu-div" id="sign-up-div">
+      <h1>Sign up</h1>
+      <div id="divider-sign-up" class="divider-line"></div>
+      <div id="name-divider-sign-up" class="input-divider">
+        <input type="text" name="" id="name-input-sign-up" class="menu-input" placeholder="Name" required>
+        <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
+      </div>
+        <div id="email-divider-sign-up" class="input-divider">
+          <input type="email" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" required>
+          <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
+        </div>
+        <div id="password-divider-sign-up" class="input-divider">
+          <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" required>
+          <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon">
+        </div>
+        <div id="confirm-divider-sign-up" class="input-divider">
+          <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Password" required>
+          <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon">
+        </div>
+        <div id="btn-login-div-sign-up" class="btn-menu-div">
+          <button class="grey-btn">Sign up</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer class="animation-hide mw1920" id="footer">

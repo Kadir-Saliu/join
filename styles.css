@@ -80,7 +80,7 @@ main {
   align-items: center;
 }
 
-#login-div {
+.menu-div {
   background-color: rgb(255,255,255);
   width: 500px;
   display: flex;
@@ -89,27 +89,59 @@ main {
   border-radius: 20px;
 }
 
-#login-div h1 {
+.menu-div h1 {
   margin-top: 40px;
 }
 
-#divider {
+.divider-line {
   margin-top: 10px;
   border-top: 1px solid rgb(41, 171, 226);
   width: 70px;
 }
 
-#login-div input {
+.input-divider {
+  display: flex;
+  align-items: end;
+}
+
+.menu-input {
   margin-top: 20px;
   width: 320px;  
   height: 40px;
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 8px;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
   padding: 0 10px;
 }
 
-#btn-login-div {
+.icon {
+  width: 40px;
+  height: 40px;  
+  margin-top: 20px;  
+  border-radius: 0 8px 8px 0;
+  border: 1px solid rgb(221, 221, 221);
+  border-left: none;
+}
+
+#mail-icon {
+  padding: 10px;
+}
+
+#lock-icon {
+  padding: 10px;
+}
+
+.btn-menu-div {
   margin: 40px 0;
+}
+
+.input-divider:focus-within input {
+  outline: none;
+  border-color: rgb(41, 171, 226) !important;
+}
+
+.input-divider:focus-within .icon {
+  border-color: rgb(41, 171, 226);
 }
 
 footer {
