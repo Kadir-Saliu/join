@@ -121,13 +121,6 @@ main {
   border-radius: 0 8px 8px 0;
   border: 1px solid rgb(221, 221, 221);
   border-left: none;
-}
-
-#mail-icon {
-  padding: 10px;
-}
-
-#lock-icon {
   padding: 10px;
 }
 
@@ -142,6 +135,46 @@ main {
 
 .input-divider:focus-within .icon {
   border-color: rgb(41, 171, 226);
+}
+
+#checkbox-input-sign-up {
+  cursor: pointer;
+}
+
+#checkbox-divider-sign-up {
+  display: flex;
+  margin-top: 20px;
+}
+
+#checkbox-divider-sign-up p {
+  color: rgb(168, 168, 168);
+  margin-left: 10px;
+}
+
+#privacy-link-checkbox {
+  color: rgb(41, 171, 226);
+  cursor: pointer;
+}
+
+#privacy-link-checkbox:hover {
+  text-decoration: underline;
+}
+
+#back-btn {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  top: 75px;
+  right: 200px;
+  border: none;
+  color: rgb(41, 171, 226);
+  background-color: white;
+  cursor: pointer;
+}
+
+#back-btn:hover {
+  background-color: rgb(221, 221, 221);
+  border-radius: 50%;
 }
 
 footer {

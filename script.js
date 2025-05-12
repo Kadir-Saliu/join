@@ -15,7 +15,7 @@ function addDisplayToContent() {
 /**
  * switching from-log in menu to sign-up menu and vice versa
  */
-function openSignUpMenu() {
+function toogleInputMenu() {
     document.getElementById("header-div").classList.toggle("animation-hide");
     document.getElementById("login-div").classList.toggle("animation-hide");
     document.getElementById("sign-up-div").classList.toggle("animation-hide");

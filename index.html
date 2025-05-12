@@ -15,7 +15,7 @@
   <img class="slide-out-tl" src="./assets/imgs/join_logo.png" alt="">   
     <div class="animation-hide" id="header-div">
       <p>Not a Join user?</p>
-      <button class="grey-btn" id="sign-up-btn" onclick="openSignUpMenu()">Sign up</button>
+      <button class="grey-btn" id="sign-up-btn" onclick="toogleInputMenu()">Sign up</button>
     </div>
   </header>
   
@@ -40,11 +40,12 @@
     </div>   
     
     <div class="animation-hide menu-div" id="sign-up-div">
+      <button id="back-btn" onclick="toogleInputMenu()">back</button>
       <h1>Sign up</h1>
       <div id="divider-sign-up" class="divider-line"></div>
       <div id="name-divider-sign-up" class="input-divider">
         <input type="text" name="" id="name-input-sign-up" class="menu-input" placeholder="Name" required>
-        <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
+        <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)"  class="icon"></img>
       </div>
         <div id="email-divider-sign-up" class="input-divider">
           <input type="email" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" required>
@@ -55,8 +56,12 @@
           <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon">
         </div>
         <div id="confirm-divider-sign-up" class="input-divider">
-          <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Password" required>
-          <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon">
+          <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Confirm Password" required>
+          <img src="./assets/icon/lock.svg" alt="lock" id="confirm-icon-sign-up" class="icon">
+        </div>
+        <div id="checkbox-divider-sign-up" class="input-diver">
+          <input type="checkbox" id="checkbox-input-sign-up" required>
+          <p>I accept the <span id="privacy-link-checkbox">Privacy policy</span></p>
         </div>
         <div id="btn-login-div-sign-up" class="btn-menu-div">
           <button class="grey-btn">Sign up</button>
