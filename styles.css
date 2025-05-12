@@ -7,6 +7,7 @@
 }
 
 body{
+  font-family: "Inter", sans-serif;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -101,7 +102,7 @@ main {
 #login-div input {
   margin-top: 20px;
   width: 320px;  
-  height: 30px;
+  height: 40px;
   border: 1px solid rgb(221, 221, 221);
   border-radius: 8px;
   padding: 0 10px;
@@ -136,11 +137,6 @@ footer div span:hover {
 .mw1920 {
   max-width: 1920px;
 }
-
-
-
-
-
 
 .slide-out-tl {
   animation: slide-out-tl 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
