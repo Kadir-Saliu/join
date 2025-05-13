@@ -28,8 +28,7 @@ async function getFirebaseData(event) {
     let response = await fetch(BASE_URL);
     let responseJson = await response.json();
     checkLoginData(responseJson);
-    console.log(responseJson);
-    
+    console.log(responseJson);    
   } catch (error) {
     console.log("error")
   };
@@ -38,9 +37,16 @@ async function getFirebaseData(event) {
 async function checkLoginData(data) {
     for (let i = 0; i < data.contacts.length; i++) {
         if(!data.contacts[i]) continue;
-        if(document.getElementById("email-input").value === data.contacts[i].Email) {
+        if(document.getElementById("email-input").value === data.contacts[i].Email && document.getElementById("password-input").value === data.contacts[i].Password) {
+            window.location.href = "summary.html";
             return console.log("success");            
         } else {
+            document.getElementById("lock-icon").classList.add("wrongPassword");
+            document.getElementById("password-input").classList.add("wrongPassword");
+            document.getElementById("mail-icon").classList.add("wrongPassword");
+            document.getElementById("email-input").classList.add("wrongPassword");
+            document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
+            document.getElementById("password-input").value = "";
             console.log("who are you?");            
         }        
     }

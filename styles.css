@@ -38,6 +38,14 @@ header img {
   margin-right: 35px;
 }
 
+#btn-login-div {
+  display: flex;
+}
+
+#btn-login-div .grey-btn {
+  margin-right: 20px;
+}
+
 .grey-btn {
   background-color: rgb(42, 54, 71);
   color: white;
@@ -137,6 +145,10 @@ main {
   border-color: rgb(41, 171, 226);
 }
 
+.wrongPassword {
+  border-color: rgb(255, 64, 87);
+}
+
 #checkbox-input-sign-up {
   cursor: pointer;
 }
@@ -175,6 +187,23 @@ main {
 #back-btn:hover {
   background-color: rgb(221, 221, 221);
   border-radius: 50%;
+}
+
+#wrong-password-div {
+  width: 360px;
+
+}
+
+#wrong-password-info {
+  color: rgb(255, 64, 87);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+input:-webkit-autofill {
+  background-color: white !important;
+  color: black !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
 }
 
 footer {
