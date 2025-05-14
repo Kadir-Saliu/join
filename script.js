@@ -2,7 +2,6 @@ const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.
 
 function init() {
     setTimeout(addDisplayToContent, 2500);
-    getData();
 }
 
 /**
@@ -23,6 +22,10 @@ function toogleInputMenu() {
     document.getElementById("sign-up-div").classList.toggle("animation-hide");
 }
 
+/**
+ * get contact data
+ * @param {*} event - parameter to prevent Default behaviour
+ */
 async function getFirebaseData(event) {
     event.preventDefault();
     try {
@@ -35,51 +38,58 @@ async function getFirebaseData(event) {
   };
 }
 
+/**
+ * checking if email match password
+ * @param {*} data - parameter for the firebase contacts
+ * @returns 
+ */
 async function checkLoginData(data) {
     for (let i = 0; i < data.contacts.length; i++) {
         if(!data.contacts[i]) continue;
         if(document.getElementById("email-input").value === data.contacts[i].Email && document.getElementById("password-input").value === data.contacts[i].Password) {
-            window.location.href = "summary.html";
-            return console.log("success");            
+            return window.location.href = "summary.html";       
         } else {
             document.getElementById("lock-icon").classList.add("wrongPassword");
             document.getElementById("password-input").classList.add("wrongPassword");
             document.getElementById("mail-icon").classList.add("wrongPassword");
             document.getElementById("email-input").classList.add("wrongPassword");
             document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
-            document.getElementById("password-input").value = "";
-            console.log("who are you?");            
+            document.getElementById("password-input").value = "";            
         }        
     }
 }
 
-/* sign up part */
-
+/**
+ * getting data from the sign up form
+ * @param {*} event - parameter to prevent default behaviour
+ * @returns 
+ */
 async function signUpUser(event) {
-    event.preventDefault();
-  
+    event.preventDefault();  
     if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
-      alert("Passwords do not match!");
+      document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
+      document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
+      document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
       return;
-    }
-  
+    }  
     const newUser = {
       name: document.getElementById("name-input-sign-up").value,
       Email: document.getElementById("email-input-sign-up").value,
       Password: document.getElementById("password-input-sign-up").value,
       "phone number": "",
-    };
-  
+    };  
     await saveUserToFirebase(newUser);
 }
 
-
+/**
+ * function to put data to firebase
+ * @param {*} userData - parameter from function sigUpUser - Data from input.value
+ */
   async function saveUserToFirebase(userData) {
     try {
       let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json`);
       let contacts = await response.json();
-      let newId = contacts.length
-  
+      let newId = contacts.length;  
       await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
         method: "PUT",
         headers: {
@@ -93,3 +103,26 @@ async function signUpUser(event) {
     }
   }
 
+/**
+ * switch icon and cursor if password input has a value
+ * @param {*} el - this attribut from oninput element
+ */
+function switchPasswordIcon(el) {
+  el.nextElementSibling.src = "./assets/icon/eye_slash_grey.svg";
+  el.nextElementSibling.style.cursor = "pointer";
+}
+
+/**
+ * switch icon and password visibility, if password icon is clicked
+ * @param {*} element - this attribut from onclick element
+ * @returns 
+ */
+function switchPasswordVisibility(element) {
+  if(element.src.includes("/assets/icon/eye_slash_grey.svg")) {
+    element.previousElementSibling.type = "text";
+    return element.src = "./assets/icon/eye_grey.svg";
+  } else if(element.src.includes("/assets/icon/eye_grey.svg")) {
+    element.previousElementSibling.type = "password";
+    element.src = "./assets/icon/eye_slash_grey.svg"
+  }  
+}

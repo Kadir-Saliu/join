@@ -172,9 +172,13 @@ main {
   text-decoration: underline;
 }
 
+#arrow-left {
+  width: 20px;
+}
+
 #back-btn {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   position: relative;
   top: 75px;
   right: 200px;
@@ -182,6 +186,8 @@ main {
   color: rgb(41, 171, 226);
   background-color: white;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
 }
 
 #back-btn:hover {
@@ -189,12 +195,11 @@ main {
   border-radius: 50%;
 }
 
-#wrong-password-div {
+.wrong-password-div {
   width: 360px;
-
 }
 
-#wrong-password-info {
+.wrong-password-info {
   color: rgb(255, 64, 87);
   font-size: 12px;
   margin-top: 5px;

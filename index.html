@@ -29,8 +29,8 @@
         <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon" class="icon"></img>
       </div>
       <div id="password-divider" class="input-divider">
-        <input type="password" id="password-input" class="menu-input" placeholder="Password" required>
-        <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon" class="icon">
+        <input type="password" id="password-input" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this)" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon" class="icon" onclick="switchPasswordVisibility(this)">
       </div>
       <div id="wrong-password-div">
         <p id="wrong-password-info"></p>
@@ -42,7 +42,7 @@
     </form>  
     
     <form class="animation-hide menu-div" id="sign-up-div">
-      <button id="back-btn" type="button" onclick="toogleInputMenu()">back</button>
+      <button id="back-btn" type="button" onclick="toogleInputMenu()"><img id="arrow-left" src="./assets/icon/arrow-left-solid.svg" alt="arrow left"></button>
       <h1>Sign up</h1>
       <div id="divider-sign-up" class="divider-line"></div>
       <div id="name-divider-sign-up" class="input-divider">
@@ -54,12 +54,15 @@
         <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
       </div>
       <div id="password-divider-sign-up" class="input-divider">
-        <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" required>
-        <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon">
+        <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this)" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
       </div>
       <div id="confirm-divider-sign-up" class="input-divider">
-        <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Confirm Password" required>
-        <img src="./assets/icon/lock.svg" alt="lock" id="confirm-icon-sign-up" class="icon">
+        <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Confirm Password" oninput="switchPasswordIcon(this)" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="confirm-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
+      </div>
+      <div id="wrong-password-sign-up-div" class="wrong-password-div">
+        <p id="wrong-password-info-sign-up" class="wrong-password-info"></p>
       </div>
       <div id="checkbox-divider-sign-up" class="input-diver">
         <input type="checkbox" id="checkbox-input-sign-up" required>
