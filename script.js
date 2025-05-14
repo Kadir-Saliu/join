@@ -2,6 +2,7 @@ const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.
 
 function init() {
     setTimeout(addDisplayToContent, 2500);
+    getData();
 }
 
 /**
@@ -51,3 +52,44 @@ async function checkLoginData(data) {
         }        
     }
 }
+
+/* sign up part */
+
+async function signUpUser(event) {
+    event.preventDefault();
+  
+    if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
+      alert("Passwords do not match!");
+      return;
+    }
+  
+    const newUser = {
+      name: document.getElementById("name-input-sign-up").value,
+      Email: document.getElementById("email-input-sign-up").value,
+      Password: document.getElementById("password-input-sign-up").value,
+      "phone number": "",
+    };
+  
+    await saveUserToFirebase(newUser);
+}
+
+
+  async function saveUserToFirebase(userData) {
+    try {
+      let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json`);
+      let contacts = await response.json();
+      let newId = contacts.length
+  
+      await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      });
+      window.location.href = "summary.html";  
+    } catch (error) {
+      console.error("Fehler beim Speichern:", error);
+    }
+  }
+
