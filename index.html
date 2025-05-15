@@ -5,11 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Log in</title>
     <link rel="icon" type="image/x-icon" href="./assets/icon/fav-icon.svg">
+    <link rel="stylesheet" href="./styles/fonts.css">
     <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
+</head>
+<body onload="init()">
 
-      <img class="slide-out-tl" src="./assets/imgs/join_logo.png" alt="">
+  <header class="mw1920"> 
+    
+  <img class="slide-out-tl" src="./assets/imgs/join_logo.png" alt="">   
+    <div class="animation-hide" id="header-div">
+      <p>Not a Join user?</p>
+      <button class="grey-btn" id="sign-up-btn" onclick="toogleInputMenu()">Sign up</button>
+    </div>
+  </header>
+  
 
-  </body>
+  <main class="mw1920" id="main">
+    <form class="animation-hide menu-div" id="login-div" onsubmit="getFirebaseData(event)">
+      <h1>Log in</h1>
+      <div id="divider" class="divider-line"></div>
+      <div id="email-divider" class="input-divider">
+        <input type="email" name="" id="email-input" class="menu-input" placeholder="Email" required>
+        <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon" class="icon"></img>
+      </div>
+      <div id="password-divider" class="input-divider">
+        <input type="password" id="password-input" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this)" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon" class="icon" onclick="switchPasswordVisibility(this)">
+      </div>
+      <div id="wrong-password-div">
+        <p id="wrong-password-info"></p>
+      </div>
+      <div id="btn-login-div" class="btn-menu-div">
+        <button class="grey-btn" type="submit">Log in</button>
+        <button class="white-btn" type="button" onclick="window.location.href='summary.html'">Guest Log in</button>
+      </div>
+    </form>  
+    
+    <form class="animation-hide menu-div" id="sign-up-div">
+      <button id="back-btn" type="button" onclick="toogleInputMenu()"><img id="arrow-left" src="./assets/icon/arrow-left-solid.svg" alt="arrow left"></button>
+      <h1>Sign up</h1>
+      <div id="divider-sign-up" class="divider-line"></div>
+      <div id="name-divider-sign-up" class="input-divider">
+        <input type="text" name="" id="name-input-sign-up" class="menu-input" placeholder="Name" required>
+        <img src="assets/icon/user_grey.svg" style="color: rgb(168, 168, 168)"  class="icon"></img>
+      </div>
+      <div id="email-divider-sign-up" class="input-divider">
+        <input type="email" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" required>
+        <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
+      </div>
+      <div id="password-divider-sign-up" class="input-divider">
+        <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this)" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
+      </div>
+      <div id="confirm-divider-sign-up" class="input-divider">
+        <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Confirm Password" oninput="switchPasswordIcon(this)" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="confirm-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
+      </div>
+      <div id="wrong-password-sign-up-div" class="wrong-password-div">
+        <p id="wrong-password-info-sign-up" class="wrong-password-info"></p>
+      </div>
+      <div id="checkbox-divider-sign-up" class="input-diver">
+        <input type="checkbox" id="checkbox-input-sign-up" required>
+        <p>I accept the <span id="privacy-link-checkbox">Privacy policy</span></p>
+      </div>
+      <div id="btn-login-div-sign-up" class="btn-menu-div">
+        <button class="grey-btn" type="submit" onclick="signUpUser(event)">Sign up</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="animation-hide mw1920" id="footer">
+    <div>
+      <span>Privacy Policy</span>
+      <span>Legal notice</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
 </html>

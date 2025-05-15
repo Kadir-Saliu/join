@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    margin: 0;
+    height: 100vh;
+    
+}
+
+nav{
+    background-color: #2a3647;
+     width: 300px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.j-logo{
+    width: 100px;
+    height: 100px;
+}
+
+a {
+    color: white;
+}
