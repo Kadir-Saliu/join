@@ -238,7 +238,7 @@ footer div span:hover {
 }
 
 .slide-out-tl {
-  animation: slide-out-tl 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: mymove slide-out-tl 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
    animation-delay: 1s;
 }
 /* ----------------------------------------------
@@ -252,12 +252,14 @@ footer div span:hover {
 
 /*@keyframes slide-out-tl {
   100% {
-    transform: translateY(-340px) translateX(-360px) scale(0.2) ;
+    transform:  scale(0.2) ;
     opacity: 1;
+    position: relative;
+  
   }
   0% {
 
-    transform: translateY(50px) translateX(0);
+    transform: translateY(0) translateX(0);
     opacity: 1;
   }
 }*/
@@ -271,4 +273,11 @@ footer div span:hover {
     transform: translateY(0px) translateX(0px) ;
     opacity: 1;
   }
+}
+
+@keyframes mymove{
+
+    from {top: 0px;}
+  to {top: 200px;}
+
 }
