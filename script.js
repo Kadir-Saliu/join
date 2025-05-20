@@ -2,6 +2,13 @@ const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.
 
 function init() {
   setTimeout(addDisplayToContent, 2500);
+  const logo = document.querySelector(".slide-out-tl");
+  const wrapper = document.getElementById("logo-wrapper");
+  logo.addEventListener("animationend", () => {
+    document.getElementById("header-div").classList.remove("animation-hide");
+    document.getElementById("login-div").classList.remove("animation-hide");
+    document.getElementById("footer").classList.remove("animation-hide");
+  });
 }
 
 /**
@@ -74,7 +81,6 @@ async function checkUserDataInput(event) {
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
     return;
-  }
   await signUpUser();
 }
 

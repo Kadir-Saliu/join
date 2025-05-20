@@ -10,10 +10,10 @@
 </head>
 <body onload="init()">
 
-  <header class="mw1920"> 
-    
-  <img class="slide-out-tl" src="./assets/imgs/join_logo.png" alt="">   
-    <div class="animation-hide" id="header-div">
+  
+  <img class="slide-out-tl mw1920" src="./assets/imgs/join_logo.png" alt="">
+  <header class="mw1920">
+    <div id="header-div" class="animation-hide">
       <p>Not a Join user?</p>
       <button class="grey-btn" id="sign-up-btn" onclick="toogleInputMenu()">Sign up</button>
     </div>
@@ -21,7 +21,7 @@
   
 
   <main class="mw1920" id="main">
-    <form class="animation-hide menu-div" id="login-div" onsubmit="getFirebaseData(event)">
+    <form class="menu-div animation-hide" id="login-div" onsubmit="getFirebaseData(event)">
       <h1>Log in</h1>
       <div id="divider" class="divider-line"></div>
       <div id="email-divider" class="input-divider">
