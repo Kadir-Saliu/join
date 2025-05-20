@@ -68,8 +68,11 @@
         <input type="checkbox" id="checkbox-input-sign-up" required>
         <p>I accept the <span id="privacy-link-checkbox">Privacy policy</span></p>
       </div>
+      <div id="missing-checkbox-sign-up-div" class="wrong-password-div">
+        <p id="missing-checkbox-info-sign-up" class="wrong-password-info"></p>
+      </div>
       <div id="btn-login-div-sign-up" class="btn-menu-div">
-        <button class="grey-btn" type="submit" onclick="signUpUser(event)">Sign up</button>
+        <button class="grey-btn" type="submit" onclick="checkUserDataInput(event)">Sign up</button>
       </div>
     </form>
   </main>
