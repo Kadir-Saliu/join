@@ -182,6 +182,11 @@ main {
   background-color: white;
   border-radius: 30px;
   gap: 10px;
+  cursor: pointer;
+}
+
+.to-do:hover{
+  background-color: #2a3647 ;
 }
 
 .done {
@@ -193,6 +198,11 @@ main {
   background-color: white;
   border-radius: 30px;
   gap: 10px;
+  cursor: pointer;
+}
+
+.done:hover{
+  background-color: #2A3647;
 }
 
 .urgent-and-date {
@@ -204,12 +214,32 @@ main {
   border-radius: 30px;
   margin-top: 20px;
   height: 168px;
+  cursor: pointer;
 }
+
+.urgent-and-date:hover{
+  background-color: #2A3647;
+  color: white;
+}
+
+.urgent-and-date h4{
+  font-size: 21px;
+}
+
+
+.urgent{
+  display: flex;
+  padding-right: 40px;
+  gap: 20px;
+}
+
+
 
 .tasks-in-editing {
   display: flex;
   margin-top: 20px;
   gap: 20px;
+  cursor: pointer;
 }
 
 .tasks-in-board {
@@ -221,6 +251,12 @@ main {
   height: 168px;
   width: 168px;
   border-radius: 30px;
+  cursor: pointer;
+}
+
+.tasks-in-board:hover{
+  background-color: #2A3647;
+  color: white;
 }
 
 .tasks-in-progress {
@@ -232,6 +268,12 @@ main {
   height: 168px;
   width: 168px;
   border-radius: 30px;
+  cursor: pointer;
+}
+
+.tasks-in-progress:hover{
+  background-color: #2A3647;
+  color: white;
 }
 
 .awaiting-feedback {
@@ -244,3 +286,32 @@ main {
   width: 168px;
   border-radius: 30px;
 }
+
+.awaiting-feedback:hover{
+  background-color: #2A3647;
+  color: white;
+  
+}
+
+.greeting{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 50px;
+  padding-bottom: 50px;
+}
+
+.greeting p {
+  color: #2a3647;
+  font-size: 47px;
+  margin-block-end: 0px;
+}
+
+.greeting h2 {
+  color: #29abe2;
+  font-size: 64px;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+}
+
