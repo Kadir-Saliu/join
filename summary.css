@@ -219,11 +219,18 @@ main {
 
 .urgent-and-date:hover{
   background-color: #2A3647;
-  color: white;
+  color: white !important;
 }
 
 .urgent-and-date h4{
   font-size: 21px;
+}
+
+.reverse-icon:hover{
+ fill: white;
+ 
+ background-color: white;
+ color: white;
 }
 
 
@@ -257,6 +264,7 @@ main {
 .tasks-in-board:hover{
   background-color: #2A3647;
   color: white;
+  
 }
 
 .tasks-in-progress {
