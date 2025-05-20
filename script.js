@@ -60,25 +60,39 @@ async function checkLoginData(data) {
 }
 
 /**
- * getting data from the sign up form
+ * check data from the sign up form
  * @param {*} event - parameter to prevent default behaviour
  * @returns 
  */
-async function signUpUser(event) {
-    event.preventDefault();  
-    if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
-      document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
-      document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
-      document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
-      return;
-    }  
-    const newUser = {
+async function checkUserDataInput(event) {
+  event.preventDefault();  
+  if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
+    document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
+    document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
+    return;
+  }
+  await signUpUser();
+}
+
+/**
+ * check privacy policy confirmation and sign up user
+ * @returns 
+ */
+async function signUpUser() {    
+  let newUser;
+  if(document.getElementById("checkbox-input-sign-up").checked) {
+    newUser = {
       name: document.getElementById("name-input-sign-up").value,
       Email: document.getElementById("email-input-sign-up").value,
       Password: document.getElementById("password-input-sign-up").value,
       "phone number": "",
-    };  
-    await saveUserToFirebase(newUser);
+    };
+  } else {
+    document.getElementById("missing-checkbox-info-sign-up").innerText = "You need to accept the Privacy policy to continue.";
+    return;
+  }
+  await saveUserToFirebase(newUser);
 }
 
 /**
