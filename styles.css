@@ -19,8 +19,11 @@ body {
 header {
   padding-left: 100px;
   padding-right: 100px;
+  width: 100%;
+  margin-top: 80px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
 }
 
 header img {
@@ -258,18 +261,9 @@ footer div span:hover {
   }
   100% {
     top: 80px;
-    left: 77px;
-    width: 100px;
-    height: 122px;
+    left: 100px;
+    width: 80px;
+    height: 100px;
     transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes mymove {
-  from {
-    top: 0px;
-  }
-  to {
-    top: 200px;
   }
 }
