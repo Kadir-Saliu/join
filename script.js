@@ -1,6 +1,7 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
 
 function init() {
+  setTimeout(addDisplayToContent, 2500);
   const logo = document.querySelector(".slide-out-tl");
   const wrapper = document.getElementById("logo-wrapper");
   logo.addEventListener("animationend", () => {
@@ -73,7 +74,7 @@ async function checkLoginData(data) {
  * @param {*} event - parameter to prevent default behaviour
  * @returns
  */
-async function signUpUser(event) {
+async function checkUserDataInput(event) {
   event.preventDefault();
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
@@ -85,11 +86,11 @@ async function signUpUser(event) {
 
 /**
  * check privacy policy confirmation and sign up user
- * @returns 
+ * @returns
  */
-async function signUpUser() {    
+async function signUpUser() {
   let newUser;
-  if(document.getElementById("checkbox-input-sign-up").checked) {
+  if (document.getElementById("checkbox-input-sign-up").checked) {
     newUser = {
       name: document.getElementById("name-input-sign-up").value,
       Email: document.getElementById("email-input-sign-up").value,
@@ -146,5 +147,19 @@ function switchPasswordVisibility(element) {
   } else if (element.src.includes("/assets/icon/eye_grey.svg")) {
     element.previousElementSibling.type = "password";
     element.src = "./assets/icon/eye_slash_grey.svg";
+  }
+}
+
+async function includeHTML() {
+  let includeElements = document.querySelectorAll("[template]");
+  for (let i = 0; i < includeElements.length; i++) {
+    const element = includeElements[i];
+    file = element.getAttribute("template");
+    let resp = await fetch(file);
+    if (resp.ok) {
+      element.innerHTML = await resp.text();
+    } else {
+      element.innerHTML = "Page not found";
+    }
   }
 }
