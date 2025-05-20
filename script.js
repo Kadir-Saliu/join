@@ -81,9 +81,9 @@ async function checkUserDataInput(event) {
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
     return;
-  await signUpUser();
-}
-
+  };
+    await signUpUser();
+};
 /**
  * check privacy policy confirmation and sign up user
  * @returns
