@@ -76,6 +76,10 @@ async function checkLoginData(data) {
  */
 async function checkUserDataInput(event) {
   event.preventDefault();
+  if (!document.getElementById('sign-up-div').checkValidity()) {
+    document.getElementById('sign-up-div').reportValidity();
+    return;
+  };
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
@@ -120,7 +124,7 @@ async function saveUserToFirebase(userData) {
       },
       body: JSON.stringify(userData),
     });
-    window.location.href = "summary.html";
+    showSuccessAnimationAndRedirect();
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }
@@ -162,4 +166,18 @@ async function includeHTML() {
       element.innerHTML = "Page not found";
     }
   }
+}
+
+/**
+ * Userfeedback Animation for succesfully Sign Up
+ */
+function showSuccessAnimationAndRedirect() {
+  const overlay = document.getElementById('signup-overlay');
+  const message = document.getElementById('signup-message');
+  overlay.style.display = 'flex';
+  overlay.style.animation = 'fadeOutOverlay 3.5s forwards';
+  message.style.animation = 'slideMessage 3.5s forwards';
+  setTimeout(() => {
+    window.location.href = 'summary.html';
+  }, 3500); // nach der Animation umleiten
 }

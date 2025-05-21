@@ -41,7 +41,7 @@
       </div>
     </form>  
     
-    <form class="animation-hide menu-div" id="sign-up-div">
+    <form class="animation-hide menu-div" id="sign-up-div" onsubmit="checkUserDataInput(event)">
       <button id="back-btn" type="button" onclick="toogleInputMenu()"><img id="arrow-left" src="./assets/icon/arrow-left-solid.svg" alt="arrow left"></button>
       <h1>Sign up</h1>
       <div id="divider-sign-up" class="divider-line"></div>
@@ -72,7 +72,7 @@
         <p id="missing-checkbox-info-sign-up" class="wrong-password-info"></p>
       </div>
       <div id="btn-login-div-sign-up" class="btn-menu-div">
-        <button class="grey-btn" type="submit" onclick="checkUserDataInput(event)">Sign up</button>
+        <button class="grey-btn" type="submit">Sign up</button>
       </div>
     </form>
   </main>
@@ -83,6 +83,10 @@
       <span>Legal notice</span>
     </div>
   </footer>
+
+  <div id="signup-overlay" style="display: none;">
+    <div id="signup-message">You Signed Up successfully</div>
+  </div>
 
   <script src="script.js"></script>
 </body>
