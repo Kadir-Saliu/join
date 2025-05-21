@@ -5,6 +5,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+p{
+  margin-block-start: 0px;
+}
+
 .center{
     display: flex;
     flex-direction: column;
@@ -187,6 +191,7 @@ main {
 
 .to-do:hover{
   background-color: #2a3647 ;
+  color: white;
 }
 
 .done {
@@ -203,6 +208,7 @@ main {
 
 .done:hover{
   background-color: #2A3647;
+  color: white;
 }
 
 .urgent-and-date {
@@ -219,24 +225,24 @@ main {
 
 .urgent-and-date:hover{
   background-color: #2A3647;
-  color: white !important;
+  color: white ;
 }
 
 .urgent-and-date h4{
   font-size: 21px;
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+  padding-bottom: 10px;
 }
 
-.reverse-icon:hover{
- fill: white;
- 
- background-color: white;
- color: white;
-}
+
 
 
 .urgent{
   display: flex;
   padding-right: 40px;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
 }
 
