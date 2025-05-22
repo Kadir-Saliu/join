@@ -226,6 +226,15 @@ main {
   color: white;
 }
 
+.to-do:hover .change-circle-color{
+    fill: white;
+}
+
+.to-do:hover .change-contents-color{
+  fill: #2a3647;
+}
+
+
 .done {
   display: flex;
   justify-content: center;
@@ -241,6 +250,14 @@ main {
 .done:hover {
   background-color: #2a3647;
   color: white;
+}
+
+.done:hover .change-circle-color{
+  fill: white;
+}
+
+.done:hover .change-contents-color{
+stroke: #2a3647;
 }
 
 .urgent-and-date {
