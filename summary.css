@@ -5,15 +5,15 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-p{
+p {
   margin-block-start: 0px;
 }
 
-.center{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 nav {
@@ -44,11 +44,11 @@ nav {
 
 .link-main {
   display: flex;
+  width: 100%;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: anchor-center;
   padding-top: 100px;
-  padding-left: 70px;
-  gap: 30px;
+  gap: 10px;
 }
 
 .link-main a {
@@ -60,7 +60,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 30px;
+  gap: 20px;
   padding-bottom: 50px;
   padding-left: 70px;
 }
@@ -70,32 +70,64 @@ nav {
   text-decoration: none;
 }
 
+.link-end a:hover {
+  color: #29abe2;
+}
+
 .summary-link {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   gap: 10px;
+  cursor: pointer;
+}
+
+.summary-link:hover {
+  background-color: #091931;
 }
 
 .addTask-link {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   gap: 10px;
+  cursor: pointer;
+}
+
+.addTask-link:hover {
+  background-color: #091931;
 }
 
 .board-link {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   gap: 10px;
+  cursor: pointer;
+}
+
+.board-link:hover {
+  background-color: #091931;
 }
 
 .contact-link {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   gap: 10px;
+  cursor: pointer;
+}
+
+.contact-link:hover {
+  background-color: #091931;
 }
 
 main {
@@ -189,8 +221,8 @@ main {
   cursor: pointer;
 }
 
-.to-do:hover{
-  background-color: #2a3647 ;
+.to-do:hover {
+  background-color: #2a3647;
   color: white;
 }
 
@@ -206,8 +238,8 @@ main {
   cursor: pointer;
 }
 
-.done:hover{
-  background-color: #2A3647;
+.done:hover {
+  background-color: #2a3647;
   color: white;
 }
 
@@ -223,30 +255,25 @@ main {
   cursor: pointer;
 }
 
-.urgent-and-date:hover{
-  background-color: #2A3647;
-  color: white ;
+.urgent-and-date:hover {
+  background-color: #2a3647;
+  color: white;
 }
 
-.urgent-and-date h4{
+.urgent-and-date h4 {
   font-size: 21px;
   margin-block-end: 0px;
   margin-block-start: 0px;
   padding-bottom: 10px;
 }
 
-
-
-
-.urgent{
+.urgent {
   display: flex;
   padding-right: 40px;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
-
-
 
 .tasks-in-editing {
   display: flex;
@@ -267,10 +294,9 @@ main {
   cursor: pointer;
 }
 
-.tasks-in-board:hover{
-  background-color: #2A3647;
+.tasks-in-board:hover {
+  background-color: #2a3647;
   color: white;
-  
 }
 
 .tasks-in-progress {
@@ -285,8 +311,8 @@ main {
   cursor: pointer;
 }
 
-.tasks-in-progress:hover{
-  background-color: #2A3647;
+.tasks-in-progress:hover {
+  background-color: #2a3647;
   color: white;
 }
 
@@ -301,13 +327,12 @@ main {
   border-radius: 30px;
 }
 
-.awaiting-feedback:hover{
-  background-color: #2A3647;
+.awaiting-feedback:hover {
+  background-color: #2a3647;
   color: white;
-  
 }
 
-.greeting{
+.greeting {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -328,4 +353,3 @@ main {
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
-
