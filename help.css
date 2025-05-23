@@ -1,9 +1,14 @@
 .container {
-  height: 90vh;
+  height: 100vh;
   padding-left: 100px;
   padding-top: 100px;
   padding-right: 100px;
  
+}
+
+.container h1{
+  font-size: 61px;
+  padding-bottom: 20px;
 }
 
 main{
@@ -52,4 +57,11 @@ h3{
 .enjoy-text{
     padding-top: 20px;
     padding-bottom: 40px;
+}
+
+.header-arrow-left{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
 }
