@@ -87,6 +87,7 @@ async function saveUserToFirebase(userData) {
     let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json`);
     let contacts = await response.json();
     let newId = contacts.length;
+    userData.id = newId;
     await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
       method: "PUT",
       headers: {
