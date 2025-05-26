@@ -14,7 +14,6 @@ nav {
 .nav-logo {
   padding: 64px;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .nav-item {
@@ -25,8 +24,12 @@ nav {
 }
 
 .nav-item:hover {
-  background-color: #091931;
+  background-color: #2a3d59;
   cursor: pointer;
+}
+
+.nav-item.active {
+  background-color: #091931;
 }
 
 nav a {
@@ -39,6 +42,16 @@ nav a {
   flex-direction: column;
   padding-bottom: 64px;
   color: #a8a8a8 !important;
+}
+
+.legal-info-item {
+  gap: 8px;
+  padding-bottom: 8px;
+}
+
+.legal-info-item:hover {
+  color: #29abe2;
+  font-weight: 550;
 }
 
 .legal-info:hover {
