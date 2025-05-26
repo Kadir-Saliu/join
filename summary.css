@@ -16,13 +16,6 @@ p {
   align-items: center;
 }
 
-nav {
-  background-color: #2a3647;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-}
-
 .logo {
   display: flex;
   justify-content: center;
@@ -131,7 +124,9 @@ nav {
 }
 
 main {
-  width: 100%;
+  flex: 1;
+  width: calc(100% - 232px);
+  margin-left: 232px;
   background-color: #f6f7f8;
 }
 
@@ -158,9 +153,10 @@ main {
 .title-main {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
   padding-left: 100px;
   padding-top: 50px;
+  margin-bottom: 50px;
 }
 
 .title-main h1 {
@@ -226,14 +222,13 @@ main {
   color: white;
 }
 
-.to-do:hover .change-circle-color{
-    fill: white;
+.to-do:hover .change-circle-color {
+  fill: white;
 }
 
-.to-do:hover .change-contents-color{
+.to-do:hover .change-contents-color {
   fill: #2a3647;
 }
-
 
 .done {
   display: flex;
@@ -252,12 +247,12 @@ main {
   color: white;
 }
 
-.done:hover .change-circle-color{
+.done:hover .change-circle-color {
   fill: white;
 }
 
-.done:hover .change-contents-color{
-stroke: #2a3647;
+.done:hover .change-contents-color {
+  stroke: #2a3647;
 }
 
 .urgent-and-date {

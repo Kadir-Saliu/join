@@ -1,6 +1,7 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
 
 function init() {
+  includeHTML();
   setTimeout(addDisplayToContent, 2500);
   const logo = document.querySelector(".slide-out-tl");
   const wrapper = document.getElementById("logo-wrapper");
