@@ -40,6 +40,10 @@ footer div span:hover {
   cursor: pointer;
 }
 
+#login-div, #sign-up-div {
+  box-shadow: 0px 0px 10px lightgray;
+}
+
 #btn-login-div {
   display: flex;
 }
@@ -105,7 +109,8 @@ main {
 
 .divider-line {
   margin-top: 10px;
-  border-top: 1px solid rgb(41, 171, 226);
+  border-top: 2px solid rgb(41, 171, 226);
+  box-shadow: 0px 0px 1px rgb(41, 171, 226);
   width: 70px;
 }
 
