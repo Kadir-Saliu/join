@@ -23,7 +23,103 @@
     </header>
 
     <main>
-        <h1>Board</h1>
+        <div class="board-header">
+            <h1>Board</h1>
+            <div class="board-header-btns">
+                <div class="board-search">
+                    <input type="text" placeholder="Find Task">
+                    <div class="input-divider"></div>
+                    <button>search</button>
+                </div>
+                <button>Add task +</button>
+            </div>
+        </div>
+
+        <div class="kanban-board">
+
+            <!-- To Do Column -->
+            <div class="kanban-column">
+                <div class="kanban-header">
+                <h3>To do</h3>
+                <button class="add-task-btn">+</button>
+                </div>
+                <div class="kanban-task no-tasks">No tasks To do</div>
+            </div>
+
+            <!-- In Progress Column -->
+            <div class="kanban-column">
+                <div class="kanban-header">
+                <h3>In progress</h3>
+                <button class="add-task-btn">+</button>
+                </div>
+                <div class="kanban-task">
+                <div class="task-type user-story">User Story</div>
+                <h4>Kochwelt Page & Recipe Recommender</h4>
+                <p>Build start page with recipe recommendation...</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 50%"></div>
+                </div>
+                <div class="subtasks">1/2 Subtasks</div>
+                <div class="assigned-users">
+                    <span class="user-icon">AM</span>
+                    <span class="user-icon">EM</span>
+                    <span class="user-icon">MB</span>
+                </div>
+                </div>
+            </div>
+
+            <!-- Await Feedback Column -->
+            <div class="kanban-column">
+                <div class="kanban-header">
+                <h3>Await feedback</h3>
+                <button class="add-task-btn">+</button>
+                </div>
+
+                <div class="kanban-task">
+                <div class="task-type tech-task">Technical Task</div>
+                <h4>HTML Base Template Creation</h4>
+                <p>Create reusable HTML base templates...</p>
+                <div class="assigned-users">
+                    <span class="user-icon">DE</span>
+                    <span class="user-icon">BZ</span>
+                    <span class="user-icon">AS</span>
+                </div>
+                </div>
+
+                <div class="kanban-task">
+                <div class="task-type user-story">User Story</div>
+                <h4>Daily Kochwelt Recipe</h4>
+                <p>Implement daily recipe and portion calculator....</p>
+                <div class="assigned-users">
+                    <span class="user-icon">EF</span>
+                    <span class="user-icon">AS</span>
+                    <span class="user-icon">TW</span>
+                </div>
+                </div>
+            </div>
+
+            <!-- Done Column -->
+            <div class="kanban-column">
+                <div class="kanban-header">
+                <h3>Done</h3>
+                <button class="add-task-btn">+</button>
+                </div>
+                <div class="kanban-task">
+                <div class="task-type tech-task">Technical Task</div>
+                <h4>CSS Architecture Planning</h4>
+                <p>Define CSS naming conventions and structure...</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 100%"></div>
+                </div>
+                <div class="subtasks">2/2 Subtasks</div>
+                <div class="assigned-users">
+                    <span class="user-icon">SM</span>
+                    <span class="user-icon">BZ</span>
+                </div>
+                </div>
+            </div>
+
+        </div>
     </main>
 
     <script src="script.js"></script>

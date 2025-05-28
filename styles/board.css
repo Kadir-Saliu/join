@@ -35,3 +35,30 @@ main {
     width: calc(100% - 232px);
     margin-left: 232px;
 }
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 50px;
+    margin-bottom: 50px;
+}
+
+.board-header-btns {
+    display: flex;
+}
+
+.board-search {
+    display: flex;
+    align-items: center;
+}
+
+.board-search input, button {
+    border: none;
+}
+
+.input-divider {
+    height: 80%;
+    border-left: 1px solid black;
+}
