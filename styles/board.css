@@ -36,9 +36,14 @@ main {
     margin-left: 232px;
 }
 
+h1 {
+    font-size: 48px;
+}
+
 .board-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-left: 100px;
     padding-right: 100px;
     padding-top: 50px;
@@ -47,18 +52,65 @@ main {
 
 .board-header-btns {
     display: flex;
+    height: 36px;
 }
 
 .board-search {
     display: flex;
     align-items: center;
+    margin-right: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 0px 4px;
+    background-color: white;
+}
+
+.board-search:focus-within {    
+    border-color: rgb(41, 171, 226);
 }
 
 .board-search input, button {
     border: none;
+    outline: none;
+    height: 100%;
+}
+
+.board-search button {
+    cursor: pointer;
+    background-color: white;
+    padding-left: 4px;
+}
+
+.board-add-task {
+    background-color: rgb(42, 54, 71);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.board-add-task:hover {    
+  background-color: rgb(41, 171, 226);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 .input-divider {
     height: 80%;
-    border-left: 1px solid black;
+    border-left: 1px solid lightgray;
+}
+
+/* Columns */
+
+.kanban-board {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.kanban-header {
+    display: flex;
+    justify-content: space-between;
 }
