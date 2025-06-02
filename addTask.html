@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Add task</title>
+    <link rel="icon" type="image/x-icon" href="./assets/icon/fav-icon.svg" />
+    <link rel="stylesheet" href="./styles/addTask.css" />    
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./styles/navigation.css" />
+</head>
+<body onload="includeHTML()">
+    <div template="navigation.html"></div>
+
+    <header>
+        <div class="header-and-icon mw1920">
+            <h2>Kanban Project Managment Tool</h2>
+            <div class="help-person-icon">
+            <a href="help.html"><img src="./assets/icon/help.svg" alt="" /></a>
+            <a href=""><img src="./assets/icon/person-icon.svg" alt="" /></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>Add Task</h1>
+        <div class="add-task-form">
+            <div class="add-task-text-div">
+                <div>
+                    <h3>Title</h3>
+                    <span>*</span>
+                </div>
+                <input type="text" placeholder="Enter a title">
+                <h3>Description</h3>
+                <input type="text">
+                <div>
+                    <h3>Due date</h3>
+                    <span>*</span>
+                </div>
+                <input type="date">
+            </div>
+            <div class="add-task-form-divider"></div>
+            <div class="add-task-select-div">
+                <h3>Priority</h3>
+                <div class="add-task-importance-selection">
+                    <button>Urgent</button>
+                    <button>Medium</button>
+                    <button>Low</button>
+                </div>
+                <h3>Assigned to</h3>
+                <button>Select contacts to assign</button>
+                <div>
+                    <h3>Category</h3>
+                    <span>*</span>
+                </div>
+                <button>Select task category</button>
+                <h3>Subtasks</h3>
+                <div>
+                    <input type="text" name="" id="" placeholder="Add new subbtask">
+                    <button>+</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>*</span>
+                <p>This field is required</p>
+            </div>
+            <div>
+                <button>Clear X</button>
+                <button>Create Task</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>

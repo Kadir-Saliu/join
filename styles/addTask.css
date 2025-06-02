@@ -1,0 +1,24 @@
+main {
+    flex-grow: 1;    
+    width: calc(100% - 232px);
+    margin-left: 232px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 100px;
+}
+
+main h1 {
+    font-size: 48px;
+}
+
+.add-task-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-task-form-divider {
+    height: 100%;
+    width: 5px;
+    background-color: black;
+}
