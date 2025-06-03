@@ -9,16 +9,42 @@ main {
 
 main h1 {
     font-size: 48px;
+    margin-bottom: 24px;
 }
 
 .add-task-form {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 100px;
+}
+
+.add-task-form p {
+    margin-bottom: 8px;
+}
+
+.span-div {
+    display: flex;
+}
+
+.span-div span {
+    color: rgb(254, 136, 151);
+}
+
+.add-task-text-div input, textarea {
+    margin-bottom: 24px;
 }
 
 .add-task-form-divider {
-    height: 100%;
-    width: 5px;
-    background-color: black;
+    align-self: stretch;
+    border-left: 1px solid rgb(227, 228, 228);
+}
+
+.add-task-select-div button {
+    margin-bottom: 16px;
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
 }
