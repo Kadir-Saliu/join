@@ -16,6 +16,7 @@ main h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     margin-bottom: 100px;
 }
 
@@ -31,13 +32,46 @@ main h1 {
     color: rgb(254, 136, 151);
 }
 
+.add-task-text-div {
+    width: 50%;
+    margin-right: 36px;
+}
+
 .add-task-text-div input, textarea {
     margin-bottom: 24px;
+}
+
+#task-title, #task-date {
+   height: 36px; 
+   width: 100%;
+   padding-left: 10px;
+   padding-right: 10px;
+   border: 1px solid rgb(219, 219, 219);
+   border-radius: 5px;
+}
+
+#task-title:focus, #task-description:focus, #task-date:focus {
+    border: 1px solid rgb(93, 190, 231) !important;
+    outline: none;
+}
+
+#task-description {
+    height: 108px;
+    width: 100%;
+    padding: 10px;
+    font-family: "Inter", sans-serif;
+    border: 1px solid rgb(219, 219, 219);
+   border-radius: 5px;
 }
 
 .add-task-form-divider {
     align-self: stretch;
     border-left: 1px solid rgb(227, 228, 228);
+}
+
+.add-task-select-div {
+    width: 50%;
+    margin-left: 36px;
 }
 
 .add-task-select-div button {
