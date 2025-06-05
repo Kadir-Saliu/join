@@ -1,0 +1,256 @@
+body {
+    display: flex;
+}
+header {
+    width: 100%;    
+    height: 100px;
+    width: calc(100% - 232px);    
+    margin-left: 232px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+}
+
+header h2 {
+    font-weight: 400;
+}
+
+.header-and-icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header-and-icon h2 {
+    padding-left: 150px;
+}
+
+.help-person-icon {
+    padding-right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main {
+    flex-grow: 1;
+    width: calc(100% - 232px);
+    margin-left: 232px;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 50px;
+    margin-bottom: 50px;
+}
+
+.board-header-btns {
+    display: flex;
+    height: 36px;
+}
+
+.board-search {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 0px 4px;
+    background-color: white;
+}
+
+.board-search:focus-within {    
+    border-color: rgb(41, 171, 226);
+}
+
+.board-search input, button {
+    border: none;
+    outline: none;
+    height: 100%;
+}
+
+.board-search button {
+    cursor: pointer;
+    background-color: white;
+    padding-left: 4px;
+}
+
+.board-add-task {
+    background-color: rgb(42, 54, 71);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.board-add-task:hover {    
+  background-color: rgb(41, 171, 226);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.input-divider {
+    height: 80%;
+    border-left: 1px solid lightgray;
+}
+
+/* Columns */
+
+.kanban-board {
+  display: flex;
+  gap: 20px;
+  padding: 20px 100px;
+}
+
+.kanban-column {
+    flex: 1;
+}
+
+.kanban-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.add-task-btn {
+    height: 22px;
+    width: 22px;
+    border: 1px solid black;
+    border-radius: 7px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.kanban-task {
+    background-color: white;
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0px 0px 10px lightgray;
+    cursor: pointer;
+}
+
+.no-tasks  {
+    background-color: rgb(231, 231, 231) !important;
+    border: 1px dashed rgb(184, 184, 184) !important;
+    color: rgb(184, 184, 184) !important;
+}
+
+.task-type {
+    margin-bottom: 24px;  
+    color: white;  
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    width: auto;
+}
+
+.kanban-task h4 {
+    margin-bottom: 12px;;
+}
+
+.kanban-task p {
+    margin-bottom: 24px;
+    color: rgb(168, 168, 168);
+}
+
+.progress-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;    
+    margin-bottom: 24px;
+}
+
+.progress-bar {
+    background-color: lightgray;
+    height: 8px;
+    width: 124px;
+    border-radius: 5px;
+}
+
+.progress {
+    height: 100%;
+    background-color: rgb(69, 137, 255);
+    
+    border-radius: 5px;
+}
+
+.subtasks {
+    font-size: 14px;
+}
+
+.assigned-users {
+    display: flex;
+}
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border: 1px solid white;
+    color: white;
+    font-size: 12px;
+    margin-left: -8px;
+}
+
+/* individual background-colors */
+
+.user-story {
+    background-color: rgb(0, 56, 255);
+}
+
+.tech-task {    
+    background-color: rgb(31, 215, 193);
+}
+
+.AM {
+    background-color: rgb(255, 122, 0);
+}
+
+.EM {
+    background-color: rgb(31, 215, 193);
+}
+
+.MB {
+    background-color: rgb(70, 47, 138);
+}
+
+.DE {
+    background-color: rgb(252, 113, 255);
+}
+
+.BZ {
+    background-color: rgb(110, 82, 255);
+}
+
+.AS {
+    background-color: rgb(147, 39, 255);
+}
+
+.EF {
+    background-color: rgb(255, 187, 43);
+}
+
+.TW {
+    background-color: rgb(255, 70, 70);
+}
+
+.SM {
+    background-color: rgb(0, 190, 232);
+}
