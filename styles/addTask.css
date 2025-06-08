@@ -1,3 +1,7 @@
+header {
+    box-shadow: 0 3px 3px rgb(230, 231, 231);
+}
+
 main {
     flex-grow: 1;    
     width: calc(100% - 232px);
@@ -17,7 +21,7 @@ main h1 {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
 }
 
 .add-task-form p {
@@ -48,6 +52,11 @@ main h1 {
    padding-right: 10px;
    border: 1px solid rgb(219, 219, 219);
    border-radius: 5px;
+   font-size: 16px;
+}
+
+#task-date {
+    cursor: pointer;
 }
 
 #task-title:focus, #task-description:focus, #task-date:focus {
@@ -61,7 +70,8 @@ main h1 {
     padding: 10px;
     font-family: "Inter", sans-serif;
     border: 1px solid rgb(219, 219, 219);
-   border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .add-task-form-divider {
@@ -78,7 +88,106 @@ main h1 {
     margin-bottom: 16px;
 }
 
+.add-task-importance-selection {
+    display: flex;
+    gap: 16px;
+}
+
+.add-task-importance-selection button {
+    height: 42px;
+    flex-grow: 1;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-task-importance-selection button:hover {
+    box-shadow: -1px 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.drop-down-selection {
+    width: 100%;
+    height: 36px;
+    background-color: white;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    padding-left: 8px;
+    font-size: 16px;
+    box-shadow: -1px 1px rgb(219, 219, 219);
+}
+
+.drop-down-selection:hover {
+    box-shadow: -1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.subtask-div {
+    display: flex;
+}
+
+.subtask-div input  {
+    height: 36px;
+    flex-grow: 1;
+    border: 1px solid rgb(219, 219, 219);
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    padding-left: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.subtask-div button {
+    height: 36px;
+    width: 36px;
+    font-size: 24px;
+    border: 1px solid rgb(219, 219, 219);
+    border-left: none;
+    background-color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
 .bottom-section {
     display: flex;
     justify-content: space-between;
+    align-items: end;
+}
+
+#clear-task-button {
+  background-color: white;
+  color: rgb(42, 54, 71);
+  cursor: pointer;
+  border-radius: 10px;
+    height: 45px;
+    width: 100px;
+  font-weight: bold;
+  border: 1px solid;  
+    font-size: 16px;
+}
+
+#clear-task-button:hover {
+  border-color: rgb(41, 171, 226);
+  color: rgb(41, 171, 226);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  border: 2px solid;
+}
+
+#create-task-button {
+    background-color: rgb(42, 54, 71);
+    color: white;
+    cursor: pointer;
+    border: 1px transparent;
+    border-radius: 10px;
+    height: 45px;
+    width: 150px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#create-task-button:hover {    
+  background-color: rgb(41, 171, 226);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
