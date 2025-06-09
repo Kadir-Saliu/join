@@ -1,3 +1,7 @@
+html {
+    overflow: hidden;
+}
+
 main {
     flex-grow: 1;
     width: calc(100% - 232px);
@@ -219,3 +223,4 @@ h1 {
 .SM {
     background-color: rgb(0, 190, 232);
 }
+
