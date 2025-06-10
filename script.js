@@ -41,3 +41,8 @@ async function includeHTML() {
     }
   }
 }
+
+
+function popUpAccNav() {
+  document.getElementsByClassName("account-nav-render-div")[0].classList.toggle("hide");
+}

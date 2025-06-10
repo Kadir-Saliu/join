@@ -29,3 +29,25 @@ header h2 {
     align-items: center;
     gap: 10px;
 }
+
+.user-account {
+    text-decoration: none;
+    border: 2px solid black;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 190, 232);
+    cursor: pointer;
+}
+
+.user-account:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+.user-account  p {
+    font-size: 20px;
+    font-weight: bold;
+}
