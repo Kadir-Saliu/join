@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="./styles/navigation.css" />
     <link rel="stylesheet" href="./styles/addTaskBoard.css"> 
     <link rel="stylesheet" href="./styles/accountNav.css">
+    <link rel="stylesheet" href="./styles/boardTaskPopUp.css">
 </head>
 <body onload="includeHTML()">
     <div template="navigation.html"></div>
     <div template="accountNav.html" class="account-nav-render-div hide"></div>
+    <div template="boardTaskPopUp.html" class="hide" id="board-task-pop-up"></div>
 
     <header>
         <div class="header-and-icon mw1920">
@@ -56,7 +58,7 @@
                     <h3>In progress</h3>
                     <button class="add-task-btn">+</button>
                 </div>
-                <div class="kanban-task">
+                <div class="kanban-task" onclick="popUpTask()">
                     <div class="task-type user-story">User Story</div>
                     <h4>Kochwelt Page & Recipe Recommender</h4>
                     <p>Build start page with recipe recommendation...</p>
@@ -67,9 +69,12 @@
                         <div class="subtasks">1/2 Subtasks</div>
                     </div>
                     <div class="assigned-users">
-                        <span class="user-icon AM">AM</span>
-                        <span class="user-icon EM">EM</span>
-                        <span class="user-icon MB">MB</span>
+                        <div>
+                            <span class="user-icon AM">AM</span>
+                            <span class="user-icon EM">EM</span>
+                            <span class="user-icon MB">MB</span>
+                        </div>
+                        <img src="./assets/icon/orange-same.svg" alt="">
                     </div>
                 </div>
             </div>
@@ -77,52 +82,61 @@
             <!-- Await Feedback Column -->
             <div class="kanban-column">
                 <div class="kanban-header">
-                <h3>Await feedback</h3>
-                <button class="add-task-btn">+</button>
+                    <h3>Await feedback</h3>
+                    <button class="add-task-btn">+</button>
                 </div>
 
-                <div class="kanban-task">
-                <div class="task-type tech-task">Technical Task</div>
-                <h4>HTML Base Template Creation</h4>
-                <p>Create reusable HTML base templates...</p>
-                <div class="assigned-users">
-                    <span class="user-icon DE">DE</span>
-                    <span class="user-icon BZ">BZ</span>
-                    <span class="user-icon AS">AS</span>
-                </div>
+                <div class="kanban-task" onclick="popUpTask()">
+                    <div class="task-type tech-task">Technical Task</div>
+                    <h4>HTML Base Template Creation</h4>
+                    <p>Create reusable HTML base templates...</p>
+                    <div class="assigned-users">
+                        <div>
+                            <span class="user-icon DE">DE</span>
+                            <span class="user-icon BZ">BZ</span>
+                            <span class="user-icon AS">AS</span>
+                        </div>
+                        <img src="./assets/icon/green-arrows.svg" alt="">
+                    </div>
                 </div>
 
-                <div class="kanban-task">
-                <div class="task-type user-story">User Story</div>
-                <h4>Daily Kochwelt Recipe</h4>
-                <p>Implement daily recipe and portion calculator....</p>
-                <div class="assigned-users">
-                    <span class="user-icon EF">EF</span>
-                    <span class="user-icon AS">AS</span>
-                    <span class="user-icon TW">TW</span>
-                </div>
+                <div class="kanban-task" onclick="popUpTask()">
+                    <div class="task-type user-story">User Story</div>
+                    <h4>Daily Kochwelt Recipe</h4>
+                    <p>Implement daily recipe and portion calculator....</p>
+                    <div class="assigned-users">
+                        <div>
+                            <span class="user-icon EF">EF</span>
+                            <span class="user-icon AS">AS</span>
+                            <span class="user-icon TW">TW</span>
+                        </div>
+                        <img src="./assets/icon/green-arrows.svg" alt="">
+                    </div>
                 </div>
             </div>
 
             <!-- Done Column -->
             <div class="kanban-column">
                 <div class="kanban-header">
-                <h3>Done</h3>
+                    <h3>Done</h3>
                 </div>
-                <div class="kanban-task">
-                <div class="task-type tech-task">Technical Task</div>
-                <h4>CSS Architecture Planning</h4>
-                <p>Define CSS naming conventions and structure...</p>
-                <div class="progress-div">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 100%"></div>
+                <div class="kanban-task" onclick="popUpTask()">
+                    <div class="task-type tech-task">Technical Task</div>
+                    <h4>CSS Architecture Planning</h4>
+                    <p>Define CSS naming conventions and structure...</p>
+                    <div class="progress-div">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 100%"></div>
+                        </div>
+                        <div class="subtasks">2/2 Subtasks</div>
                     </div>
-                    <div class="subtasks">2/2 Subtasks</div>
-                </div>
-                <div class="assigned-users">
-                    <span class="user-icon SM">SM</span>
-                    <span class="user-icon BZ">BZ</span>
-                </div>
+                    <div class="assigned-users">
+                        <div>
+                            <span class="user-icon SM">SM</span>
+                            <span class="user-icon BZ">BZ</span>
+                        </div>
+                        <img src="./assets/icon/red-arrows.svg" alt="">
+                    </div>
                 </div>
             </div>
 
@@ -155,9 +169,9 @@
             <div class="add-task-select-div">
                 <p>Priority</p>
                 <div class="add-task-importance-selection">
-                    <button>Urgent</button>
-                    <button>Medium</button>
-                    <button>Low</button>
+                    <button>Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
+                    <button>Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
+                    <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
                 </div>
                 <p>Assigned to</p>
                 <button class="drop-down-selection">Select contacts to assign</button>

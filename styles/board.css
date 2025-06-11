@@ -163,6 +163,11 @@ h1 {
 
 .assigned-users {
     display: flex;
+    justify-content: space-between;
+}
+
+.assigned-users div {
+    display: flex;
 }
 
 .user-icon {

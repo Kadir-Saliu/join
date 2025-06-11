@@ -41,6 +41,7 @@ header h2 {
     align-items: center;
     color: rgb(0, 190, 232);
     cursor: pointer;
+    background-color: white;
 }
 
 .user-account:hover {

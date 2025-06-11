@@ -18,3 +18,7 @@ function popUpAddTask() {
         }, 200);
     }
 }
+
+function popUpTask () {
+    document.getElementById("board-task-pop-up").classList.toggle("hide");
+}
