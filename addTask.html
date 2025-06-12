@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Add task</title>
+    <link rel="icon" type="image/x-icon" href="./assets/icon/fav-icon.svg" />
+    <link rel="stylesheet" href="./styles/addTask.css" />    
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./styles/navigation.css" />
+    <link rel="stylesheet" href="./styles/addTaskBoard.css">
+    <link rel="stylesheet" href="./styles/accountNav.css">
+</head>
+<body onload="includeHTML()">
+    <div template="navigation.html"></div>
+    <div template="accountNav.html" class="account-nav-render-div hide"></div>
+
+    <header>
+        <div class="header-and-icon mw1920">
+            <h2>Kanban Project Managment Tool</h2>
+            <div class="help-person-icon">
+            <a href="help.html"><img src="./assets/icon/help.svg" alt="" /></a>
+            <button class="user-account" onclick="popUpAccNav()"><p>SM</p></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>Add Task</h1>
+        <div class="add-task-form">
+            <div class="add-task-text-div">
+                <div class="span-div">
+                    <p>Title</p>
+                    <span>*</span>
+                </div>
+                <input type="text" placeholder="Enter a title" id="task-title">
+                <p>Description</p>
+                <textarea name="" id="task-description" placeholder="Enter a Description"></textarea>
+                <div class="span-div">
+                    <p>Due date</p>
+                    <span>*</span>
+                </div>
+                <input type="date" id="task-date">
+            </div>
+            <div class="add-task-form-divider"></div>
+            <div class="add-task-select-div">
+                <p>Priority</p>
+                <div class="add-task-importance-selection">
+                    <button>Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
+                    <button>Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
+                    <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+                </div>
+                <p>Assigned to</p>
+                <button class="drop-down-selection">Select contacts to assign</button>
+                <div class="span-div">
+                    <p>Category</p>
+                    <span>*</span>
+                </div>
+                <button class="drop-down-selection">Select task category</button>
+                <p>Subtasks</p>
+                <div class="subtask-div">
+                    <input type="text" name="" id="" placeholder="Add new subtask">
+                    <button>+</button>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-section">
+            <div class="span-div">
+                <span>*</span>
+                <p>This field is required</p>
+            </div>
+            <div>
+                <button id="clear-task-button">Clear X</button>
+                <button id="create-task-button">Create Task</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
