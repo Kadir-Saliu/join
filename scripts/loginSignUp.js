@@ -27,6 +27,9 @@ async function checkLoginData(data) {
       document.getElementById("email-input").value === data.contacts[i].Email &&
       document.getElementById("password-input").value === data.contacts[i].Password
     ) {
+      loggedInUser.username = data.contacts[i].name;
+      loggedInUser.initals = data.contacts[i].name.split(" ")[0][0] + data.contacts[i].name.split(" ")[1][0];
+      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
       return (window.location.href = "summary.html");
     } else {
       document.getElementById("lock-icon").classList.add("wrongPassword");
