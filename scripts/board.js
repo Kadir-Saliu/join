@@ -28,3 +28,8 @@ function closeViaOverlay(overlayElement) {
         popUpAddTask(popupElement);
     }
 }
+
+function switchEditInfoMenu() {
+    document.getElementById("board-task-information").classList.toggle("hide");
+    document.getElementById("board-task-edit").classList.toggle("hide");
+}
