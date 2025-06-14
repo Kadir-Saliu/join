@@ -1,24 +1,35 @@
 const popup = document.getElementById("add-task-pop-up");
+const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
 /**
  * function to open/close the addTask pop-up
  */
-function popUpAddTask() {    
-    const isHidden = popup.classList.contains("hide");
+function popUpAddTask(ele) {    
+    const isHidden = ele.classList.contains("hide");
     if (isHidden) {
-        popup.classList.remove("hide", "slide-out");
-        popup.classList.add("slide-in", "pop-up");
+        ele.classList.remove("hide", "slide-out");
+        ele.classList.add("slide-in", "pop-up");
+        overlay.dataset.target = ele.id;
         overlay.classList.remove("hide");
     } else {
-        popup.classList.remove("slide-in");
-        popup.classList.add("slide-out");
+        ele.classList.remove("slide-in");
+        ele.classList.add("slide-out");
         setTimeout(() => {
-        popup.classList.add("hide");
+        ele.classList.add("hide");
         overlay.classList.add("hide");
         }, 200);
     }
 }
 
-function popUpTask () {
-    document.getElementById("board-task-pop-up").classList.toggle("hide");
+function closeViaOverlay(overlayElement) {
+    const targetId = overlayElement.dataset.target;
+    const popupElement = document.getElementById(targetId);
+    if (popupElement) {
+        popUpAddTask(popupElement);
+    }
+}
+
+function switchEditInfoMenu() {
+    document.getElementById("board-task-information").classList.toggle("hide");
+    document.getElementById("board-task-edit").classList.toggle("hide");
 }

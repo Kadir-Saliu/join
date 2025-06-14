@@ -1,0 +1,15 @@
+body {
+    height: auto !important;
+}
+main {
+    margin-bottom: 64px;
+}
+
+li {
+    list-style-type: none;
+}
+
+h2 {
+    margin-bottom: 16px;
+    margin-top: 16px;
+}

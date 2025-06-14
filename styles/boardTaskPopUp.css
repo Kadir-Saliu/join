@@ -2,9 +2,19 @@
     position: absolute;
     top: 50px;
     background-color: white;
-    border: 1px solid black;
-    padding: 20px;
+    padding: 30px;
     width: 400px;
+}
+
+#board-task-information {
+    display: flex;
+    flex-direction: column;
+}
+
+#board-task-edit input,
+#board-task-edit textarea,
+#board-task-edit button {
+    flex-shrink: 0;
 }
 
 #task-pop-up-nav {
@@ -32,4 +42,139 @@
 #task-pop-up-nav button:hover {
     background-color: rgb(246, 247, 248);
     border-radius: 50%;
+}
+
+.pop-up-margin-b-25 {
+    margin-bottom: 25px;
+}
+
+#board-task-pop-up div {
+    display: flex;
+}
+
+#assigned-users-div, #subtasks-div {
+    flex-direction: column;
+}
+
+.pop-up-margin-b-10 {
+    margin-bottom: 10px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-10 input {
+    cursor: pointer;
+}
+
+.at-center {
+    align-items: center;
+}
+
+#subtasks-div div {
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+
+#subtasks-div div:hover {
+    background-color: rgb(231, 231, 231);
+    cursor: default;
+}
+
+#assigned-users-div div {
+    margin-left: 18px;
+}
+
+#pop-up-bottom-buttons {
+    height: 24px;
+    justify-content: end;
+    gap: 4px;
+}
+
+#pop-up-bottom-buttons button {
+    cursor: pointer;
+    background-color: white;
+    align-items: center;
+    display: flex;
+}
+
+#pop-up-bottom-buttons button img {
+    margin-right: 8px;
+}
+
+#pop-up-bottom-buttons button:hover {
+    font-weight: bold;
+    color: rgb(41, 171, 226);
+}
+
+#pop-up-bottom-buttons button:hover img {
+    filter: brightness(0) saturate(100%) invert(50%) sepia(88%) saturate(2500%) hue-rotate(165deg) brightness(90%) contrast(85%);
+}
+
+#pop-up-bottom-buttons div {
+    height: 100%;
+    width: 1px;
+    background-color: rgb(221, 221, 221);
+}
+
+.hide {
+    display: none !important;
+}
+
+/* Edit popup Menu */
+
+#board-task-edit, #edit-add-task-text-div  {
+    display: flex;
+    flex-direction: column;
+}
+
+#edit-add-task-text-div {
+    width: 100%;
+    height: 550px;
+    overflow-y: scroll;
+}
+
+#board-task-edit-x {
+    align-self: flex-end;
+    cursor: pointer;
+    background-color: white;
+    margin-bottom: 15px;
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+}
+
+#board-task-edit-x:hover {
+    background-color: rgb(221, 221, 221);
+}
+
+#edit-add-task-text-div p {
+    margin: 8px 0;
+}
+
+#board-task-edit-ok {
+    align-self: flex-end;
+    margin-top: 25px;
+    height: 40px;
+    width: 70px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: rgb(42, 54, 71);
+    color: white;
+    border-radius: 5px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+li {
+    margin-bottom: 20px;
+    margin-left: 32px;
+}
+
+#board-task-edit-ok:hover {
+    background-color: rgb(41, 171, 226);
 }

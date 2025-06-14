@@ -59,7 +59,7 @@ main h1 {
     cursor: pointer;
 }
 
-#task-title:focus, #task-description:focus, #task-date:focus {
+#task-title:focus, #task-description:focus, #task-date:focus, #drop-down-users-input:focus {
     border: 1px solid rgb(93, 190, 231) !important;
     outline: none;
 }
@@ -84,7 +84,7 @@ main h1 {
     margin-left: 36px;
 }
 
-.add-task-select-div button {
+.add-task-select-div button, #drop-down-users-input {
     margin-bottom: 16px;
 }
 
@@ -190,4 +190,88 @@ main h1 {
 #create-task-button:hover {    
   background-color: rgb(41, 171, 226);
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+/*Drop downs */
+
+#drop-down-users {
+    overflow-y: scroll;
+    background-color: white;
+    margin-top: -16px;
+    margin-bottom: 16px;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#drop-down-users div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#drop-down-users div span {
+    margin-left: 16px !important;
+}
+
+#drop-down-users div p {
+    margin-bottom: 0 !important;
+    margin-left: 16px;
+}
+
+#drop-down-users div:hover {
+    background-color: rgb(246, 247, 248);
+}
+
+#drop-down-users div input {
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border: 1px solid white;
+    color: white;
+    font-size: 12px;
+    margin-left: -8px;
+}
+
+.AM {
+    background-color: rgb(255, 122, 0);
+}
+
+.EM {
+    background-color: rgb(31, 215, 193);
+}
+
+#drop-down-category {
+    background-color: white;
+    margin-top: -16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+#drop-down-category button {
+    padding: 8px 16px;
+    margin-bottom: 0 !important;
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+}
+
+#drop-down-category button:hover {
+    background-color: rgb(246, 247, 248);
 }

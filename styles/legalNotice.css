@@ -1,0 +1,27 @@
+body {
+      font-family: Arial, sans-serif;
+      height: auto !important;
+}
+
+main {
+    margin-bottom: 64px;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+main h2 {
+    margin-top: 40px;
+}
+
+a {
+    color: rgb(41, 171, 226);
+    text-decoration: none;
+}
+
+#imprint {
+    margin-bottom: 20px;
+    font-size: 32px;
+}

@@ -52,12 +52,32 @@
                     <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
                 </div>
                 <p>Assigned to</p>
-                <button class="drop-down-selection">Select contacts to assign</button>
+                <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="popUpDropDownUsers()">
+                <div id="drop-down-users" class="hide">
+                    <div>
+                        <div>
+                            <span class="user-icon AM">AM</span>
+                            <p>Anton Mayer</p>
+                        </div>
+                        <input type="checkbox" name="" id="">
+                    </div>
+                    <div>
+                        <div>
+                            <span class="user-icon EM">EM</span>
+                            <p>Emmanuel Mauer</p>
+                        </div>
+                        <input type="checkbox" name="" id="">
+                    </div>
+                </div>
                 <div class="span-div">
                     <p>Category</p>
                     <span>*</span>
                 </div>
-                <button class="drop-down-selection">Select task category</button>
+                <button class="drop-down-selection" onclick="popUpDropDownCategory()">Select task category</button>
+                <div id="drop-down-category" class="hide">
+                    <button>Technical Task</button>
+                    <button>User Story</button>
+                </div>
                 <p>Subtasks</p>
                 <div class="subtask-div">
                     <input type="text" name="" id="" placeholder="Add new subtask">
@@ -76,6 +96,8 @@
             </div>
         </div>
     </main>
+
+    <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
     
     <script src="script.js"></script>
 </body>
