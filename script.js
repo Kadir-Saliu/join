@@ -51,6 +51,27 @@ async function includeHTML() {
 
 function popUpAccNav() {
   document.getElementsByClassName("account-nav-render-div")[0].classList.toggle("hide");
+  document.getElementById("board-overlay-transparent").classList.toggle("hide");
+}
+
+function popUpDropDownUsers() {
+  document.getElementById("drop-down-users").classList.toggle("hide");
+}
+
+function popUpDropDownCategory() {
+  document.getElementById("drop-down-category").classList.toggle("hide");
+}
+
+function popUpDropDownUsersInEdit() {
+  document.getElementById("drop-down-users-edit").classList.toggle("hide");
+}
+
+function popUpDropDownUsersInBoard() {
+  document.getElementById("drop-down-users-board").classList.toggle("hide");
+}
+
+function popUpDropDownCategoryInBoard() {
+  document.getElementById("drop-down-category-board").classList.toggle("hide");
 }
 
 /**

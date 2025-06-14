@@ -11,6 +11,12 @@
     flex-direction: column;
 }
 
+#board-task-edit input,
+#board-task-edit textarea,
+#board-task-edit button {
+    flex-shrink: 0;
+}
+
 #task-pop-up-nav {
     display: flex;
     justify-content: space-between;
@@ -158,6 +164,10 @@
     background-color: rgb(42, 54, 71);
     color: white;
     border-radius: 5px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
 }
 
 li {

@@ -23,11 +23,11 @@
     margin-right: 36px;
 }
 
-.add-task-text-div input, textarea {
-    margin-bottom: 24px;
+.margin-top-24 {
+    margin-top: 24px !important;
 }
 
-#task-title, #task-date {
+#task-title, #task-date, #task-date-edit, #task-title-edit {
    height: 36px; 
    width: 100%;
    padding-left: 10px;
@@ -37,16 +37,16 @@
    font-size: 16px;
 }
 
-#task-date {
+#task-date, #task-date-edit {
     cursor: pointer;
 }
 
-#task-title:focus, #task-description:focus, #task-date:focus {
+#task-title:focus, #task-title-edit:focus, #task-description:focus, #task-description-edit:focus, #task-date:focus, #task-date-edit:focus {
     border: 1px solid rgb(93, 190, 231) !important;
     outline: none;
 }
 
-#task-description {
+#task-description, #task-description-edit {
     height: 108px;
     width: 100%;
     padding: 10px;
@@ -202,8 +202,12 @@
     z-index: 999;
 }
 
+.transparent {
+    background-color: transparent !important;
+}
+
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .pop-up {

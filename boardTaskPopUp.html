@@ -52,28 +52,44 @@
         <div class="span-div">
             <p>Title</p>
         </div>
-        <input type="text" placeholder="Enter a title" id="task-title">
-        <p>Description</p>
-        <textarea name="" id="task-description" placeholder="Enter a Description"></textarea>
+        <input type="text" placeholder="Enter a title" id="task-title-edit">
+        <p class="margin-top-24">Description</p>
+        <textarea name="" id="task-description-edit" placeholder="Enter a Description"></textarea>
         <div class="span-div">
-            <p>Due date</p>
+            <p class="margin-top-24">Due date</p>
         </div>
-        <input type="date" id="task-date">
-        <p>Priority</p>
+        <input type="date" id="task-date-edit">
+        <p class="margin-top-24">Priority</p>
         <div class="add-task-importance-selection">
             <button>Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
             <button>Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
             <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
         </div>
-        <p>Assigned to</p>
-        <button class="drop-down-selection">Select contacts to assign</button>
-        <p>Subtasks</p>
+        <p class="margin-top-24">Assigned to</p>
+        <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="popUpDropDownUsersInEdit()">
+        <div id="drop-down-users-edit" class="hide">
+            <div>
+                <div>
+                    <span class="user-icon AM">AM</span>
+                    <p>Anton Mayer</p>
+                </div>
+                <input type="checkbox" name="" id="">
+            </div>
+            <div>
+                <div>
+                    <span class="user-icon EM">EM</span>
+                    <p>Emmanuel Mauer</p>
+                </div>
+                <input type="checkbox" name="" id="">
+            </div>
+        </div>
+        <p class="margin-top-24">Subtasks</p>
         <div class="subtask-div">
             <input type="text" name="" id="" placeholder="Add new subtask">
             <button>+</button>
         </div>
         <ul>
-            <li>Implement Recipe Recommendation</li>
+            <li class="margin-top-20">Implement Recipe Recommendation</li>
             <li>Start Page Layout</li>
         </ul>
     </div>

@@ -47,7 +47,7 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                 <h3>To do</h3>
-                <button class="add-task-btn">+</button>
+                <button class="add-task-btn" onclick="popUpAddTask(popup)">+</button>
                 </div>
                 <div class="kanban-task no-tasks">No tasks To do</div>
             </div>
@@ -56,7 +56,7 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <h3>In progress</h3>
-                    <button class="add-task-btn">+</button>
+                    <button class="add-task-btn" onclick="popUpAddTask(popup)">+</button>
                 </div>
                 <div class="kanban-task" onclick="popUpAddTask(popuptask)">
                     <div class="task-type user-story">User Story</div>
@@ -83,7 +83,7 @@
             <div class="kanban-column">
                 <div class="kanban-header">
                     <h3>Await feedback</h3>
-                    <button class="add-task-btn">+</button>
+                    <button class="add-task-btn" onclick="popUpAddTask(popup)">+</button>
                 </div>
 
                 <div class="kanban-task" onclick="popUpAddTask(popuptask)">
@@ -144,6 +144,7 @@
     </main>
 
     <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this)"></div>
+    <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
 
     <div class="hide slide-out" id="add-task-pop-up">
         <div id="add-task-close-div">
@@ -174,12 +175,32 @@
                     <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
                 </div>
                 <p>Assigned to</p>
-                <button class="drop-down-selection">Select contacts to assign</button>
+                <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="popUpDropDownUsersInBoard()">
+                <div id="drop-down-users-board" class="hide">
+                    <div>
+                        <div>
+                            <span class="user-icon AM">AM</span>
+                            <p>Anton Mayer</p>
+                        </div>
+                        <input type="checkbox" name="" id="">
+                    </div>
+                    <div>
+                        <div>
+                            <span class="user-icon EM">EM</span>
+                            <p>Emmanuel Mauer</p>
+                        </div>
+                        <input type="checkbox" name="" id="">
+                    </div>
+                </div>
                 <div class="span-div">
                     <p>Category</p>
                     <span>*</span>
                 </div>
-                <button class="drop-down-selection">Select task category</button>
+                <button class="drop-down-selection" onclick="popUpDropDownCategoryInBoard()">Select task category</button>
+                <div id="drop-down-category-board" class="hide">
+                    <button>Technical Task</button>
+                    <button>User Story</button>
+                </div>
                 <p>Subtasks</p>
                 <div class="subtask-div">
                     <input type="text" name="" id="" placeholder="Add new subtask">
