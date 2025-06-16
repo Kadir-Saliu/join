@@ -18,6 +18,7 @@ function init() {
 function summaryInit() {
   includeHTML();
   greetUser();
+  console.log("Hi");
 }
 
 /**
