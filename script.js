@@ -1,4 +1,5 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
+const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
@@ -6,12 +7,11 @@ let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
 
 function init() {
   includeHTML();
+  removeUserfromLocalStorage();
   setTimeout(addDisplayToContent, 2500);
   const logo = document.querySelector(".slide-out-tl");
   logo.addEventListener("animationend", () => {
-    document.getElementById("header-div").classList.remove("animation-hide");
-    document.getElementById("login-div").classList.remove("animation-hide");
-    document.getElementById("footer").classList.remove("animation-hide");
+    addDisplayToContent();
   });
 }
 
@@ -27,9 +27,10 @@ function summaryInit() {
 async function getFirebaseData(event) {
   event.preventDefault();
   try {
-    let response = await fetch(BASE_URL);
+    let response = await fetch(BASE_URL_CONTACTS);
     let responseJson = await response.json();
-    checkLoginData(responseJson);
+    let contacts = Object.values(responseJson || {}).filter((contact) => contact !== null);
+    checkLoginData({ contacts });
   } catch (error) {
     console.log("error");
   }

@@ -15,31 +15,37 @@ function toogleInputMenu() {
   document.getElementById("login-div").classList.toggle("animation-hide");
   document.getElementById("sign-up-div").classList.toggle("animation-hide");
 }
+
 /**
  * checking if email match password
  * @param {*} data - parameter for the firebase contacts
  * @returns
  */
 async function checkLoginData(data) {
-  for (let i = 0; i < data.contacts.length; i++) {
-    if (!data.contacts[i]) continue;
-    if (
-      document.getElementById("email-input").value === data.contacts[i].Email &&
-      document.getElementById("password-input").value === data.contacts[i].Password
-    ) {
-      loggedInUser.username = data.contacts[i].name;
-      loggedInUser.initals = data.contacts[i].name.split(" ")[0][0] + data.contacts[i].name.split(" ")[1][0];
-      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-      return (window.location.href = "summary.html");
-    } else {
-      document.getElementById("lock-icon").classList.add("wrongPassword");
-      document.getElementById("password-input").classList.add("wrongPassword");
-      document.getElementById("mail-icon").classList.add("wrongPassword");
-      document.getElementById("email-input").classList.add("wrongPassword");
-      document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
-      document.getElementById("password-input").value = "";
-    }
+  const email = document.getElementById("email-input").value;
+  const password = document.getElementById("password-input").value;
+  const user = data.contacts.find((contact) => contact.Email === email);
+
+  if (user && user.Password === password) {
+    loggedInUser.username = user.name;
+    loggedInUser.initals = user.name.split(" ")[0][0] + user.name.split(" ")[1][0];
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    window.location.href = "summary.html";
+  } else {
+    wrongPassword();
   }
+}
+
+/**
+ * function to add wrong password class to the input fields and the icon
+ */
+function wrongPassword() {
+  document.getElementById("lock-icon").classList.add("wrongPassword");
+  document.getElementById("password-input").classList.add("wrongPassword");
+  document.getElementById("mail-icon").classList.add("wrongPassword");
+  document.getElementById("email-input").classList.add("wrongPassword");
+  document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
+  document.getElementById("password-input").value = "";
 }
 
 /**
@@ -61,6 +67,7 @@ async function checkUserDataInput(event) {
   }
   await signUpUser();
 }
+
 /**
  * check privacy policy confirmation and sign up user
  * @returns
