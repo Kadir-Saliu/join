@@ -19,6 +19,7 @@ function summaryInit() {
   includeHTML();
   greetUser();
   console.log("Hi");
+  console.log("Hussein");
 }
 
 /**
