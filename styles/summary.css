@@ -121,6 +121,7 @@ main {
   border-radius: 30px;
   gap: 10px;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .to-do:hover {
@@ -149,6 +150,7 @@ main {
   border-radius: 30px;
   gap: 10px;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .done:hover {
@@ -177,6 +179,7 @@ main {
   margin-top: 20px;
   height: 168px;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .urgent-and-date:hover {
@@ -219,6 +222,7 @@ main {
   width: 168px;
   border-radius: 30px;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .tasks-in-board:hover {
@@ -239,6 +243,7 @@ main {
   width: 168px;
   border-radius: 30px;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .tasks-in-progress:hover {
@@ -258,6 +263,8 @@ main {
   height: 168px;
   width: 168px;
   border-radius: 30px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .awaiting-feedback:hover {
