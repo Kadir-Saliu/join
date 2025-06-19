@@ -52,22 +52,8 @@
                     <button onclick="setPriority('low')">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
                 </div>
                 <p>Assigned to</p>
-                <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="popUpDropDownUsers()">
+                <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="dropDownUsers()">
                 <div id="drop-down-users" class="hide">
-                    <div>
-                        <div>
-                            <span class="user-icon AM">AM</span>
-                            <p>Anton Mayer</p>
-                        </div>
-                        <input type="checkbox" name="" id="">
-                    </div>
-                    <div>
-                        <div>
-                            <span class="user-icon EM">EM</span>
-                            <p>Emmanuel Mauer</p>
-                        </div>
-                        <input type="checkbox" name="" id="">
-                    </div>
                 </div>
                 <div class="span-div">
                     <p>Category</p>
@@ -75,13 +61,13 @@
                 </div>
                 <button class="drop-down-selection" onclick="popUpDropDownCategory()">Select task category</button>
                 <div id="drop-down-category" class="hide">
-                    <button>Technical Task</button>
-                    <button>User Story</button>
+                    <button onclick="setCategory('Technical Task')">Technical Task</button>
+                    <button onclick="setCategory('User Story')">User Story</button>
                 </div>
                 <p>Subtasks</p>
                 <div class="subtask-div">
                     <input type="text" name="" id="subtask" placeholder="Add new subtask">
-                    <button>+</button>
+                    <button onclick="addSubtask()">+</button>
                 </div>
             </div>
         </div>
@@ -92,13 +78,14 @@
             </div>
             <div>
                 <button id="clear-task-button">Clear X</button>
-                <button id="create-task-button">Create Task</button>
+                <button id="create-task-button" onclick="createNewTicket('To Do')">Create Task</button>
             </div>
         </div>
     </main>
 
     <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
     
+    <script src="./scripts/template.js"></script>
     <script src="./scripts/addTask.js"></script>
     <script src="script.js"></script>
 </body>
