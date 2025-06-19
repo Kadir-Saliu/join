@@ -1,5 +1,6 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
-const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
+const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
@@ -24,13 +25,29 @@ function summaryInit() {
  * get contact data
  * @param {*} event - parameter to prevent Default behaviour
  */
-async function getFirebaseData(event) {
+async function getContactsData(event) {
   event.preventDefault();
   try {
-    let response = await fetch(BASE_URL_CONTACTS);
+    let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
-    let contacts = Object.values(responseJson || {}).filter((contact) => contact !== null);
-    checkLoginData({ contacts });
+    let users = Object.values(responseJson || {}).filter((contact) => contact !== null);
+    checkLoginData({ users });
+  } catch (error) {
+    console.log("error");
+  }
+}
+
+/**
+ * This function gets all tickets from the database
+ *
+ * @returns tickets
+ */
+async function getTicketData() {
+  try {
+    let response = await fetch(BASE_URL_TICKETS);
+    let responseJson = await response.json();
+    let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
+    return tickets;
   } catch (error) {
     console.log("error");
   }
