@@ -1,5 +1,5 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
-const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
+const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
 const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
@@ -28,10 +28,10 @@ function summaryInit() {
 async function getContactsData(event) {
   event.preventDefault();
   try {
-    let response = await fetch(BASE_URL_CONTACTS);
+    let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
-    let contacts = Object.values(responseJson || {}).filter((contact) => contact !== null);
-    checkLoginData({ contacts });
+    let users = Object.values(responseJson || {}).filter((contact) => contact !== null);
+    checkLoginData({ users });
   } catch (error) {
     console.log("error");
   }

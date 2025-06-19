@@ -24,7 +24,7 @@ function toogleInputMenu() {
 async function checkLoginData(data) {
   const email = document.getElementById("email-input").value;
   const password = document.getElementById("password-input").value;
-  const user = data.contacts.find((contact) => contact.Email === email);
+  const user = data.users.find((user) => user.Email === email);
 
   if (user && user.Password === password) {
     loggedInUser.username = user.name;
