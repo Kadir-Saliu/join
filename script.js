@@ -51,7 +51,25 @@ async function getTicketData() {
   } catch (error) {
     console.log("error");
   }
+  renderTicket(tickets)
 }
+
+function renderTicket(tickets) {
+  let currentTicket = document.getElementById("")
+  for (let indexTicket = 0; indexTicket < tickets.ticket.length; indexTicket++) {
+    currentTicket.innerHTML += getTicketsTemplate(tickets)
+    
+  }
+}
+
+function getTicketsTemplate(tickets) {
+  return ` 
+          <div class="kanban-task" >
+          
+          </div>  
+  `
+}
+
 
 async function includeHTML() {
   let includeElements = document.querySelectorAll("[template]");
