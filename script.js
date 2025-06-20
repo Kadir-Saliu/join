@@ -21,6 +21,11 @@ function summaryInit() {
   greetUser();
 }
 
+function boardInit() {
+  includeHTML();
+  renderTicket();
+}
+
 /**
  * get contact data
  * @param {*} event - parameter to prevent Default behaviour
@@ -47,25 +52,31 @@ async function getTicketData() {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
     let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
-    return tickets;
+    return {tickets};
   } catch (error) {
     console.log("error");
   }
-  renderTicket(tickets)
+  
 }
 
-function renderTicket(tickets) {
-  let currentTicket = document.getElementById("")
-  for (let indexTicket = 0; indexTicket < tickets.ticket.length; indexTicket++) {
-    currentTicket.innerHTML += getTicketsTemplate(tickets)
-    
-  }
+
+
+async function renderTicket() {
+  let tickets = await getTicketData();
+  console.log(tickets);
+  
+  let currentTicket = document.getElementById("toDo");
+  for (let indexTicket = 0; indexTicket < tickets.tickets.length; indexTicket++) {
+    currentTicket.innerHTML += getTicketsTemplate(indexTicket, tickets);
+   }
 }
 
-function getTicketsTemplate(tickets) {
+function getTicketsTemplate(indexTicket, tickets) {
   return ` 
           <div class="kanban-task" >
-          
+              <h3>${tickets.tickets[indexTicket].title}</h3>
+              <div class="task-type tech-task">Technical Task</div>
+
           </div>  
   `
 }
