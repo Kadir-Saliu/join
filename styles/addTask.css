@@ -245,14 +245,6 @@ main h1 {
     margin-left: -8px;
 }
 
-.AM {
-    background-color: rgb(255, 122, 0);
-}
-
-.EM {
-    background-color: rgb(31, 215, 193);
-}
-
 #drop-down-category {
     background-color: white;
     margin-top: -16px;
@@ -274,4 +266,87 @@ main h1 {
 
 #drop-down-category button:hover {
     background-color: rgb(246, 247, 248);
+}
+
+.missing-value {
+    color: red;
+    font-size: 12px;
+}
+
+#missing-date-info, #missing-title-info {
+    margin-top: -24px;
+}
+
+#missing-category-info {
+    margin-top: -16px;
+}
+
+.urgent {
+    background-color: rgb(255, 61, 0) !important;
+    color: white;
+}
+
+.medium {
+    background-color: rgb(255, 168, 0) !important;
+    color: white;
+}
+
+.low {
+    background-color: rgb(122, 226, 41) !important;
+    color: white;
+}
+
+.urgent img, .medium img, .low img {
+    filter: brightness(0) invert(1);
+}
+
+.urgent:hover, .medium:hover, .low:hover {
+    box-shadow: none !important;
+}
+
+#subtask-render-div li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.li-buttons {
+    display: flex;
+}
+
+#render-selected-users {
+    display: flex;
+}
+
+/* userfeedback */
+
+.added-animation {
+  position: fixed;
+  bottom: -100px; /* Startposition */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: none;
+  z-index: 9999;
+}
+
+.added-animation.show {
+  animation: flyIn 0.8s ease-out forwards;
+}
+
+@keyframes flyIn {
+  0% {
+    bottom: -100px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  60% {
+    bottom: 50%;
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+  100% {
+    bottom: 50%;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
 }

@@ -35,6 +35,7 @@
                     <span>*</span>
                 </div>
                 <input type="text" placeholder="Enter a title" id="task-title">
+                <p class="missing-value hide" id="missing-title-info">This field is required</p>
                 <p>Description</p>
                 <textarea name="" id="task-description" placeholder="Enter a Description"></textarea>
                 <div class="span-div">
@@ -42,47 +43,36 @@
                     <span>*</span>
                 </div>
                 <input type="date" id="task-date">
+                <p class="missing-value hide" id="missing-date-info">This field is required</p>
             </div>
             <div class="add-task-form-divider"></div>
             <div class="add-task-select-div">
                 <p>Priority</p>
                 <div class="add-task-importance-selection">
-                    <button>Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
-                    <button>Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
-                    <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+                    <button class="priority-button" onclick="setPriority('urgent', this)">Urgent<img src="./assets/icon/red-arrows.svg" alt=""></button>
+                    <button class="priority-button" onclick="setPriority('medium', this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
+                    <button class="priority-button" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
                 </div>
                 <p>Assigned to</p>
-                <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="popUpDropDownUsers()">
-                <div id="drop-down-users" class="hide">
-                    <div>
-                        <div>
-                            <span class="user-icon AM">AM</span>
-                            <p>Anton Mayer</p>
-                        </div>
-                        <input type="checkbox" name="" id="">
-                    </div>
-                    <div>
-                        <div>
-                            <span class="user-icon EM">EM</span>
-                            <p>Emmanuel Mauer</p>
-                        </div>
-                        <input type="checkbox" name="" id="">
-                    </div>
-                </div>
+                <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="dropDownUsers('drop-down-users', 'render-selected-users')">
+                <div id="drop-down-users" class="hide"></div>
+                <div id="render-selected-users"></div>
                 <div class="span-div">
                     <p>Category</p>
                     <span>*</span>
                 </div>
-                <button class="drop-down-selection" onclick="popUpDropDownCategory()">Select task category</button>
+                <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory()">Select task category</button>
                 <div id="drop-down-category" class="hide">
-                    <button>Technical Task</button>
-                    <button>User Story</button>
+                    <button onclick="setCategory('Technical Task', 'category-button', 'drop-down-category')">Technical Task</button>
+                    <button onclick="setCategory('User Story', 'category-button', 'drop-down-category')">User Story</button>
                 </div>
+                <p class="missing-value hide" id="missing-category-info">This field is required</p>
                 <p>Subtasks</p>
                 <div class="subtask-div">
-                    <input type="text" name="" id="" placeholder="Add new subtask">
-                    <button>+</button>
+                    <input type="text" name="" id="subtask" placeholder="Add new subtask">
+                    <button onclick="addSubtask()">+</button>
                 </div>
+                <div id="subtask-render-div"></div>
             </div>
         </div>
         <div class="bottom-section">
@@ -91,14 +81,17 @@
                 <p>This field is required</p>
             </div>
             <div>
-                <button id="clear-task-button">Clear X</button>
+                <button id="clear-task-button" onclick="clearTask()">Clear X</button>
                 <button id="create-task-button">Create Task</button>
             </div>
         </div>
     </main>
 
     <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
+    <img src="assets/icon/Added-to-Board.png" class="added-animation hide" id="added-userfeedback">
     
+    <script src="./scripts/template.js" defer></script>
+    <script src="./scripts/addTask.js" defer></script>
     <script src="script.js"></script>
 </body>
 </html>
