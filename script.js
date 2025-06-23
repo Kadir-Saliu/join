@@ -24,6 +24,7 @@ function summaryInit() {
 function boardInit() {
   includeHTML();
   renderTicket();
+  toggleNoTaskContainer()
 }
 
 /**
@@ -74,11 +75,20 @@ async function renderTicket() {
 function getTicketsTemplate(indexTicket, tickets) {
   return ` 
           <div class="kanban-task" >
-              <h3>${tickets.tickets[indexTicket].title}</h3>
               <div class="task-type tech-task">Technical Task</div>
+              <h4>${tickets.tickets[indexTicket].title}</h4>
+              <p></p>
 
           </div>  
   `
+}
+
+function toggleNoTaskContainer() {
+  let currentContainer = document.getElementById("toDo");
+  console.log(currentContainer);
+  if (currentContainer.innerHTML == "") {
+  document.getElementById("noTasks").style.display = "none";
+  }
 }
 
 
