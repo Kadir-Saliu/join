@@ -7,32 +7,41 @@ const subtask = document.getElementById("subtask");
 let subtaskArray = [];
 let progressColumn;
 let ticketID = 0;
+const addedUserfeedback = document.getElementById("added-userfeedback");
+let subtaskCounter = 0;
+let columnVal = 'To do';
 
+document.getElementById("create-task-button").onclick = function () {
+    checkRequiredInput(columnVal);
+};
 
-function setPriority(prio) {   
-    buttonPriority = prio;   
+function setPriority(prio, clickedButton) {   
+    buttonPriority = prio;
+    let buttons = document.querySelectorAll(".priority-button");
+    buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
+    clickedButton.classList.add(clickedButton.innerText.toLowerCase().trim());
 }
 
-function setCategory(category) {   
+function setCategory(category, idButton, idDropDown) {   
     buttonCategory = category;  
-    document.getElementById("category-button").innerText = buttonCategory; 
-    document.getElementById("drop-down-category").classList.add("hide");
+    document.getElementById(idButton).innerText = buttonCategory; 
+    document.getElementById(idDropDown).classList.add("hide");
 }
 
-async function dropDownUsers() {
+async function dropDownUsers(id, renderId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
         console.log(responseJson);
-        iterateContacts(responseJson);
+        iterateContacts(responseJson, id, renderId);
     } catch (error) {
         console.log("error");
     }
 }
 
-async function iterateContacts(responseJson) {
-    document.getElementById("drop-down-users").classList.toggle("hide");
-    document.getElementById("drop-down-users").innerHTML = "";
+async function iterateContacts(responseJson, id, renderId) {
+    document.getElementById(id).classList.toggle("hide");
+    document.getElementById(id).innerHTML = "";
     let backgroundIndex = 0;
     for (let index = 0; index < responseJson.length; index++) {
         let name = responseJson[index]?.name
@@ -45,7 +54,7 @@ async function iterateContacts(responseJson) {
             backgroundIndex ++;
         }
         let initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
-        document.getElementById("drop-down-users").innerHTML += userDropDownTemplate(name, initials, backgroundIndex);   
+        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId);   
     }
 }
 
@@ -106,8 +115,77 @@ function getSelectedUsers() {
     return selectedUsers;
 }
 
+function renderSelectedUsers(id) {
+    let checkboxes = document.querySelectorAll(".user-checkbox");
+    let userIconClasses = document.querySelectorAll(".user-icon");
+    document.getElementById(id).innerHTML = "";        
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            let userIconColor = "";            
+            let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
+            userIconClasses.forEach(spanClass => {
+                if(spanClass.innerText === initials) {
+                    userIconColor = spanClass.classList[1];            
+                } 
+            });
+            document.getElementById(id).innerHTML += `<span class="user-icon ${userIconColor}">${initials}</span>`
+        }
+    }); 
+}
+
 function addSubtask() {
-    subtaskArray.push(subtask.value);
+    if(subtask.value) {
+        subtaskArray.push(subtask.value);
+        document.getElementById("subtask-render-div").innerHTML +=`<li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+                                                                        ${subtask.value} 
+                                                                        <div class="li-buttons hide">
+                                                                            <button>
+                                                                                <img src="./assets/icon/pencil.svg">
+                                                                            </button>
+                                                                            <div class="add-task-form-divider"></div>
+                                                                            <button data-index="${subtaskCounter}" onclick="deleteSubtask(this)">
+                                                                                <img src="./assets/icon/bin.svg">
+                                                                            </button>
+                                                                        </div>
+                                                                    </li>`;
+        subtaskCounter++;
+        subtask.value = "";
+    }
+}
+
+function hoverButtons(ele) {
+    console.log(ele.firstElementChild);
+    ele.firstElementChild.classList.remove("hide");
+}
+
+function removeHoverButtons(ele) {
+    ele.firstElementChild.classList.add("hide");
+}
+
+function clearTask() {
+    taskTitle.value = "";
+    taskDescription.value = "";
+    taskDate.value = "";
+    resetPriority();
+    document.getElementById("render-selected-users").innerHTML = "";
+    setCategory("Select task category");
+    subtaskArray = [];
+    document.getElementById("subtask-render-div").innerHTML = "";
+}
+
+function resetPriority() {   
+    buttonPriority = "";
+    let buttons = document.querySelectorAll(".priority-button");
+    buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
+}
+
+function deleteSubtask(ele) {
+    for (let index = 0; index < subtaskArray.length; index++) {
+        if(ele.parentElement.parentElement.innerText === subtaskArray[index] && ele.dataset.index == index) {
+            subtaskArray.splice(index, 1);         
+        }
+    }
+    ele.parentElement.parentElement.remove();
 }
 
 async function saveTaskToFirebase(ticketData) {
@@ -121,7 +199,12 @@ async function saveTaskToFirebase(ticketData) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(ticketData),
-    });    
+    });   
+    addedUserfeedback.classList.remove("hide");
+    addedUserfeedback.classList.add("show"); 
+    setTimeout(() => {
+        window.location.href = "board.html";
+    }, 1000);
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }

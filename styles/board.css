@@ -183,6 +183,19 @@ h1 {
     margin-left: -8px;
 }
 
+#render-selected-users-board {
+    display: flex;
+}
+
+.missing-value {
+    color: red;
+    font-size: 12px;
+}
+
+#missing-category-info {
+    margin-top: -16px;
+}
+
 /* individual background-colors */
 
 .user-story {
@@ -300,4 +313,38 @@ h1 {
 
 #drop-down-category-board button:hover {
     background-color: rgb(246, 247, 248);
+}
+
+/* userfeedback */
+
+.added-animation {
+  position: fixed;
+  bottom: -100px; /* Startposition */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: none;
+  z-index: 9999;
+}
+
+.added-animation.show {
+  animation: flyIn 0.8s ease-out forwards;
+}
+
+@keyframes flyIn {
+  0% {
+    bottom: -100px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  60% {
+    bottom: 50%;
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+  100% {
+    bottom: 50%;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
 }
