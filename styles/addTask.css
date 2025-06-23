@@ -267,3 +267,16 @@ main h1 {
 #drop-down-category button:hover {
     background-color: rgb(246, 247, 248);
 }
+
+.missing-value {
+    color: red;
+    font-size: 12px;
+}
+
+#missing-date-info, #missing-title-info {
+    margin-top: -24px;
+}
+
+#missing-category-info {
+    margin-top: -16px;
+}

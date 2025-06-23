@@ -14,7 +14,9 @@ function setPriority(prio) {
 }
 
 function setCategory(category) {   
-    buttonCategory = category;   
+    buttonCategory = category;  
+    document.getElementById("category-button").innerText = buttonCategory; 
+    document.getElementById("drop-down-category").classList.add("hide");
 }
 
 async function dropDownUsers() {
@@ -44,6 +46,37 @@ async function iterateContacts(responseJson) {
         }
         let initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
         document.getElementById("drop-down-users").innerHTML += userDropDownTemplate(name, initials, backgroundIndex);   
+    }
+}
+
+function checkRequiredInput(columnValue) {
+    let hasError = false;
+    if (!taskTitle.value) {
+        document.getElementById("missing-title-info").classList.remove("hide");
+        taskTitle.style.border = "1px solid red";
+        hasError = true;
+    } else {
+        document.getElementById("missing-title-info").classList.add("hide");
+        taskTitle.style.border = "";
+    }
+    if (!taskDate.value) {
+        document.getElementById("missing-date-info").classList.remove("hide");
+        taskDate.style.border = "1px solid red";
+        hasError = true;
+    } else {
+        document.getElementById("missing-date-info").classList.add("hide");
+        taskDate.style.border = "";
+    }
+    if (document.getElementById("category-button").innerText === "Select task category") {
+        document.getElementById("missing-category-info").classList.remove("hide");
+        document.getElementById("category-button").style.border = "1px solid red";
+        hasError = true;
+    } else {
+        document.getElementById("missing-category-info").classList.add("hide");
+        document.getElementById("category-button").style.border = "";
+    }
+    if (!hasError) {
+        createNewTicket(columnValue);
     }
 }
 
