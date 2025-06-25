@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./styles/accountNav.css" />
     <link rel="stylesheet" href="./styles/boardTaskPopUp.css" />
   </head>
-  <body onload="includeHTML()">
+  <body onload="boardInit()">
     <div template="navigation.html"></div>
     <div template="accountNav.html" class="account-nav-render-div hide"></div>
     <div template="boardTaskPopUp.html" class="hide slide-out" id="board-task-pop-up"></div>
@@ -170,9 +170,15 @@
         <div class="add-task-select-div">
           <p>Priority</p>
           <div class="add-task-importance-selection">
-            <button class="priority-button" onclick="setPriority('urgent', this)">Urgent<img src="./assets/icon/red-arrows.svg" alt=""></button>
-                    <button class="priority-button" onclick="setPriority('medium', this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
-                    <button class="priority-button" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+            <button class="priority-button" onclick="setPriority('urgent', this)">
+              Urgent<img src="./assets/icon/red-arrows.svg" alt="" />
+            </button>
+            <button class="priority-button" onclick="setPriority('medium', this)">
+              Medium <img src="./assets/icon/orange-same.svg" alt="" />
+            </button>
+            <button class="priority-button" onclick="setPriority('low', this)">
+              Low <img src="./assets/icon/green-arrows.svg" alt="" />
+            </button>
           </div>
           <p>Assigned to</p>
           <input
@@ -187,7 +193,9 @@
             <p>Category</p>
             <span>*</span>
           </div>
-          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategoryInBoard()">Select task category</button>
+          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategoryInBoard()">
+            Select task category
+          </button>
           <div id="drop-down-category-board" class="hide">
             <button onclick="setCategory('Technical Task', 'category-button', 'drop-down-category-board')">Technical Task</button>
             <button onclick="setCategory('User Story', 'category-button', 'drop-down-category-board')">User Story</button>
@@ -213,11 +221,11 @@
       </div>
     </div>
 
-    <img src="assets/icon/Added-to-Board.png" class="added-animation hide" id="added-userfeedback">
+    <img src="assets/icon/Added-to-Board.png" class="added-animation hide" id="added-userfeedback" />
 
     <script src="./scripts/template.js"></script>
     <script src="./scripts/addTask.js"></script>
     <script src="./scripts/board.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>
