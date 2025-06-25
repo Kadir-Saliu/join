@@ -315,6 +315,29 @@ h1 {
     background-color: rgb(246, 247, 248);
 }
 
+.urgent {
+    background-color: rgb(255, 61, 0) !important;
+    color: white;
+}
+
+.medium {
+    background-color: rgb(255, 168, 0) !important;
+    color: white;
+}
+
+.low {
+    background-color: rgb(122, 226, 41) !important;
+    color: white;
+}
+
+.urgent img, .medium img, .low img {
+    filter: brightness(0) invert(1);
+}
+
+.urgent:hover, .medium:hover, .low:hover {
+    box-shadow: none !important;
+}
+
 /* userfeedback */
 
 .added-animation {

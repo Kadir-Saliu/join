@@ -36,3 +36,12 @@ function switchEditInfoMenu() {
     document.getElementById("board-task-information").classList.toggle("hide");
     document.getElementById("board-task-edit").classList.toggle("hide");
 }
+
+async function renderTickets(ticket) {
+    console.log(ticket[0][1].column.replace(" ", "-").toLowerCase());
+    //document.getElementById(`${ticket[0][1].column.replace(" ", "-").toLowerCase()}-div`).innerHTML = ticketTemplate();
+    for (let index = 0; index < ticket[0].length; index++) {
+        let description = ticket[0][index].description;
+        document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(description);       
+    }
+}

@@ -23,6 +23,7 @@ async function summaryInit() {
 
 async function boardInit() {
   loadNavigation();
+  getTicketData();
 }
 
 async function addTaskInit() {
@@ -59,6 +60,7 @@ async function getTicketData() {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
     let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
+    renderTickets(tickets);    
     return tickets;
   } catch (error) {
     console.log("error");

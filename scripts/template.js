@@ -7,3 +7,18 @@ function userDropDownTemplate(name, inititals, index, id) {
                 <input type="checkbox" class="user-checkbox" value="${name}" onclick="renderSelectedUsers('${id}')">
             </div>`;
 }
+
+function ticketTemplate(title) {
+    return `
+        <div class="kanban-task" onclick="popUpAddTask(popuptask)">
+            <div class="task-type"></div>
+            <h4>${title}</h4>
+            <p>hi</p>
+            <div class="assigned-users">
+              <div>
+              </div>
+              <img src="" alt="" />
+            </div>
+          </div>
+    `
+}
