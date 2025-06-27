@@ -42,6 +42,9 @@ async function renderTickets(ticket) {
     //document.getElementById(`${ticket[0][1].column.replace(" ", "-").toLowerCase()}-div`).innerHTML = ticketTemplate();
     for (let index = 0; index < ticket[0].length; index++) {
         let description = ticket[0][index].description;
-        document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(description);       
+        let title = ticket[0][index].title;
+        let category = ticket[0][index].category;
+        let categoryCss = ticket[0][index].category.replace(" ", "-").toLowerCase();
+        document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(title, description, category, categoryCss);       
     }
 }

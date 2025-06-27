@@ -8,12 +8,12 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-function ticketTemplate(title) {
+function ticketTemplate(title, description, category, categoryCss) {
     return `
         <div class="kanban-task" onclick="popUpAddTask(popuptask)">
-            <div class="task-type"></div>
+            <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
-            <p>hi</p>
+            <p>${description}</p>
             <div class="assigned-users">
               <div>
               </div>
