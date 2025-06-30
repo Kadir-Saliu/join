@@ -46,6 +46,7 @@ async function renderTickets(ticket) {
         let category = ticket[0][index].category;
         let categoryCss = ticket[0][index].category.replace(" ", "-").toLowerCase();
         let assignedTo = ticket[0][index].assignedTo || [];
-        document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(title, description, category, categoryCss, assignedTo);       
+        let priority = ticket[0][index].priority || [];
+        document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(title, description, category, categoryCss, assignedTo, priority);       
     }
 }
