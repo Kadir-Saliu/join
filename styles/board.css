@@ -1,77 +1,72 @@
 html {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 main {
-    flex-grow: 1;
-    width: calc(100% - 232px);
-    margin-left: 232px;
+  flex-grow: 1;
+  width: calc(100% - 232px);
+  margin-left: 232px;
 }
 
 h1 {
-    font-size: 48px;
+  font-size: 48px;
 }
 
 .board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-top: 50px;
-    margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 50px;
+  margin-bottom: 50px;
 }
 
 .board-header-btns {
-    display: flex;
-    height: 36px;
+  display: flex;
+  height: 36px;
 }
 
 .board-search {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding: 0px 4px;
-    background-color: white;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 0px 4px;
+  background-color: white;
 }
 
-.board-search:focus-within {    
-    border-color: rgb(41, 171, 226);
+.board-search:focus-within {
+  border-color: rgb(41, 171, 226);
 }
 
-.board-search input, button {
-    border: none;
-    outline: none;
-    height: 100%;
-}
-
-.board-search button {
-    cursor: pointer;
-    background-color: white;
-    padding-left: 4px;
+.board-search input,
+button {
+  border: none;
+  outline: none;
+  height: 100%;
 }
 
 .board-add-task {
-    background-color: rgb(42, 54, 71);
-    color: white;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    height: 35px;
-    width: 100px;
-    font-weight: bold;
+  background-color: rgb(42, 54, 71);
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  height: 35px;
+  width: 100px;
+  font-weight: bold;
 }
 
-.board-add-task:hover {    
+.board-add-task:hover {
   background-color: rgb(41, 171, 226);
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
-.input-divider {
-    height: 80%;
-    border-left: 1px solid lightgray;
+.search-bar-lense {
+  cursor: pointer;
+  padding-right: 8px;
 }
 
 /* Columns */
@@ -83,272 +78,276 @@ h1 {
 }
 
 .kanban-column {
-    flex: 1;
+  flex: 1;
 }
 
 .kanban-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .add-task-btn {
-    height: 22px;
-    width: 22px;
-    border: 1px solid black;
-    border-radius: 7px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 15px;
+  height: 22px;
+  width: 22px;
+  border: 1px solid black;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
 }
 
 .kanban-task {
-    background-color: white;
-    margin-bottom: 16px;
-    padding: 16px;
-    border-radius: 16px;
-    box-shadow: 0px 0px 10px lightgray;
-    cursor: pointer;
+  background-color: white;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0px 0px 10px lightgray;
+  cursor: pointer;
 }
 
-.no-tasks  {
-    background-color: rgb(231, 231, 231) !important;
-    border: 1px dashed rgb(184, 184, 184) !important;
-    color: rgb(184, 184, 184) !important;
+.no-tasks {
+  background-color: rgb(231, 231, 231) !important;
+  border: 1px dashed rgb(184, 184, 184) !important;
+  color: rgb(184, 184, 184) !important;
 }
 
 .task-type {
-    margin-bottom: 24px;  
-    color: white;  
-    padding: 4px 8px;
-    border-radius: 5px;
-    display: inline-block;
-    width: auto;
+  margin-bottom: 24px;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  width: auto;
 }
 
 .kanban-task h4 {
-    margin-bottom: 12px;;
+  margin-bottom: 12px;
 }
 
 .kanban-task p {
-    margin-bottom: 24px;
-    color: rgb(168, 168, 168);
+  margin-bottom: 24px;
+  color: rgb(168, 168, 168);
 }
 
 .progress-div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;    
-    margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .progress-bar {
-    background-color: lightgray;
-    height: 8px;
-    width: 124px;
-    border-radius: 5px;
+  background-color: lightgray;
+  height: 8px;
+  width: 124px;
+  border-radius: 5px;
 }
 
 .progress {
-    height: 100%;
-    background-color: rgb(69, 137, 255);
-    
-    border-radius: 5px;
+  height: 100%;
+  background-color: rgb(69, 137, 255);
+
+  border-radius: 5px;
 }
 
 .subtasks {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .assigned-users {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .assigned-users div {
-    display: flex;
+  display: flex;
 }
 
 .user-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 32px;
-    width: 32px;
-    border-radius: 50%;
-    border: 1px solid white;
-    color: white;
-    font-size: 12px;
-    margin-left: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  border: 1px solid white;
+  color: white;
+  font-size: 12px;
+  margin-left: -8px;
 }
 
 .user-icon-selected {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 32px;
-    width: 32px;
-    border-radius: 50%;
-    border: 1px solid white;
-    color: white;
-    font-size: 12px;
-    margin-left: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  border: 1px solid white;
+  color: white;
+  font-size: 12px;
+  margin-left: -8px;
 }
 
 #render-selected-users-board {
-    display: flex;
+  display: flex;
 }
 
 .missing-value {
-    color: red;
-    font-size: 12px;
+  color: red;
+  font-size: 12px;
 }
 
 #missing-category-info {
-    margin-top: -16px;
+  margin-top: -16px;
 }
 
 /* individual background-colors */
 
 .user-story {
-    background-color: rgb(0, 56, 255);
+  background-color: rgb(0, 56, 255);
 }
 
-.technical-task {    
-    background-color: rgb(31, 215, 193);
+.technical-task {
+  background-color: rgb(31, 215, 193);
 }
 
 #drop-down-users-edit {
-    overflow-y: scroll;
-    min-height: 64px;
-    background-color: white;
-    margin-bottom: 16px;
-    border-radius: 0 0 5px 5px;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
+  overflow-y: scroll;
+  min-height: 64px;
+  background-color: white;
+  margin-bottom: 16px;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
 }
 
 #drop-down-users-edit div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-    margin-top: 4px;
-    border-radius: 5px;
-    cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #drop-down-users-edit div span {
-    margin-left: 16px !important;
+  margin-left: 16px !important;
 }
 
 #drop-down-users-edit div p {
-    margin-bottom: 0 !important;
-    margin-left: 16px;
+  margin-bottom: 0 !important;
+  margin-left: 16px;
 }
 
 #drop-down-users-edit div:hover {
-    background-color: rgb(246, 247, 248);
+  background-color: rgb(246, 247, 248);
 }
 
 #drop-down-users-edit div input {
-    margin-right: 16px;
-    cursor: pointer;
+  margin-right: 16px;
+  cursor: pointer;
 }
 
- #drop-down-users-input-board {
-    margin-bottom: 16px;
+#drop-down-users-input-board {
+  margin-bottom: 16px;
 }
 
 #drop-down-users-input-board:focus {
-    border: 1px solid rgb(93, 190, 231) !important;
-    outline: none;
+  border: 1px solid rgb(93, 190, 231) !important;
+  outline: none;
 }
 
 #drop-down-users-board {
-    overflow-y: scroll;
-    background-color: white;
-    margin-top: -16px;
-    margin-bottom: 16px;
-    border-radius: 0 0 5px 5px;
-    display: flex;
-    flex-direction: column;
+  overflow-y: scroll;
+  background-color: white;
+  margin-top: -16px;
+  margin-bottom: 16px;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 #drop-down-users-board div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-    margin-top: 4px;
-    border-radius: 5px;
-    cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #drop-down-users-board div span {
-    margin-left: 16px !important;
+  margin-left: 16px !important;
 }
 
 #drop-down-users-board div p {
-    margin-bottom: 0 !important;
-    margin-left: 16px;
+  margin-bottom: 0 !important;
+  margin-left: 16px;
 }
 
 #drop-down-users-board div:hover {
-    background-color: rgb(246, 247, 248);
+  background-color: rgb(246, 247, 248);
 }
 
 #drop-down-users-board div input {
-    margin-right: 16px;
-    cursor: pointer;
+  margin-right: 16px;
+  cursor: pointer;
 }
 
 #drop-down-category-board {
-    background-color: white;
-    margin-top: -16px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
+  background-color: white;
+  margin-top: -16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
 }
 
 #drop-down-category-board button {
-    padding: 8px 16px;
-    margin-bottom: 0 !important;
-    cursor: pointer;
-    background-color: white;
-    border: none;
-    text-align: left;
-    font-size: 16px;
+  padding: 8px 16px;
+  margin-bottom: 0 !important;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  text-align: left;
+  font-size: 16px;
 }
 
 #drop-down-category-board button:hover {
-    background-color: rgb(246, 247, 248);
+  background-color: rgb(246, 247, 248);
 }
 
 .urgent {
-    background-color: rgb(255, 61, 0) !important;
-    color: white;
+  background-color: rgb(255, 61, 0) !important;
+  color: white;
 }
 
 .medium {
-    background-color: rgb(255, 168, 0) !important;
-    color: white;
+  background-color: rgb(255, 168, 0) !important;
+  color: white;
 }
 
 .low {
-    background-color: rgb(122, 226, 41) !important;
-    color: white;
+  background-color: rgb(122, 226, 41) !important;
+  color: white;
 }
 
-.urgent img, .medium img, .low img {
-    filter: brightness(0) invert(1);
+.urgent img,
+.medium img,
+.low img {
+  filter: brightness(0) invert(1);
 }
 
-.urgent:hover, .medium:hover, .low:hover {
-    box-shadow: none !important;
+.urgent:hover,
+.medium:hover,
+.low:hover {
+  box-shadow: none !important;
 }
 
 /* userfeedback */
