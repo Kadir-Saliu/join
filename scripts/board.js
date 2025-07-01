@@ -5,8 +5,6 @@ const overlay = document.getElementById("board-overlay");
  * function to open/close the addTask pop-up
  */
 function popUpAddTask(ele, columnV) {    
-    console.log(columnV);
-    
     columnVal = columnV;
     const isHidden = ele.classList.contains("hide");
     if (isHidden) {
