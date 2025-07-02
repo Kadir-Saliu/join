@@ -56,6 +56,13 @@ async function renderTickets(ticket) {
   }
 }
 
+function toggleNoTaskContainer(column) {
+  let currentContainer = document.getElementById(`${column}`);
+  if (currentContainer.innerHTML == "") {
+  document.getElementById("noTasks").style.display = "none";
+  }
+}
+
 /**
  * This function filters the tickets based on the search input
  *

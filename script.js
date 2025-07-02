@@ -24,6 +24,7 @@ async function summaryInit() {
 async function boardInit() {
   loadNavigation();
   getTicketData();
+  toggleNoTaskContainer(column)
 }
 
 async function addTaskInit() {
