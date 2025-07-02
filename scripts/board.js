@@ -56,6 +56,11 @@ async function renderTickets(ticket) {
   }
 }
 
+/**
+ * This function filters the tickets based on the search input
+ *
+ * @param {*} tickets tickets from the database to filter
+ */
 function filterTickets(tickets) {
   let searchInput = document.getElementById("searchbar").value.toLowerCase();
   let filteredTickets = tickets.filter(
