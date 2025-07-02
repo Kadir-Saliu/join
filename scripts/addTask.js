@@ -105,13 +105,12 @@ async function createNewTicket(columnValue) {
 }
 
 function getSelectedUsers() {
-    let checkboxes = document.querySelectorAll(".user-checkbox");
+    let userIcons = document.querySelectorAll(".user-icon-selected");
     let selectedUsers = [];
-    checkboxes.forEach(cb => {
-        if (cb.checked) {
-            selectedUsers.push(cb.value);
+    userIcons.forEach(uI => {
+            selectedUsers.push(uI.dataset.name);
         }
-    });
+    );
     return selectedUsers;
 }
 
@@ -128,7 +127,7 @@ function renderSelectedUsers(id) {
                     userIconColor = spanClass.classList[1];            
                 } 
             });
-            document.getElementById(id).innerHTML += `<span class="user-icon ${userIconColor}">${initials}</span>`
+            document.getElementById(id).innerHTML += `<span class="user-icon-selected ${userIconColor}" data-name="${cb.value}">${initials}</span>`
         }
     }); 
 }

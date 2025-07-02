@@ -5,8 +5,6 @@ const overlay = document.getElementById("board-overlay");
  * function to open/close the addTask pop-up
  */
 function popUpAddTask(ele, columnV) {    
-    console.log(columnV);
-    
     columnVal = columnV;
     const isHidden = ele.classList.contains("hide");
     if (isHidden) {
@@ -35,4 +33,18 @@ function closeViaOverlay(overlayElement) {
 function switchEditInfoMenu() {
     document.getElementById("board-task-information").classList.toggle("hide");
     document.getElementById("board-task-edit").classList.toggle("hide");
+}
+
+async function renderTickets(ticket) {
+    console.log(ticket[0][1].column.replace(" ", "-").toLowerCase());
+    //document.getElementById(`${ticket[0][1].column.replace(" ", "-").toLowerCase()}-div`).innerHTML = ticketTemplate();
+    for (let index = 0; index < ticket[0].length; index++) {
+        let description = ticket[0][index].description || "";
+        let title = ticket[0][index].title;
+        let category = ticket[0][index].category;
+        let categoryCss = ticket[0][index].category.replace(" ", "-").toLowerCase();
+        let assignedTo = ticket[0][index].assignedTo || [];
+        let priority = ticket[0][index].priority || [];
+        document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(title, description, category, categoryCss, assignedTo, priority);       
+    }
 }

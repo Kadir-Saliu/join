@@ -183,6 +183,19 @@ h1 {
     margin-left: -8px;
 }
 
+.user-icon-selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border: 1px solid white;
+    color: white;
+    font-size: 12px;
+    margin-left: -8px;
+}
+
 #render-selected-users-board {
     display: flex;
 }
@@ -202,7 +215,7 @@ h1 {
     background-color: rgb(0, 56, 255);
 }
 
-.tech-task {    
+.technical-task {    
     background-color: rgb(31, 215, 193);
 }
 
@@ -313,6 +326,29 @@ h1 {
 
 #drop-down-category-board button:hover {
     background-color: rgb(246, 247, 248);
+}
+
+.urgent {
+    background-color: rgb(255, 61, 0) !important;
+    color: white;
+}
+
+.medium {
+    background-color: rgb(255, 168, 0) !important;
+    color: white;
+}
+
+.low {
+    background-color: rgb(122, 226, 41) !important;
+    color: white;
+}
+
+.urgent img, .medium img, .low img {
+    filter: brightness(0) invert(1);
+}
+
+.urgent:hover, .medium:hover, .low:hover {
+    box-shadow: none !important;
 }
 
 /* userfeedback */
