@@ -130,7 +130,7 @@ function greetUser() {
 function highlightPageInNav() {
   let currentPage = location.pathname.split("/").pop();
   document.querySelectorAll("a.nav-item").forEach((link) => {
-    let linkPage = link.getAttribute("href")?.replace("./", "");
+    let linkPage = link.getAttribute("href").replace("./", "");
     link.classList.remove("active");
     if (linkPage === currentPage) {
       link.classList.add("active");
