@@ -53,6 +53,27 @@ async function renderTickets(ticket) {
       assignedTo,
       priority
     );
+    toggleNoTaskContainer(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`);
+  }
+}
+
+function toggleNoTaskContainer(taskDiv) {
+  let currentContainer = document.getElementById(taskDiv);
+ 
+  if (currentContainer.innerHTML !== "" && currentContainer === document.getElementById("to-do-div")) {
+    document.getElementById("noTasksToDo").style.display = "none";
+  }
+
+   if (currentContainer.innerHTML !== "" && currentContainer === document.getElementById("in-progress-div")) {
+    document.getElementById("noTasksProgress").style.display = "none";
+  }
+
+   if (currentContainer.innerHTML !== "" && currentContainer === document.getElementById("await-feedback-div")) {
+    document.getElementById("noTasksFeedback").style.display = "none";
+  }
+
+   if (currentContainer.innerHTML !== "" && currentContainer === document.getElementById("done-div")) {
+    document.getElementById("noTasksDone").style.display = "none";
   }
 }
 
@@ -64,7 +85,9 @@ async function renderTickets(ticket) {
 function filterTickets(tickets) {
   let searchInput = document.getElementById("searchbar").value.toLowerCase();
   let filteredTickets = tickets.filter(
-    (ticket) => ticket.title.toLowerCase().includes(searchInput) || ticket.description.toLowerCase().includes(searchInput)
+    (ticket) =>
+      ticket.title.toLowerCase().includes(searchInput) ||
+      ticket.description.toLowerCase().includes(searchInput)
   );
   renderTickets(filteredTickets);
 }
