@@ -28,6 +28,10 @@
   width: 4px;
 }
 
+.header-right-side {
+  font-size: 27px;
+}
+
 .add-contact-button {
   display: flex;
   justify-content: center;
