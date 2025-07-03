@@ -8,19 +8,17 @@
     <link rel="stylesheet" href="./styles/summary.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="./styles/navigation.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/accountNav.css" />
+    <link rel="stylesheet" href="./styles/boardTaskPopUp.css" />
+    <link rel="stylesheet" href="./styles/addTaskBoard.css" />
   </head>
   <body onload="summaryInit()">
     <div template="navigation.html"></div>
+    <div template="accountNav.html" class="account-nav-render-div hide"></div>
+    <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
+    <header template="header.html"></header>
     <main>
-      <header>
-        <div class="header-and-icon">
-          <h2>Kanban Project Managment Tool</h2>
-          <div class="help-person-icon">
-            <a href="help.html"><img src="./assets/icon/help.svg" alt="" /></a>
-            <div id="profile" class="profile"></div>
-          </div>
-        </div>
-      </header>
       <article>
         <div class="title-main">
           <h1>Join 360</h1>
@@ -124,5 +122,6 @@
       </article>
     </main>
     <script src="script.js" defer></script>
+    <script src="./scripts/template.js"></script>
   </body>
 </html>

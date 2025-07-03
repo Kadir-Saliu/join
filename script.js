@@ -17,21 +17,20 @@ async function init() {
 }
 
 async function summaryInit() {
-  loadNavigation();
-  greetUser();
+  loadNavigationAndGreetUser();
 }
 
 async function boardInit() {
-  loadNavigation();
+  loadNavigationAndSetInitials();
   getTicketData();
 }
 
 async function addTaskInit() {
-  loadNavigation();
+  loadNavigationAndSetInitials();
 }
 
 async function contactsInit() {
-  loadNavigation();
+  loadNavigationAndSetInitials();
 }
 
 /**
@@ -60,7 +59,7 @@ async function getTicketData() {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
     let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
-    renderTickets(tickets);    
+    renderTickets(tickets);
     return tickets;
   } catch (error) {
     console.log("error");
@@ -138,7 +137,22 @@ function highlightPageInNav() {
   });
 }
 
-async function loadNavigation() {
+async function loadNavigationAndGreetUser() {
   await includeHTML();
   highlightPageInNav();
+  greetUser();
+}
+
+async function loadNavigationAndSetInitials() {
+  await includeHTML();
+  highlightPageInNav();
+  setProfileInitials();
+}
+
+function setProfileInitials() {
+  if (loggedInUser.username) {
+    document.getElementById("profile").innerText = loggedInUser.initals;
+  } else {
+    document.getElementById("profile").innerText = "G";
+  }
 }
