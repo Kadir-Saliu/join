@@ -207,11 +207,11 @@ button {
 /* individual background-colors */
 
 .user-story {
-  background-color: rgb(0, 56, 255);
+  background-color: rgb(0, 56, 255) !important;
 }
 
 .technical-task {
-  background-color: rgb(31, 215, 193);
+  background-color: rgb(31, 215, 193) !important;
 }
 
 #drop-down-users-edit {

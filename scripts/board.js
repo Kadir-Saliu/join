@@ -36,8 +36,6 @@ function switchEditInfoMenu() {
 }
 
 async function renderTickets(ticket) {
-  console.log(ticket[0][1].column.replace(" ", "-").toLowerCase());
-  //document.getElementById(`${ticket[0][1].column.replace(" ", "-").toLowerCase()}-div`).innerHTML = ticketTemplate();
   for (let index = 0; index < ticket[0].length; index++) {
     let description = ticket[0][index].description || "";
     let title = ticket[0][index].title;
@@ -51,7 +49,8 @@ async function renderTickets(ticket) {
       category,
       categoryCss,
       assignedTo,
-      priority
+      priority,
+      index
     );
     toggleNoTaskContainer(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`);
   }
@@ -90,4 +89,29 @@ function filterTickets(tickets) {
       ticket.description.toLowerCase().includes(searchInput)
   );
   renderTickets(filteredTickets);
+}
+
+async function renderTicketOverlay(ele) {
+  try {
+    let response = await fetch(BASE_URL_TICKETS);
+    let responseJson = await response.json();
+    let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
+    let index = ele.dataset.ticketindex;
+    defineTicketDetailVariables(tickets[0][index]);
+  } catch (error) {
+    console.log("error");
+  }  
+}
+
+async function defineTicketDetailVariables(ticket) {
+  let category = ticket.category;
+  let categoryColor = ticket.category.toLowerCase().replace(" ", "-");
+  let title = ticket.title;
+  let description = ticket.description || [];
+  let date = ticket.date.split("-");
+  let formattedDate = `${date[2]}/${date[1]}/${date[0]}`;
+  let priority = ticket.priority || "-";
+  let assignedTo = ticket.assignedTo || [];
+  let subtasks = ticket.subtask;  
+  renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks);
 }
