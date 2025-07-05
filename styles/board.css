@@ -383,3 +383,17 @@ button {
     transform: translateX(-50%) scale(1);
   }
 }
+
+.ticket-detail-user-div {
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 16px;
+}
+
+#subtasks-div p {
+  margin-bottom: 25px;
+}
+
+#subtasks-div li {
+  font-size: 14px;
+}

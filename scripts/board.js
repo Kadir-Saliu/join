@@ -30,9 +30,10 @@ function closeViaOverlay(overlayElement) {
   }
 }
 
-function switchEditInfoMenu() {
+function switchEditInfoMenu(ele) {
   document.getElementById("board-task-information").classList.toggle("hide");
   document.getElementById("board-task-edit").classList.toggle("hide");
+  renderTicketOverlay(ele);
 }
 
 async function renderTickets(ticket) {
@@ -97,13 +98,14 @@ async function renderTicketOverlay(ele) {
     let responseJson = await response.json();
     let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
     let index = ele.dataset.ticketindex;
-    defineTicketDetailVariables(tickets[0][index]);
+    let mode = ele.dataset.mode;    
+    defineTicketDetailVariables(tickets[0][index], mode, index);
   } catch (error) {
     console.log("error");
   }  
 }
 
-async function defineTicketDetailVariables(ticket) {
+async function defineTicketDetailVariables(ticket, mode, index) {
   let category = ticket.category;
   let categoryColor = ticket.category.toLowerCase().replace(" ", "-");
   let title = ticket.title;
@@ -112,6 +114,15 @@ async function defineTicketDetailVariables(ticket) {
   let formattedDate = `${date[2]}/${date[1]}/${date[0]}`;
   let priority = ticket.priority || "-";
   let assignedTo = ticket.assignedTo || [];
-  let subtasks = ticket.subtask;  
-  renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks);
+  let subtasks = ticket.subtask || [];
+  if(mode === "view") {  
+    renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index);
+  } else if (mode === "edit") {
+    editTicket(title, description);
+  }
+}
+
+async function editTicket (title, description) {
+    document.getElementById("task-title-edit").placeholder = title;
+    document.getElementById("task-description-edit").placeholder = description;
 }

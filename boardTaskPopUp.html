@@ -1,5 +1,4 @@
-<div id="board-task-information">
-    
+<div id="board-task-information">    
 </div>
 
 <div id="board-task-edit" class="hide">
@@ -17,9 +16,9 @@
         <input type="date" id="task-date-edit">
         <p class="margin-top-24">Priority</p>
         <div class="add-task-importance-selection">
-            <button>Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
-            <button>Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
-            <button>Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+            <button class="priority-button" onclick="setPriority(`urgent`, this)">Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
+            <button class="priority-button" onclick="setPriority(`medium`, this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
+            <button class="priority-button" onclick="setPriority(`low`, this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
         </div>
         <p class="margin-top-24">Assigned to</p>
         <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="popUpDropDownUsersInEdit()">

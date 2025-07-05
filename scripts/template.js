@@ -16,7 +16,7 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
     
 
     return `
-        <div class="kanban-task" data-ticketIndex="${index}" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
+        <div class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
             <p>${description}</p>
@@ -36,16 +36,18 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
     `
 }
 
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks) {
+async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {
     let userSpans = assignedTo.map((user, i) => {
         let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
-        return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>
-                <span>${user}</span>
+        return `<div class="ticket-detail-user-div">
+                    <span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>
+                    <span>${user}</span>
+                </div>
         `;
     }).join("");
 
-    let subtaskEle = subtasks.map((subtask) => {        
-        return `<p >${subtask}</p>
+    let subtaskEle = subtasks.map((subtask, i) => {        
+        return `<li><input data-index="${i}" type="checkbox">${subtask}</li>
         `;
     }).join("");
     
@@ -68,11 +70,12 @@ async function renderTicketDetails(category, categoryColor, title, description, 
        ${userSpans}
     </div>
     <div id="subtasks-div" class="pop-up-margin-b-25">
-        ${subtaskEle}
+        <p>Subtasks</p>
+        <ul>${subtaskEle}</ul>
     </div>
     <div id="pop-up-bottom-buttons">
         <button><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
-        <button onclick="switchEditInfoMenu()"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+        <button data-ticketIndex=${index} data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
 }
