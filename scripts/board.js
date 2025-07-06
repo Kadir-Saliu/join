@@ -7,6 +7,10 @@ const overlay = document.getElementById("board-overlay");
 function popUpAddTask(ele, columnV) {
   columnVal = columnV;
   const isHidden = ele.classList.contains("hide");
+  if (document.getElementById("board-task-information").className === "hide" && document.getElementById("board-task-edit").className === "") {
+    document.getElementById("board-task-information").classList.remove("hide");
+    document.getElementById("board-task-edit").classList.add("hide");    
+  }
   if (isHidden) {
     ele.classList.remove("hide", "slide-out");
     ele.classList.add("slide-in", "pop-up");
@@ -118,11 +122,47 @@ async function defineTicketDetailVariables(ticket, mode, index) {
   if(mode === "view") {  
     renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index);
   } else if (mode === "edit") {
-    editTicket(title, description);
+    editTicket(title, description, priority, assignedTo, subtasks, index);
   }
 }
 
-async function editTicket (title, description) {
-    document.getElementById("task-title-edit").placeholder = title;
-    document.getElementById("task-description-edit").placeholder = description;
+function checkEditedValues(ele) {
+  let index = ele.dataset.index;
+  let title = "";
+  let description = "";
+  if(document.getElementById("task-title-edit").value) {
+    title = document.getElementById("task-title-edit").value;    
+  };
+  if(document.getElementById("task-description-edit").value) {
+    description = document.getElementById("task-description-edit").value;    
+  };
+  takeOverEditedTicket(index, title, description);
+}
+
+function takeOverEditedTicket(index, titleEdit, descriptionEdit) {
+  let editedTicket = {
+    title: titleEdit,
+    description: descriptionEdit
+  }
+  saveEditedTaskToFirebase(index, editedTicket);
+}
+
+async function saveEditedTaskToFirebase(index, ticketData) {
+  try {
+    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`);
+    let ticket = await response.json();
+    let updatedTicket = {
+      ...ticket,
+      ...ticketData
+    };
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTicket),
+    });
+  } catch (error) {
+    console.error("Fehler beim Speichern:", error);
+  }
 }

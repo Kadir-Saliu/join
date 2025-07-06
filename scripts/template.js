@@ -79,3 +79,60 @@ async function renderTicketDetails(category, categoryColor, title, description, 
         <button data-ticketIndex=${index} data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
 }
+
+
+
+async function editTicket (title, description, priority, assignedTo, subtasks, index) {
+  let userSpans = assignedTo.map((user, i) => {
+        let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
+        return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
+    }).join("");
+  let subtaskEle = subtasks.map((subtask) => {        
+      return `<li>${subtask}</li>
+      `;
+  }).join("");
+  document.querySelectorAll(".set-priority").forEach((ele, i) => {
+  if(ele.innerText.toLowerCase().trim() === priority) {
+    ele.classList.add(priority);
+  } else {
+    ele.classList.remove(ele.innerText.toLowerCase().trim());
+  }
+  });
+
+  document.getElementById("board-task-edit").innerHTML =
+  `
+<button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
+    <div class="add-task-text-div" id="edit-add-task-text-div">
+        <div class="span-div">
+            <p>Title</p>
+        </div>
+        <input type="text" placeholder="${title}" id="task-title-edit">
+        <p class="margin-top-24">Description</p>
+        <textarea name="" id="task-description-edit" placeholder="${description}"></textarea>
+        <div class="span-div">
+            <p class="margin-top-24">Due date</p>
+        </div>
+        <input type="date" id="task-date-edit">
+        <p class="margin-top-24">Priority</p>
+        <div class="add-task-importance-selection">
+            <button class="priority-button set-priority" onclick="setPriority('urgent', this)">Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
+            <button class="priority-button set-priority" onclick="setPriority('medium', this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
+            <button class="priority-button set-priority" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+        </div>
+        <p class="margin-top-24">Assigned to</p>
+        <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user')">
+        <div id="drop-down-users-edit" class="hide">
+        </div>
+        <div id="edit-render-user">${userSpans}</div>
+        <p class="margin-top-24">Subtasks</p>
+        <div class="subtask-div">
+            <input type="text" name="" id="" placeholder="Add new subtask">
+            <button>+</button>
+        </div>
+        <ul id="subtask-edit-render">
+        ${subtaskEle}
+        </ul>
+    </div>
+    <button id="board-task-edit-ok" data-index="${index}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
+  `
+}

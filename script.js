@@ -90,10 +90,6 @@ function popUpDropDownCategory() {
   document.getElementById("drop-down-category").classList.toggle("hide");
 }
 
-function popUpDropDownUsersInEdit() {
-  document.getElementById("drop-down-users-edit").classList.toggle("hide");
-}
-
 function popUpDropDownUsersInBoard() {
   document.getElementById("drop-down-users-board").classList.toggle("hide");
 }
