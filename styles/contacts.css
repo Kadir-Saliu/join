@@ -32,6 +32,16 @@
   font-size: 27px;
 }
 
+.contacts {
+  padding: 32px 76px 32px 76px;
+}
+
+.contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .add-contact-button {
   display: flex;
   justify-content: center;
@@ -52,4 +62,14 @@
 
 .add-contact-button:hover {
   background-color: rgb(0, 190, 232);
+}
+
+.email-color {
+  color: #007cee;
+  font-size: 16px;
+}
+
+.contact-list-name {
+  font-size: 20px;
+  padding-bottom: 5px;
 }
