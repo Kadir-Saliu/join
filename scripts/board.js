@@ -41,23 +41,28 @@ function switchEditInfoMenu(ele) {
 }
 
 async function renderTickets(ticket) {
-  for (let index = 0; index < ticket[0].length; index++) {
-    let description = ticket[0][index].description || "";
-    let title = ticket[0][index].title;
-    let category = ticket[0][index].category;
-    let categoryCss = ticket[0][index].category.replace(" ", "-").toLowerCase();
-    let assignedTo = ticket[0][index].assignedTo || [];
-    let priority = ticket[0][index].priority || [];
-    document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(
-      title,
-      description,
-      category,
-      categoryCss,
-      assignedTo,
-      priority,
-      index
-    );
+  console.log(ticketCounter);
+  
+  for (let index = 0; index < ticketCounter; index++) {
+    if (ticket[index]) {
+      document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML = "";
+      let description = ticket[0][index].description || "";
+      let title = ticket[0][index].title;
+      let category = ticket[0][index].category;
+      let categoryCss = ticket[0][index].category.replace(" ", "-").toLowerCase();
+      let assignedTo = ticket[0][index].assignedTo || [];
+      let priority = ticket[0][index].priority || [];
+      document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(
+        title,
+        description,
+        category,
+        categoryCss,
+        assignedTo,
+        priority,
+        index
+      );
     toggleNoTaskContainer(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`);
+    };
   }
 }
 
@@ -102,7 +107,9 @@ async function renderTicketOverlay(ele) {
     let responseJson = await response.json();
     let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
     let index = ele.dataset.ticketindex;
-    let mode = ele.dataset.mode;    
+    let mode = ele.dataset.mode;   
+    console.log(index);
+     
     defineTicketDetailVariables(tickets[0][index], mode, index);
   } catch (error) {
     console.log("error");
@@ -122,32 +129,52 @@ async function defineTicketDetailVariables(ticket, mode, index) {
   if(mode === "view") {  
     renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index);
   } else if (mode === "edit") {
-    editTicket(title, description, priority, assignedTo, subtasks, index);
+    editTicket(title, description, priority, assignedTo, subtasks, index, mode);
   }
 }
 
 function checkEditedValues(ele) {
-  let index = ele.dataset.index;
+  let index = ele.dataset.ticketindex;
   let title = "";
   let description = "";
+  let date;
   if(document.getElementById("task-title-edit").value) {
     title = document.getElementById("task-title-edit").value;    
   };
   if(document.getElementById("task-description-edit").value) {
     description = document.getElementById("task-description-edit").value;    
   };
-  takeOverEditedTicket(index, title, description);
+  if(document.getElementById("task-date-edit").value) {
+    date = document.getElementById("task-date-edit").value;    
+  };
+  ele.dataset.mode = "view";
+  takeOverEditedTicket(ele, index, title, description, date);
 }
 
-function takeOverEditedTicket(index, titleEdit, descriptionEdit) {
-  let editedTicket = {
-    title: titleEdit,
-    description: descriptionEdit
+function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit) {
+  let editedTicket = {};
+
+  if (titleEdit) {
+    editedTicket.title = titleEdit;
   }
-  saveEditedTaskToFirebase(index, editedTicket);
+  if (descriptionEdit) {
+    editedTicket.description = descriptionEdit;
+  }
+  if (dateEdit) {
+    editedTicket.date = dateEdit;
+  }
+  editedTicket.priority = buttonPriority;
+  let selectedUsers = getSelectedUsers();
+  editedTicket.assignedTo = selectedUsers;
+  subtaskArray = [];
+  document.querySelectorAll(".subtask-li").forEach(li => {
+    subtaskArray.push(li.innerText);    
+  });
+  editedTicket.subtask = subtaskArray;
+  saveEditedTaskToFirebase(ele, index, editedTicket);
 }
 
-async function saveEditedTaskToFirebase(index, ticketData) {
+async function saveEditedTaskToFirebase(ele, index, ticketData) {
   try {
     let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`);
     let ticket = await response.json();
@@ -162,7 +189,26 @@ async function saveEditedTaskToFirebase(index, ticketData) {
       },
       body: JSON.stringify(updatedTicket),
     });
+    renderTicketOverlay(ele);
+    getTicketData();
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
+  }
+}
+
+function addNewSubtask () {
+  document.getElementById("subtask-edit-render").innerHTML += `<li class="subtask-li">${document.getElementById("edit-subtask").value}</li>`
+}
+
+async function deleteTicket(index) {
+  try {
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`, {
+      method: "DELETE"
+    });
+    overlay.classList.add("hide");
+    document.getElementById("board-task-pop-up").add("hide");
+    getTicketData();
+  } catch (error) {
+    console.error("Fehler beim Löschen des Tickets:", error);
   }
 }

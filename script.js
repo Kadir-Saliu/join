@@ -22,12 +22,13 @@ async function summaryInit() {
 
 async function boardInit() {
   loadNavigationAndSetInitials();
+  getTicketCounter();
   getTicketData();
-  
 }
 
 async function addTaskInit() {
   loadNavigationAndSetInitials();
+  getTicketCounter();
 }
 
 async function contactsInit() {
@@ -151,5 +152,14 @@ function setProfileInitials() {
     document.getElementById("profile").innerText = loggedInUser.initals;
   } else {
     document.getElementById("profile").innerText = "G";
+  }
+}
+
+async function getTicketCounter() {
+  try {
+    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketcounter.json`);
+    ticketCounter = await response.json() || 0;
+  } catch (error) {
+    console.error("Fehler beim Laden des Counters:", error);
   }
 }

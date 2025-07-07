@@ -10,6 +10,7 @@ let ticketID = 0;
 const addedUserfeedback = document.getElementById("added-userfeedback");
 let subtaskCounter = 0;
 let columnVal = 'To do';
+let ticketCounter;
 
 document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal);
@@ -199,6 +200,8 @@ async function saveTaskToFirebase(ticketData) {
       },
       body: JSON.stringify(ticketData),
     });   
+    ticketCounter++;
+    updateTicketCounter();
     addedUserfeedback.classList.remove("hide");
     addedUserfeedback.classList.add("show"); 
     setTimeout(() => {
@@ -206,5 +209,19 @@ async function saveTaskToFirebase(ticketData) {
     }, 1000);
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
+  }
+}
+
+async function updateTicketCounter() {
+ try {
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketcounter.json`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ticketCounter),
+    });
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren des Counters:", error);
   }
 }

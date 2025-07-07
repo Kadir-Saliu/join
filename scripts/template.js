@@ -74,7 +74,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
         <ul>${subtaskEle}</ul>
     </div>
     <div id="pop-up-bottom-buttons">
-        <button><img src="./assets/icon/bin.svg" alt="">Delete</button>
+        <button onclick="deleteTicket(${index})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
         <button data-ticketIndex=${index} data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
@@ -82,22 +82,15 @@ async function renderTicketDetails(category, categoryColor, title, description, 
 
 
 
-async function editTicket (title, description, priority, assignedTo, subtasks, index) {
+async function editTicket (title, description, priority, assignedTo, subtasks, index, mode) {
   let userSpans = assignedTo.map((user, i) => {
         let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
-        return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
+        return `<span data-name="${user}" class="user-icon User-bc-${(i + 1) % 15} user-icon-selected">${initials}</span>`;
     }).join("");
   let subtaskEle = subtasks.map((subtask) => {        
-      return `<li>${subtask}</li>
+      return `<li class="subtask-li">${subtask}</li>
       `;
   }).join("");
-  document.querySelectorAll(".set-priority").forEach((ele, i) => {
-  if(ele.innerText.toLowerCase().trim() === priority) {
-    ele.classList.add(priority);
-  } else {
-    ele.classList.remove(ele.innerText.toLowerCase().trim());
-  }
-  });
 
   document.getElementById("board-task-edit").innerHTML =
   `
@@ -126,13 +119,21 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         <div id="edit-render-user">${userSpans}</div>
         <p class="margin-top-24">Subtasks</p>
         <div class="subtask-div">
-            <input type="text" name="" id="" placeholder="Add new subtask">
-            <button>+</button>
+            <input type="text" name="" id="edit-subtask" placeholder="Add new subtask">
+            <button onclick="addNewSubtask()">+</button>
         </div>
         <ul id="subtask-edit-render">
         ${subtaskEle}
         </ul>
     </div>
-    <button id="board-task-edit-ok" data-index="${index}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
-  `
+    <button id="board-task-edit-ok" data-ticketindex="${index}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
+  `;
+  document.querySelectorAll(".set-priority").forEach((ele) => {
+  if(ele.innerText.toLowerCase().trim() === priority) {
+    ele.classList.add(priority);
+    buttonPriority = priority;
+  } else {
+    ele.classList.remove(ele.innerText.toLowerCase().trim());
+  }
+  });
 }

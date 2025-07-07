@@ -394,8 +394,17 @@ button {
   margin-bottom: 25px;
 }
 
+#subtasks-div ul {
+  list-style-type: none;
+}
+
 #subtasks-div li {
   font-size: 14px;
+}
+
+#subtasks-div input {
+  margin-right: 16px;
+  cursor: pointer;
 }
 
 #edit-render-user span {
