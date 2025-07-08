@@ -47,7 +47,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     }).join("");
 
     let subtaskEle = subtasks.map((subtask, i) => {        
-        return `<li><input data-index="${i}" type="checkbox">${subtask}</li>
+        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
         `;
     }).join("");
     
@@ -87,8 +87,8 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
         return `<span data-name="${user}" class="user-icon User-bc-${(i + 1) % 15} user-icon-selected">${initials}</span>`;
     }).join("");
-  let subtaskEle = subtasks.map((subtask) => {        
-      return `<li class="subtask-li">${subtask}</li>
+  let subtaskEle = subtasks.map((subtask, i) => {        
+      return `<li class="subtask-li" data-index="${i}">${subtask.text}</li>
       `;
   }).join("");
 

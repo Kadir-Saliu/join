@@ -1,6 +1,7 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
 const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
 const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
+let tickets;
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
@@ -22,13 +23,11 @@ async function summaryInit() {
 
 async function boardInit() {
   loadNavigationAndSetInitials();
-  getTicketCounter();
   getTicketData();
 }
 
 async function addTaskInit() {
   loadNavigationAndSetInitials();
-  getTicketCounter();
 }
 
 async function contactsInit() {
@@ -60,7 +59,7 @@ async function getTicketData() {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-    let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
+    tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
     renderTickets(tickets);
     return tickets;
   } catch (error) {
@@ -152,14 +151,5 @@ function setProfileInitials() {
     document.getElementById("profile").innerText = loggedInUser.initals;
   } else {
     document.getElementById("profile").innerText = "G";
-  }
-}
-
-async function getTicketCounter() {
-  try {
-    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketcounter.json`);
-    ticketCounter = await response.json() || 0;
-  } catch (error) {
-    console.error("Fehler beim Laden des Counters:", error);
   }
 }

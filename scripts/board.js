@@ -41,18 +41,23 @@ function switchEditInfoMenu(ele) {
 }
 
 async function renderTickets(ticket) {
-  console.log(ticketCounter);
-  
-  for (let index = 0; index < ticketCounter; index++) {
-    if (ticket[index]) {
-      document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML = "";
-      let description = ticket[0][index].description || "";
-      let title = ticket[0][index].title;
-      let category = ticket[0][index].category;
-      let categoryCss = ticket[0][index].category.replace(" ", "-").toLowerCase();
-      let assignedTo = ticket[0][index].assignedTo || [];
-      let priority = ticket[0][index].priority || [];
-      document.getElementById(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`).innerHTML += ticketTemplate(
+  const ticketsArray = ticket[0];
+  document.getElementById("to-do-div").innerHTML = "";
+  document.getElementById("in-progress-div").innerHTML = "";
+  document.getElementById("await-feedback-div").innerHTML = "";
+  Object.entries(ticketsArray).forEach(([index, t]) => {
+    if (t) {
+      const columnId = `${t.column.replace(" ", "-").toLowerCase()}-div`;
+
+
+      let description = t.description || "";
+      let title = t.title;
+      let category = t.category;
+      let categoryCss = t.category.replace(" ", "-").toLowerCase();
+      let assignedTo = t.assignedTo || [];
+      let priority = t.priority || [];
+
+      document.getElementById(columnId).innerHTML += ticketTemplate(
         title,
         description,
         category,
@@ -61,9 +66,10 @@ async function renderTickets(ticket) {
         priority,
         index
       );
-    toggleNoTaskContainer(`${ticket[0][index].column.replace(" ", "-").toLowerCase()}-div`);
-    };
-  }
+
+      toggleNoTaskContainer(columnId);
+    }
+  });
 }
 
 function toggleNoTaskContainer(taskDiv) {
@@ -107,8 +113,7 @@ async function renderTicketOverlay(ele) {
     let responseJson = await response.json();
     let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
     let index = ele.dataset.ticketindex;
-    let mode = ele.dataset.mode;   
-    console.log(index);
+    let mode = ele.dataset.mode;
      
     defineTicketDetailVariables(tickets[0][index], mode, index);
   } catch (error) {
@@ -168,7 +173,10 @@ function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit) 
   editedTicket.assignedTo = selectedUsers;
   subtaskArray = [];
   document.querySelectorAll(".subtask-li").forEach(li => {
-    subtaskArray.push(li.innerText);    
+    subtaskArray.push({
+            text: li.innerText,
+            checked: false
+        });    
   });
   editedTicket.subtask = subtaskArray;
   saveEditedTaskToFirebase(ele, index, editedTicket);
@@ -206,9 +214,20 @@ async function deleteTicket(index) {
       method: "DELETE"
     });
     overlay.classList.add("hide");
-    document.getElementById("board-task-pop-up").add("hide");
+    document.getElementById("board-task-pop-up").classList.add("hide");
     getTicketData();
   } catch (error) {
     console.error("Fehler beim Löschen des Tickets:", error);
   }
+}
+
+function toggleSubtask(input) {
+  let subIndex = input.dataset.index;
+  let ticketIndex = input.dataset.ticketindex;
+  let currentChecked = tickets[0][ticketIndex].subtask[subIndex].checked;
+  tickets[0][ticketIndex].subtask[subIndex].checked = !currentChecked;
+  let partialUpdate = {
+    subtask: tickets[0][ticketIndex].subtask
+  };
+  saveEditedTaskToFirebase(input, ticketIndex, partialUpdate);
 }

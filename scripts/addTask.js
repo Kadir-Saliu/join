@@ -10,7 +10,7 @@ let ticketID = 0;
 const addedUserfeedback = document.getElementById("added-userfeedback");
 let subtaskCounter = 0;
 let columnVal = 'To do';
-let ticketCounter;
+let ticketCounter = 0;
 
 document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal);
@@ -135,7 +135,10 @@ function renderSelectedUsers(id) {
 
 function addSubtask() {
     if(subtask.value) {
-        subtaskArray.push(subtask.value);
+        subtaskArray.push({
+            text: subtask.value,
+            checked: subtask.checked
+        });
         document.getElementById("subtask-render-div").innerHTML +=`<li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
                                                                         ${subtask.value} 
                                                                         <div class="li-buttons hide">
@@ -181,47 +184,44 @@ function resetPriority() {
 
 function deleteSubtask(ele) {
     for (let index = 0; index < subtaskArray.length; index++) {
-        if(ele.parentElement.parentElement.innerText === subtaskArray[index] && ele.dataset.index == index) {
+        if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
             subtaskArray.splice(index, 1);         
         }
     }
+    subtaskCounter--;
     ele.parentElement.parentElement.remove();
 }
 
 async function saveTaskToFirebase(ticketData) {
   try {
-    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket.json`);
-    let ticket = await response.json();
-    let newId = ticket.length;
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${newId}.json`, {
+    let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
+    let ticketCounter = await counterResponse.json();
+
+    if (ticketCounter === null) {
+      ticketCounter = 0;
+    }
+    ticketCounter++;
+
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(ticketData),
-    });   
-    ticketCounter++;
-    updateTicketCounter();
-    addedUserfeedback.classList.remove("hide");
-    addedUserfeedback.classList.add("show"); 
-    setTimeout(() => {
-        window.location.href = "board.html";
-    }, 1000);
-  } catch (error) {
-    console.error("Fehler beim Speichern:", error);
-  }
-}
-
-async function updateTicketCounter() {
- try {
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketcounter.json`, {
+    });
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(ticketCounter),
+      body: JSON.stringify(ticketCounter)
     });
+    addedUserfeedback.classList.remove("hide");
+    addedUserfeedback.classList.add("show");
+    setTimeout(() => {
+      window.location.href = "board.html";
+    }, 1000);
   } catch (error) {
-    console.error("Fehler beim Aktualisieren des Counters:", error);
+    console.error("Fehler beim Speichern:", error);
   }
 }
