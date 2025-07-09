@@ -3,6 +3,8 @@
   height: calc(100vh - 100px);
   background-color: #ffffff;
   box-shadow: 3px 3px 3px rgb(230, 231, 231);
+  display: flex;
+  flex-direction: column;
 }
 
 .contacts-page {
@@ -33,13 +35,24 @@
 }
 
 .contacts {
-  padding: 32px 76px 32px 76px;
+  padding-left: 52px;
+  flex: 1 1 auto;
+  overflow-y: auto;
 }
 
 .contact {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  margin-left: 32px;
+}
+
+.contact-details {
+  margin-left: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .add-contact-button {
@@ -51,13 +64,17 @@
   color: #ffffff;
   font-size: 21px;
   font-weight: 700;
-  height: 56px;
+  min-height: 56px;
   width: 352px;
   border-radius: 10px;
   margin-top: 22px;
   margin-left: 52px;
+  margin-bottom: 29px;
   cursor: pointer;
   border: none;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .add-contact-button:hover {
@@ -72,4 +89,14 @@
 .contact-list-name {
   font-size: 20px;
   padding-bottom: 5px;
+}
+
+.letter {
+  font-size: 20px;
+  padding-bottom: 25px;
+  margin-left: 32px;
+}
+
+hr {
+  width: 352px;
 }

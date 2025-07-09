@@ -1,5 +1,5 @@
 function userDropDownTemplate(name, inititals, index, id) {
-    return `<div>
+  return `<div>
                 <div>
                     <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
                     <p>${name}</p>
@@ -9,13 +9,18 @@ function userDropDownTemplate(name, inititals, index, id) {
 }
 
 function ticketTemplate(title, description, category, categoryCss, assignedTo, priority) {
-    let userSpans = assignedTo.map((user, i) => {
-        let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
-        return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
-    }).join("");
-    
+  let userSpans = assignedTo
+    .map((user, i) => {
+      let initials = user
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+      return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
+    })
+    .join("");
 
-    return `
+  return `
         <div class="kanban-task" onclick="popUpAddTask(popuptask)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
@@ -33,5 +38,24 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
               <img src="./assets/icon/${priority}.svg" alt="" />
             </div>
           </div>
-    `
+    `;
+}
+
+function getInitialTemplate(inital) {
+  return /*html*/ `
+    <div class="letter">${inital}</div>
+    <hr>
+  `;
+}
+
+function getContactTemplate(contact, initials) {
+  return /*html*/ `
+    <div class="contact">
+        <div>${initials}</div>
+        <div class="contact-details">
+            <div class="contact-list-name">${contact.name}</div>
+            <div class="email-color">${contact.email}</div>
+        </div>
+    </div>
+  `;
 }
