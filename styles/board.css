@@ -207,11 +207,11 @@ button {
 /* individual background-colors */
 
 .user-story {
-  background-color: rgb(0, 56, 255);
+  background-color: rgb(0, 56, 255) !important;
 }
 
 .technical-task {
-  background-color: rgb(31, 215, 193);
+  background-color: rgb(31, 215, 193) !important;
 }
 
 #drop-down-users-edit {
@@ -382,4 +382,36 @@ button {
     opacity: 1;
     transform: translateX(-50%) scale(1);
   }
+}
+
+.ticket-detail-user-div {
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 16px;
+}
+
+#subtasks-div p {
+  margin-bottom: 25px;
+}
+
+#subtasks-div ul {
+  list-style-type: none;
+}
+
+#subtasks-div li {
+  font-size: 14px;
+}
+
+#subtasks-div input {
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+#edit-render-user span {
+  margin-left: 8px;
+  margin-top: 8px;
+}
+
+#subtask-edit-render {
+  padding-top: 20px;
 }
