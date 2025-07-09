@@ -8,7 +8,7 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-function ticketTemplate(title, description, category, categoryCss, assignedTo, priority) {
+function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index) {
   let userSpans = assignedTo
     .map((user, i) => {
       let initials = user
@@ -57,7 +57,7 @@ function getContactTemplate(contact, initials) {
             <div class="email-color">${contact.email}</div>
         </div>
     </div>
-  `;    `
+  `;    
 }
 
 async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {
