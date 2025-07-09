@@ -40,7 +40,8 @@ footer div span:hover {
   cursor: pointer;
 }
 
-#login-div, #sign-up-div {
+#login-div,
+#sign-up-div {
   box-shadow: 0px 0px 10px lightgray;
 }
 
@@ -87,11 +88,10 @@ footer div span:hover {
 }
 
 main {
-  flex-grow: 1;
   display: flex;
-  width: 100%;
   justify-content: center;
   align-items: center;
+  margin: 0 !important;
 }
 
 .menu-div {

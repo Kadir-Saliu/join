@@ -6,6 +6,10 @@ header {
   display: flex;
   align-items: center;
   background-color: white;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 3px 3px rgb(230, 231, 231);
 }
 
 header h2 {
@@ -27,7 +31,7 @@ header h2 {
   padding-right: 30px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .user-account {

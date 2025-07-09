@@ -1,5 +1,5 @@
 function userDropDownTemplate(name, inititals, index, id) {
-    return `<div>
+  return `<div>
                 <div>
                     <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
                     <p>${name}</p>
@@ -8,12 +8,17 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index) {
-    let userSpans = assignedTo.map((user, i) => {
-        let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
-        return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
-    }).join("");
-    
+function ticketTemplate(title, description, category, categoryCss, assignedTo, priority) {
+  let userSpans = assignedTo
+    .map((user, i) => {
+      let initials = user
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+      return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
+    })
+    .join("");    
 
     return `
         <div class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
@@ -33,7 +38,26 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
               <img src="./assets/icon/${priority}.svg" alt="" />
             </div>
           </div>
-    `
+    `;
+}
+
+function getInitialTemplate(inital) {
+  return /*html*/ `
+    <div class="letter">${inital}</div>
+    <hr>
+  `;
+}
+
+function getContactTemplate(contact, initials) {
+  return /*html*/ `
+    <div class="contact">
+        <div>${initials}</div>
+        <div class="contact-details">
+            <div class="contact-list-name">${contact.name}</div>
+            <div class="email-color">${contact.email}</div>
+        </div>
+    </div>
+  `;    `
 }
 
 async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {

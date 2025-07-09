@@ -2,12 +2,6 @@ html {
   overflow: hidden;
 }
 
-main {
-  flex-grow: 1;
-  width: calc(100% - 232px);
-  margin-left: 232px;
-}
-
 h1 {
   font-size: 48px;
 }

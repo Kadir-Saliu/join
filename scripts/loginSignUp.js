@@ -27,13 +27,17 @@ async function checkLoginData(data) {
   const user = data.users.find((user) => user.Email === email);
 
   if (user && user.Password === password) {
-    loggedInUser.username = user.name;
-    loggedInUser.initals = user.name.split(" ")[0][0] + user.name.split(" ")[1][0];
-    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    saveUserToLocalStorage(user);
     window.location.href = "summary.html";
   } else {
     wrongPassword();
   }
+}
+
+function saveUserToLocalStorage(user) {
+  loggedInUser.username = user.name;
+  loggedInUser.initals = user.name.split(" ")[0][0] + user.name.split(" ")[1][0];
+  localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 }
 
 /**
@@ -81,6 +85,9 @@ async function signUpUser() {
       Password: document.getElementById("password-input-sign-up").value,
       "phone number": "",
     };
+    loggedInUser.username = newUser.name;
+    loggedInUser.initals = newUser.name.split(" ")[0][0] + newUser.name.split(" ")[1][0];
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   } else {
     document.getElementById("missing-checkbox-info-sign-up").innerText = "You need to accept the Privacy policy to continue.";
     return;
@@ -94,11 +101,11 @@ async function signUpUser() {
  */
 async function saveUserToFirebase(userData) {
   try {
-    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json`);
+    let response = await fetch(BASE_URL_USERS);
     let contacts = await response.json();
     let newId = contacts.length;
     userData.id = newId;
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -146,5 +153,5 @@ function showSuccessAnimationAndRedirect() {
   message.style.animation = "slideMessage 3.5s forwards";
   setTimeout(() => {
     window.location.href = "summary.html";
-  }, 3500); // nach der Animation umleiten
+  }, 3500);
 }

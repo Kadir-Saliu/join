@@ -1,6 +1,7 @@
 const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
 const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
 const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
+const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
 let tickets;
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
@@ -32,18 +33,19 @@ async function addTaskInit() {
 
 async function contactsInit() {
   loadNavigationAndSetInitials();
+  showContacts();
 }
 
 /**
  * get contact data
  * @param {*} event - parameter to prevent Default behaviour
  */
-async function getContactsData(event) {
+async function getUsersData(event) {
   event.preventDefault();
   try {
     let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter((contact) => contact !== null);
+    let users = Object.values(responseJson || {}).filter((user) => user !== null);
     checkLoginData({ users });
   } catch (error) {
     console.log("error");
@@ -62,6 +64,23 @@ async function getTicketData() {
     tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
     renderTickets(tickets);
     return tickets;
+  } catch (error) {
+    console.log("error");
+  }
+}
+
+/**
+ * This function gets the contact list of the user.
+ *
+ * @param {json} user
+ * @returns contacts
+ */
+async function getContactsData(user) {
+  try {
+    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`);
+    let responseJson = await response.json();
+    let contacts = Object.values(responseJson || {}).filter((contact) => contact !== null);
+    return contacts;
   } catch (error) {
     console.log("error");
   }
