@@ -2,6 +2,7 @@ const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.
 const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
 const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
 const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
+let tickets;
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
@@ -60,7 +61,7 @@ async function getTicketData() {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-    let tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
+    tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
     renderTickets(tickets);
     return tickets;
   } catch (error) {
@@ -106,10 +107,6 @@ function popUpAccNav() {
 
 function popUpDropDownCategory() {
   document.getElementById("drop-down-category").classList.toggle("hide");
-}
-
-function popUpDropDownUsersInEdit() {
-  document.getElementById("drop-down-users-edit").classList.toggle("hide");
 }
 
 function popUpDropDownUsersInBoard() {
