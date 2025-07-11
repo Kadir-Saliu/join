@@ -29,7 +29,7 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
                 <div>
                     <div></div>
                 </div>
-                <p></p>
+                <p id="p-subtask-${index}" class="hide">Subtasks</p>
             </div>
             <div class="assigned-users">
               <div>
@@ -60,7 +60,7 @@ function getContactTemplate(contact, initials) {
   `;    
 }
 
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {
+async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {  
     let userSpans = assignedTo.map((user, i) => {
         let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
         return `<div class="ticket-detail-user-div">

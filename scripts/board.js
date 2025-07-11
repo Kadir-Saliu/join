@@ -56,6 +56,7 @@ async function renderTickets(ticket) {
       let categoryCss = t.category.replace(" ", "-").toLowerCase();
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
+      let subtasks = t.subtask;
 
       document.getElementById(columnId).innerHTML += ticketTemplate(
         title,
@@ -67,9 +68,17 @@ async function renderTickets(ticket) {
         index
       );
 
+      renderSubtaskProgress(index, subtasks);
       toggleNoTaskContainer(columnId);
     }
   });
+}
+
+function renderSubtaskProgress(index, subtasks) {
+  if(subtasks) {
+    document.getElementById(`p-subtask-${index}`).classList.remove("hide")
+  }
+  
 }
 
 function toggleNoTaskContainer(taskDiv) {
