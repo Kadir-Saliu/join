@@ -33,7 +33,7 @@ async function dropDownUsers(id, renderId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
-        console.log(responseJson);
+        changeDropDownArrow();
         iterateContacts(responseJson, id, renderId);
     } catch (error) {
         console.log("error");
@@ -58,6 +58,14 @@ async function iterateContacts(responseJson, id, renderId) {
         document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId);   
     }
 }
+
+function changeDropDownArrow() {
+    if(document.getElementById("drop-down-users-input-img").src.includes("arrow_down")) {
+        document.getElementById("drop-down-users-input-img").src = "./assets/imgs/arrow_up.png"
+    } else if (document.getElementById("drop-down-users-input-img").src.includes("arrow_up")) {
+        document.getElementById("drop-down-users-input-img").src = "./assets/imgs/arrow_down.png"
+    }
+};
 
 function checkRequiredInput(columnValue) {
     let hasError = false;

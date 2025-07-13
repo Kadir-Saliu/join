@@ -52,12 +52,17 @@
             </button>
           </div>
           <p>Assigned to</p>
-          <input
-            id="drop-down-users-input"
-            class="drop-down-selection"
-            placeholder="Select Contacts to assign"
-            onclick="dropDownUsers('drop-down-users', 'render-selected-users')"
-          />
+          <div id="drop-down-users-input-div">
+            <input
+              id="drop-down-users-input"
+              class="drop-down-selection"
+              placeholder="Select Contacts to assign"
+              onclick="dropDownUsers('drop-down-users', 'render-selected-users')"
+            />
+            <div id="drop-down-users-input-img-div">
+              <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
+            </div>
+          </div>
           <div id="drop-down-users" class="hide"></div>
           <div id="render-selected-users"></div>
           <div class="span-div">

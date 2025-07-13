@@ -425,7 +425,7 @@ button {
 
 .subtask-progress-div {
   display: flex;
-  justify-content: center;
+  align-items: center;
   gap: 8px;
 }
 
@@ -434,6 +434,7 @@ button {
   height: 8px;
   background-color: rgb(244, 244, 244);
   border-radius: 5px;
+  margin-bottom: 24px;
 }
 
 .subtask-progress-blue-div {
