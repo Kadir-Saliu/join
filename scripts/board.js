@@ -1,6 +1,8 @@
 const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
+let subtaskCount = 0;
+let subtaskWidth = 0;
 /**
  * function to open/close the addTask pop-up
  */
@@ -56,7 +58,9 @@ async function renderTickets(ticket) {
       let categoryCss = t.category.replace(" ", "-").toLowerCase();
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
-      let subtasks = t.subtask;
+      let subtasks = t.subtask || [];
+      
+      calculateSubtaskCounter(subtasks);
 
       document.getElementById(columnId).innerHTML += ticketTemplate(
         title,
@@ -65,7 +69,8 @@ async function renderTickets(ticket) {
         categoryCss,
         assignedTo,
         priority,
-        index
+        index,
+        subtasks
       );
 
       renderSubtaskProgress(index, subtasks);
@@ -74,11 +79,23 @@ async function renderTickets(ticket) {
   });
 }
 
-function renderSubtaskProgress(index, subtasks) {
-  if(subtasks) {
-    document.getElementById(`p-subtask-${index}`).classList.remove("hide")
+function calculateSubtaskCounter(subtasks) {
+  subtaskCount = 0;
+  subtaskWidth = 0;
+  if(subtasks[0]) {
+    subtasks.forEach(ele => {
+      if(ele.checked) {
+        subtaskCount++;
+      }      
+    });
+    subtaskWidth = subtaskCount / subtasks.length * 100;
   }
-  
+};
+
+function renderSubtaskProgress(index, subtasks) {
+  if(subtasks[0]) {       
+    document.getElementById(`p-subtask-${index}`).classList.remove("hide")  
+  }
 }
 
 function toggleNoTaskContainer(taskDiv) {

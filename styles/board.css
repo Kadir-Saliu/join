@@ -409,3 +409,27 @@ button {
 #subtask-edit-render {
   padding-top: 20px;
 }
+
+.subtask-progress-div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.subtask-progress-grey-div {
+  width: 100px;
+  height: 8px;
+  background-color: rgb(244, 244, 244);
+  border-radius: 5px;
+}
+
+.subtask-progress-blue-div {
+  height: 8px;
+  background-color: rgb(69, 137, 255);
+  border-radius: 5px;
+}
+
+.subtask-count {
+  color: black !important;
+  font-size: 12px;
+}

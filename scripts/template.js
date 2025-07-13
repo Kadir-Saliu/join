@@ -8,7 +8,7 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index) {
+function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks) {
   let userSpans = assignedTo
     .map((user, i) => {
       let initials = user
@@ -25,11 +25,11 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
             <p>${description}</p>
-            <div>
-                <div>
-                    <div></div>
+            <div id="p-subtask-${index}" class="subtask-progress-div hide">
+                <div class="subtask-progress-grey-div">
+                    <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>
                 </div>
-                <p id="p-subtask-${index}" class="hide">Subtasks</p>
+                <p class="subtask-count">${subtaskCount}/${subtasks.length} Subtasks</p>
             </div>
             <div class="assigned-users">
               <div>
