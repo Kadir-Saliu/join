@@ -125,10 +125,10 @@ function renderSelectedUsers(id) {
             let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
             userIconClasses.forEach(spanClass => {
                 if(spanClass.innerText === initials) {
-                    userIconColor = spanClass.classList[1];            
+                    userIconColor = spanClass.dataset.bcindex;
                 } 
             });
-            document.getElementById(id).innerHTML += `<span class="user-icon-selected ${userIconColor}" data-name="${cb.value}">${initials}</span>`
+            document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`
         }
     }); 
 }
