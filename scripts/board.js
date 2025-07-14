@@ -1,6 +1,8 @@
 const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
+let subtaskCount = 0;
+let subtaskWidth = 0;
 /**
  * function to open/close the addTask pop-up
  */
@@ -45,7 +47,8 @@ async function renderTickets(ticket) {
   document.getElementById("to-do-div").innerHTML = "";
   document.getElementById("in-progress-div").innerHTML = "";
   document.getElementById("await-feedback-div").innerHTML = "";
-  Object.entries(ticketsArray).forEach(([index, t]) => {
+
+  for (const [index, t] of Object.entries(ticketsArray)) {
     if (t) {
       const columnId = `${t.column.replace(" ", "-").toLowerCase()}-div`;
 
@@ -56,20 +59,44 @@ async function renderTickets(ticket) {
       let categoryCss = t.category.replace(" ", "-").toLowerCase();
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
+      let subtasks = t.subtask || [];
+      
+      calculateSubtaskCounter(subtasks);
 
-      document.getElementById(columnId).innerHTML += ticketTemplate(
+      document.getElementById(columnId).innerHTML += await ticketTemplate(
         title,
         description,
         category,
         categoryCss,
         assignedTo,
         priority,
-        index
+        index,
+        subtasks
       );
 
+      renderSubtaskProgress(index, subtasks);
       toggleNoTaskContainer(columnId);
     }
-  });
+  };
+}
+
+function calculateSubtaskCounter(subtasks) {
+  subtaskCount = 0;
+  subtaskWidth = 0;
+  if(subtasks[0]) {
+    subtasks.forEach(ele => {
+      if(ele.checked) {
+        subtaskCount++;
+      }      
+    });
+    subtaskWidth = subtaskCount / subtasks.length * 100;
+  }
+};
+
+function renderSubtaskProgress(index, subtasks) {
+  if(subtasks[0]) {       
+    document.getElementById(`p-subtask-${index}`).classList.remove("hide")  
+  }
 }
 
 function toggleNoTaskContainer(taskDiv) {
@@ -230,4 +257,18 @@ function toggleSubtask(input) {
     subtask: tickets[0][ticketIndex].subtask
   };
   saveEditedTaskToFirebase(input, ticketIndex, partialUpdate);
+}
+
+async function getUserDetails(user) {
+  try {
+    let response = await fetch(BASE_URL_USERS);
+    let responseJson = await response.json();
+    let users = Object.values(responseJson || {}).filter(u => u !== null);
+    
+    let foundUser = users.find(u => u.name === user);
+    return foundUser ? foundUser.id : 0;
+  } catch (error) {
+    console.error("error");
+    return 0;
+  }
 }
