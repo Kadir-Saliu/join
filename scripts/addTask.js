@@ -40,6 +40,31 @@ async function dropDownUsers(id, renderId) {
     }
 }
 
+async function filterUsers(id, renderId) {
+    try {
+        let response = await fetch(BASE_URL_USERS);
+        let responseJson = await response.json();
+        iterateUsers(responseJson, id, renderId);
+    } catch (error) {
+        console.log("error");
+    }
+}
+
+function iterateUsers(users, dropDownId, renderId) {
+    let name;
+    let initials;
+    let id;
+    document.getElementById('drop-down-users').innerHTML = "";
+    users.forEach(user => {
+        if(user?.name.includes(document.getElementById("drop-down-users-input").value)) {
+            name = user?.name;
+            id= user?.id;
+            initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
+            document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId); 
+        }  
+    });
+}
+
 async function iterateContacts(responseJson, id, renderId) {
     document.getElementById(id).classList.toggle("hide");
     document.getElementById(id).innerHTML = "";

@@ -59,8 +59,7 @@ textarea {
 
 #task-title:focus,
 #task-description:focus,
-#task-date:focus,
-#drop-down-users-input:focus {
+#task-date:focus {
   border: 1px solid rgb(93, 190, 231) !important;
   outline: none;
 }
@@ -352,8 +351,39 @@ textarea {
   border: 1px solid rgb(219, 219, 219);
   border-radius: 0 5px 5px 0;
   border-left: none !important;
-  box-shadow: -1px 1px rgb(219, 219, 219);
+  box-shadow: 0px 1px rgb(219, 219, 219);
   width: 24px;
+  cursor: pointer;
+}
+
+#drop-down-users-input-img-div:hover {
+  box-shadow: 0px 1px rgba(0, 0, 0, 0.4);
+}
+
+#drop-down-users-input-div:focus-within #drop-down-users-input-img-div, #drop-down-users-input {
+  border: 1px solid #00aaff !important;
+}
+
+#drop-down-users-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#drop-down-users-input-div:focus-within #drop-down-users-input-img-div {
+  border-left: none !important;
+  border-radius: 0px 4px 4px 0px;
+  box-shadow: none !important;
+}
+
+#drop-down-users-input-div:focus-within #drop-down-users-input {
+  border-right: none !important;
+  border-radius: 4px 0px 0px 4px;
+}
+
+#drop-down-users-input-img:hover {
+  border-radius: 50% !important;
+  background-color: rgb(229, 230, 230) !important;
+  padding: 4px;
 }
 
 /* userfeedback */
