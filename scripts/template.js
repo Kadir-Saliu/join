@@ -21,7 +21,7 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
     .join("");    
 
     return `
-        <div class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
+        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
             <p>${description}</p>

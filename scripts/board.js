@@ -1,6 +1,12 @@
+let allTickets = [];
 const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
+
+let currentDraggedElement;
+console.log(currentDraggedElement);
+
+
 /**
  * function to open/close the addTask pop-up
  */
@@ -41,7 +47,7 @@ function switchEditInfoMenu(ele) {
 }
 
 async function renderTickets(ticket) {
-  const ticketsArray = ticket[0];
+  const ticketsArray = ticket;
   document.getElementById("to-do-div").innerHTML = "";
   document.getElementById("in-progress-div").innerHTML = "";
   document.getElementById("await-feedback-div").innerHTML = "";
@@ -65,16 +71,35 @@ async function renderTickets(ticket) {
         assignedTo,
         priority,
         index
+        
       );
-
-      toggleNoTaskContainer(columnId);
+     toggleNoTaskContainer(columnId);
     }
+    
   });
+   allTickets.push(ticketsArray)
+      console.log(allTickets);
 }
+
+  function startDragging(index) {
+    currentDraggedElement = index ;
+  }
+
+  function allowDrop(ev) {
+    ev.preventDefault()
+  }
+
+  function moveTo(category) {
+    console.log(category);
+    allTickets[0][currentDraggedElement]['column'] = category
+    renderTickets(allTickets[0])
+  }
+
+
 
 function toggleNoTaskContainer(taskDiv) {
   let currentContainer = document.getElementById(taskDiv);
- 
+
   if (currentContainer.innerHTML !== "" && currentContainer === document.getElementById("to-do-div")) {
     document.getElementById("noTasksToDo").style.display = "none";
   }

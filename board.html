@@ -39,45 +39,45 @@
 
     <div class="kanban-board">
       <!-- To Do Column -->
-      <div class="kanban-column">
+      <div class="kanban-column" >
         <div class="kanban-header">
           <h3>To do</h3>
           <button class="add-task-btn" onclick="popUpAddTask(popup, 'To do')">+</button>
         </div>
         <div id="noTasksToDo" class="kanban-task no-tasks">No tasks in To do</div>
-        <div id="to-do-div"></div>
+        <div id="to-do-div" ondrop="moveTo('to do')" ondragover="allowDrop(event)"></div>
       </div>
 
       <!-- In Progress Column -->
-      <div class="kanban-column">
+      <div class="kanban-column" >
         <div class="kanban-header">
           <h3>In progress</h3>
           <button class="add-task-btn" onclick="popUpAddTask(popup, 'In progress')">+</button>
         </div>
         <div id="noTasksProgress" class="kanban-task no-tasks">No tasks in progress</div>
-        <div id="in-progress-div">
+        <div id="in-progress-div" ondrop="moveTo('in progress')" ondragover="allowDrop(event)">
         </div>
       </div>
 
       <!-- Await Feedback Column -->
-      <div class="kanban-column">
+      <div class="kanban-column" >
         <div class="kanban-header">
           <h3>Await feedback</h3>
           <button class="add-task-btn" onclick="popUpAddTask(popup, 'Await feedback')">+</button>
         </div>
 
         <div id="noTasksFeedback" class="kanban-task no-tasks">No tasks in await feedback</div>
-        <div id="await-feedback-div">
+        <div id="await-feedback-div" ondrop="moveTo('await feedback')" ondragover="allowDrop(event)">
         </div>
 
       </div>
 
       <!-- Done Column -->
-      <div class="kanban-column">
+      <div class="kanban-column" >
         <div class="kanban-header">
           <h3>Done</h3>
         </div>
-        <div id="done-div">
+        <div id="done-div" ondrop="moveTo('done')" ondragover="allowDrop(event)">
              <div id="noTasksDone"  class="kanban-task no-tasks">No done tickets</div>
       </div>
     </div>
