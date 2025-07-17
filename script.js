@@ -61,11 +61,13 @@ async function getTicketData() {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
     let tickets = responseJson.ticket
-    renderTickets(tickets);
+    let result = Object.values(tickets);
+    renderTickets(result);
     return tickets;
   } catch (error) {
     console.log("error");
   }
+  allTickets.push(tickets)
 };
 
 /**
