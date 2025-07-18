@@ -6,6 +6,7 @@ async function showContacts() {
     .map(([id, user]) => ({ id, ...user }))
     .find((user) => user.name === loggedInUser.username);
   let contacts = await getContactsData(user);
+  window.contactsList = contacts;
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   let sortedContacts = {};
   contacts.forEach((contact) => {
@@ -45,3 +46,26 @@ function renderContacts(sortedContacts, contactsRef) {
     });
   });
 }
+
+const showContactsDetails = (contact, initials) => {
+  const contactDetailsRef = document.getElementById("contactDetails");
+  contactDetailsRef.innerHTML = /*html*/ `
+    <div>
+      <span>${initials}</span>
+      <div>
+        <div>${contact.name}</div>
+        <div>
+          <span>Edit</span>
+          <span>Delete</span>
+        </div>
+      </div>
+    </div>
+    <div>Contact Information</div>
+    <div>
+      <span>Email</span>
+      <span>${contact.email}</span>
+      <span>Phone</span>
+      <span>${contact.phone}</span>
+    </div>
+  `;
+};

@@ -18,9 +18,9 @@ function ticketTemplate(title, description, category, categoryCss, assignedTo, p
         .toUpperCase();
       return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
     })
-    .join("");    
+    .join("");
 
-    return `
+  return `
         <div class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
@@ -50,33 +50,42 @@ function getInitialTemplate(inital) {
 
 function getContactTemplate(contact, initials) {
   return /*html*/ `
-    <div class="contact">
+    <div onclick="showContactsDetails(${contact},${initials})" class="contact">
         <div>${initials}</div>
         <div class="contact-details">
             <div class="contact-list-name">${contact.name}</div>
             <div class="email-color">${contact.email}</div>
         </div>
     </div>
-  `;    
+  `;
 }
 
 async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {
-    let userSpans = assignedTo.map((user, i) => {
-        let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
-        return `<div class="ticket-detail-user-div">
+  let userSpans = assignedTo
+    .map((user, i) => {
+      let initials = user
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+      return `<div class="ticket-detail-user-div">
                     <span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>
                     <span>${user}</span>
                 </div>
         `;
-    }).join("");
+    })
+    .join("");
 
-    let subtaskEle = subtasks.map((subtask, i) => {        
-        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
+  let subtaskEle = subtasks
+    .map((subtask, i) => {
+      return `<li><input data-index="${i}" ${
+        subtask.checked ? "checked" : ""
+      } data-ticketindex="${index}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
         `;
-    }).join("");
-    
-    document.getElementById("board-task-information").innerHTML = 
-    `<div id="task-pop-up-nav">
+    })
+    .join("");
+
+  document.getElementById("board-task-information").innerHTML = `<div id="task-pop-up-nav">
         <p class="${categoryColor}">${category}</p>
         <button  onclick="popUpAddTask(popuptask)">X</button>
     </div>
@@ -101,23 +110,28 @@ async function renderTicketDetails(category, categoryColor, title, description, 
         <button onclick="deleteTicket(${index})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
         <button data-ticketIndex=${index} data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
-    </div>`
+    </div>`;
 }
 
-
-
-async function editTicket (title, description, priority, assignedTo, subtasks, index, mode) {
-  let userSpans = assignedTo.map((user, i) => {
-        let initials = user.split(" ").map(n => n[0]).join("").toUpperCase();
-        return `<span data-name="${user}" class="user-icon User-bc-${(i + 1) % 15} user-icon-selected">${initials}</span>`;
-    }).join("");
-  let subtaskEle = subtasks.map((subtask, i) => {        
+async function editTicket(title, description, priority, assignedTo, subtasks, index, mode) {
+  let userSpans = assignedTo
+    .map((user, i) => {
+      let initials = user
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+      return `<span data-name="${user}" class="user-icon User-bc-${(i + 1) % 15} user-icon-selected">${initials}</span>`;
+    })
+    .join("");
+  let subtaskEle = subtasks
+    .map((subtask, i) => {
       return `<li class="subtask-li" data-index="${i}">${subtask.text}</li>
       `;
-  }).join("");
+    })
+    .join("");
 
-  document.getElementById("board-task-edit").innerHTML =
-  `
+  document.getElementById("board-task-edit").innerHTML = `
 <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
     <div class="add-task-text-div" id="edit-add-task-text-div">
         <div class="span-div">
@@ -153,11 +167,11 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
     <button id="board-task-edit-ok" data-ticketindex="${index}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
   `;
   document.querySelectorAll(".set-priority").forEach((ele) => {
-  if(ele.innerText.toLowerCase().trim() === priority) {
-    ele.classList.add(priority);
-    buttonPriority = priority;
-  } else {
-    ele.classList.remove(ele.innerText.toLowerCase().trim());
-  }
+    if (ele.innerText.toLowerCase().trim() === priority) {
+      ele.classList.add(priority);
+      buttonPriority = priority;
+    } else {
+      ele.classList.remove(ele.innerText.toLowerCase().trim());
+    }
   });
 }

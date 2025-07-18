@@ -46,6 +46,12 @@
   padding-top: 20px;
   padding-bottom: 30px;
   margin-left: 32px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.contact:hover {
+  background: linear-gradient(to top, #f0f0f0 0%, #f9f9f9 100%);
 }
 
 .contact-details {
