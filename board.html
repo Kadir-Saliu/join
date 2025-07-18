@@ -44,8 +44,9 @@
           <h3>To do</h3>
           <button class="add-task-btn" onclick="popUpAddTask(popup, 'To do')">+</button>
         </div>
+
         <div id="noTasksToDo" class="kanban-task no-tasks">No tasks in To do</div>
-        <div id="to-do-div" class="min-height-task" ondrop="moveTo('to do')" ondragover="allowDrop(event)"></div>
+        <div id="to-do-div" class="min-height-task" ondrop="moveTo('To do')" ondragover="allowDrop(event)"></div>
       </div>
 
       <!-- In Progress Column -->
@@ -54,8 +55,10 @@
           <h3>In progress</h3>
           <button class="add-task-btn" onclick="popUpAddTask(popup, 'In progress')">+</button>
         </div>
-        <div id="noTasksProgress" class="kanban-task no-tasks">No tasks in progress</div>
-        <div id="in-progress-div" class="min-height-task" ondrop="moveTo('in progress')" ondragover="allowDrop(event)">
+        
+          <div id="noTasksProgress" class="kanban-task no-tasks">No tasks in progress</div>
+          <div id="in-progress-div" class="min-height-task" ondrop="moveTo('In progress')" ondragover="allowDrop(event)">
+        
         </div>
       </div>
 
@@ -67,7 +70,7 @@
         </div>
 
         <div id="noTasksFeedback" class="kanban-task no-tasks">No tasks in await feedback</div>
-        <div id="await-feedback-div" class="min-height-task" ondrop="moveTo('await feedback')" ondragover="allowDrop(event)">
+        <div id="await-feedback-div" class="min-height-task" ondrop="moveTo('Await feedback')" ondragover="allowDrop(event)">
         </div>
 
       </div>
@@ -77,6 +80,7 @@
         <div class="kanban-header">
           <h3>Done</h3>
         </div>
+
          <div id="noTasksDone"  class="kanban-task no-tasks">No done tickets</div>
         <div id="done-div" class="min-height-task" ondrop="moveTo('done')" ondragover="allowDrop(event)"></div>
     </div>

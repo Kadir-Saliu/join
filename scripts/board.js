@@ -104,7 +104,7 @@ function toggleNoTaskContainer() {
     document.getElementById("noTasksToDo").style.display = "none";
   }
 
-  if (allTicketsProgress.length === 0) {
+  if (allTicketsProgress.length == 0) {
     document.getElementById("noTasksProgress").style.display = "block";
   } else {
     document.getElementById("noTasksProgress").style.display = "none";

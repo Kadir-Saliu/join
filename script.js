@@ -68,6 +68,7 @@ async function getTicketData() {
     console.log("error");
   }
   allTickets.push(tickets)
+  toggleNoTaskContainer();
 };
 
 /**
