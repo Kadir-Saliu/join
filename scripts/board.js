@@ -59,7 +59,7 @@ async function renderTickets(tickets) {
   document.getElementById("await-feedback-div").innerHTML = "";
   document.getElementById("done-div").innerHTML = "";
 
-  for (const [index, t] of Object.entries(ticketsArray)) {
+  for (const [index, t] of Object.entries(allTickets)) {
     if (t) {
       const columnId = `${t.column.replace(" ", "-").toLowerCase()}-div`;
       let description = t.description || "";
@@ -83,7 +83,7 @@ async function renderTickets(tickets) {
         subtasks
       );
     }
-  });
+  };
   console.log(allTickets);
   toggleNoTaskContainer();
 }
@@ -93,9 +93,8 @@ function startDragging(index) {
 
       renderSubtaskProgress(index, subtasks);
       toggleNoTaskContainer(columnId);
-    }
-  };
 }
+
 
 function calculateSubtaskCounter(subtasks) {
   subtaskCount = 0;
