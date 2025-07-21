@@ -109,6 +109,7 @@ async function createNewTicket(columnValue) {
         category: buttonCategory,
         subtask: subtaskArray,
         column: columnValue,
+        id: Date.now()
     }
     await saveTaskToFirebase(newTicket);
 }

@@ -423,6 +423,8 @@ button {
   padding-top: 20px;
 }
 
+.min-height-task{
+  min-height: 150px;
 .subtask-progress-div {
   display: flex;
   align-items: center;
