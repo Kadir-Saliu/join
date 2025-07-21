@@ -56,7 +56,7 @@ function iterateUsers(users, dropDownId, renderId) {
     let id;
     document.getElementById('drop-down-users').innerHTML = "";
     users.forEach(user => {
-        if(user?.name.includes(document.getElementById("drop-down-users-input").value)) {
+        if(user?.name.toLowerCase().includes(document.getElementById("drop-down-users-input").value.toLowerCase())) {
             name = user?.name;
             id= user?.id;
             initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
