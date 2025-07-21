@@ -6,6 +6,10 @@ const overlay = document.getElementById("board-overlay");
 let currentDraggedElement;
 console.log(currentDraggedElement);
 
+
+let subtaskCount = 0;
+let subtaskWidth = 0;
+
 /**
  * function to open/close the addTask pop-up
  */
@@ -54,7 +58,8 @@ async function renderTickets(tickets) {
   document.getElementById("in-progress-div").innerHTML = "";
   document.getElementById("await-feedback-div").innerHTML = "";
   document.getElementById("done-div").innerHTML = "";
-  Object.entries(allTickets).forEach(([index, t]) => {
+
+  for (const [index, t] of Object.entries(ticketsArray)) {
     if (t) {
       const columnId = `${t.column.replace(" ", "-").toLowerCase()}-div`;
       let description = t.description || "";
@@ -63,14 +68,19 @@ async function renderTickets(tickets) {
       let categoryCss = t.category.replace(" ", "-").toLowerCase();
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
-      document.getElementById(columnId).innerHTML += ticketTemplate(
+      let subtasks = t.subtask || [];
+      
+      calculateSubtaskCounter(subtasks);
+
+      document.getElementById(columnId).innerHTML += await ticketTemplate(
         title,
         description,
         category,
         categoryCss,
         assignedTo,
         priority,
-        index
+        index,
+        subtasks
       );
     }
   });
@@ -80,6 +90,30 @@ async function renderTickets(tickets) {
 
 function startDragging(index) {
   currentDraggedElement = index;
+
+      renderSubtaskProgress(index, subtasks);
+      toggleNoTaskContainer(columnId);
+    }
+  };
+}
+
+function calculateSubtaskCounter(subtasks) {
+  subtaskCount = 0;
+  subtaskWidth = 0;
+  if(subtasks[0]) {
+    subtasks.forEach(ele => {
+      if(ele.checked) {
+        subtaskCount++;
+      }      
+    });
+    subtaskWidth = subtaskCount / subtasks.length * 100;
+  }
+};
+
+function renderSubtaskProgress(index, subtasks) {
+  if(subtasks[0]) {       
+    document.getElementById(`p-subtask-${index}`).classList.remove("hide")  
+  }
 }
 
 function allowDrop(ev) {
@@ -291,4 +325,18 @@ function toggleSubtask(input) {
     subtask: tickets[0][ticketIndex].subtask,
   };
   saveEditedTaskToFirebase(input, ticketIndex, partialUpdate);
+}
+
+async function getUserDetails(user) {
+  try {
+    let response = await fetch(BASE_URL_USERS);
+    let responseJson = await response.json();
+    let users = Object.values(responseJson || {}).filter(u => u !== null);
+    
+    let foundUser = users.find(u => u.name === user);
+    return foundUser ? foundUser.id : 0;
+  } catch (error) {
+    console.error("error");
+    return 0;
+  }
 }
