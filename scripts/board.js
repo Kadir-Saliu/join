@@ -175,28 +175,29 @@ async function renderTicketOverlay(ele) {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-    let tickets = Object.values(responseJson || {}).filter(
-      (ticket) => ticket !== null
-    );
+    let tickets = responseJson.ticket
+    let result = Object.values(tickets)
+     
+   
     let index = ele.dataset.ticketindex;
     let mode = ele.dataset.mode;
 
-    defineTicketDetailVariables(tickets[0][index], mode, index);
+    defineTicketDetailVariables(result, mode, index);
   } catch (error) {
     console.log("error");
   }
 }
 
 async function defineTicketDetailVariables(ticket, mode, index) {
-  let category = ticket.category;
-  let categoryColor = ticket.category.toLowerCase().replace(" ", "-");
-  let title = ticket.title;
-  let description = ticket.description || [];
-  let date = ticket.date.split("-");
+  let category = ticket[index].category;
+  let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
+  let title = ticket[index].title;
+  let description = ticket[index].description || [];
+  let date = ticket[index].date.split("-");
   let formattedDate = `${date[2]}/${date[1]}/${date[0]}`;
-  let priority = ticket.priority || "-";
-  let assignedTo = ticket.assignedTo || [];
-  let subtasks = ticket.subtask || [];
+  let priority = ticket[index].priority || "-";
+  let assignedTo = ticket[index].assignedTo || [];
+  let subtasks = ticket[index].subtask || [];
   if (mode === "view") {
     renderTicketDetails(
       category,
