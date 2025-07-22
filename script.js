@@ -107,9 +107,8 @@ function popUpAccNav() {
   document.getElementById("board-overlay-transparent").classList.toggle("hide");
 }
 
-function popUpDropDownCategory(imgId) {
+function popUpDropDownCategory() {
   document.getElementById("drop-down-category").classList.toggle("hide");
-  changeDropDownArrow(imgId);
 }
 
 function popUpDropDownUsersInBoard() {

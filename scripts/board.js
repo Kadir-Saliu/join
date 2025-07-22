@@ -81,16 +81,17 @@ async function renderTickets(tickets) {
         priority,
         index,
         subtasks
-      );      
-    renderSubtaskProgress(index, subtasks);
+      );
     }
   };
-  console.log(allTickets);  
+  console.log(allTickets);
   toggleNoTaskContainer();
 }
 
 function startDragging(index) {
   currentDraggedElement = index;
+
+      renderSubtaskProgress(index, subtasks);
       toggleNoTaskContainer(columnId);
 }
 

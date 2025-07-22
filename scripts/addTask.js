@@ -13,7 +13,7 @@ let columnVal = 'To do';
 let ticketCounter = 0;
 
 document.getElementById("create-task-button").onclick = function () {
-    checkRequiredInput(columnVal, true);
+    checkRequiredInput(columnVal);
 };
 
 function setPriority(prio, clickedButton) {   
@@ -29,40 +29,15 @@ function setCategory(category, idButton, idDropDown) {
     document.getElementById(idDropDown).classList.add("hide");
 }
 
-async function dropDownUsers(id, renderId, imgId) {
+async function dropDownUsers(id, renderId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
-        changeDropDownArrow(imgId);
+        changeDropDownArrow();
         iterateContacts(responseJson, id, renderId);
     } catch (error) {
         console.log("error");
     }
-}
-
-async function filterUsers(id, renderId) {
-    try {
-        let response = await fetch(BASE_URL_USERS);
-        let responseJson = await response.json();
-        iterateUsers(responseJson, id, renderId);
-    } catch (error) {
-        console.log("error");
-    }
-}
-
-function iterateUsers(users, dropDownId, renderId) {
-    let name;
-    let initials;
-    let id;
-    document.getElementById('drop-down-users').innerHTML = "";
-    users.forEach(user => {
-        if(user?.name.toLowerCase().includes(document.getElementById("drop-down-users-input").value.toLowerCase())) {
-            name = user?.name;
-            id= user?.id;
-            initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
-            document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId); 
-        }  
-    });
 }
 
 async function iterateContacts(responseJson, id, renderId) {
@@ -84,15 +59,15 @@ async function iterateContacts(responseJson, id, renderId) {
     }
 }
 
-async function changeDropDownArrow(id) {
-    if(document.getElementById(id).src.includes("arrow_down")) {
-        document.getElementById(id).src = "./assets/imgs/arrow_up.png"
-    } else if (document.getElementById(id).src.includes("arrow_up")) {
-        document.getElementById(id).src = "./assets/imgs/arrow_down.png"
+function changeDropDownArrow() {
+    if(document.getElementById("drop-down-users-input-img").src.includes("arrow_down")) {
+        document.getElementById("drop-down-users-input-img").src = "./assets/imgs/arrow_up.png"
+    } else if (document.getElementById("drop-down-users-input-img").src.includes("arrow_up")) {
+        document.getElementById("drop-down-users-input-img").src = "./assets/imgs/arrow_down.png"
     }
 };
 
-function checkRequiredInput(columnValue, validation) {
+function checkRequiredInput(columnValue) {
     let hasError = false;
     if (!taskTitle.value) {
         document.getElementById("missing-title-info").classList.remove("hide");
@@ -118,7 +93,7 @@ function checkRequiredInput(columnValue, validation) {
         document.getElementById("missing-category-info").classList.add("hide");
         document.getElementById("category-button").style.border = "";
     }
-    if (!hasError && validation) {
+    if (!hasError) {
         createNewTicket(columnValue);
     }
 }
