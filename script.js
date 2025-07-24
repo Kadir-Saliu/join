@@ -189,12 +189,28 @@ async function loadNavigationAndGreetUser() {
   greetUser();
 }
 
+/**
+ * Loads the navigation HTML, highlights the current page in the navigation,
+ * and greets the user. This function asynchronously includes the navigation
+ * HTML, then updates the navigation UI and displays a greeting.
+ *
+ * @async
+ * @function
+ * @returns {Promise<void>} Resolves when navigation is loaded and user is greeted.
+ */
 async function loadNavigationAndSetInitials() {
   await includeHTML();
   highlightPageInNav();
   setProfileInitials();
 }
 
+/**
+ * Sets the profile element's text to the logged-in user's initials if available,
+ * otherwise sets it to "G".
+ *
+ * Assumes the existence of a global `loggedInUser` object with `username` and `initals` properties,
+ * and an element with the ID "profile" in the DOM.
+ */
 function setProfileInitials() {
   if (loggedInUser.username) {
     document.getElementById("profile").innerText = loggedInUser.initals;
