@@ -2,10 +2,9 @@ let allTickets = [];
 const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
-
 let currentDraggedElement;
-console.log(currentDraggedElement);
 
+console.log(currentDraggedElement);
 
 let subtaskCount = 0;
 let subtaskWidth = 0;
@@ -69,7 +68,7 @@ async function renderTickets(tickets) {
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
       let subtasks = t.subtask || [];
-      
+
       calculateSubtaskCounter(subtasks);
 
       document.getElementById(columnId).innerHTML += await ticketTemplate(
@@ -83,35 +82,32 @@ async function renderTickets(tickets) {
         subtasks
       );
     }
-  };
+  }
   console.log(allTickets);
   toggleNoTaskContainer();
 }
 
 function startDragging(index) {
   currentDraggedElement = index;
-
-      renderSubtaskProgress(index, subtasks);
-      toggleNoTaskContainer(columnId);
+  toggleNoTaskContainer();
 }
-
 
 function calculateSubtaskCounter(subtasks) {
   subtaskCount = 0;
   subtaskWidth = 0;
-  if(subtasks[0]) {
-    subtasks.forEach(ele => {
-      if(ele.checked) {
+  if (subtasks[0]) {
+    subtasks.forEach((ele) => {
+      if (ele.checked) {
         subtaskCount++;
-      }      
+      }
     });
-    subtaskWidth = subtaskCount / subtasks.length * 100;
+    subtaskWidth = (subtaskCount / subtasks.length) * 100;
   }
-};
+}
 
 function renderSubtaskProgress(index, subtasks) {
-  if(subtasks[0]) {       
-    document.getElementById(`p-subtask-${index}`).classList.remove("hide")  
+  if (subtasks[0]) {
+    document.getElementById(`p-subtask-${index}`).classList.remove("hide");
   }
 }
 
@@ -127,8 +123,12 @@ function moveTo(category) {
 
 function toggleNoTaskContainer() {
   let allTicketsToDo = allTickets.filter((obj) => obj.column == "To do");
-  let allTicketsProgress = allTickets.filter((obj) => obj.column == "In progress");
-  let allTicketsFeedback = allTickets.filter((obj) => obj.column == "Await feedback");
+  let allTicketsProgress = allTickets.filter(
+    (obj) => obj.column == "In progress"
+  );
+  let allTicketsFeedback = allTickets.filter(
+    (obj) => obj.column == "Await feedback"
+  );
   let allTicketsDone = allTickets.filter((obj) => obj.column == "done");
 
   if (allTicketsToDo.length == 0) {
@@ -175,10 +175,9 @@ async function renderTicketOverlay(ele) {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-    let tickets = responseJson.ticket
-    let result = Object.values(tickets)
-     
-   
+    let tickets = responseJson.ticket;
+    let result = Object.values(tickets);
+
     let index = ele.dataset.ticketindex;
     let mode = ele.dataset.mode;
 
@@ -331,9 +330,9 @@ async function getUserDetails(user) {
   try {
     let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter(u => u !== null);
-    
-    let foundUser = users.find(u => u.name === user);
+    let users = Object.values(responseJson || {}).filter((u) => u !== null);
+
+    let foundUser = users.find((u) => u.name === user);
     return foundUser ? foundUser.id : 0;
   } catch (error) {
     console.error("error");
