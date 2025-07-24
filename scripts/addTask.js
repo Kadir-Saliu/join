@@ -36,7 +36,7 @@ async function dropDownUsers(id, renderId) {
         changeDropDownArrow();
         iterateContacts(responseJson, id, renderId);
     } catch (error) {
-        console.log("error");
+        console.log(error);
     }
 }
 
@@ -60,10 +60,10 @@ async function iterateContacts(responseJson, id, renderId) {
 }
 
 function changeDropDownArrow() {
-    if(document.getElementById("drop-down-users-input-img").src.includes("arrow_down")) {
-        document.getElementById("drop-down-users-input-img").src = "./assets/imgs/arrow_up.png"
-    } else if (document.getElementById("drop-down-users-input-img").src.includes("arrow_up")) {
-        document.getElementById("drop-down-users-input-img").src = "./assets/imgs/arrow_down.png"
+    if(document.getElementById("drop-down-users-input-board").src.includes("arrow_down")) {
+        document.getElementById("drop-down-users-input-board").src = "./assets/imgs/arrow_up.png"
+    } else if (document.getElementById("drop-down-users-input-board").src.includes("arrow_up")) {
+        document.getElementById("drop-down-users-input-board").src = "./assets/imgs/arrow_down.png"
     }
 };
 
