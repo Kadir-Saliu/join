@@ -29,7 +29,7 @@ main {
   align-items: center;
   height: 100px;
   background-color: white;
-  box-shadow: 5px 1px 1px 5px #e4e2e2;
+  box-shadow: 0 3px 3px rgb(230, 231, 231);
 }
 
 .header-and-icon h2 {
