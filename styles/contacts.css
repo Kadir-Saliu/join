@@ -16,11 +16,17 @@
   font-size: 61px;
 }
 
+.contacts-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 55px;
+}
+
 .contacts-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 55px;
+
   margin-top: 106px;
   gap: 30px;
 }
@@ -105,4 +111,10 @@
 
 hr {
   width: 352px;
+}
+
+.contact-information {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }

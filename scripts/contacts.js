@@ -42,30 +42,19 @@ function renderContacts(sortedContacts, contactsRef) {
     contactsRef.innerHTML += getInitialTemplate(inital);
     sortedContacts[inital].forEach((contact) => {
       let initials = contact.name.split(" ")[0][0] + contact.name.split(" ")[1][0];
-      contactsRef.innerHTML += getContactTemplate(contact, initials);
+      let userName = escapeQuotes(contact.name);
+      let email = escapeQuotes(contact.email);
+      let phone = escapeQuotes(contact.phone);
+      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone);
     });
   });
 }
 
-const showContactsDetails = (contact, initials) => {
+const showContactsDetails = (initials, userName, email, phone) => {
   const contactDetailsRef = document.getElementById("contactDetails");
-  contactDetailsRef.innerHTML = /*html*/ `
-    <div>
-      <span>${initials}</span>
-      <div>
-        <div>${contact.name}</div>
-        <div>
-          <span>Edit</span>
-          <span>Delete</span>
-        </div>
-      </div>
-    </div>
-    <div>Contact Information</div>
-    <div>
-      <span>Email</span>
-      <span>${contact.email}</span>
-      <span>Phone</span>
-      <span>${contact.phone}</span>
-    </div>
-  `;
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone);
 };
+
+function escapeQuotes(str) {
+  return str.replace(/'/g, "\\'");
+}
