@@ -81,6 +81,7 @@ async function renderTickets(tickets) {
         index,
         subtasks
       );
+    renderSubtaskProgress(index, subtasks);
     }
   }
   console.log(allTickets);
