@@ -1,8 +1,11 @@
-const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
-const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
-const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
-const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
-let tickets;
+const BASE_URL =
+  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
+const BASE_URL_USERS =
+  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+const BASE_URL_TICKETS =
+  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
+const BASE_URL_CONTACTS =
+  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
@@ -45,7 +48,9 @@ async function getUsersData(event) {
   try {
     let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter((user) => user !== null);
+    let users = Object.values(responseJson || {}).filter(
+      (user) => user !== null
+    );
     checkLoginData({ users });
   } catch (error) {
     console.log("error");
@@ -61,12 +66,15 @@ async function getTicketData() {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-    tickets = Object.values(responseJson || {}).filter((ticket) => ticket !== null);
-    renderTickets(tickets);
+    let tickets = responseJson.ticket;
+    let result = Object.values(tickets);
+    renderTickets(result);
     return tickets;
   } catch (error) {
     console.log("error");
   }
+  allTickets.push(tickets);
+  toggleNoTaskContainer();
 }
 
 /**
@@ -77,15 +85,35 @@ async function getTicketData() {
  */
 async function getContactsData(user) {
   try {
-    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`);
+    let response = await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`
+    );
     let responseJson = await response.json();
-    let contacts = Object.values(responseJson || {}).filter((contact) => contact !== null);
+    let contacts = Object.values(responseJson || {}).filter(
+      (contact) => contact !== null
+    );
     return contacts;
   } catch (error) {
     console.log("error");
   }
 }
 
+async function getSubtasksData(id) {
+  let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${id}/subtask.json`);
+  let responseJson = await response.json();
+  let subtask = Object.values(responseJson);
+  return subtask
+}
+
+/**
+ * Asynchronously loads and injects HTML content into elements with a "template" attribute.
+ * For each element with the "template" attribute, fetches the HTML file specified by the attribute value
+ * and replaces the element's inner HTML with the fetched content. If the fetch fails, displays "Page not found".
+ *
+ * @async
+ * @function includeHTML
+ * @returns {Promise<void>} Resolves when all template elements have been processed.
+ */
 async function includeHTML() {
   let includeElements = document.querySelectorAll("[template]");
   for (let i = 0; i < includeElements.length; i++) {
@@ -101,7 +129,9 @@ async function includeHTML() {
 }
 
 function popUpAccNav() {
-  document.getElementsByClassName("account-nav-render-div")[0].classList.toggle("hide");
+  document
+    .getElementsByClassName("account-nav-render-div")[0]
+    .classList.toggle("hide");
   document.getElementById("board-overlay-transparent").classList.toggle("hide");
 }
 

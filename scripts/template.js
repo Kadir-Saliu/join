@@ -8,28 +8,31 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index) {
-  let userSpans = assignedTo
-    .map((user, i) => {
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks) {
+  let userSpansArray = await Promise.all(
+    assignedTo.map(async (user, i) => {
+      let renderedUserBgIndex = await getUserDetails(user);
       let initials = user
         .split(" ")
         .map((n) => n[0])
         .join("")
         .toUpperCase();
-      return `<span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>`;
+      return `<span class="user-icon-rendered User-bc-${renderedUserBgIndex}">${initials}</span>`;
     })
-    .join("");
+  );
+
+  let userSpans = userSpansArray.join("");
 
   return `
-        <div class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
+        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
             <p>${description}</p>
-            <div>
-                <div>
-                    <div></div>
+            <div id="p-subtask-${index}" class="subtask-progress-div hide">
+                <div class="subtask-progress-grey-div">
+                    <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>
                 </div>
-                <p></p>
+                <p class="subtask-count">${subtaskCount}/${subtasks.length} Subtasks</p>
             </div>
             <div class="assigned-users">
               <div>
@@ -61,20 +64,23 @@ function getContactTemplate(contact, initials) {
 }
 
 async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {
-  let userSpans = assignedTo
-    .map((user, i) => {
+  let userSpansArray = await Promise.all(
+    assignedTo.map(async (user, i) => {
+      let renderedUserBgIndex = await getUserDetails(user);
       let initials = user
         .split(" ")
         .map((n) => n[0])
         .join("")
         .toUpperCase();
       return `<div class="ticket-detail-user-div">
-                    <span class="user-icon User-bc-${(i + 1) % 15}">${initials}</span>
+                    <span class="user-icon-rendered User-bc-${renderedUserBgIndex}">${initials}</span>
                     <span>${user}</span>
                 </div>
         `;
     })
-    .join("");
+  );
+
+  let userSpans = userSpansArray.join("");
 
   let subtaskEle = subtasks
     .map((subtask, i) => {
@@ -114,16 +120,20 @@ async function renderTicketDetails(category, categoryColor, title, description, 
 }
 
 async function editTicket(title, description, priority, assignedTo, subtasks, index, mode) {
-  let userSpans = assignedTo
-    .map((user, i) => {
+  let userSpansArray = await Promise.all(
+    assignedTo.map(async (user, i) => {
+      let renderedUserBgIndex = await getUserDetails(user);
       let initials = user
         .split(" ")
         .map((n) => n[0])
         .join("")
         .toUpperCase();
-      return `<span data-name="${user}" class="user-icon User-bc-${(i + 1) % 15} user-icon-selected">${initials}</span>`;
+      return `<span data-name="${user}" class="user-icon-rendered User-bc-${renderedUserBgIndex} user-icon-selected">${initials}</span>`;
     })
-    .join("");
+  );
+
+  let userSpans = userSpansArray.join("");
+
   let subtaskEle = subtasks
     .map((subtask, i) => {
       return `<li class="subtask-li" data-index="${i}">${subtask.text}</li>

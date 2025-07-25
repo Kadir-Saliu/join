@@ -104,7 +104,8 @@
   height: 36px;
   background-color: white;
   border: 1px solid rgb(219, 219, 219);
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
+  border-right: none;
   cursor: pointer;
   text-align: left;
   padding-left: 8px;

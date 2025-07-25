@@ -33,10 +33,10 @@ async function dropDownUsers(id, renderId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
-        console.log(responseJson);
+        changeDropDownArrow();
         iterateContacts(responseJson, id, renderId);
     } catch (error) {
-        console.log("error");
+        console.log(error);
     }
 }
 
@@ -58,6 +58,14 @@ async function iterateContacts(responseJson, id, renderId) {
         document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId);   
     }
 }
+
+function changeDropDownArrow() {
+    if(document.getElementById("drop-down-users-input-board").src.includes("arrow_down")) {
+        document.getElementById("drop-down-users-input-board").src = "./assets/imgs/arrow_up.png"
+    } else if (document.getElementById("drop-down-users-input-board").src.includes("arrow_up")) {
+        document.getElementById("drop-down-users-input-board").src = "./assets/imgs/arrow_down.png"
+    }
+};
 
 function checkRequiredInput(columnValue) {
     let hasError = false;
@@ -92,6 +100,14 @@ function checkRequiredInput(columnValue) {
 
 async function createNewTicket(columnValue) {
     let selectedUsers = getSelectedUsers();
+    let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
+    let ticketCounter = await counterResponse.json();
+
+    if (ticketCounter === null) {
+      ticketCounter = 0;
+    }
+    ticketCounter++;
+
     let newTicket = {
         title: taskTitle.value,
         description: taskDescription.value,
@@ -101,8 +117,9 @@ async function createNewTicket(columnValue) {
         category: buttonCategory,
         subtask: subtaskArray,
         column: columnValue,
+        id: ticketCounter
     }
-    await saveTaskToFirebase(newTicket);
+    await saveTaskToFirebase(newTicket, ticketCounter);
 }
 
 function getSelectedUsers() {
@@ -125,10 +142,10 @@ function renderSelectedUsers(id) {
             let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
             userIconClasses.forEach(spanClass => {
                 if(spanClass.innerText === initials) {
-                    userIconColor = spanClass.classList[1];            
+                    userIconColor = spanClass.dataset.bcindex;
                 } 
             });
-            document.getElementById(id).innerHTML += `<span class="user-icon-selected ${userIconColor}" data-name="${cb.value}">${initials}</span>`
+            document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`
         }
     }); 
 }
@@ -192,16 +209,9 @@ function deleteSubtask(ele) {
     ele.parentElement.parentElement.remove();
 }
 
-async function saveTaskToFirebase(ticketData) {
+async function saveTaskToFirebase(ticketData, ticketCounter) {
   try {
-    let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
-    let ticketCounter = await counterResponse.json();
-
-    if (ticketCounter === null) {
-      ticketCounter = 0;
-    }
-    ticketCounter++;
-
+    
     await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
       method: "PUT",
       headers: {
