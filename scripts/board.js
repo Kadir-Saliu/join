@@ -4,8 +4,6 @@ const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
 let currentDraggedElement;
 
-console.log(currentDraggedElement);
-
 let subtaskCount = 0;
 let subtaskWidth = 0;
 
@@ -118,7 +116,6 @@ function allowDrop(ev) {
 }
 
 function moveTo(category) {
-  console.log(category);
   allTickets[currentDraggedElement]["column"] = category;
   renderTickets(allTickets);
 }
@@ -190,9 +187,7 @@ async function renderTicketOverlay(ele) {
   }
 }
 
-async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId) {
-  console.log(ticketCounterId);
-  
+async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId) {  
   let category = ticket[index].category;
   let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
   let title = ticket[index].title;
@@ -216,8 +211,6 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
       ticketCounterId
     );
   } else if (mode === "edit") {
-    console.log(ticketCounterId);
-    
     editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId);
   }
 }
@@ -325,15 +318,16 @@ async function deleteTicket(index) {
   }
 }
 
-function toggleSubtask(input) {
+function toggleSubtask(input) {  
   let subIndex = input.dataset.index;
   let ticketIndex = input.dataset.ticketindex;
-  let currentChecked = tickets[0][ticketIndex].subtask[subIndex].checked;
-  tickets[0][ticketIndex].subtask[subIndex].checked = !currentChecked;
+  let ticketCounterIndex = input.dataset.ticketcounterid;
+  let currentChecked = tickets[ticketCounterIndex].subtask[subIndex].checked;
+  tickets[ticketCounterIndex].subtask[subIndex].checked = !currentChecked;
   let partialUpdate = {
-    subtask: tickets[0][ticketIndex].subtask,
+    subtask: tickets[ticketCounterIndex].subtask,
   };
-  saveEditedTaskToFirebase(input, ticketIndex, partialUpdate);
+  saveEditedTaskToFirebase(input, ticketIndex, partialUpdate, ticketCounterIndex);
 }
 
 async function getUserDetails(user) {

@@ -128,6 +128,7 @@ textarea {
 
 .subtask-div {
   display: flex;
+  height: 36px;
 }
 
 .subtask-div input {
@@ -383,6 +384,45 @@ textarea {
 #drop-down-users-input-div:focus-within #drop-down-users-input {
   border-right: none !important;
   border-radius: 4px 0px 0px 4px;
+}
+
+#subtask-button-div {
+  display: flex;
+  background-color: white;
+  align-items: center;
+}
+
+#subtask-clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  font-size: 16px;
+  font-weight: bold;
+  border-right: none;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+#subtask-button-div-divider {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgb(219, 219, 219);
+  border-bottom: 1px solid rgb(219, 219, 219);
+}
+
+#subtask-button-divider {
+  width: 1px;
+  height: 60%;
+  margin-left: 12px;
+  margin-right: 4px;
+  background-color: rgb(219, 219, 219);
+  border-top: 1px solid rgb(219, 219, 219) !important;
+}
+
+#subtask-button {
+  margin-bottom: 0;
 }
 
 /*#drop-down-users-input-img:hover {

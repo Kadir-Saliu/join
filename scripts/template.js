@@ -37,7 +37,7 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
               <div>
               ${userSpans}
               </div>
-              <img src="./assets/icon/${priority}.svg" alt="" />
+              <img src="${priority[0] && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt="" />
             </div>
           </div>
     `;
@@ -81,7 +81,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     let userSpans = userSpansArray.join("");
 
     let subtaskEle = subtasks.map((subtask, i) => {        
-        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
+        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
         `;
     }).join("");
     
@@ -98,7 +98,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     </div>
     <div class="pop-up-margin-b-25 gap-10">
         <p>Priority:</p>
-        <span>${priority} <img src="./assets/icon/${priority}.svg" alt=""></span>
+        <span>${priority} <img src="${priority && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt=""></span>
     </div>
     <div class="pop-up-margin-b-25" id="assigned-users-div">
        ${userSpans}

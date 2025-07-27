@@ -82,7 +82,13 @@
           <p>Subtasks</p>
           <div class="subtask-div">
             <input type="text" name="" id="subtask" placeholder="Add new subtask" />
-            <button id="subtask-button" onclick="addSubtask()">+</button>
+            <div id="subtask-button-div">
+              <button id="subtask-clear-button">X</button>
+              <div id="subtask-button-div-divider">
+                <div id="subtask-button-divider"></div>
+              </div>
+              <button id="subtask-button" onclick="addSubtask()">+</button>
+            </div>
           </div>
           <div id="subtask-render-div"></div>
         </div>
