@@ -68,6 +68,7 @@ async function renderTickets(tickets) {
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
       let subtasks = t.subtask || [];
+      let ticketCounterId = t.id;
 
       calculateSubtaskCounter(subtasks);
 
@@ -79,12 +80,12 @@ async function renderTickets(tickets) {
         assignedTo,
         priority,
         index,
-        subtasks
+        subtasks,
+        ticketCounterId
       );
     renderSubtaskProgress(index, subtasks);
     }
   }
-  console.log(allTickets);
   toggleNoTaskContainer();
 }
 
@@ -181,14 +182,17 @@ async function renderTicketOverlay(ele) {
 
     let index = ele.dataset.ticketindex;
     let mode = ele.dataset.mode;
-
-    defineTicketDetailVariables(result, mode, index);
+    let ticketCounterId = ele.dataset.ticketcounterid;
+    
+    defineTicketDetailVariables(result, mode, index, ticketCounterId);
   } catch (error) {
     console.log("error");
   }
 }
 
-async function defineTicketDetailVariables(ticket, mode, index) {
+async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId) {
+  console.log(ticketCounterId);
+  
   let category = ticket[index].category;
   let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
   let title = ticket[index].title;
@@ -208,10 +212,13 @@ async function defineTicketDetailVariables(ticket, mode, index) {
       priority,
       assignedTo,
       subtasks,
-      index
+      index,
+      ticketCounterId
     );
   } else if (mode === "edit") {
-    editTicket(title, description, priority, assignedTo, subtasks, index, mode);
+    console.log(ticketCounterId);
+    
+    editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId);
   }
 }
 
@@ -220,6 +227,7 @@ function checkEditedValues(ele) {
   let title = "";
   let description = "";
   let date;
+  let ticketCounterId = ele.dataset.ticketcounterid;
   if (document.getElementById("task-title-edit").value) {
     title = document.getElementById("task-title-edit").value;
   }
@@ -230,7 +238,7 @@ function checkEditedValues(ele) {
     date = document.getElementById("task-date-edit").value;
   }
   ele.dataset.mode = "view";
-  takeOverEditedTicket(ele, index, title, description, date);
+  takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
 }
 
 function takeOverEditedTicket(
@@ -238,7 +246,8 @@ function takeOverEditedTicket(
   index,
   titleEdit,
   descriptionEdit,
-  dateEdit
+  dateEdit,
+  ticketCounterId
 ) {
   let editedTicket = {};
 
@@ -262,13 +271,13 @@ function takeOverEditedTicket(
     });
   });
   editedTicket.subtask = subtaskArray;
-  saveEditedTaskToFirebase(ele, index, editedTicket);
+  saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
 }
 
-async function saveEditedTaskToFirebase(ele, index, ticketData) {
+async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId) {
   try {
     let response = await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
     );
     let ticket = await response.json();
     let updatedTicket = {
@@ -276,7 +285,7 @@ async function saveEditedTaskToFirebase(ele, index, ticketData) {
       ...ticketData,
     };
     await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`,
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`,
       {
         method: "PUT",
         headers: {

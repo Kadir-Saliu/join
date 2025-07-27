@@ -8,7 +8,7 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks) {  
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {  
   let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -23,7 +23,7 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
     let userSpans = userSpansArray.join("");
 
     return `
-        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
+        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
             <p>${description}</p>
@@ -62,7 +62,7 @@ function getContactTemplate(contact, initials) {
   `;    
 }
 
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {  
+async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {  
     let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -110,13 +110,13 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     <div id="pop-up-bottom-buttons">
         <button onclick="deleteTicket(${index})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
-        <button data-ticketIndex=${index} data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
 }
 
 
 
-async function editTicket (title, description, priority, assignedTo, subtasks, index, mode) {
+async function editTicket (title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
   let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -169,7 +169,7 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         ${subtaskEle}
         </ul>
     </div>
-    <button id="board-task-edit-ok" data-ticketindex="${index}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
+    <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
   `;
   document.querySelectorAll(".set-priority").forEach((ele) => {
   if(ele.innerText.toLowerCase().trim() === priority) {
