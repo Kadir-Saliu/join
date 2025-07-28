@@ -1,3 +1,12 @@
+/**
+ * Generates an HTML template for a user dropdown item.
+ *
+ * @param {string} name - The name of the user.
+ * @param {string} inititals - The initials of the user to display in the icon.
+ * @param {number} index - The index used for styling and data attributes.
+ * @param {string|number} id - The unique identifier for the user, used in the checkbox onclick handler.
+ * @returns {string} The HTML string representing the user dropdown item.
+ */
 function userDropDownTemplate(name, inititals, index, id) {
   return `<div>
                 <div>
@@ -8,6 +17,21 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
+/**
+ * Generates an HTML snippet for a ticket , rendering assigned user icons concurrently.
+ *
+ * @async
+ * @param {string} title - The ticket's title.
+ * @param {string} description - A brief description of the ticket.
+ * @param {string} category - The category or type of the ticket.
+ * @param {string} categoryCss - CSS class suffix to style the category badge.
+ * @param {string[]} assignedTo - Array of user full names assigned to the ticket.
+ * @param {string} priority - Priority level (e.g. "low", "medium", "high").
+ * @param {number} index - Zero‑based index of the ticket in a list.
+ * @param {Array<object>} subtasks - An array of subtask objects, each with its own properties.
+ * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
+ *
+ */
 async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {  
   let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
@@ -50,6 +74,17 @@ function getInitialTemplate(inital) {
   `;
 }
 
+/**
+ * 
+ * Generates an HTML string representing a contact card.
+ *
+ * @param {Object} contact - Contact information object.
+ * @param {string} contact.name - Full name of the contact.
+ * @param {string} contact.email - Email address of the contact.
+ * @param {string} initials - Initials to show in the contact icon.
+ * @returns {string} An HTML snippet for the contact, including initials and contact details.
+  
+ */
 function getContactTemplate(contact, initials) {
   return /*html*/ `
     <div class="contact">
@@ -62,6 +97,24 @@ function getContactTemplate(contact, initials) {
   `;    
 }
 
+/**
+ * Builds and returns an array of HTML snippets representing assigned users for a ticket detail view.
+ * Each user is rendered with an icon (initials) styled dynamically based on user-specific details.
+ *
+ * @async
+ * @param {string} category - The ticket's category or type.
+ * @param {string} categoryColor - CSS class or color indicator for styling the category.
+ * @param {string} title - Title of the ticket.
+ * @param {string} description - Description text for the ticket.
+ * @param {string|Date} date - Date associated with ticket (e.g. creation or due date).
+ * @param {string} priority - Priority level (e.g. "low", "medium", "high").
+ * @param {string[]} assignedTo - Array of full names of users assigned to the ticket.
+ * @param {Array<object>} subtasks - Array of subtask objects related to the ticket.
+ * @param {number} index - Zero-based index of the ticket in a list or collection.
+ * @returns {Promise<string[]>} Promise resolving to an array of HTML `<div>` strings,
+ * each containing user initials and name inside styled elements.
+ * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
+ */
 async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {  
     let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
@@ -115,7 +168,22 @@ async function renderTicketDetails(category, categoryColor, title, description, 
 }
 
 
-
+/**
+ * Generates an array of HTML `<span>` snippets representing users assigned to a ticket in edit mode.
+ * Fetches user-specific styling information concurrently and renders each user's initials with styling.
+ *
+ * @async
+ * @param {string} title - The ticket title.
+ * @param {string} description - A description of the ticket.
+ * @param {string} priority - Priority level (e.g. "low", "medium", "high").
+ * @param {string[]} assignedTo - Array of full names of users assigned to the ticket.
+ * @param {Array<object>} subtasks - Array of subtask objects related to the ticket.
+ * @param {number} index - Zero-based index of the ticket in the list or UI.
+ * @param {string} mode - Mode identifier indicating how the ticket is being edited.
+ * @returns {Promise<string[]>} A promise resolving to an array of `<span>` HTML strings,
+ * each showing a user's initials, styled dynamically, and with a data-name attribute.
+ * @throws {Error} If any call to `getUserDetails(user)` fails.
+ */
 async function editTicket (title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
   let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {

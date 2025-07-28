@@ -16,6 +16,12 @@ document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal, true);
 };
 
+/**
+ * Sets the priority for a task and updates the UI to reflect the selected priority.
+ *
+ * @param {string} prio - The priority level to set (e.g., "urgent", "medium", "low").
+ * @param {HTMLElement} clickedButton - The button element that was clicked to select the priority.
+ */
 function setPriority(prio, clickedButton) {   
     buttonPriority = prio;
     let buttons = document.querySelectorAll(".priority-button");
@@ -23,12 +29,31 @@ function setPriority(prio, clickedButton) {
     clickedButton.classList.add(clickedButton.innerText.toLowerCase().trim());
 }
 
+/**
+ * Sets the selected category, updates the button text, and hides the dropdown menu.
+ *
+ * @param {string} category - The category to set as selected.
+ * @param {string} idButton - The ID of the button element to update.
+ * @param {string} idDropDown - The ID of the dropdown element to hide.
+ */
 function setCategory(category, idButton, idDropDown) {   
     buttonCategory = category;  
     document.getElementById(idButton).innerText = buttonCategory; 
     document.getElementById(idDropDown).classList.add("hide");
 }
 
+
+
+/**
+ * Fetches user data from the server and populates a dropdown menu with the retrieved contacts.
+ * Also updates the dropdown arrow UI.
+ *
+ * @async
+ * @function dropDownUsers
+ * @param {string} id - The ID of the dropdown element to populate.
+ * @param {string} renderId - The ID of the element where the contacts should be rendered.
+ * @returns {Promise<void>} Resolves when the dropdown is populated or logs an error if the fetch fails.
+ */
 async function dropDownUsers(id, renderId, imgId) {
     try {
         let response = await fetch(BASE_URL_USERS);
@@ -40,6 +65,17 @@ async function dropDownUsers(id, renderId, imgId) {
     }
 }
 
+
+/**
+ * Iterates over a list of contact objects and renders each contact's name and initials
+ * into a specified DOM element using a template function. The background index cycles
+ * through a set range for styling purposes.
+ *
+ * @async
+ * @param {Array<Object>} responseJson - Array of contact objects, each expected to have a 'name' property.
+ * @param {string} id - The ID of the DOM element where the contacts will be rendered.
+ * @param {string} renderId - An identifier passed to the template function for rendering.
+ */
 async function filterUsers(id, renderId) {
     try {
         let response = await fetch(BASE_URL_USERS);
@@ -123,6 +159,14 @@ function checkRequiredInput(columnValue, validation) {
     }
 }
 
+/**
+ * Creates a new ticket with the provided column value and saves it to Firebase.
+ * Increments the ticket counter, gathers form input values, and assigns selected users.
+ *
+ * @async
+ * @param {string} columnValue - The column to which the new ticket will be assigned.
+ * @returns {Promise<void>} Resolves when the ticket has been saved to Firebase.
+ */
 async function createNewTicket(columnValue) {
     let selectedUsers = getSelectedUsers();
     let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
@@ -147,6 +191,11 @@ async function createNewTicket(columnValue) {
     await saveTaskToFirebase(newTicket, ticketCounter);
 }
 
+/**
+ * Retrieves the names of users currently selected in the UI.
+ *
+ * @returns {string[]} An array of selected user names extracted from elements with the class "user-icon-selected".
+ */
 function getSelectedUsers() {
     let userIcons = document.querySelectorAll(".user-icon-selected");
     let selectedUsers = [];
@@ -157,6 +206,13 @@ function getSelectedUsers() {
     return selectedUsers;
 }
 
+/**
+ * Renders the selected users' icons into the specified element by ID.
+ * For each checked user checkbox, finds the corresponding user icon color,
+ * generates the user's initials, and appends a styled span element to the target container.
+ *
+ * @param {string} id - The ID of the DOM element where the selected user icons will be rendered.
+ */
 function renderSelectedUsers(id) {
     let checkboxes = document.querySelectorAll(".user-checkbox");
     let userIconClasses = document.querySelectorAll(".user-icon");
@@ -175,6 +231,15 @@ function renderSelectedUsers(id) {
     }); 
 }
 
+/**
+ * Adds a new subtask to the subtask array and updates the DOM to display it.
+ * If the subtask input has a value, it creates a subtask object with its text and checked state,
+ * appends it to the subtask array, renders the subtask in the subtask list, and resets the input.
+ * Increments the subtask counter after adding.
+ *
+ * Assumes the existence of global variables: subtask, subtaskArray, subtaskCounter.
+ * Also assumes an element with ID "subtask-render-div" exists in the DOM.
+ */
 function addSubtask() {
     if(subtask.value) {
         subtaskArray.push({
@@ -198,15 +263,40 @@ function addSubtask() {
     }
 }
 
+
+
+/**
+ * Reveals the first child element of the given element by removing the "hide" class.
+ * Typically used to show buttons or controls when hovering over an element.
+ *
+ * @param {HTMLElement} ele - The DOM element whose first child will be revealed.
+ */
 function hoverButtons(ele) {
     console.log(ele.firstElementChild);
     ele.firstElementChild.classList.remove("hide");
 }
 
+
+
+/**
+ * Hides the first child element of the given element by adding the "hide" class.
+ *
+ * @param {HTMLElement} ele - The parent element whose first child will be hidden.
+ */
 function removeHoverButtons(ele) {
     ele.firstElementChild.classList.add("hide");
 }
 
+
+
+/**
+ * Clears all input fields and resets the task creation form to its default state.
+ * - Empties the task title, description, and date fields.
+ * - Resets the priority selection.
+ * - Clears the selected users display.
+ * - Sets the category to the default value.
+ * - Empties the subtask array and clears the subtask display.
+ */
 function clearTask() {
     taskTitle.value = "";
     taskDescription.value = "";
@@ -218,12 +308,26 @@ function clearTask() {
     document.getElementById("subtask-render-div").innerHTML = "";
 }
 
+
+
+/**
+ * Resets the priority selection by clearing the buttonPriority variable
+ * and removing all priority-related CSS classes ("urgent", "medium", "low")
+ * from elements with the "priority-button" class.
+ */
 function resetPriority() {   
     buttonPriority = "";
     let buttons = document.querySelectorAll(".priority-button");
     buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
 }
 
+
+
+/**
+ * Deletes a subtask from the subtask array and removes its corresponding DOM element.
+ *
+ * @param {HTMLElement} ele - The element that triggered the delete action, typically a button within the subtask.
+ */
 function deleteSubtask(ele) {
     for (let index = 0; index < subtaskArray.length; index++) {
         if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
@@ -234,6 +338,18 @@ function deleteSubtask(ele) {
     ele.parentElement.parentElement.remove();
 }
 
+
+
+/**
+ * Saves a task to Firebase Realtime Database and updates the ticket counter.
+ * Displays user feedback and redirects to the board page upon success.
+ *
+ * @async
+ * @function saveTaskToFirebase
+ * @param {Object} ticketData - The data of the ticket to be saved.
+ * @param {number} ticketCounter - The current ticket counter value.
+ * @returns {Promise<void>} Resolves when the task is saved and the user is redirected.
+ */
 async function saveTaskToFirebase(ticketData, ticketCounter) {
   try {
     
