@@ -249,7 +249,7 @@ function addSubtask() {
         document.getElementById("subtask-render-div").innerHTML +=`<li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
                                                                         ${subtask.value} 
                                                                         <div class="li-buttons hide">
-                                                                            <button>
+                                                                            <button data-index="${subtaskCounter}" onclick="editSubtask(this)">
                                                                                 <img src="./assets/icon/pencil.svg">
                                                                             </button>
                                                                             <div class="add-task-form-divider"></div>
@@ -260,6 +260,8 @@ function addSubtask() {
                                                                     </li>`;
         subtaskCounter++;
         subtask.value = "";
+        document.getElementById("subtask-clear-button").classList.add("hide");
+        document.getElementById("subtask-button-div-divider").classList.add("hide");
     }
 }
 
@@ -375,4 +377,34 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }
+}
+
+function clearSubtaskValue() {
+    document.getElementById("subtask").value = "";
+}
+
+function removeHideOnInput(inputElement) {
+  if (inputElement.value.trim() !== "") {
+    document.getElementById("subtask-clear-button").classList.remove("hide");
+    document.getElementById("subtask-button-div-divider").classList.remove("hide");
+  } else {
+    document.getElementById("subtask-clear-button").classList.add("hide");
+    document.getElementById("subtask-button-div-divider").classList.add("hide");
+  }
+}
+
+function editSubtask(ele) {
+    let liVal = ele.parentElement.parentElement.innerText;
+    ele.parentElement.parentElement.innerHTML = `<div>
+                                                    <input type="text" value="${liVal}"/>
+                                                    <div>
+                                                        <button>
+                                                            <img src="./assets/icon/bin.svg">
+                                                        </button>
+                                                        <div></div>
+                                                        <button>
+                                                            <img>
+                                                        </button>
+                                                    </div>
+                                                 </div>`
 }
