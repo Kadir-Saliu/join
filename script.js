@@ -10,6 +10,7 @@ let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
 };
+let tickets;
 
 async function init() {
   await includeHTML();
@@ -66,7 +67,7 @@ async function getTicketData() {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-    let tickets = responseJson.ticket;
+    tickets = responseJson.ticket;
     let result = Object.values(tickets);
     renderTickets(result);
     return tickets;
@@ -130,12 +131,14 @@ function popUpAccNav() {
   document.getElementById("board-overlay-transparent").classList.toggle("hide");
 }
 
+
 /**
  * Toggles the visibility of the category drop-down menu by adding or removing the "hide" class
  * from the element with the ID "drop-down-category".
  */
-function popUpDropDownCategory() {
+function popUpDropDownCategory(imgId) {
   document.getElementById("drop-down-category").classList.toggle("hide");
+  changeDropDownArrow(imgId);
 }
 
 /**

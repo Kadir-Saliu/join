@@ -13,7 +13,7 @@ let columnVal = 'To do';
 let ticketCounter = 0;
 
 document.getElementById("create-task-button").onclick = function () {
-    checkRequiredInput(columnVal);
+    checkRequiredInput(columnVal, true);
 };
 
 /**
@@ -43,6 +43,7 @@ function setCategory(category, idButton, idDropDown) {
 }
 
 
+
 /**
  * Fetches user data from the server and populates a dropdown menu with the retrieved contacts.
  * Also updates the dropdown arrow UI.
@@ -53,16 +54,17 @@ function setCategory(category, idButton, idDropDown) {
  * @param {string} renderId - The ID of the element where the contacts should be rendered.
  * @returns {Promise<void>} Resolves when the dropdown is populated or logs an error if the fetch fails.
  */
-async function dropDownUsers(id, renderId) {
+async function dropDownUsers(id, renderId, imgId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
-        changeDropDownArrow();
+        changeDropDownArrow(imgId);
         iterateContacts(responseJson, id, renderId);
     } catch (error) {
         console.log(error);
     }
 }
+
 
 /**
  * Iterates over a list of contact objects and renders each contact's name and initials
@@ -74,6 +76,31 @@ async function dropDownUsers(id, renderId) {
  * @param {string} id - The ID of the DOM element where the contacts will be rendered.
  * @param {string} renderId - An identifier passed to the template function for rendering.
  */
+async function filterUsers(id, renderId) {
+    try {
+        let response = await fetch(BASE_URL_USERS);
+        let responseJson = await response.json();
+        iterateUsers(responseJson, id, renderId);
+    } catch (error) {
+        console.log("error");
+    }
+}
+
+function iterateUsers(users, dropDownId, renderId) {
+    let name;
+    let initials;
+    let id;
+    document.getElementById('drop-down-users').innerHTML = "";
+    users.forEach(user => {
+        if(user?.name.toLowerCase().includes(document.getElementById("drop-down-users-input").value.toLowerCase())) {
+            name = user?.name;
+            id= user?.id;
+            initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
+            document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId); 
+        }  
+    });
+}
+
 async function iterateContacts(responseJson, id, renderId) {
     document.getElementById(id).classList.toggle("hide");
     document.getElementById(id).innerHTML = "";
@@ -93,28 +120,15 @@ async function iterateContacts(responseJson, id, renderId) {
     }
 }
 
-/**
- * Toggles the dropdown arrow icon for the users input board between "arrow_down" and "arrow_up".
- * Changes the image source of the element with ID "drop-down-users-input-board"
- * depending on its current state.
- */
-function changeDropDownArrow() {
-    if(document.getElementById("drop-down-users-input-board").src.includes("arrow_down")) {
-        document.getElementById("drop-down-users-input-board").src = "./assets/imgs/arrow_up.png"
-    } else if (document.getElementById("drop-down-users-input-board").src.includes("arrow_up")) {
-        document.getElementById("drop-down-users-input-board").src = "./assets/imgs/arrow_down.png"
+async function changeDropDownArrow(id) {
+    if(document.getElementById(id).src.includes("arrow_down")) {
+        document.getElementById(id).src = "./assets/imgs/arrow_up.png"
+    } else if (document.getElementById(id).src.includes("arrow_up")) {
+        document.getElementById(id).src = "./assets/imgs/arrow_down.png"
     }
 };
 
-/**
- * Validates required input fields for creating a new task.
- * Checks if the task title, date, and category are provided.
- * If any required field is missing, displays corresponding error messages and highlights the fields.
- * If all required fields are present, proceeds to create a new ticket.
- *
- * @param {string} columnValue - The value representing the column or category where the new ticket will be added.
- */
-function checkRequiredInput(columnValue) {
+function checkRequiredInput(columnValue, validation) {
     let hasError = false;
     if (!taskTitle.value) {
         document.getElementById("missing-title-info").classList.remove("hide");
@@ -140,7 +154,7 @@ function checkRequiredInput(columnValue) {
         document.getElementById("missing-category-info").classList.add("hide");
         document.getElementById("category-button").style.border = "";
     }
-    if (!hasError) {
+    if (!hasError && validation) {
         createNewTicket(columnValue);
     }
 }

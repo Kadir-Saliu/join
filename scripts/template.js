@@ -17,7 +17,6 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-
 /**
  * Generates an HTML snippet for a ticket , rendering assigned user icons concurrently.
  *
@@ -33,7 +32,7 @@ function userDropDownTemplate(name, inititals, index, id) {
  * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
  *
  */
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks) {  
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {  
   let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -48,7 +47,7 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
     let userSpans = userSpansArray.join("");
 
     return `
-        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
+        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
             <p>${description}</p>
@@ -62,7 +61,7 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
               <div>
               ${userSpans}
               </div>
-              <img src="./assets/icon/${priority}.svg" alt="" />
+              <img src="${priority[0] && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt="" />
             </div>
           </div>
     `;
@@ -98,7 +97,6 @@ function getContactTemplate(contact, initials) {
   `;    
 }
 
-
 /**
  * Builds and returns an array of HTML snippets representing assigned users for a ticket detail view.
  * Each user is rendered with an icon (initials) styled dynamically based on user-specific details.
@@ -117,7 +115,7 @@ function getContactTemplate(contact, initials) {
  * each containing user initials and name inside styled elements.
  * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
  */
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {  
+async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {  
     let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -136,7 +134,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     let userSpans = userSpansArray.join("");
 
     let subtaskEle = subtasks.map((subtask, i) => {        
-        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
+        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
         `;
     }).join("");
     
@@ -153,7 +151,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     </div>
     <div class="pop-up-margin-b-25 gap-10">
         <p>Priority:</p>
-        <span>${priority} <img src="./assets/icon/${priority}.svg" alt=""></span>
+        <span>${priority} <img src="${priority && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt=""></span>
     </div>
     <div class="pop-up-margin-b-25" id="assigned-users-div">
        ${userSpans}
@@ -165,7 +163,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     <div id="pop-up-bottom-buttons">
         <button onclick="deleteTicket(${index})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
-        <button data-ticketIndex=${index} data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
 }
 
@@ -186,7 +184,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
  * each showing a user's initials, styled dynamically, and with a data-name attribute.
  * @throws {Error} If any call to `getUserDetails(user)` fails.
  */
-async function editTicket (title, description, priority, assignedTo, subtasks, index, mode) {
+async function editTicket (title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
   let userSpansArray = await Promise.all(assignedTo
     .map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -239,7 +237,7 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         ${subtaskEle}
         </ul>
     </div>
-    <button id="board-task-edit-ok" data-ticketindex="${index}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
+    <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
   `;
   document.querySelectorAll(".set-priority").forEach((ele) => {
   if(ele.innerText.toLowerCase().trim() === priority) {
