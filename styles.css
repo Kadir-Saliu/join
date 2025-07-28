@@ -21,6 +21,7 @@ main {
   width: calc(100% - 232px);
   margin-left: 232px;
   margin-top: 100px;
+  overflow: auto;
 }
 
 .mw1920 {
