@@ -249,15 +249,40 @@ function addSubtask() {
     }
 }
 
+
+
+/**
+ * Reveals the first child element of the given element by removing the "hide" class.
+ * Typically used to show buttons or controls when hovering over an element.
+ *
+ * @param {HTMLElement} ele - The DOM element whose first child will be revealed.
+ */
 function hoverButtons(ele) {
     console.log(ele.firstElementChild);
     ele.firstElementChild.classList.remove("hide");
 }
 
+
+
+/**
+ * Hides the first child element of the given element by adding the "hide" class.
+ *
+ * @param {HTMLElement} ele - The parent element whose first child will be hidden.
+ */
 function removeHoverButtons(ele) {
     ele.firstElementChild.classList.add("hide");
 }
 
+
+
+/**
+ * Clears all input fields and resets the task creation form to its default state.
+ * - Empties the task title, description, and date fields.
+ * - Resets the priority selection.
+ * - Clears the selected users display.
+ * - Sets the category to the default value.
+ * - Empties the subtask array and clears the subtask display.
+ */
 function clearTask() {
     taskTitle.value = "";
     taskDescription.value = "";
@@ -269,12 +294,26 @@ function clearTask() {
     document.getElementById("subtask-render-div").innerHTML = "";
 }
 
+
+
+/**
+ * Resets the priority selection by clearing the buttonPriority variable
+ * and removing all priority-related CSS classes ("urgent", "medium", "low")
+ * from elements with the "priority-button" class.
+ */
 function resetPriority() {   
     buttonPriority = "";
     let buttons = document.querySelectorAll(".priority-button");
     buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
 }
 
+
+
+/**
+ * Deletes a subtask from the subtask array and removes its corresponding DOM element.
+ *
+ * @param {HTMLElement} ele - The element that triggered the delete action, typically a button within the subtask.
+ */
 function deleteSubtask(ele) {
     for (let index = 0; index < subtaskArray.length; index++) {
         if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
@@ -285,6 +324,18 @@ function deleteSubtask(ele) {
     ele.parentElement.parentElement.remove();
 }
 
+
+
+/**
+ * Saves a task to Firebase Realtime Database and updates the ticket counter.
+ * Displays user feedback and redirects to the board page upon success.
+ *
+ * @async
+ * @function saveTaskToFirebase
+ * @param {Object} ticketData - The data of the ticket to be saved.
+ * @param {number} ticketCounter - The current ticket counter value.
+ * @returns {Promise<void>} Resolves when the task is saved and the user is redirected.
+ */
 async function saveTaskToFirebase(ticketData, ticketCounter) {
   try {
     

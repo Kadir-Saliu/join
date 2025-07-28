@@ -137,6 +137,14 @@ function calculateSubtaskCounter(subtasks) {
   }
 }
 
+
+
+/**
+ * Displays the subtask progress element for a given index if there is at least one subtask.
+ *
+ * @param {number} index - The index used to identify the subtask progress element.
+ * @param {Array} subtasks - An array of subtasks to check for existence.
+ */
 function renderSubtaskProgress(index, subtasks) {
   if (subtasks[0]) {
     document.getElementById(`p-subtask-${index}`).classList.remove("hide");

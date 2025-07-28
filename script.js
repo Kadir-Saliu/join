@@ -98,21 +98,12 @@ async function getContactsData(user) {
   }
 }
 
-async function getSubtasksData(id) {
-  let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${id}/subtask.json`);
-  let responseJson = await response.json();
-  let subtask = Object.values(responseJson);
-  return subtask
-}
-
 /**
- * Asynchronously loads and injects HTML content into elements with a "template" attribute.
- * For each element with the "template" attribute, fetches the HTML file specified by the attribute value
- * and replaces the element's inner HTML with the fetched content. If the fetch fails, displays "Page not found".
+ * Fetches and returns the subtasks data for a given ticket ID from the Firebase Realtime Database.
  *
  * @async
- * @function includeHTML
- * @returns {Promise<void>} Resolves when all template elements have been processed.
+ * @param {string|number} id - The unique identifier of the ticket.
+ * @returns {Promise<Array>} A promise that resolves to an array of subtasks associated with the ticket.
  */
 async function includeHTML() {
   let includeElements = document.querySelectorAll("[template]");
@@ -128,6 +119,10 @@ async function includeHTML() {
   }
 }
 
+/**
+ * Toggles the visibility of the account navigation panel and its overlay.
+ * Adds or removes the "hide" class from the account navigation div and the overlay element.
+ */
 function popUpAccNav() {
   document
     .getElementsByClassName("account-nav-render-div")[0]
@@ -135,14 +130,26 @@ function popUpAccNav() {
   document.getElementById("board-overlay-transparent").classList.toggle("hide");
 }
 
+/**
+ * Toggles the visibility of the category drop-down menu by adding or removing the "hide" class
+ * from the element with the ID "drop-down-category".
+ */
 function popUpDropDownCategory() {
   document.getElementById("drop-down-category").classList.toggle("hide");
 }
 
+/**
+ * Toggles the visibility of the users dropdown menu in the board.
+ * Adds or removes the "hide" class from the element with ID "drop-down-users-board".
+ */
 function popUpDropDownUsersInBoard() {
   document.getElementById("drop-down-users-board").classList.toggle("hide");
 }
 
+/**
+ *  Toggles the visibility of the users dropdown menu in the board.
+ * Adds or removes the "hide" class from the element with ID "drop-down-category-board".
+ */
 function popUpDropDownCategoryInBoard() {
   document.getElementById("drop-down-category-board").classList.toggle("hide");
 }
