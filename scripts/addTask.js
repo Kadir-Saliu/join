@@ -11,6 +11,8 @@ const addedUserfeedback = document.getElementById("added-userfeedback");
 let subtaskCounter = 0;
 let columnVal = 'To do';
 let ticketCounter = 0;
+let addTaskPopUp = document.getElementById("add-task-pop-up");
+let bordOverlay = document.getElementById("board-overlay");
 
 document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal, true);
@@ -371,9 +373,16 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
     });
     addedUserfeedback.classList.remove("hide");
     addedUserfeedback.classList.add("show");
+    history.pushState(null, "");
+    getTicketData();
     setTimeout(() => {
-      window.location.href = "board.html";
-    }, 1000);
+    addedUserfeedback.classList.add("hide");
+    addedUserfeedback.classList.remove("show");    
+    }, 3000);
+    
+    addTaskPopUp.classList.add("hide");
+    bordOverlay.classList.add("hide");
+
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }
