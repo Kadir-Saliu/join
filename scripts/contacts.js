@@ -50,11 +50,56 @@ function renderContacts(sortedContacts, contactsRef) {
   });
 }
 
+/**
+ * Displays the contact details in the contact details section.
+ * @param {string} initials - The contact's initials.
+ * @param {string} userName - The contact's name.
+ * @param {string} email - The contact's email address.
+ * @param {string} phone - The contact's phone number.
+ */
 const showContactsDetails = (initials, userName, email, phone) => {
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone);
 };
 
+/**
+ * Escapes single quotes in a string for safe usage in HTML or JS.
+ * @param {string} str - The input string.
+ * @returns {string} The escaped string.
+ */
 function escapeQuotes(str) {
   return str.replace(/'/g, "\\'");
 }
+
+/**
+ * Toggles the visibility of the add contact overlay.
+ */
+function toggleAddContactOverlay() {
+  const contactOverlayRef = document.getElementById("contactOverlay");
+
+  if (contactOverlayRef.classList.contains("d_none")) {
+    contactOverlayRef.classList.remove("d_none");
+    setTimeout(() => {
+      contactOverlayRef.classList.add("active");
+    }, 10);
+    document.body.addEventListener("click", toggleAddContactOverlay);
+  } else {
+    contactOverlayRef.classList.remove("active");
+    setTimeout(() => {
+      contactOverlayRef.classList.add("d_none");
+    }, 400);
+    document.body.removeEventListener("click", toggleAddContactOverlay);
+  }
+}
+
+/**
+ * Prevents event bubbling for the given event.
+ * @param {Event} event - The event to stop propagation for.
+ */
+function bubblingPrevention(event) {
+  event.stopPropagation();
+}
+
+document.querySelector(".add-contact-button").addEventListener("click", (event) => {
+  event.stopPropagation();
+});

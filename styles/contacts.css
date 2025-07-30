@@ -24,11 +24,10 @@
 
 .contacts-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
   margin-top: 106px;
   gap: 30px;
+  margin-left: 52px;
 }
 
 .contacts-header img {
@@ -113,8 +112,76 @@ hr {
   width: 352px;
 }
 
+.contact-information-mt {
+  margin-top: 30px;
+}
+
+.contact-information-initials {
+  font-size: 47px;
+  color: white;
+  background-color: aqua;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-information-username {
+  font-size: 47px;
+}
+
+.edit-and-delete {
+  display: flex;
+  gap: 12px;
+}
+
+.align-icon-and-text {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.edit-delete-icons {
+  height: 20px;
+  width: 20px;
+}
+
+.contact-information-headline {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .contact-information {
   display: flex;
   flex-direction: column;
   gap: 22px;
+}
+
+.initials-and-username {
+  display: flex;
+  gap: 100px;
+}
+
+.d_none {
+  display: none;
+}
+
+#contactOverlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(100vw, -50%);
+  background-color: red;
+  height: 500px;
+  width: 1000px;
+  z-index: 1000;
+  border-radius: 24px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#contactOverlay.active {
+  transform: translate(-50%, -50%);
 }

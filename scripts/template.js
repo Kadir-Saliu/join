@@ -65,17 +65,25 @@ function getContactTemplate(initials, userName, email, phone) {
 
 function getContactDetailsTemplate(initials, userName, email, phone) {
   return /*html*/ `
-    <div>
-      <span>${initials}</span>
-      <div>
-        <div>${userName}</div>
+    <div class="contact-information-mt">
+      <div class="initials-and-username">
+        <span class="contact-information-initials">${initials}</span>
         <div>
-          <span>Edit</span>
-          <span>Delete</span>
+          <div class="contact-information-username">${userName}</div>
+          <div class="edit-and-delete">
+            <div class="align-icon-and-text">
+              <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
+              <span>Edit</span>
+            </div>
+            <div class="align-icon-and-text">
+              <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
+              <span>Delete</span>
+            </div>
+          </div>
         </div>
-      </div>
+      </div>  
     </div>
-    <div>Contact Information</div>
+    <div class="contact-information-headline">Contact Information</div>
     <div class="contact-information">
       <span><b>Email</b></span>
       <span class="email-color">${email}</span>
