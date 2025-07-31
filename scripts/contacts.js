@@ -59,7 +59,9 @@ function renderContacts(sortedContacts, contactsRef) {
  */
 const showContactsDetails = (initials, userName, email, phone) => {
   const contactDetailsRef = document.getElementById("contactDetails");
+  contactDetailsRef.innerHTML = "";
   contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone);
+  contactDetailsRef.classList.add("active");
 };
 
 /**
@@ -83,12 +85,14 @@ function toggleAddContactOverlay() {
       contactOverlayRef.classList.add("active");
     }, 10);
     document.body.addEventListener("click", toggleAddContactOverlay);
+    document.querySelector(".body-background-overlay").classList.remove("d_none");
   } else {
     contactOverlayRef.classList.remove("active");
     setTimeout(() => {
       contactOverlayRef.classList.add("d_none");
     }, 400);
     document.body.removeEventListener("click", toggleAddContactOverlay);
+    document.querySelector(".body-background-overlay").classList.add("d_none");
   }
 }
 
@@ -100,6 +104,12 @@ function bubblingPrevention(event) {
   event.stopPropagation();
 }
 
+/**
+ * Adds a click event listener to the element with the class "add-contact-button".
+ * Prevents the click event from bubbling up to parent elements.
+ *
+ * @param {MouseEvent} event - The click event object.
+ */
 document.querySelector(".add-contact-button").addEventListener("click", (event) => {
   event.stopPropagation();
 });
