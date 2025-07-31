@@ -470,3 +470,7 @@ button {
 .overlay-textarea{
   resize: none;
 }
+
+#task-title {
+  margin-bottom: 8px;
+}
