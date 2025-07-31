@@ -466,3 +466,7 @@ button {
   bottom: 50px;
   right: 75px;
 }
+
+.overlay-textarea{
+  resize: none;
+}
