@@ -250,7 +250,7 @@ async function renderTicketOverlay(ele) {
     
     defineTicketDetailVariables(result, mode, index, ticketCounterId);
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
 }
 

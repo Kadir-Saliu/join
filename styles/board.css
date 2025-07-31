@@ -277,6 +277,7 @@ button {
   border-radius: 0 0 5px 5px;
   display: flex;
   flex-direction: column;
+  max-height: 240px;
 }
 
 #drop-down-users-board div {
@@ -450,4 +451,18 @@ button {
 .subtask-count {
   color: black !important;
   font-size: 12px;
+}
+
+#required-div, #button-div {
+  position: fixed;
+}
+
+#required-div {
+  bottom: 50px;
+  left: 75px;
+}
+
+#button-div {
+  bottom: 50px;
+  right: 75px;
 }

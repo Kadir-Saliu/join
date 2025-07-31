@@ -58,7 +58,7 @@
               class="drop-down-selection"
               placeholder="Select Contacts to assign"
               onclick="dropDownUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input-img')"
-              oninput="filterUsers('drop-down-users', 'render-selected-users')"
+              oninput="filterUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input')"
             />
             <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input-img')">
               <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
@@ -94,11 +94,11 @@
         </div>
       </div>
       <div class="bottom-section">
-        <div class="span-div">
+        <div class="span-div" id="required-div">
           <span>*</span>
           <p>This field is required</p>
         </div>
-        <div>
+        <div id="button-div">
           <button id="clear-task-button" onclick="clearTask()">Clear X</button>
           <button id="create-task-button">Create Task</button>
         </div>

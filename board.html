@@ -129,7 +129,7 @@
         </div>
         <p>Assigned to</p>
         <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign"
-          onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board')" />
+          onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board')" oninput="filterUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-board')"/>
         <div id="drop-down-users-board" class="hide"></div>
         <div id="render-selected-users-board"></div>
         <div class="span-div">
@@ -154,11 +154,11 @@
       </div>
     </div>
     <div class="bottom-section">
-      <div class="span-div">
+      <div class="span-div" id="required-div">
         <span>*</span>
         <p>This field is required</p>
       </div>
-      <div>
+      <div id="button-div">
         <button id="clear-task-button" onclick="clearTask()">Clear X</button>
         <button id="create-task-button">Create Task</button>
       </div>

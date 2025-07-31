@@ -78,23 +78,23 @@ async function dropDownUsers(id, renderId, imgId) {
  * @param {string} id - The ID of the DOM element where the contacts will be rendered.
  * @param {string} renderId - An identifier passed to the template function for rendering.
  */
-async function filterUsers(id, renderId) {
+async function filterUsers(id, renderId, inputId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
-        iterateUsers(responseJson, id, renderId);
+        iterateUsers(responseJson, id, renderId, inputId);
     } catch (error) {
-        console.log("error");
+        console.log(error);
     }
 }
 
-function iterateUsers(users, dropDownId, renderId) {
+function iterateUsers(users, dropDownId, renderId, inputId) {
     let name;
     let initials;
     let id;
-    document.getElementById('drop-down-users').innerHTML = "";
+    document.getElementById(dropDownId).innerHTML = "";
     users.forEach(user => {
-        if(user?.name.toLowerCase().includes(document.getElementById("drop-down-users-input").value.toLowerCase())) {
+        if(user?.name.toLowerCase().includes(document.getElementById(inputId).value.toLowerCase())) {
             name = user?.name;
             id= user?.id;
             initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
@@ -390,6 +390,8 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
 
 function clearSubtaskValue() {
     document.getElementById("subtask").value = "";
+    document.getElementById("subtask-clear-button").classList.add("hide");
+    document.getElementById("subtask-button-div-divider").classList.add("hide");
 }
 
 function removeHideOnInput(inputElement) {
