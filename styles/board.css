@@ -451,3 +451,7 @@ button {
   color: black !important;
   font-size: 12px;
 }
+
+.overlay-textarea{
+  resize: none;
+}
