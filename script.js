@@ -29,6 +29,7 @@ async function summaryInit() {
 async function boardInit() {
   loadNavigationAndSetInitials();
   getTicketData();
+  minDate();
 }
 
 async function addTaskInit() {
