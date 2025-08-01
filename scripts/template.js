@@ -8,7 +8,16 @@ function userDropDownTemplate(name, inititals, index, id) {
             </div>`;
 }
 
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks) {
+async function ticketTemplate(
+  title,
+  description,
+  category,
+  categoryCss,
+  assignedTo,
+  priority,
+  index,
+  subtasks
+) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -77,7 +86,7 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
             </div>
             <div class="align-icon-and-text">
               <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
-              <span>Delete</span>
+              <span onclick="deleteContactFromDatabase(${userName})">Delete</span>
             </div>
           </div>
         </div>
@@ -93,7 +102,17 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
   `;
 }
 
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index) {
+async function renderTicketDetails(
+  category,
+  categoryColor,
+  title,
+  description,
+  date,
+  priority,
+  assignedTo,
+  subtasks,
+  index
+) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
