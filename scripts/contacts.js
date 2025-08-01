@@ -1,11 +1,24 @@
+let currentUser = null;
+let contacts = [];
+
+/**
+ * Initializes the current user by fetching user data and finding the logged-in user
+ */
+async function initializeCurrentUser() {
+  if (!currentUser) {
+    currentUser = Object.entries(await (await fetch(BASE_URL_USERS)).json())
+      .map(([id, user]) => ({ id, ...user }))
+      .find((user) => user.name === loggedInUser.username);
+  }
+  return currentUser;
+}
+
 /**
  * This function finds the current logged in user, fetches the respective contact list and renders it after the list is sorted
  */
 async function showContacts() {
-  let user = Object.entries(await (await fetch(BASE_URL_USERS)).json())
-    .map(([id, user]) => ({ id, ...user }))
-    .find((user) => user.name === loggedInUser.username);
-  let contacts = await getContactsData(user);
+  await initializeCurrentUser();
+  contacts = await getContactsData(currentUser);
   window.contactsList = contacts;
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   let sortedContacts = {};
@@ -113,3 +126,59 @@ function bubblingPrevention(event) {
 document.querySelector(".add-contact-button").addEventListener("click", (event) => {
   event.stopPropagation();
 });
+
+async function addContactToDatabase() {
+  let name = document.getElementById("contactName").value;
+  let email = document.getElementById("contactEmail").value;
+  let phone = document.getElementById("contactPhone").value;
+  if (name && email && phone) {
+    let newContact = {
+      name: name,
+      email: email,
+      phone: phone,
+    };
+    putNewContactToDatabase(newContact);
+    showContacts();
+    toggleAddContactOverlay();
+    clearContactForm();
+  } else {
+    alert("Please fill in all fields.");
+  }
+}
+
+/**
+ * Adds a new contact to the Firebase Realtime Database for the current user.
+ *
+ * Sends a PUT request to the database, storing the provided contact object
+ * under the path `/contacts/{currentUser.id}/{contacts.length + 1}.json`.
+ *
+ * @async
+ * @param {Object} contact - The contact object to be added to the database.
+ * @returns {Promise<void>} A promise that resolves when the contact has been added.
+ */
+async function putNewContactToDatabase(contact) {
+  await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${
+      contacts.length + 1
+    }.json`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    }
+  );
+}
+
+/**
+ * Clears the values of the contact form input fields: name, email, and phone.
+ * Resets the input fields with IDs 'contactName', 'contactEmail', and 'contactPhone' to empty strings.
+ */
+function clearContactForm() {
+  document.getElementById("contactName").value = "";
+  document.getElementById("contactEmail").value = "";
+  document.getElementById("contactPhone").value = "";
+}
+
+async function deleteContactFromDatabase(contact) {}

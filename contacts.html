@@ -29,12 +29,35 @@
           <img src="./assets//icon/add_contact_person_icon.svg" alt="" />
         </div>
         <div class="contact-inputs">
-          <input class="contact-input" type="text" placeholder="Name" spellcheck="false" />
-          <input class="contact-input" type="text" placeholder="Email" spellcheck="false" />
-          <input class="contact-input" type="text" placeholder="Phone" spellcheck="false" />
+          <input
+            id="contactName"
+            class="contact-input"
+            type="text"
+            placeholder="Name"
+            spellcheck="false"
+            required
+          />
+          <input
+            id="contactEmail"
+            class="contact-input"
+            type="text"
+            placeholder="Email"
+            spellcheck="false"
+            required
+          />
+          <input
+            id="contactPhone"
+            class="contact-input"
+            type="text"
+            placeholder="Phone"
+            spellcheck="false"
+            required
+          />
           <div class="contact-inputs-buttons">
             <button onclick="toggleAddContactOverlay()" class="cancel-button">Cancel x</button>
-            <button class="create-contact-button">Create contact &#10003;</button>
+            <button onclick="addContactToDatabase()" class="create-contact-button">
+              Create contact &#10003;
+            </button>
           </div>
         </div>
       </div>
