@@ -406,16 +406,14 @@ function removeHideOnInput(inputElement) {
 
 function editSubtask(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
-    ele.parentElement.parentElement.innerHTML = `<div>
-                                                    <input type="text" value="${liVal}"/>
+    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}"/>
                                                     <div>
-                                                        <button>
+                                                        <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
                                                         <div></div>
                                                         <button>
                                                             <img>
                                                         </button>
-                                                    </div>
-                                                 </div>`
+                                                    </div>`
 }
