@@ -3,6 +3,11 @@ const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
 let currentDraggedElement;
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = currentDate.getMonth() + 1;
+const day = currentDate.getDate();
+const today = `${year}-${0}${month}-${day}`;
 
 let subtaskCount = 0;
 let subtaskWidth = 0;
@@ -64,7 +69,7 @@ function switchEditInfoMenu(ele) {
 
 /**
  * Renders a list of tickets into their respective board columns.
- * 
+ *
  * @async
  * @param {Array<Object>} tickets - An array of ticket objects to render. Each ticket should contain properties such as `title`, `description`, `category`, `column`, `assignedTo`, `priority`, and `subtask`.
  * @returns {Promise<void>} Resolves when all tickets have been rendered to the DOM.
@@ -101,7 +106,7 @@ async function renderTickets(tickets) {
         subtasks,
         ticketCounterId
       );
-    renderSubtaskProgress(index, subtasks);
+      renderSubtaskProgress(index, subtasks);
     }
   }
   toggleNoTaskContainer();
@@ -136,8 +141,6 @@ function calculateSubtaskCounter(subtasks) {
     subtaskWidth = (subtaskCount / subtasks.length) * 100;
   }
 }
-
-
 
 /**
  * Displays the subtask progress element for a given index if there is at least one subtask.
@@ -247,7 +250,7 @@ async function renderTicketOverlay(ele) {
     let index = ele.dataset.ticketindex;
     let mode = ele.dataset.mode;
     let ticketCounterId = ele.dataset.ticketcounterid;
-    
+
     defineTicketDetailVariables(result, mode, index, ticketCounterId);
   } catch (error) {
     console.log(error);
@@ -263,7 +266,12 @@ async function renderTicketOverlay(ele) {
  * @param {number} index - The index of the ticket to process in the ticket array.
  * @returns {Promise<void>} Resolves when the operation is complete.
  */
-async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId) {  
+async function defineTicketDetailVariables(
+  ticket,
+  mode,
+  index,
+  ticketCounterId
+) {
   let category = ticket[index].category;
   let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
   let title = ticket[index].title;
@@ -287,7 +295,16 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
       ticketCounterId
     );
   } else if (mode === "edit") {
-    editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId);
+    editTicket(
+      title,
+      description,
+      priority,
+      assignedTo,
+      subtasks,
+      index,
+      mode,
+      ticketCounterId
+    );
   }
 }
 
@@ -295,7 +312,7 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
  * Checks and retrieves edited values from input fields for a ticket,
  * then updates the ticket with the new values.
  *
- * @param {HTMLElement} ele - The element representing the ticket being edited. 
+ * @param {HTMLElement} ele - The element representing the ticket being edited.
  *                            Must have a `dataset.ticketindex` property.
  */
 function checkEditedValues(ele) {
@@ -370,7 +387,12 @@ function takeOverEditedTicket(
  * @param {Object} ticketData - The updated ticket data to be saved to Firebase.
  * @returns {Promise<void>} Resolves when the ticket is successfully updated and UI is refreshed.
  */
-async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId) {
+async function saveEditedTaskToFirebase(
+  ele,
+  index,
+  ticketData,
+  ticketCounterId
+) {
   try {
     let response = await fetch(
       `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
@@ -440,7 +462,7 @@ async function deleteTicket(index) {
 /**
  * Toggles the checked state of a subtask for a given ticket and saves the update to Firebase.
  *
- * @param {HTMLInputElement} input - The input element representing the subtask checkbox. 
+ * @param {HTMLInputElement} input - The input element representing the subtask checkbox.
  *   Must have `data-index` (subtask index) and `data-ticketindex` (ticket index) attributes.
  */
 function toggleSubtask(input) {
@@ -452,7 +474,12 @@ function toggleSubtask(input) {
   let partialUpdate = {
     subtask: tickets[ticketCounterIndex].subtask,
   };
-  saveEditedTaskToFirebase(input, ticketIndex, partialUpdate, ticketCounterIndex);
+  saveEditedTaskToFirebase(
+    input,
+    ticketIndex,
+    partialUpdate,
+    ticketCounterIndex
+  );
 }
 
 /**
@@ -479,3 +506,10 @@ async function getUserDetails(user) {
     return 0;
   }
 }
+
+function minDate() {
+  const dateInput = document.getElementById("task-date");
+  dateInput.setAttribute("min", today);
+}
+
+
