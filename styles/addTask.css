@@ -507,6 +507,26 @@ textarea {
   border-bottom: 1px solid rgb(41, 171, 226) !important;
 }
 
+.edit-subtask-div {
+  display: flex;
+  height: 24px;
+}
+
+.edit-subtask-div button {
+  border: none;
+  margin-bottom: 0 !important;
+}
+
+.edit-subtask-div img {
+  width: 20px;
+  border: none;
+}
+
+.edit-subtask-div div {
+  width: 1px;
+  height: 80%;
+}
+
 /* userfeedback */
 
 .added-animation {
