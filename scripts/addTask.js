@@ -13,6 +13,7 @@ let columnVal = 'To do';
 let ticketCounter = 0;
 let addTaskPopUp = document.getElementById("add-task-pop-up");
 let bordOverlay = document.getElementById("board-overlay");
+let subtaskValue = [];
 
 document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal, true);
@@ -243,6 +244,8 @@ function renderSelectedUsers(id) {
  * Also assumes an element with ID "subtask-render-div" exists in the DOM.
  */
 function addSubtask() {
+    subtaskValue.push(subtask.value);
+    console.log(subtaskValue);    
     if(subtask.value) {
         subtaskArray.push({
             text: subtask.value,
@@ -377,11 +380,16 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
     getTicketData();
     setTimeout(() => {
     addedUserfeedback.classList.add("hide");
-    addedUserfeedback.classList.remove("show");    
+    addedUserfeedback.classList.remove("show"); 
+    window.location.href = "board.html";   
     }, 3000);
     
-    addTaskPopUp.classList.add("hide");
-    bordOverlay.classList.add("hide");
+    if(addTaskPopUp) {
+        addTaskPopUp.classList.add("hide");
+    }
+    if(bordOverlay) {
+        bordOverlay.classList.add("hide");
+    }
 
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
@@ -408,16 +416,25 @@ function editSubtask(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
     ele.parentElement.parentElement.removeAttribute("onmouseleave");
-    ele.parentElement.parentElement.innerHTML = `   <p></p>
-                                                    <input type="text" value="${liVal}"/>
+    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}"/>
                                                     <div class="edit-subtask-div">
                                                         <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
                                                         <div></div>
-                                                        <button>
+                                                        <button onclick="confirmEditedSubtask(this)">
                                                             <img src="./assets/icon/check.png">
                                                         </button>
                                                     </div>`
     
+}
+
+function confirmEditedSubtask(ele) {
+    console.log(ele.parentElement.previousElementSibling.value);
+    subtaskArray.forEach(i => {
+        if(i.text === ele.parentElement.previousElementSibling.value) {
+
+        }
+    }
+    );   
 }

@@ -10,6 +10,7 @@ let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
 };
+let allTickets = [];
 let tickets;
 
 async function init() {
@@ -70,13 +71,17 @@ async function getTicketData() {
     let responseJson = await response.json();
     tickets = responseJson.ticket;
     let result = Object.values(tickets);
-    renderTickets(result);
+    if(typeof renderTickets === 'function') {
+      renderTickets(result);
+    }
     return tickets;
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
   allTickets.push(tickets);
-  toggleNoTaskContainer();
+  if(typeof toggleNoTaskContainer === 'function') {
+  toggleNoTaskContainer();    
+  }
 }
 
 /**
