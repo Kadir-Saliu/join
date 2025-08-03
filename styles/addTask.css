@@ -28,20 +28,6 @@ main h1 {
   display: flex;
 }
 
-#required-div, #button-div {
-  position: fixed;
-}
-
-#required-div {
-  bottom: 50px;
-  left: 325px;
-}
-
-#button-div {
-  bottom: 50px;
-  right: 125px;
-}
-
 
 .span-div span {
   color: rgb(254, 136, 151);

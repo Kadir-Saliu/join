@@ -258,7 +258,7 @@ function addSubtask() {
                                                                                 <img src="./assets/icon/pencil.svg">
                                                                             </button>
                                                                             <div class="add-task-form-divider"></div>
-                                                                            <button data-index="${subtaskCounter}" onclick="deleteSubtask(this)">
+                                                                            <button data-index="${subtaskCounter}" onclick="deleteSubtask(this, '${subtask.value}')">
                                                                                 <img src="./assets/icon/bin.svg">
                                                                             </button>
                                                                         </div>
@@ -279,7 +279,6 @@ function addSubtask() {
  * @param {HTMLElement} ele - The DOM element whose first child will be revealed.
  */
 function hoverButtons(ele) {
-    console.log(ele.firstElementChild);
     ele.firstElementChild.classList.remove("hide");
 }
 
@@ -335,7 +334,12 @@ function resetPriority() {
  *
  * @param {HTMLElement} ele - The element that triggered the delete action, typically a button within the subtask.
  */
-function deleteSubtask(ele) {
+function deleteSubtask(ele, liVal) {
+    let index = subtaskValue.indexOf(liVal);
+    subtaskValue.splice(index, 1);
+    console.log(subtaskValue);
+    
+    
     for (let index = 0; index < subtaskArray.length; index++) {
         if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
             subtaskArray.splice(index, 1);         
@@ -416,25 +420,40 @@ function editSubtask(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
     ele.parentElement.parentElement.removeAttribute("onmouseleave");
-    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}"/>
+    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
+    console.log(ele.parentElement.parentElement);
+    
+    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
                                                     <div class="edit-subtask-div">
-                                                        <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
+                                                        <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this, '${liVal}')">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
                                                         <div></div>
-                                                        <button onclick="confirmEditedSubtask(this)">
+                                                        <button data-index="${ele.dataset.index}" onclick="confirmEditedSubtask(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
                                                             <img src="./assets/icon/check.png">
                                                         </button>
-                                                    </div>`
+                                                    </div>`;
+                                                    
     
 }
 
-function confirmEditedSubtask(ele) {
-    console.log(ele.parentElement.previousElementSibling.value);
-    subtaskArray.forEach(i => {
-        if(i.text === ele.parentElement.previousElementSibling.value) {
-
-        }
-    }
-    );   
+function confirmEditedSubtask(ele, liVal, inputId, liId) {
+    let index = subtaskValue.indexOf(liVal);
+    subtaskArray[index].text = document.getElementById(inputId).value;
+    subtaskValue[index] = subtaskArray[index].text;
+    
+    document.getElementById(inputId).remove();
+    document.getElementById(liId).innerHTML = "";
+    document.getElementById(liId).innerHTML =  `${subtaskArray[index].text}
+                                                <div class="li-buttons hide" id="buttons-${liId}">
+                                                <button data-index="${ele.dataset.index}" onclick="editSubtask(this)">
+                                                    <img src="./assets/icon/pencil.svg">
+                                                </button>
+                                                <div class="add-task-form-divider"></div>
+                                                <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
+                                                    <img src="./assets/icon/bin.svg">
+                                                </button>
+                                                </div>`
+    document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
+    document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
 }
