@@ -107,6 +107,11 @@ button {
   font-size: 15px;
 }
 
+.add-task-btn:hover {
+  border: 1px solid rgb(41, 171, 227);
+  color: rgb(41, 171, 227);
+}
+
 .kanban-task {
   background-color: white;
   margin-bottom: 16px;
@@ -424,6 +429,13 @@ button {
 
 #subtasks-div li {
   font-size: 14px;
+  margin-left: 0;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+#subtasks-div li:hover {
+  background-color: rgb(231, 231, 231);
 }
 
 #subtasks-div input {

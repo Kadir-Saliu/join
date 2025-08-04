@@ -178,3 +178,7 @@ li {
 #board-task-edit-ok:hover {
     background-color: rgb(41, 171, 226);
 }
+
+#drop-down-users-input-div {
+    display: flex;
+}

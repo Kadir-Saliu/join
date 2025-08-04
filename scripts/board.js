@@ -368,6 +368,8 @@ function takeOverEditedTicket(
   editedTicket.assignedTo = selectedUsers;
   subtaskArray = [];
   document.querySelectorAll(".subtask-li").forEach((li) => {
+    console.log(li);
+    
     subtaskArray.push({
       text: li.innerText,
       checked: false,

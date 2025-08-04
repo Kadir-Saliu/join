@@ -129,16 +129,22 @@
           </button>
         </div>
         <p>Assigned to</p>
-        <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign"
-          onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board')" oninput="filterUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-board')"/>
+        <div id="drop-down-users-input-div">
+          <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign"
+            onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img')" oninput="filterUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-board')"/>
+          <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img')">
+              <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
+            </div>
+        </div>
         <div id="drop-down-users-board" class="hide"></div>
         <div id="render-selected-users-board"></div>
         <div class="span-div">
           <p>Category</p>
           <span>*</span>
         </div>
-        <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategoryInBoard()">
+        <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategoryInBoard('category-button-img'); checkRequiredInput('none', false)">
           Select task category
+          <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
         </button>
         <div id="drop-down-category-board" class="hide">
           <button onclick="setCategory('Technical Task', 'category-button', 'drop-down-category-board')">Technical
