@@ -245,7 +245,6 @@ function renderSelectedUsers(id) {
  */
 function addSubtask() {
     subtaskValue.push(subtask.value);
-    console.log(subtaskValue);    
     if(subtask.value) {
         subtaskArray.push({
             text: subtask.value,
@@ -337,8 +336,6 @@ function resetPriority() {
 function deleteSubtask(ele, liVal) {
     let index = subtaskValue.indexOf(liVal);
     subtaskValue.splice(index, 1);
-    console.log(subtaskValue);
-    
     
     for (let index = 0; index < subtaskArray.length; index++) {
         if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
@@ -421,19 +418,18 @@ function editSubtask(ele) {
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
     ele.parentElement.parentElement.removeAttribute("onmouseleave");
     ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
-    console.log(ele.parentElement.parentElement);
     
     ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
-                                                    <div class="edit-subtask-div">
+                                                    <div class="edit-subtask-div li-buttons">
                                                         <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this, '${liVal}')">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
-                                                        <div></div>
+                                                        <div class="add-task-form-divider"></div>
                                                         <button data-index="${ele.dataset.index}" onclick="confirmEditedSubtask(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
                                                             <img src="./assets/icon/check.png">
                                                         </button>
                                                     </div>`;
-                                                    
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");      
     
 }
 
@@ -456,4 +452,5 @@ function confirmEditedSubtask(ele, liVal, inputId, liId) {
                                                 </div>`
     document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
     document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div"); 
 }
