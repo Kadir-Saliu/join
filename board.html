@@ -30,8 +30,9 @@
       <div class="board-header-btns">
         <div class="board-search">
           <input id="searchbar" type="text" placeholder="Find Task" />
-          <img onclick="filterTickets(tickets)" class="search-bar-lense" src="./assets/imgs/search_lense.png"
-            alt="search lense" />
+          <button onclick="filterTickets(tickets)" class="search-bar-lense-button">
+            <img  src="./assets/imgs/search_lense.png" class="search-bar-lense" alt="search lense" />
+          </button>
         </div>
         <button class="board-add-task" onclick="popUpAddTask(popup, 'To do')">Add task +</button>
       </div>
@@ -159,7 +160,7 @@
         <p>This field is required</p>
       </div>
       <div id="button-div">
-        <button id="clear-task-button" onclick="clearTask()">Clear X</button>
+        <button id="clear-task-button" onclick="clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div')">Clear X</button>
         <button id="create-task-button">Create Task</button>
       </div>
     </div>

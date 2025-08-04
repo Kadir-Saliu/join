@@ -302,15 +302,16 @@ function removeHoverButtons(ele) {
  * - Sets the category to the default value.
  * - Empties the subtask array and clears the subtask display.
  */
-function clearTask() {
+function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
     taskTitle.value = "";
     taskDescription.value = "";
     taskDate.value = "";
     resetPriority();
-    document.getElementById("render-selected-users").innerHTML = "";
-    setCategory("Select task category");
+    document.getElementById(userSpans).innerHTML = "";
+    setCategory(category, idButton, idDropDown);
     subtaskArray = [];
-    document.getElementById("subtask-render-div").innerHTML = "";
+    document.getElementById(subtaskList).innerHTML = "";
+    document.getElementById("subtask").value = "";
 }
 
 
