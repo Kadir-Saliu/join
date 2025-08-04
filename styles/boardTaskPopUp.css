@@ -181,4 +181,30 @@ li {
 
 #drop-down-users-input-div {
     display: flex;
+    width: 301px;
+}
+
+#drop-down-users-input-img-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -1px;
+    background-color: white;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 0 5px 5px 0;
+    border-left: none !important;
+    box-shadow: 0px 1px rgb(219, 219, 219);
+    width: 24px;
+    cursor: pointer;
+    margin-bottom: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#drop-down-users-input {
+    outline: none;
+}
+
+#drop-down-users-edit {
+    max-height: 240px;
 }

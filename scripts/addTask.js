@@ -41,7 +41,9 @@ function setPriority(prio, clickedButton) {
  */
 function setCategory(category, idButton, idDropDown) {   
     buttonCategory = category;  
-    document.getElementById(idButton).innerText = buttonCategory; 
+    document.getElementById(idButton).innerHTML =   `${buttonCategory}
+                                                    <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
+                                                    `; 
     document.getElementById(idDropDown).classList.add("hide");
 }
 

@@ -103,7 +103,7 @@
           <p>Title</p>
           <span>*</span>
         </div>
-        <input type="text" placeholder="Enter a title" id="task-title" maxlength="70" />
+        <input type="text" placeholder="Enter a title" id="task-title" maxlength="70" oninput="checkRequiredInput('none', false)" />
         <p class="missing-value hide" id="missing-title-info">This field is required</p>
         <p>Description</p>
         <textarea name="" id="task-description" placeholder="Enter a Description" maxlength="500" class="overlay-textarea" ></textarea>
@@ -111,7 +111,7 @@
           <p>Due date</p>
           <span>*</span>
         </div>
-        <input type="date" id="task-date"/>
+        <input type="date" id="task-date" oninput="checkRequiredInput('none', false)"/>
         <p class="missing-value hide" id="missing-date-info">This field is required</p>
       </div>
       <div class="add-task-form-divider"></div>
@@ -154,8 +154,14 @@
         <p class="missing-value hide" id="missing-category-info">This field is required</p>
         <p>Subtasks</p>
         <div class="subtask-div">
-          <input type="text" name="" id="subtask" placeholder="Add new subtask" />
-          <button onclick="addSubtask()">+</button>
+          <input type="text" name="" id="subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)"/>
+          <div id="subtask-button-div">
+              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue()">X</button>
+              <div id="subtask-button-div-divider" class="hide">
+                <div id="subtask-button-divider"></div>
+              </div>
+              <button id="subtask-button" onclick="addSubtask()">+</button>
+            </div>
         </div>
         <div id="subtask-render-div"></div>
       </div>
