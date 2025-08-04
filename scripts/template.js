@@ -161,7 +161,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
         <ul>${subtaskEle}</ul>
     </div>
     <div id="pop-up-bottom-buttons">
-        <button onclick="deleteTicket(${index})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
+        <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
         <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
