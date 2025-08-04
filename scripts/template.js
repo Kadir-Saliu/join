@@ -86,7 +86,7 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
             </div>
             <div class="align-icon-and-text">
               <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
-              <span onclick="deleteContactFromDatabase(${userName})">Delete</span>
+              <span onclick="deleteContactFromDatabase()">Delete</span>
             </div>
           </div>
         </div>

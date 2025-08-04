@@ -1,11 +1,7 @@
-const BASE_URL =
-  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
-const BASE_URL_USERS =
-  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
-const BASE_URL_TICKETS =
-  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
-const BASE_URL_CONTACTS =
-  "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
+const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
+const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
+const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
 let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
@@ -48,9 +44,7 @@ async function getUsersData(event) {
   try {
     let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter(
-      (user) => user !== null
-    );
+    let users = Object.values(responseJson || {}).filter((user) => user !== null);
     checkLoginData({ users });
   } catch (error) {
     console.log("error");
@@ -89,20 +83,25 @@ async function getContactsData(user) {
       `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`
     );
     let responseJson = await response.json();
-    let contacts = Object.values(responseJson || {}).filter(
-      (contact) => contact !== null
-    );
+    let contacts = Object.entries(responseJson || {})
+      .filter(([, contact]) => contact !== null)
+      .map(([firebaseKey, contact]) => ({
+        ...contact,
+        firebaseKey: firebaseKey,
+      }));
     return contacts;
   } catch (error) {
-    console.log("error");
+    console.log("Fehler beim Laden der Kontakte: ", error);
   }
 }
 
 async function getSubtasksData(id) {
-  let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${id}/subtask.json`);
+  let response = await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${id}/subtask.json`
+  );
   let responseJson = await response.json();
   let subtask = Object.values(responseJson);
-  return subtask
+  return subtask;
 }
 
 /**
@@ -129,9 +128,7 @@ async function includeHTML() {
 }
 
 function popUpAccNav() {
-  document
-    .getElementsByClassName("account-nav-render-div")[0]
-    .classList.toggle("hide");
+  document.getElementsByClassName("account-nav-render-div")[0].classList.toggle("hide");
   document.getElementById("board-overlay-transparent").classList.toggle("hide");
 }
 

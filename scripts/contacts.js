@@ -19,7 +19,6 @@ async function initializeCurrentUser() {
 async function showContacts() {
   await initializeCurrentUser();
   contacts = await getContactsData(currentUser);
-  window.contactsList = contacts;
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   let sortedContacts = {};
   contacts.forEach((contact) => {
@@ -169,6 +168,7 @@ async function putNewContactToDatabase(contact) {
       body: JSON.stringify(contact),
     }
   );
+  showContacts();
 }
 
 /**
@@ -181,4 +181,18 @@ function clearContactForm() {
   document.getElementById("contactPhone").value = "";
 }
 
-async function deleteContactFromDatabase(contact) {}
+async function deleteContactFromDatabase() {
+  const contactName = document.querySelector(".contact-information-username").innerText;
+  const contact = contacts.find((contact) => contact.name === contactName);
+  await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${contact.firebaseKey}.json`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  document.getElementById("contactDetails").innerHTML = "";
+  showContacts();
+}
