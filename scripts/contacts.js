@@ -1,5 +1,6 @@
 let currentUser = null;
 let contacts = [];
+let currentOverlayId = null; // Track the currently open overlay
 
 /**
  * Initializes the current user by fetching user data and finding the logged-in user
@@ -85,6 +86,26 @@ function escapeQuotes(str) {
   return str.replace(/'/g, "\\'");
 }
 
+function toggleEditContactOverlay() {
+  const editOverlayRef = document.getElementById("editOverlay");
+
+  if (editOverlayRef.classList.contains("d_none")) {
+    editOverlayRef.classList.remove("d_none");
+    setTimeout(() => {
+      editOverlayRef.classList.add("active");
+    }, 10);
+    document.body.addEventListener("click", toggleEditContactOverlay);
+    document.querySelector(".body-background-overlay").classList.remove("d_none");
+  } else {
+    editOverlayRef.classList.remove("active");
+    setTimeout(() => {
+      editOverlayRef.classList.add("d_none");
+    }, 400);
+    document.body.removeEventListener("click", toggleEditContactOverlay);
+    document.querySelector(".body-background-overlay").classList.add("d_none");
+  }
+}
+
 /**
  * Toggles the visibility of the add contact overlay.
  */
@@ -108,6 +129,37 @@ function toggleAddContactOverlay() {
   }
 }
 
+function toggleOverlay(id) {
+  if (typeof id === "object" && id.type === "click") {
+    id = currentOverlayId;
+  }
+  const overlayRef = document.getElementById(id);
+  if (overlayRef.classList.contains("d_none")) {
+    currentOverlayId = id;
+    openOverlay(overlayRef);
+  } else {
+    closeOverlay(overlayRef);
+  }
+}
+
+function openOverlay(overlayRef) {
+  overlayRef.classList.remove("d_none");
+  setTimeout(() => {
+    overlayRef.classList.add("active");
+  }, 10);
+  document.body.addEventListener("click", toggleOverlay);
+  document.querySelector(".body-background-overlay").classList.remove("d_none");
+}
+
+function closeOverlay(overlayRef) {
+  overlayRef.classList.remove("active");
+  setTimeout(() => {
+    overlayRef.classList.add("d_none");
+  }, 400);
+  document.body.removeEventListener("click", toggleOverlay);
+  document.querySelector(".body-background-overlay").classList.add("d_none");
+}
+
 /**
  * Prevents event bubbling for the given event.
  * @param {Event} event - The event to stop propagation for.
@@ -126,6 +178,17 @@ document.querySelector(".add-contact-button").addEventListener("click", (event) 
   event.stopPropagation();
 });
 
+/**
+ * Adds a new contact to the database using values from input fields.
+ * Validates that all fields (name, email, phone) are filled.
+ * If valid, creates a new contact object and saves it to the database,
+ * updates the contact list, closes the add contact overlay, and clears the form.
+ * Alerts the user if any field is missing.
+ *
+ * @async
+ * @function addContactToDatabase
+ * @returns {Promise<void>}
+ */
 async function addContactToDatabase() {
   let name = document.getElementById("contactName").value;
   let email = document.getElementById("contactEmail").value;
@@ -181,6 +244,17 @@ function clearContactForm() {
   document.getElementById("contactPhone").value = "";
 }
 
+/**
+ * Deletes the currently selected contact from the Firebase database.
+ *
+ * This function retrieves the contact name from the DOM, finds the corresponding contact object,
+ * and sends a DELETE request to remove the contact from the database. After deletion, it clears
+ * the contact details section in the UI and refreshes the contact list.
+ *
+ * @async
+ * @function
+ * @returns {Promise<void>} Resolves when the contact has been deleted and the UI updated.
+ */
 async function deleteContactFromDatabase() {
   const contactName = document.querySelector(".contact-information-username").innerText;
   const contact = contacts.find((contact) => contact.name === contactName);

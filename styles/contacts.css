@@ -182,7 +182,8 @@ hr {
   display: none;
 }
 
-#contactOverlay {
+#contactOverlay,
+#editOverlay {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -197,17 +198,20 @@ hr {
   align-items: center;
 }
 
-#contactOverlay h1 {
-  font-size: 61px;
-  font-weight: bold;
-}
-
-#contactOverlay p {
+#contactOverlay p,
+#editOverlay p {
   font-size: 27px;
 }
 
-#contactOverlay.active {
+#contactOverlay.active,
+#editOverlay.active {
   transform: translate(-50%, -50%);
+}
+
+#contactOverlay h1,
+#editOverlay h1 {
+  font-size: 61px;
+  font-weight: bold;
 }
 
 .body-background-overlay {

@@ -54,7 +54,7 @@
             required
           />
           <div class="contact-inputs-buttons">
-            <button onclick="toggleAddContactOverlay()" class="cancel-button">Cancel x</button>
+            <button onclick="toggleOverlay('contactOverlay')" class="cancel-button">Cancel x</button>
             <button onclick="addContactToDatabase()" class="create-contact-button">
               Create contact &#10003;
             </button>
@@ -62,11 +62,54 @@
         </div>
       </div>
     </div>
-    <div onclick="bubblingPrevention(event)" id="editOverlay"></div>
+    <div onclick="bubblingPrevention(event)" id="editOverlay" class="d_none">
+      <div class="contact-overlay-header">
+        <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
+        <h1>Edit contact</h1>
+        <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
+      </div>
+      <div class="contact-inputs-container">
+        <div>
+          <img src="./assets//icon/add_contact_person_icon.svg" alt="" />
+        </div>
+        <div class="contact-inputs">
+          <input
+            id="contactName"
+            class="contact-input"
+            type="text"
+            placeholder="Name"
+            spellcheck="false"
+            required
+          />
+          <input
+            id="contactEmail"
+            class="contact-input"
+            type="text"
+            placeholder="Email"
+            spellcheck="false"
+            required
+          />
+          <input
+            id="contactPhone"
+            class="contact-input"
+            type="text"
+            placeholder="Phone"
+            spellcheck="false"
+            required
+          />
+          <div class="contact-inputs-buttons">
+            <button onclick="toggleOverlay('contactOverlay')" class="cancel-button">Cancel x</button>
+            <button onclick="addContactToDatabase()" class="create-contact-button">
+              Create contact &#10003;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <main>
       <div class="contacts-page">
         <div class="contacts-container">
-          <button onclick="toggleAddContactOverlay()" class="add-contact-button">
+          <button onclick="toggleOverlay('contactOverlay')" class="add-contact-button">
             <span>Add new contact</span>
             <img src="./assets/imgs/add_contact.png" alt="Add contact" />
           </button>

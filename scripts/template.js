@@ -80,13 +80,13 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
         <div>
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
-            <div class="align-icon-and-text">
+            <div onclick="toggleOverlay('editOverlay')" class="align-icon-and-text">
               <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
-            <div class="align-icon-and-text">
+            <div onclick="deleteContactFromDatabase()" class="align-icon-and-text">
               <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
-              <span onclick="deleteContactFromDatabase()">Delete</span>
+              <span>Delete</span>
             </div>
           </div>
         </div>
