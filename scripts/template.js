@@ -163,7 +163,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     <div id="pop-up-bottom-buttons">
         <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
-        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
 }
 
@@ -198,11 +198,27 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
 
     let userSpans = userSpansArray.join("");
 
-  let subtaskEle = subtasks.map((subtask, i) => {        
-      return `<li class="subtask-li" data-index="${i}">${subtask.text}</li>
+  let subtaskEle = subtasks.map((subtask, i) => {
+      return `<li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+                ${subtask.text}
+                <div class="li-buttons hide">
+                  <button data-index="${i}" onclick="editSubtask(this)">
+                      <img src="./assets/icon/pencil.svg">
+                  </button>
+                  <div class="add-task-form-divider"></div>
+                  <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+                      <img src="./assets/icon/bin.svg">
+                  </button>
+                </div>
+              </li>
       `;
   }).join("");
-
+  subtaskEditArray = [];
+  subtasks.forEach(subtask => subtaskEditArray.push(subtask.text)
+  );
+  console.log(subtaskEditArray.length);
+  
+  document.getElementById("subtask-render-div").innerHTML = "";
   document.getElementById("board-task-edit").innerHTML =
   `
 <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
@@ -235,10 +251,16 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         <div id="edit-render-user">${userSpans}</div>
         <p class="margin-top-24">Subtasks</p>
         <div class="subtask-div">
-            <input type="text" name="" id="edit-subtask" placeholder="Add new subtask">
-            <button onclick="addNewSubtask()">+</button>
-        </div>
-        <ul id="subtask-edit-render">
+            <input type="text" name="" id="edit-subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)" />
+            <div id="subtask-button-div">
+              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('edit-subtask')">X</button>
+              <div id="subtask-button-div-divider" class="hide">
+                <div id="subtask-button-divider"></div>
+              </div>
+              <button id="subtask-button" onclick="addNewSubtask()">+</button>
+            </div>
+          </div>
+        <ul id="subtask-render-div">
         ${subtaskEle}
         </ul>
     </div>

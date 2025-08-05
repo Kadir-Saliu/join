@@ -400,8 +400,8 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
   }
 }
 
-function clearSubtaskValue() {
-    document.getElementById("subtask").value = "";
+function clearSubtaskValue(subtaskId) {
+    document.getElementById(subtaskId).value = "";
     document.getElementById("subtask-clear-button").classList.add("hide");
     document.getElementById("subtask-button-div-divider").classList.add("hide");
 }
@@ -424,11 +424,11 @@ function editSubtask(ele) {
     
     ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
                                                     <div class="edit-subtask-div li-buttons">
-                                                        <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this, '${liVal}')">
+                                                        <button data-index="${ele.dataset.index}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
                                                         <div class="add-task-form-divider"></div>
-                                                        <button data-index="${ele.dataset.index}" onclick="confirmEditedSubtask(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
+                                                        <button data-index="${ele.dataset.index}"  onclick="confirmEditedSubtask(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
                                                             <img src="./assets/icon/check.png">
                                                         </button>
                                                     </div>`;
