@@ -374,18 +374,27 @@ function takeOverEditedTicket(
   if (dateEdit) {
     editedTicket.date = dateEdit;
   }
+  
   editedTicket.priority = buttonPriority;
   let selectedUsers = getSelectedUsers();
   editedTicket.assignedTo = selectedUsers;
+
+  let originalTicket = allTickets[index];
+  let originalSubtasks = originalTicket?.subtask || [];
+
   subtaskArray = [];
   document.querySelectorAll(".subtask-li").forEach((li) => {
-    console.log(li);
-    
+    let text = li.innerText.trim();
+
+    let existing = originalSubtasks.find((s) => s.text === text);
+    let isChecked = existing ? existing.checked : false;    
+
     subtaskArray.push({
-      text: li.innerText,
-      checked: false,
+      text,
+      checked: isChecked,
     });
   });
+
   editedTicket.subtask = subtaskArray;
    return saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
 }
@@ -438,15 +447,13 @@ async function saveEditedTaskToFirebase(
  */
 function addNewSubtask() {
   subtaskEditArray.push(document.getElementById("edit-subtask").value);
-  console.log(subtaskEditArray);
   
-  
-  if(document.getElementById("edit-subtask").value) {
+  if(document.getElementById("edit-subtask").value.trim() !== "") {
     document.getElementById("subtask-render-div").innerHTML += 
     `<li class="subtask-li" data-index="${subtaskEditArray.length - 1}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
       ${document.getElementById("edit-subtask").value}
       <div class="li-buttons hide">
-        <button data-index="${subtaskEditArray.length - 1}" onclick="editSubtask(this)">
+        <button data-index="${subtaskEditArray.length - 1}" onclick="editSubtaskInEditMenu(this)">
             <img src="./assets/icon/pencil.svg">
         </button>
         <div class="add-task-form-divider"></div>

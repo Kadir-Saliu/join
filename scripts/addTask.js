@@ -424,7 +424,7 @@ function editSubtask(ele) {
     
     ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
                                                     <div class="edit-subtask-div li-buttons">
-                                                        <button data-index="${ele.dataset.index}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
+                                                        <button data-index="${ele.dataset.index}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
                                                         <div class="add-task-form-divider"></div>
@@ -434,6 +434,25 @@ function editSubtask(ele) {
                                                     </div>`;
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");      
     
+}
+
+function editSubtaskInEditMenu(ele) {
+    let liVal = ele.parentElement.parentElement.innerText;
+    ele.parentElement.parentElement.removeAttribute("onmouseenter");
+    ele.parentElement.parentElement.removeAttribute("onmouseleave");
+    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
+    
+    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
+                                                    <div class="edit-subtask-div li-buttons">
+                                                        <button data-index="${ele.dataset.index}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
+                                                            <img src="./assets/icon/bin.svg">
+                                                        </button>
+                                                        <div class="add-task-form-divider"></div>
+                                                        <button data-index="${ele.dataset.index}"  onclick="confirmEditedSubtaskInEditMenu(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
+                                                            <img src="./assets/icon/check.png">
+                                                        </button>
+                                                    </div>`;
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div"); 
 }
 
 function confirmEditedSubtask(ele, liVal, inputId, liId) {
@@ -456,4 +475,22 @@ function confirmEditedSubtask(ele, liVal, inputId, liId) {
     document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
     document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div"); 
+}
+
+function confirmEditedSubtaskInEditMenu(ele, liVal, inputId, liId) {
+    let inputText = document.getElementById(inputId).value;
+    document.getElementById(inputId).remove();
+    document.getElementById(liId).innerHTML =  `${inputText}
+                                                <div class="li-buttons hide" id="buttons-${liId}">
+                                                <button data-index="${ele.dataset.index}" onclick="editSubtask(this)">
+                                                    <img src="./assets/icon/pencil.svg">
+                                                </button>
+                                                <div class="add-task-form-divider"></div>
+                                                <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
+                                                    <img src="./assets/icon/bin.svg">
+                                                </button>
+                                                </div>`
+    document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
+    document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div");
 }

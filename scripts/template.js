@@ -202,7 +202,7 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
       return `<li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
                 ${subtask.text}
                 <div class="li-buttons hide">
-                  <button data-index="${i}" onclick="editSubtask(this)">
+                  <button data-index="${i}" onclick="editSubtaskInEditMenu(this)">
                       <img src="./assets/icon/pencil.svg">
                   </button>
                   <div class="add-task-form-divider"></div>
@@ -241,7 +241,7 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         </div>
         <p class="margin-top-24">Assigned to</p>
         <div id="drop-down-users-input-div">
-          <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
+          <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
           <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
                 <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
               </div>

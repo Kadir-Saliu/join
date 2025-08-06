@@ -181,7 +181,7 @@ li {
 
 #drop-down-users-input-div {
     display: flex;
-    width: 301px;
+    margin-bottom: 16px;
 }
 
 #drop-down-users-input-img-div {
@@ -207,4 +207,8 @@ li {
 
 #drop-down-users-edit {
     max-height: 240px;
+}
+
+.edit-302 {
+    width: 302px;
 }

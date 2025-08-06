@@ -281,10 +281,6 @@ button {
   cursor: pointer;
 }
 
-#drop-down-users-input-board {
-  margin-bottom: 16px;
-}
-
 #drop-down-users-input-board:focus {
   outline: none;
 }
