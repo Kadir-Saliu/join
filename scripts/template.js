@@ -151,7 +151,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     </div>
     <div class="pop-up-margin-b-25 gap-10">
         <p>Priority:</p>
-        <span>${priority} <img src="${priority && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt=""></span>
+        <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${priority && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt=""></span>
     </div>
     <div class="pop-up-margin-b-25" id="assigned-users-div">
        ${userSpans}
@@ -163,7 +163,7 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     <div id="pop-up-bottom-buttons">
         <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
-        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`
 }
 
@@ -198,11 +198,27 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
 
     let userSpans = userSpansArray.join("");
 
-  let subtaskEle = subtasks.map((subtask, i) => {        
-      return `<li class="subtask-li" data-index="${i}">${subtask.text}</li>
+  let subtaskEle = subtasks.map((subtask, i) => {
+      return `<li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+                ${subtask.text}
+                <div class="li-buttons hide">
+                  <button data-index="${i}" onclick="editSubtaskInEditMenu(this)">
+                      <img src="./assets/icon/pencil.svg">
+                  </button>
+                  <div class="add-task-form-divider"></div>
+                  <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+                      <img src="./assets/icon/bin.svg">
+                  </button>
+                </div>
+              </li>
       `;
   }).join("");
-
+  subtaskEditArray = [];
+  subtasks.forEach(subtask => subtaskEditArray.push(subtask.text)
+  );
+  console.log(subtaskEditArray.length);
+  
+  document.getElementById("subtask-render-div").innerHTML = "";
   document.getElementById("board-task-edit").innerHTML =
   `
 <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
@@ -224,16 +240,27 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
             <button class="priority-button set-priority" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
         </div>
         <p class="margin-top-24">Assigned to</p>
-        <input id="drop-down-users-input" class="drop-down-selection" placeholder="Select Contacts to assign" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user')">
+        <div id="drop-down-users-input-div">
+          <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
+          <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
+                <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
+              </div>
+        </div>
         <div id="drop-down-users-edit" class="hide">
         </div>
         <div id="edit-render-user">${userSpans}</div>
         <p class="margin-top-24">Subtasks</p>
         <div class="subtask-div">
-            <input type="text" name="" id="edit-subtask" placeholder="Add new subtask">
-            <button onclick="addNewSubtask()">+</button>
-        </div>
-        <ul id="subtask-edit-render">
+            <input type="text" name="" id="edit-subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)" />
+            <div id="subtask-button-div">
+              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('edit-subtask')">X</button>
+              <div id="subtask-button-div-divider" class="hide">
+                <div id="subtask-button-divider"></div>
+              </div>
+              <button id="subtask-button" onclick="addNewSubtask()">+</button>
+            </div>
+          </div>
+        <ul id="subtask-render-div">
         ${subtaskEle}
         </ul>
     </div>

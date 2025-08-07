@@ -159,8 +159,9 @@ function popUpDropDownUsersInBoard() {
  *  Toggles the visibility of the users dropdown menu in the board.
  * Adds or removes the "hide" class from the element with ID "drop-down-category-board".
  */
-function popUpDropDownCategoryInBoard() {
+function popUpDropDownCategoryInBoard(imgId) {
   document.getElementById("drop-down-category-board").classList.toggle("hide");
+  changeDropDownArrow(imgId);
 }
 
 /**

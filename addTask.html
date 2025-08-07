@@ -83,7 +83,7 @@
           <div class="subtask-div">
             <input type="text" name="" id="subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)" />
             <div id="subtask-button-div">
-              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue()">X</button>
+              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('subtask')">X</button>
               <div id="subtask-button-div-divider" class="hide">
                 <div id="subtask-button-divider"></div>
               </div>
@@ -99,7 +99,7 @@
           <p>This field is required</p>
         </div>
         <div id="button-div">
-          <button id="clear-task-button" onclick="clearTask()">Clear X</button>
+          <button id="clear-task-button" onclick="clearTask('render-selected-users', 'Select task category', 'category-button', 'drop-down-category', 'subtask-render-div')">Clear X</button>
           <button id="create-task-button">Create Task</button>
         </div>
       </div>
@@ -110,6 +110,7 @@
 
     <script src="./scripts/template.js" defer></script>
     <script src="./scripts/addTask.js" defer></script>
+    <script src="./scripts/board.js" defer></script>
     <script src="script.js"></script>
   </body>
 </html>

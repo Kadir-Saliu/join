@@ -67,7 +67,7 @@
 }
 
 .add-task-form-divider {
-  align-self: stretch;
+  align-self: center;
   width: 1px;
   height: 80%;
   border-left: 1px solid rgb(219, 219, 219);
@@ -228,7 +228,7 @@
   background-color: white;
   margin: auto;
   width: 75%;
-  height: 80%;
+  height: 90%;
   padding: 75px;
   border-radius: 25px;
   z-index: 1000;

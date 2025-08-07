@@ -10,6 +10,11 @@ const today = `${year}-${0}${month}-${day}`;
 
 let subtaskCount = 0;
 let subtaskWidth = 0;
+let subtaskEditArray = [];
+
+let dataTicketIndex;
+let dataTicketCounterId;
+let dataMode;
 
 /**
  * function to open/close the addTask pop-up
@@ -64,6 +69,12 @@ function switchEditInfoMenu(ele) {
   document.getElementById("board-task-information").classList.toggle("hide");
   document.getElementById("board-task-edit").classList.toggle("hide");
   renderTicketOverlay(ele);
+}
+
+function setGlobalEditInformation(ele) {
+  dataTicketIndex = ele.dataset.ticketindex;
+  dataTicketCounterId = ele.dataset.ticketcounterid;
+  dataMode = ele.dataset.mode;  
 }
 
 /**
@@ -314,7 +325,7 @@ async function defineTicketDetailVariables(
  * @param {HTMLElement} ele - The element representing the ticket being edited.
  *                            Must have a `dataset.ticketindex` property.
  */
-function checkEditedValues(ele) {
+async function checkEditedValues(ele) {
   let index = ele.dataset.ticketindex;
   let title = "";
   let description = "";
@@ -330,7 +341,7 @@ function checkEditedValues(ele) {
     date = document.getElementById("task-date-edit").value;
   }
   ele.dataset.mode = "view";
-  takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
+  return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
 }
 
 /**
@@ -363,18 +374,29 @@ function takeOverEditedTicket(
   if (dateEdit) {
     editedTicket.date = dateEdit;
   }
+  
   editedTicket.priority = buttonPriority;
   let selectedUsers = getSelectedUsers();
   editedTicket.assignedTo = selectedUsers;
+
+  let originalTicket = allTickets[index];
+  let originalSubtasks = originalTicket?.subtask || [];
+
   subtaskArray = [];
   document.querySelectorAll(".subtask-li").forEach((li) => {
+    let text = li.innerText.trim();
+
+    let existing = originalSubtasks.find((s) => s.text === text);
+    let isChecked = existing ? existing.checked : false;    
+
     subtaskArray.push({
-      text: li.innerText,
-      checked: false,
+      text,
+      checked: isChecked,
     });
   });
+
   editedTicket.subtask = subtaskArray;
-  saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
+   return saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
 }
 
 /**
@@ -424,11 +446,32 @@ async function saveEditedTaskToFirebase(
  * element with id "subtask-edit-render".
  */
 function addNewSubtask() {
-  document.getElementById(
-    "subtask-edit-render"
-  ).innerHTML += `<li class="subtask-li">${
-    document.getElementById("edit-subtask").value
-  }</li>`;
+  subtaskEditArray.push(document.getElementById("edit-subtask").value);
+  
+  if(document.getElementById("edit-subtask").value.trim() !== "") {
+    document.getElementById("subtask-render-div").innerHTML += 
+    `<li class="subtask-li" data-index="${subtaskEditArray.length - 1}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+      ${document.getElementById("edit-subtask").value}
+      <div class="li-buttons hide">
+        <button data-index="${subtaskEditArray.length - 1}" onclick="editSubtaskInEditMenu(this)">
+            <img src="./assets/icon/pencil.svg">
+        </button>
+        <div class="add-task-form-divider"></div>
+        <button data-index="${subtaskEditArray.length - 1}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+            <img src="./assets/icon/bin.svg">
+        </button>
+      </div>
+    </li>`;
+}
+}
+
+async function spliceEditSubArray(ele) {
+  if (subtaskEditArray.length > 0) {
+    subtaskEditArray.splice(ele.dataset.index, 1);
+    console.log(ele.dataset.ticketcounterid);
+    await checkEditedValues(ele);
+    renderTicketOverlay(ele);
+  }
 }
 
 /**

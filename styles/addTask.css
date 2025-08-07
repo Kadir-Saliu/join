@@ -77,7 +77,7 @@ textarea {
 }
 
 .add-task-form-divider {
-  align-self: stretch;
+  align-self: center;
   height: 80%;
   width: 1px;
   border-left: 1px solid black;
@@ -161,6 +161,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: end;
+  margin-bottom: 48px;
 }
 
 #clear-task-button {
@@ -354,8 +355,11 @@ textarea {
 .li-buttons button {
   border: none;
   cursor: pointer;
+  width: 22px;
+  height: 22px;
   margin-left: 4px;
   margin-right: 4px;
+  background-color: rgb(231, 231, 231);
 }
 
 
@@ -493,9 +497,41 @@ textarea {
   border-bottom: 1px solid rgb(41, 171, 226) !important;
 }
 
+.edit-div {
+  background-color: white;
+  border-bottom: 1px solid rgb(41, 171, 226);
+  margin-bottom: 4px;
+}
+
+.edit-div:hover {
+  background-color: white !important;
+}
+
+.edit-div input {
+  border: 0;
+  flex-grow: 1;
+}
+
+.edit-div button {
+  background-color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.edit-div button:hover {
+  background-color: rgb(231, 231, 231);
+}
+
 .edit-subtask-div {
   display: flex;
   height: 24px;
+  align-items: center;
+  justify-content: center;
 }
 
 .edit-subtask-div button {
@@ -511,6 +547,10 @@ textarea {
 .edit-subtask-div div {
   width: 1px;
   height: 80%;
+}
+
+#subtask-render-div input {
+  outline: none;
 }
 
 /* userfeedback */
