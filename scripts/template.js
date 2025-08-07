@@ -80,7 +80,7 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
         <div>
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
-            <div onclick="openEditOverlayWithBubblingPrevention(event)" class="align-icon-and-text">
+            <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}')" class="align-icon-and-text">
               <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
@@ -102,7 +102,7 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
   `;
 }
 
-function getEditOverlayContentTemplate() {
+function getEditOverlayContentTemplate(initials, userName, email, phone) {
   return /*html*/ `
     <div class="contact-overlay-header">
         <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
@@ -110,9 +110,7 @@ function getEditOverlayContentTemplate() {
         <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
       </div>
       <div class="contact-inputs-container">
-        <div>
-          <img src="./assets//icon/add_contact_person_icon.svg" alt="" />
-        </div>
+        <div class="edit-overlay-initials">${initials}</div>
         <div class="contact-inputs">
           <input
             id="editContactName"
@@ -120,6 +118,7 @@ function getEditOverlayContentTemplate() {
             type="text"
             placeholder="Name"
             spellcheck="false"
+            value="${userName}"
             required
           />
           <input
@@ -128,6 +127,7 @@ function getEditOverlayContentTemplate() {
             type="text"
             placeholder="Email"
             spellcheck="false"
+            value="${email}"
             required
           />
           <input
@@ -136,9 +136,13 @@ function getEditOverlayContentTemplate() {
             type="text"
             placeholder="Phone"
             spellcheck="false"
+            value="${phone}"
             required
           />
-          
+          <div class="contact-inputs-buttons">
+            <button onclick="deleteContactFromDatabase()" class="cancel-button">Delete</button>
+            <button onclick="saveEditedContactToDatabase()" class="create-contact-button">Save &#10003;</button>
+          </div>
         </div>
       </div>
   `;

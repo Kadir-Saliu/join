@@ -1,6 +1,7 @@
 let currentUser = null;
 let contacts = [];
 let currentOverlayId = null;
+const firebaseKeys = [];
 
 /**
  * Initializes the current user by fetching user data and finding the logged-in user
@@ -14,12 +15,21 @@ async function initializeCurrentUser() {
   return currentUser;
 }
 
+const cacheFirebaseKeys = () => {
+  contacts.forEach((contact) => {
+    if (contact.firebaseKey) {
+      firebaseKeys.push(parseInt(contact.firebaseKey));
+    }
+  });
+};
+
 /**
  * This function finds the current logged in user, fetches the respective contact list and renders it after the list is sorted
  */
 async function showContacts() {
   await initializeCurrentUser();
   contacts = await getContactsData(currentUser);
+  cacheFirebaseKeys();
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   let sortedContacts = {};
   contacts.forEach((contact) => {
@@ -141,9 +151,9 @@ function closeOverlay(overlayRef) {
  * Shows the overlay by adding the active class, removing the hidden class,
  * displaying the background overlay, and adding a click listener to close it.
  */
-const openEditOverlay = () => {
+const openEditOverlay = (initials, userName, email, phone) => {
   const editOverlayRef = document.getElementById("editOverlay");
-  editOverlayRef.innerHTML = getEditOverlayContentTemplate();
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate(initials, userName, email, phone);
   if (editOverlayRef.classList.contains("d_none")) {
     editOverlayRef.classList.add("active");
     editOverlayRef.classList.remove("d_none");
@@ -169,9 +179,9 @@ const closeEditOverlay = () => {
  *
  * @param {Event} event - The event object to stop propagation for
  */
-const openEditOverlayWithBubblingPrevention = (event) => {
+const openEditOverlayWithBubblingPrevention = (event, initials, userName, email, phone) => {
   event.stopPropagation();
-  openEditOverlay();
+  openEditOverlay(initials, userName, email, phone);
 };
 
 /**
@@ -223,20 +233,36 @@ async function addContactToDatabase() {
 }
 
 /**
+ * Clears the values of the contact form input fields: name, email, and phone.
+ * Resets the input fields with IDs 'contactName', 'contactEmail', and 'contactPhone' to empty strings.
+ */
+function clearContactForm() {
+  document.getElementById("contactName").value = "";
+  document.getElementById("contactEmail").value = "";
+  document.getElementById("contactPhone").value = "";
+}
+
+const clearEditForm = () => {
+  document.getElementById("editContactName").value = "";
+  document.getElementById("editContactEmail").value = "";
+  document.getElementById("editContactPhone").value = "";
+};
+
+/**
  * Adds a new contact to the Firebase Realtime Database for the current user.
  *
  * Sends a PUT request to the database, storing the provided contact object
- * under the path `/contacts/{currentUser.id}/{contacts.length + 1}.json`.
+ * under the path `/contacts/{currentUser.id}/{nextKey}.json` where nextKey is
+ * the highest existing firebaseKey + 1.
  *
  * @async
  * @param {Object} contact - The contact object to be added to the database.
  * @returns {Promise<void>} A promise that resolves when the contact has been added.
  */
 async function putNewContactToDatabase(contact) {
+  const newKey = Math.max(...firebaseKeys) + 1;
   await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${
-      contacts.length + 1
-    }.json`,
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${newKey}.json`,
     {
       method: "PUT",
       headers: {
@@ -249,13 +275,39 @@ async function putNewContactToDatabase(contact) {
 }
 
 /**
- * Clears the values of the contact form input fields: name, email, and phone.
- * Resets the input fields with IDs 'contactName', 'contactEmail', and 'contactPhone' to empty strings.
+ * Saves the edited contact information to the Firebase database.
+ *
+ * This function retrieves the currently selected contact's name from the DOM,
+ * finds the corresponding contact object, collects the edited values from the
+ * input fields, and updates the contact in the database using a PUT request.
+ * After saving, it closes the edit overlay, clears the edit form, and refreshes
+ * the contact list display.
+ *
+ * @async
+ * @function
+ * @returns {Promise<void>} Resolves when the contact has been updated and the UI refreshed.
  */
-function clearContactForm() {
-  document.getElementById("contactName").value = "";
-  document.getElementById("contactEmail").value = "";
-  document.getElementById("contactPhone").value = "";
+async function saveEditedContactToDatabase() {
+  const contactName = document.querySelector(".contact-information-username").innerText;
+  const contact = contacts.find((contact) => contact.name === contactName);
+  const editedContact = {
+    name: document.getElementById("editContactName").value,
+    email: document.getElementById("editContactEmail").value,
+    phone: document.getElementById("editContactPhone").value,
+  };
+  await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${contact.firebaseKey}.json`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedContact),
+    }
+  );
+  closeEditOverlay();
+  clearEditForm();
+  showContacts();
 }
 
 /**
@@ -282,5 +334,7 @@ async function deleteContactFromDatabase() {
     }
   );
   document.getElementById("contactDetails").innerHTML = "";
+  closeEditOverlay();
+  clearEditForm();
   showContacts();
 }
