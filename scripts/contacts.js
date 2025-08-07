@@ -1,6 +1,6 @@
 let currentUser = null;
 let contacts = [];
-let currentOverlayId = null; // Track the currently open overlay
+let currentOverlayId = null;
 
 /**
  * Initializes the current user by fetching user data and finding the logged-in user
@@ -86,49 +86,13 @@ function escapeQuotes(str) {
   return str.replace(/'/g, "\\'");
 }
 
-function toggleEditContactOverlay() {
-  const editOverlayRef = document.getElementById("editOverlay");
-
-  if (editOverlayRef.classList.contains("d_none")) {
-    editOverlayRef.classList.remove("d_none");
-    setTimeout(() => {
-      editOverlayRef.classList.add("active");
-    }, 10);
-    document.body.addEventListener("click", toggleEditContactOverlay);
-    document.querySelector(".body-background-overlay").classList.remove("d_none");
-  } else {
-    editOverlayRef.classList.remove("active");
-    setTimeout(() => {
-      editOverlayRef.classList.add("d_none");
-    }, 400);
-    document.body.removeEventListener("click", toggleEditContactOverlay);
-    document.querySelector(".body-background-overlay").classList.add("d_none");
-  }
-}
-
 /**
- * Toggles the visibility of the add contact overlay.
+ * Toggles the visibility of an overlay element by its ID.
+ * If the overlay is hidden, it opens it; if it's visible, it closes it.
+ * Handles both string IDs and click event objects.
+ *
+ * @param {string|Event} id - The overlay element ID or a click event object
  */
-function toggleAddContactOverlay() {
-  const contactOverlayRef = document.getElementById("contactOverlay");
-
-  if (contactOverlayRef.classList.contains("d_none")) {
-    contactOverlayRef.classList.remove("d_none");
-    setTimeout(() => {
-      contactOverlayRef.classList.add("active");
-    }, 10);
-    document.body.addEventListener("click", toggleAddContactOverlay);
-    document.querySelector(".body-background-overlay").classList.remove("d_none");
-  } else {
-    contactOverlayRef.classList.remove("active");
-    setTimeout(() => {
-      contactOverlayRef.classList.add("d_none");
-    }, 400);
-    document.body.removeEventListener("click", toggleAddContactOverlay);
-    document.querySelector(".body-background-overlay").classList.add("d_none");
-  }
-}
-
 function toggleOverlay(id) {
   if (typeof id === "object" && id.type === "click") {
     id = currentOverlayId;
@@ -142,6 +106,12 @@ function toggleOverlay(id) {
   }
 }
 
+/**
+ * Opens an overlay by removing the hidden class and adding the active class.
+ * Also adds a click listener to the body and shows the background overlay.
+ *
+ * @param {HTMLElement} overlayRef - The overlay DOM element to open
+ */
 function openOverlay(overlayRef) {
   overlayRef.classList.remove("d_none");
   setTimeout(() => {
@@ -151,6 +121,12 @@ function openOverlay(overlayRef) {
   document.querySelector(".body-background-overlay").classList.remove("d_none");
 }
 
+/**
+ * Closes an overlay by removing the active class and adding the hidden class.
+ * Also removes the click listener from the body and hides the background overlay.
+ *
+ * @param {HTMLElement} overlayRef - The overlay DOM element to close
+ */
 function closeOverlay(overlayRef) {
   overlayRef.classList.remove("active");
   setTimeout(() => {
@@ -159,6 +135,44 @@ function closeOverlay(overlayRef) {
   document.body.removeEventListener("click", toggleOverlay);
   document.querySelector(".body-background-overlay").classList.add("d_none");
 }
+
+/**
+ * Opens the edit overlay and populates it with content.
+ * Shows the overlay by adding the active class, removing the hidden class,
+ * displaying the background overlay, and adding a click listener to close it.
+ */
+const openEditOverlay = () => {
+  const editOverlayRef = document.getElementById("editOverlay");
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate();
+  if (editOverlayRef.classList.contains("d_none")) {
+    editOverlayRef.classList.add("active");
+    editOverlayRef.classList.remove("d_none");
+    document.querySelector(".body-background-overlay").classList.remove("d_none");
+    document.body.addEventListener("click", closeEditOverlay);
+  }
+};
+
+/**
+ * Closes the edit overlay by removing the active class and adding the hidden class.
+ * Also hides the background overlay and removes event listeners.
+ */
+const closeEditOverlay = () => {
+  const editOverlayRef = document.getElementById("editOverlay");
+  editOverlayRef.classList.remove("active");
+  editOverlayRef.classList.add("d_none");
+  document.querySelector(".body-background-overlay").classList.add("d_none");
+};
+
+/**
+ * Opens the edit overlay while preventing event bubbling.
+ * Stops the propagation of the given event and then opens the edit overlay.
+ *
+ * @param {Event} event - The event object to stop propagation for
+ */
+const openEditOverlayWithBubblingPrevention = (event) => {
+  event.stopPropagation();
+  openEditOverlay();
+};
 
 /**
  * Prevents event bubbling for the given event.
@@ -201,7 +215,7 @@ async function addContactToDatabase() {
     };
     putNewContactToDatabase(newContact);
     showContacts();
-    toggleAddContactOverlay();
+    toggleOverlay("contactOverlay");
     clearContactForm();
   } else {
     alert("Please fill in all fields.");

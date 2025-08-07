@@ -80,7 +80,7 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
         <div>
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
-            <div onclick="toggleOverlay('editOverlay')" class="align-icon-and-text">
+            <div onclick="openEditOverlayWithBubblingPrevention(event)" class="align-icon-and-text">
               <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
@@ -99,6 +99,48 @@ function getContactDetailsTemplate(initials, userName, email, phone) {
       <span><b>Phone</b></span>
       <span>+${phone}</span>
     </div>
+  `;
+}
+
+function getEditOverlayContentTemplate() {
+  return /*html*/ `
+    <div class="contact-overlay-header">
+        <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
+        <h1>Edit contact</h1>
+        <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
+      </div>
+      <div class="contact-inputs-container">
+        <div>
+          <img src="./assets//icon/add_contact_person_icon.svg" alt="" />
+        </div>
+        <div class="contact-inputs">
+          <input
+            id="editContactName"
+            class="contact-input"
+            type="text"
+            placeholder="Name"
+            spellcheck="false"
+            required
+          />
+          <input
+            id="editContactEmail"
+            class="contact-input"
+            type="text"
+            placeholder="Email"
+            spellcheck="false"
+            required
+          />
+          <input
+            id="editContactPhone"
+            class="contact-input"
+            type="text"
+            placeholder="Phone"
+            spellcheck="false"
+            required
+          />
+          
+        </div>
+      </div>
   `;
 }
 
