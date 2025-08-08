@@ -1,0 +1,70 @@
+@media (max-width: 625px) {
+    /* index.html */
+
+    @keyframes slide-out-tl {
+    0% {
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 366px;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        top: 25px;
+        left: 35px;
+        width: 64px;
+        height: 80px;
+        transform: translate(0, 0) scale(1);
+    }
+    }
+
+    header {
+        position: absolute;
+        bottom: 128px;
+        margin-top: 0;
+        width: 90%;
+        padding: 0;
+    }
+
+    #header-div {        
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    #sign-up-btn {
+        width: 90px;
+    }
+
+    #main {
+        width: 90%
+    }
+
+    #login-div {
+        height: 60%;
+    }
+
+    .input-divider {
+        width: 90%;
+    }
+
+    #email-input, #password-input {
+        width: 100%;
+    }
+
+    #btn-login-div {
+        flex-direction: column;
+        width: 60%;
+    }
+
+    #btn-login-div button {
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    /* index.html (sign-up menu)*/
+
+    #sign-up-div {
+        width: 90%;
+    }
+}
