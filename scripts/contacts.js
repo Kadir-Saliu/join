@@ -2,6 +2,9 @@ let currentUser = null;
 let contacts = [];
 let currentOverlayId = null;
 const firebaseKeys = [];
+const name = document.getElementById("contactName");
+const email = document.getElementById("contactEmail");
+const phone = document.getElementById("contactPhone");
 
 /**
  * Initializes the current user by fetching user data and finding the logged-in user
@@ -214,22 +217,19 @@ document.querySelector(".add-contact-button").addEventListener("click", (event) 
  * @returns {Promise<void>}
  */
 async function addContactToDatabase() {
-  let name = document.getElementById("contactName").value;
-  let email = document.getElementById("contactEmail").value;
-  let phone = document.getElementById("contactPhone").value;
-  if (name && email && phone) {
-    let newContact = {
-      name: name,
-      email: email,
-      phone: phone,
-    };
-    putNewContactToDatabase(newContact);
-    showContacts();
-    toggleOverlay("contactOverlay");
-    clearContactForm();
-  } else {
-    alert("Please fill in all fields.");
+  if (!name.value || !email.value || !phone.value) {
+    alert("Bitte fülle alle Felder aus.");
+    return;
   }
+  let newContact = {
+    name: name.value,
+    email: email.value,
+    phone: phone.value,
+  };
+  putNewContactToDatabase(newContact);
+  showContacts();
+  toggleOverlay("contactOverlay");
+  clearContactForm();
 }
 
 /**
@@ -242,10 +242,20 @@ function clearContactForm() {
   document.getElementById("contactPhone").value = "";
 }
 
+/**
+ * Clears the values of the edit contact form fields (name, email, and phone).
+ * Resets the input fields to empty strings if they exist in the DOM.
+ */
 const clearEditForm = () => {
-  document.getElementById("editContactName").value = "";
-  document.getElementById("editContactEmail").value = "";
-  document.getElementById("editContactPhone").value = "";
+  const editContactName = document.getElementById("editContactName");
+  const editContactEmail = document.getElementById("editContactEmail");
+  const editContactPhone = document.getElementById("editContactPhone");
+
+  if (editContactName && editContactEmail && editContactPhone) {
+    editContactName.value = "";
+    editContactEmail.value = "";
+    editContactPhone.value = "";
+  }
 };
 
 /**
@@ -305,9 +315,7 @@ async function saveEditedContactToDatabase() {
       body: JSON.stringify(editedContact),
     }
   );
-  closeEditOverlay();
-  clearEditForm();
-  showContacts();
+  finishEdit();
 }
 
 /**
@@ -333,8 +341,16 @@ async function deleteContactFromDatabase() {
       },
     }
   );
+  finishEdit();
+}
+
+/**
+ * Finalizes the contact editing process by clearing the contact details display,
+ * closing the edit overlay, resetting the edit form, and refreshing the contact list.
+ */
+const finishEdit = () => {
   document.getElementById("contactDetails").innerHTML = "";
   closeEditOverlay();
   clearEditForm();
   showContacts();
-}
+};

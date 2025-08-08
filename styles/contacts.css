@@ -56,9 +56,11 @@
   align-items: center;
   padding-top: 20px;
   padding-bottom: 30px;
-  margin-left: 32px;
+  padding-left: 32px;
   cursor: pointer;
   border-radius: 10px;
+  width: 352px;
+  margin-top: 2px;
 }
 
 .contact:hover {
