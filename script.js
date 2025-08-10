@@ -25,6 +25,7 @@ async function init() {
 
 async function summaryInit() {
   loadNavigationAndGreetUser();
+  renderTasks();
 }
 
 async function boardInit() {
@@ -71,9 +72,8 @@ async function getTicketData() {
     let responseJson = await response.json();
     tickets = responseJson.ticket;
     let result = Object.values(tickets);
-    if(typeof renderTickets === 'function') {
-      renderTickets(result);
-    }
+    localStorage.setItem("tickets", JSON.stringify(result));
+    renderTickets(result);
     return tickets;
   } catch (error) {
     console.log(error);
