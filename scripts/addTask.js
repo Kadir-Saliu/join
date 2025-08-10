@@ -13,6 +13,7 @@ let columnVal = 'To do';
 let ticketCounter = 0;
 let addTaskPopUp = document.getElementById("add-task-pop-up");
 let bordOverlay = document.getElementById("board-overlay");
+let subtaskValue = [];
 
 document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal, true);
@@ -40,7 +41,9 @@ function setPriority(prio, clickedButton) {
  */
 function setCategory(category, idButton, idDropDown) {   
     buttonCategory = category;  
-    document.getElementById(idButton).innerText = buttonCategory; 
+    document.getElementById(idButton).innerHTML =   `${buttonCategory}
+                                                    <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
+                                                    `; 
     document.getElementById(idDropDown).classList.add("hide");
 }
 
@@ -243,6 +246,7 @@ function renderSelectedUsers(id) {
  * Also assumes an element with ID "subtask-render-div" exists in the DOM.
  */
 function addSubtask() {
+    subtaskValue.push(subtask.value);
     if(subtask.value) {
         subtaskArray.push({
             text: subtask.value,
@@ -255,7 +259,7 @@ function addSubtask() {
                                                                                 <img src="./assets/icon/pencil.svg">
                                                                             </button>
                                                                             <div class="add-task-form-divider"></div>
-                                                                            <button data-index="${subtaskCounter}" onclick="deleteSubtask(this)">
+                                                                            <button data-index="${subtaskCounter}" onclick="deleteSubtask(this, '${subtask.value}')">
                                                                                 <img src="./assets/icon/bin.svg">
                                                                             </button>
                                                                         </div>
@@ -276,7 +280,6 @@ function addSubtask() {
  * @param {HTMLElement} ele - The DOM element whose first child will be revealed.
  */
 function hoverButtons(ele) {
-    console.log(ele.firstElementChild);
     ele.firstElementChild.classList.remove("hide");
 }
 
@@ -301,15 +304,16 @@ function removeHoverButtons(ele) {
  * - Sets the category to the default value.
  * - Empties the subtask array and clears the subtask display.
  */
-function clearTask() {
+function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
     taskTitle.value = "";
     taskDescription.value = "";
     taskDate.value = "";
     resetPriority();
-    document.getElementById("render-selected-users").innerHTML = "";
-    setCategory("Select task category");
+    document.getElementById(userSpans).innerHTML = "";
+    setCategory(category, idButton, idDropDown);
     subtaskArray = [];
-    document.getElementById("subtask-render-div").innerHTML = "";
+    document.getElementById(subtaskList).innerHTML = "";
+    document.getElementById("subtask").value = "";
 }
 
 
@@ -332,7 +336,10 @@ function resetPriority() {
  *
  * @param {HTMLElement} ele - The element that triggered the delete action, typically a button within the subtask.
  */
-function deleteSubtask(ele) {
+function deleteSubtask(ele, liVal) {
+    let index = subtaskValue.indexOf(liVal);
+    subtaskValue.splice(index, 1);
+    
     for (let index = 0; index < subtaskArray.length; index++) {
         if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
             subtaskArray.splice(index, 1);         
@@ -377,19 +384,24 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
     getTicketData();
     setTimeout(() => {
     addedUserfeedback.classList.add("hide");
-    addedUserfeedback.classList.remove("show");    
+    addedUserfeedback.classList.remove("show"); 
+    window.location.href = "board.html";   
     }, 3000);
     
-    addTaskPopUp.classList.add("hide");
-    bordOverlay.classList.add("hide");
+    if(addTaskPopUp) {
+        addTaskPopUp.classList.add("hide");
+    }
+    if(bordOverlay) {
+        bordOverlay.classList.add("hide");
+    }
 
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }
 }
 
-function clearSubtaskValue() {
-    document.getElementById("subtask").value = "";
+function clearSubtaskValue(subtaskId) {
+    document.getElementById(subtaskId).value = "";
     document.getElementById("subtask-clear-button").classList.add("hide");
     document.getElementById("subtask-button-div-divider").classList.add("hide");
 }
@@ -406,16 +418,79 @@ function removeHideOnInput(inputElement) {
 
 function editSubtask(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
-    ele.parentElement.parentElement.innerHTML = `<div>
-                                                    <input type="text" value="${liVal}"/>
-                                                    <div>
-                                                        <button>
+    ele.parentElement.parentElement.removeAttribute("onmouseenter");
+    ele.parentElement.parentElement.removeAttribute("onmouseleave");
+    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
+    
+    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
+                                                    <div class="edit-subtask-div li-buttons">
+                                                        <button data-index="${ele.dataset.index}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
                                                             <img src="./assets/icon/bin.svg">
                                                         </button>
-                                                        <div></div>
-                                                        <button>
-                                                            <img>
+                                                        <div class="add-task-form-divider"></div>
+                                                        <button data-index="${ele.dataset.index}"  onclick="confirmEditedSubtask(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
+                                                            <img src="./assets/icon/check.png">
                                                         </button>
-                                                    </div>
-                                                 </div>`
+                                                    </div>`;
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");      
+    
+}
+
+function editSubtaskInEditMenu(ele) {
+    let liVal = ele.parentElement.parentElement.innerText;
+    ele.parentElement.parentElement.removeAttribute("onmouseenter");
+    ele.parentElement.parentElement.removeAttribute("onmouseleave");
+    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
+    
+    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
+                                                    <div class="edit-subtask-div li-buttons">
+                                                        <button data-index="${ele.dataset.index}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
+                                                            <img src="./assets/icon/bin.svg">
+                                                        </button>
+                                                        <div class="add-task-form-divider"></div>
+                                                        <button data-index="${ele.dataset.index}"  onclick="confirmEditedSubtaskInEditMenu(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
+                                                            <img src="./assets/icon/check.png">
+                                                        </button>
+                                                    </div>`;
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div"); 
+}
+
+function confirmEditedSubtask(ele, liVal, inputId, liId) {
+    let index = subtaskValue.indexOf(liVal);
+    subtaskArray[index].text = document.getElementById(inputId).value;
+    subtaskValue[index] = subtaskArray[index].text;
+    
+    document.getElementById(inputId).remove();
+    document.getElementById(liId).innerHTML = "";
+    document.getElementById(liId).innerHTML =  `${subtaskArray[index].text}
+                                                <div class="li-buttons hide" id="buttons-${liId}">
+                                                <button data-index="${ele.dataset.index}" onclick="editSubtask(this)">
+                                                    <img src="./assets/icon/pencil.svg">
+                                                </button>
+                                                <div class="add-task-form-divider"></div>
+                                                <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
+                                                    <img src="./assets/icon/bin.svg">
+                                                </button>
+                                                </div>`
+    document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
+    document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div"); 
+}
+
+function confirmEditedSubtaskInEditMenu(ele, liVal, inputId, liId) {
+    let inputText = document.getElementById(inputId).value;
+    document.getElementById(inputId).remove();
+    document.getElementById(liId).innerHTML =  `${inputText}
+                                                <div class="li-buttons hide" id="buttons-${liId}">
+                                                <button data-index="${ele.dataset.index}" onclick="editSubtask(this)">
+                                                    <img src="./assets/icon/pencil.svg">
+                                                </button>
+                                                <div class="add-task-form-divider"></div>
+                                                <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
+                                                    <img src="./assets/icon/bin.svg">
+                                                </button>
+                                                </div>`
+    document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
+    document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div");
 }

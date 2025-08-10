@@ -10,6 +10,7 @@ let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
 };
+let allTickets = [];
 let tickets;
 
 async function init() {
@@ -75,10 +76,12 @@ async function getTicketData() {
     renderTickets(result);
     return tickets;
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
   allTickets.push(tickets);
-  toggleNoTaskContainer();
+  if(typeof toggleNoTaskContainer === 'function') {
+  toggleNoTaskContainer();    
+  }
 }
 
 /**
@@ -156,8 +159,9 @@ function popUpDropDownUsersInBoard() {
  *  Toggles the visibility of the users dropdown menu in the board.
  * Adds or removes the "hide" class from the element with ID "drop-down-category-board".
  */
-function popUpDropDownCategoryInBoard() {
+function popUpDropDownCategoryInBoard(imgId) {
   document.getElementById("drop-down-category-board").classList.toggle("hide");
+  changeDropDownArrow(imgId);
 }
 
 /**
