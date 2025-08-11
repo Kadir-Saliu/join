@@ -52,6 +52,14 @@
         width: 100%;
     }
 
+    #wrong-password-div {
+        width: 90%;
+    }
+
+    .wrong-password-div {
+        width: 90%;
+    }
+
     #btn-login-div {
         flex-direction: column;
         width: 60%;
@@ -66,5 +74,16 @@
 
     #sign-up-div {
         width: 90%;
+    }
+
+    .menu-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 750px) {
+    
+    #back-btn {
+        right: 40%;
     }
 }

@@ -60,6 +60,7 @@ function wrongPassword() {
   document.getElementById("email-input").classList.add("wrongPassword");
   document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
   document.getElementById("password-input").value = "";
+  document.getElementById("wrong-password-info").classList.add("wrongPasswordText");
 }
 
 /**
@@ -71,7 +72,6 @@ async function checkUserDataInput(event) {
   event.preventDefault();
   if (!document.getElementById("sign-up-div").checkValidity()) {
     document.getElementById("sign-up-div").reportValidity();
-    return;
   }
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
