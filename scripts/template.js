@@ -62,8 +62,8 @@ function getInitialTemplate(inital) {
 
 function getContactTemplate(initials, userName, email, phone) {
   return /*html*/ `
-    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone})" class="contact">
-        <div>${initials}</div>
+    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone}, this)" class="contact" data-contact="${userName}">
+        <div class="contact-initials">${initials}</div>
         <div class="contact-details">
             <div class="contact-list-name">${userName}</div>
             <div class="email-color">${email}</div>

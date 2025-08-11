@@ -9,14 +9,14 @@ const phone = document.getElementById("contactPhone");
 /**
  * Initializes the current user by fetching user data and finding the logged-in user
  */
-async function initializeCurrentUser() {
+const initializeCurrentUser = async () => {
   if (!currentUser) {
     currentUser = Object.entries(await (await fetch(BASE_URL_USERS)).json())
       .map(([id, user]) => ({ id, ...user }))
       .find((user) => user.name === loggedInUser.username);
   }
   return currentUser;
-}
+};
 
 const cacheFirebaseKeys = () => {
   contacts.forEach((contact) => {
@@ -29,7 +29,7 @@ const cacheFirebaseKeys = () => {
 /**
  * This function finds the current logged in user, fetches the respective contact list and renders it after the list is sorted
  */
-async function showContacts() {
+const showContacts = async () => {
   await initializeCurrentUser();
   contacts = await getContactsData(currentUser);
   cacheFirebaseKeys();
@@ -41,7 +41,7 @@ async function showContacts() {
   let contactsRef = document.getElementById("contacts");
   contactsRef.innerHTML = "";
   renderContacts(sortedContacts, contactsRef);
-}
+};
 
 /**
  * This function takes a sorted array and saves them in an object which has the respective letters as keys
@@ -49,13 +49,13 @@ async function showContacts() {
  * @param {string} contact - a contact that gets sorted into respective key value in object
  * @param {Object} sortedContacts - object to save the values in
  */
-function sortContactByInitials(contact, sortedContacts) {
+const sortContactByInitials = (contact, sortedContacts) => {
   let inital = contact.name.charAt(0).toUpperCase();
   if (!sortedContacts[inital]) {
     sortedContacts[inital] = [];
   }
   sortedContacts[inital].push(contact);
-}
+};
 
 /**
  * This function renders the contact list after it has been sorted.
@@ -63,7 +63,7 @@ function sortContactByInitials(contact, sortedContacts) {
  * @param {object} sortedContacts - object that contains the sorted contacts list
  * @param {Element} contactsRef - the element where the contacts list will be rendered
  */
-function renderContacts(sortedContacts, contactsRef) {
+const renderContacts = (sortedContacts, contactsRef) => {
   Object.keys(sortedContacts).forEach((inital) => {
     contactsRef.innerHTML += getInitialTemplate(inital);
     sortedContacts[inital].forEach((contact) => {
@@ -74,7 +74,7 @@ function renderContacts(sortedContacts, contactsRef) {
       contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone);
     });
   });
-}
+};
 
 /**
  * Displays the contact details in the contact details section.
@@ -82,8 +82,18 @@ function renderContacts(sortedContacts, contactsRef) {
  * @param {string} userName - The contact's name.
  * @param {string} email - The contact's email address.
  * @param {string} phone - The contact's phone number.
+ * @param {HTMLElement} clickedElement - The clicked contact element.
  */
-const showContactsDetails = (initials, userName, email, phone) => {
+const showContactsDetails = (initials, userName, email, phone, clickedElement) => {
+  document.querySelectorAll(".contact").forEach((contact) => {
+    contact.classList.remove("active");
+  });
+  document.querySelectorAll(".contact-initials").forEach((contactInitials) => {
+    contactInitials.classList.remove("active");
+  });
+  clickedElement.classList.add("active");
+  const initialsElement = clickedElement.querySelector(".contact-initials");
+  initialsElement.classList.add("active");
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = "";
   contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone);
@@ -95,9 +105,9 @@ const showContactsDetails = (initials, userName, email, phone) => {
  * @param {string} str - The input string.
  * @returns {string} The escaped string.
  */
-function escapeQuotes(str) {
+const escapeQuotes = (str) => {
   return str.replace(/'/g, "\\'");
-}
+};
 
 /**
  * Toggles the visibility of an overlay element by its ID.
@@ -106,7 +116,7 @@ function escapeQuotes(str) {
  *
  * @param {string|Event} id - The overlay element ID or a click event object
  */
-function toggleOverlay(id) {
+const toggleOverlay = (id) => {
   if (typeof id === "object" && id.type === "click") {
     id = currentOverlayId;
   }
@@ -117,7 +127,7 @@ function toggleOverlay(id) {
   } else {
     closeOverlay(overlayRef);
   }
-}
+};
 
 /**
  * Opens an overlay by removing the hidden class and adding the active class.
@@ -125,14 +135,14 @@ function toggleOverlay(id) {
  *
  * @param {HTMLElement} overlayRef - The overlay DOM element to open
  */
-function openOverlay(overlayRef) {
+const openOverlay = (overlayRef) => {
   overlayRef.classList.remove("d_none");
   setTimeout(() => {
     overlayRef.classList.add("active");
   }, 10);
   document.body.addEventListener("click", toggleOverlay);
   document.querySelector(".body-background-overlay").classList.remove("d_none");
-}
+};
 
 /**
  * Closes an overlay by removing the active class and adding the hidden class.
@@ -140,14 +150,14 @@ function openOverlay(overlayRef) {
  *
  * @param {HTMLElement} overlayRef - The overlay DOM element to close
  */
-function closeOverlay(overlayRef) {
+const closeOverlay = (overlayRef) => {
   overlayRef.classList.remove("active");
   setTimeout(() => {
     overlayRef.classList.add("d_none");
   }, 400);
   document.body.removeEventListener("click", toggleOverlay);
   document.querySelector(".body-background-overlay").classList.add("d_none");
-}
+};
 
 /**
  * Opens the edit overlay and populates it with content.
@@ -191,9 +201,9 @@ const openEditOverlayWithBubblingPrevention = (event, initials, userName, email,
  * Prevents event bubbling for the given event.
  * @param {Event} event - The event to stop propagation for.
  */
-function bubblingPrevention(event) {
+const bubblingPrevention = (event) => {
   event.stopPropagation();
-}
+};
 
 /**
  * Adds a click event listener to the element with the class "add-contact-button".
@@ -216,7 +226,7 @@ document.querySelector(".add-contact-button").addEventListener("click", (event) 
  * @function addContactToDatabase
  * @returns {Promise<void>}
  */
-async function addContactToDatabase() {
+const addContactToDatabase = async () => {
   if (!name.value || !email.value || !phone.value) {
     alert("Bitte fülle alle Felder aus.");
     return;
@@ -230,17 +240,17 @@ async function addContactToDatabase() {
   showContacts();
   toggleOverlay("contactOverlay");
   clearContactForm();
-}
+};
 
 /**
  * Clears the values of the contact form input fields: name, email, and phone.
  * Resets the input fields with IDs 'contactName', 'contactEmail', and 'contactPhone' to empty strings.
  */
-function clearContactForm() {
+const clearContactForm = () => {
   document.getElementById("contactName").value = "";
   document.getElementById("contactEmail").value = "";
   document.getElementById("contactPhone").value = "";
-}
+};
 
 /**
  * Clears the values of the edit contact form fields (name, email, and phone).
@@ -269,7 +279,7 @@ const clearEditForm = () => {
  * @param {Object} contact - The contact object to be added to the database.
  * @returns {Promise<void>} A promise that resolves when the contact has been added.
  */
-async function putNewContactToDatabase(contact) {
+const putNewContactToDatabase = async (contact) => {
   const newKey = Math.max(...firebaseKeys) + 1;
   await fetch(
     `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${newKey}.json`,
@@ -282,7 +292,7 @@ async function putNewContactToDatabase(contact) {
     }
   );
   showContacts();
-}
+};
 
 /**
  * Saves the edited contact information to the Firebase database.
@@ -297,7 +307,7 @@ async function putNewContactToDatabase(contact) {
  * @function
  * @returns {Promise<void>} Resolves when the contact has been updated and the UI refreshed.
  */
-async function saveEditedContactToDatabase() {
+const saveEditedContactToDatabase = async () => {
   const contactName = document.querySelector(".contact-information-username").innerText;
   const contact = contacts.find((contact) => contact.name === contactName);
   const editedContact = {
@@ -305,6 +315,20 @@ async function saveEditedContactToDatabase() {
     email: document.getElementById("editContactEmail").value,
     phone: document.getElementById("editContactPhone").value,
   };
+  putEditedContactToDatabase(editedContact, contact);
+  finishEdit();
+};
+
+/**
+ * Updates an existing contact in the Firebase Realtime Database with the provided edited contact data.
+ *
+ * @async
+ * @function
+ * @param {Object} editedContact - The updated contact data to be saved in the database.
+ * @param {Object} contact - The original contact object, containing at least the `firebaseKey` property.
+ * @returns {Promise<void>} A promise that resolves when the contact has been updated in the database.
+ */
+const putEditedContactToDatabase = async (editedContact, contact) => {
   await fetch(
     `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${contact.firebaseKey}.json`,
     {
@@ -315,8 +339,7 @@ async function saveEditedContactToDatabase() {
       body: JSON.stringify(editedContact),
     }
   );
-  finishEdit();
-}
+};
 
 /**
  * Deletes the currently selected contact from the Firebase database.
@@ -329,7 +352,7 @@ async function saveEditedContactToDatabase() {
  * @function
  * @returns {Promise<void>} Resolves when the contact has been deleted and the UI updated.
  */
-async function deleteContactFromDatabase() {
+const deleteContactFromDatabase = async () => {
   const contactName = document.querySelector(".contact-information-username").innerText;
   const contact = contacts.find((contact) => contact.name === contactName);
   await fetch(
@@ -342,7 +365,7 @@ async function deleteContactFromDatabase() {
     }
   );
   finishEdit();
-}
+};
 
 /**
  * Finalizes the contact editing process by clearing the contact details display,
