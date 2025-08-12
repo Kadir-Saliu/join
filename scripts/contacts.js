@@ -110,52 +110,28 @@ const escapeQuotes = (str) => {
 };
 
 /**
- * Toggles the visibility of an overlay element by its ID.
- * If the overlay is hidden, it opens it; if it's visible, it closes it.
- * Handles both string IDs and click event objects.
- *
- * @param {string|Event} id - The overlay element ID or a click event object
+ * Toggles the visibility of the "add contact" overlay.
+ * If the overlay is hidden, it will be shown and an event listener will be added to close it when clicking outside.
+ * Also displays a background overlay to indicate modal state.
  */
-const toggleOverlay = (id) => {
-  if (typeof id === "object" && id.type === "click") {
-    id = currentOverlayId;
-  }
-  const overlayRef = document.getElementById(id);
-  if (overlayRef.classList.contains("d_none")) {
-    currentOverlayId = id;
-    openOverlay(overlayRef);
-  } else {
-    closeOverlay(overlayRef);
+const openAddContactOverlay = () => {
+  const contactOverlayRef = document.getElementById("addContactOverlay");
+  if (contactOverlayRef.classList.contains("d_none")) {
+    contactOverlayRef.classList.remove("d_none");
+    contactOverlayRef.classList.add("active");
+    document.querySelector(".body-background-overlay").classList.remove("d_none");
+    document.body.addEventListener("click", closeAddContactOverlay);
   }
 };
 
 /**
- * Opens an overlay by removing the hidden class and adding the active class.
- * Also adds a click listener to the body and shows the background overlay.
- *
- * @param {HTMLElement} overlayRef - The overlay DOM element to open
+ * Closes the contact overlay by removing the "active" class and adding the "d_none" class
+ * to hide the overlay and its background. Also hides the body background overlay.
  */
-const openOverlay = (overlayRef) => {
-  overlayRef.classList.remove("d_none");
-  setTimeout(() => {
-    overlayRef.classList.add("active");
-  }, 10);
-  document.body.addEventListener("click", toggleOverlay);
-  document.querySelector(".body-background-overlay").classList.remove("d_none");
-};
-
-/**
- * Closes an overlay by removing the active class and adding the hidden class.
- * Also removes the click listener from the body and hides the background overlay.
- *
- * @param {HTMLElement} overlayRef - The overlay DOM element to close
- */
-const closeOverlay = (overlayRef) => {
-  overlayRef.classList.remove("active");
-  setTimeout(() => {
-    overlayRef.classList.add("d_none");
-  }, 400);
-  document.body.removeEventListener("click", toggleOverlay);
+const closeAddContactOverlay = () => {
+  const contactOverlayRef = document.getElementById("addContactOverlay");
+  contactOverlayRef.classList.remove("active");
+  contactOverlayRef.classList.add("d_none");
   document.querySelector(".body-background-overlay").classList.add("d_none");
 };
 
