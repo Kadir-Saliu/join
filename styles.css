@@ -24,6 +24,10 @@ main {
   overflow: auto;
 }
 
+.mobile-logo {
+  display: none;
+}
+
 .mw1920 {
   max-width: 1920px;
 }
