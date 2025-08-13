@@ -214,8 +214,32 @@ const addContactToDatabase = async () => {
   };
   putNewContactToDatabase(newContact);
   showContacts();
-  toggleOverlay("contactOverlay");
+  closeAddContactOverlay();
   clearContactForm();
+  showSuccessMessage();
+};
+
+/**
+ * Displays a success message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showSuccessMessage
+ * @description Shows the add contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".add-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
 };
 
 /**

@@ -359,3 +359,21 @@ hr {
   font-size: 47px;
   color: white;
 }
+
+.add-contact-successful {
+  position: fixed;
+  bottom: 15%;
+  left: 50%;
+  transform: translate(100vw, -50%);
+  background-color: #2a3647;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 18px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3000;
+}
+
+.add-contact-successful.active {
+  transform: translate(-50%, -50%);
+}
