@@ -96,11 +96,61 @@
     .header-responsive {
         margin-left: 0;
         width: 100%;
+        height: 8vh;
+    }
+
+    .header-and-icon {
+        height: 100%;
     }
 
     .header-and-icon h2,
     .help-person-icon a {
         display: none;
+    }
+
+    main {
+        margin-top: 8vh;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 95%;
+    }
+
+    .title-main {
+        padding: 0;
+        padding-top: 10px;
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin-bottom: 25px;
+    }
+
+    .full-screen-border {
+        display: none;
+    }
+
+    .mobile-border {
+        display: block;
+    }
+
+    .tasks-and-text {
+        padding: 0;
+        height: 436px;
+        width: 100%;
+    }
+
+    .all-tasks {
+        width: 100%;
+    }
+
+    .to-do, 
+    .done,
+    .urgent-and-date,
+    .tasks-in-board,
+    .tasks-in-progress,
+    .awaiting-feedback {
+        height: 132px;
     }
 
     nav {
