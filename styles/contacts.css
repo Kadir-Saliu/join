@@ -62,6 +62,7 @@
   width: 352px;
   height: 78px;
   margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .contact:hover:not(.active) {

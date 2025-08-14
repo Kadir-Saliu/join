@@ -212,11 +212,11 @@ const addContactToDatabase = async () => {
     email: email.value,
     phone: phone.value,
   };
-  putNewContactToDatabase(newContact);
-  showContacts();
+  await putNewContactToDatabase(newContact);
   closeAddContactOverlay();
   clearContactForm();
   showSuccessMessage();
+  scrollToNewContact(newContact);
 };
 
 /**
@@ -291,7 +291,7 @@ const putNewContactToDatabase = async (contact) => {
       body: JSON.stringify(contact),
     }
   );
-  showContacts();
+  await showContacts();
 };
 
 /**
@@ -376,4 +376,18 @@ const finishEdit = () => {
   closeEditOverlay();
   clearEditForm();
   showContacts();
+};
+
+/**
+ * Scrolls to a specific contact in the contacts list
+ * @param {string} contactName - The name of the contact to scroll to
+ */
+const scrollToNewContact = (newContact) => {
+  const initials = newContact.name.split(" ")[0][0] + newContact.name.split(" ")[1][0];
+  const contact = document.querySelector(`[data-contact="${newContact.name}"]`);
+  contact.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+  showContactsDetails(initials, newContact.name, newContact.email, newContact.phone, contact);
 };
