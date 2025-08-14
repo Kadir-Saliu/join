@@ -74,7 +74,7 @@ function switchEditInfoMenu(ele) {
 function setGlobalEditInformation(ele) {
   dataTicketIndex = ele.dataset.ticketindex;
   dataTicketCounterId = ele.dataset.ticketcounterid;
-  dataMode = ele.dataset.mode;  
+  dataMode = ele.dataset.mode;
 }
 
 /**
@@ -180,7 +180,25 @@ function allowDrop(ev) {
  */
 function moveTo(category) {
   allTickets[currentDraggedElement]["column"] = category;
+  saveChangedTicketInFirbase();
   renderTickets(allTickets);
+}
+
+async function saveChangedTicketInFirbase() {
+  try {
+    await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[currentDraggedElement].id}.json`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allTickets[currentDraggedElement]),
+      }
+    );
+  } catch (error) {
+    console.error("Error saving ticket:", error);
+  }
 }
 
 /**
@@ -341,7 +359,14 @@ async function checkEditedValues(ele) {
     date = document.getElementById("task-date-edit").value;
   }
   ele.dataset.mode = "view";
-  return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
+  return takeOverEditedTicket(
+    ele,
+    index,
+    title,
+    description,
+    date,
+    ticketCounterId
+  );
 }
 
 /**
@@ -374,7 +399,7 @@ function takeOverEditedTicket(
   if (dateEdit) {
     editedTicket.date = dateEdit;
   }
-  
+
   editedTicket.priority = buttonPriority;
   let selectedUsers = getSelectedUsers();
   editedTicket.assignedTo = selectedUsers;
@@ -387,7 +412,7 @@ function takeOverEditedTicket(
     let text = li.innerText.trim();
 
     let existing = originalSubtasks.find((s) => s.text === text);
-    let isChecked = existing ? existing.checked : false;    
+    let isChecked = existing ? existing.checked : false;
 
     subtaskArray.push({
       text,
@@ -396,7 +421,7 @@ function takeOverEditedTicket(
   });
 
   editedTicket.subtask = subtaskArray;
-   return saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
+  return saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
 }
 
 /**
@@ -447,22 +472,31 @@ async function saveEditedTaskToFirebase(
  */
 function addNewSubtask() {
   subtaskEditArray.push(document.getElementById("edit-subtask").value);
-  
-  if(document.getElementById("edit-subtask").value.trim() !== "") {
-    document.getElementById("subtask-render-div").innerHTML += 
-    `<li class="subtask-li" data-index="${subtaskEditArray.length - 1}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+
+  if (document.getElementById("edit-subtask").value.trim() !== "") {
+    document.getElementById(
+      "subtask-render-div"
+    ).innerHTML += `<li class="subtask-li" data-index="${
+      subtaskEditArray.length - 1
+    }" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
       ${document.getElementById("edit-subtask").value}
       <div class="li-buttons hide">
-        <button data-index="${subtaskEditArray.length - 1}" onclick="editSubtaskInEditMenu(this)">
+        <button data-index="${
+          subtaskEditArray.length - 1
+        }" onclick="editSubtaskInEditMenu(this)">
             <img src="./assets/icon/pencil.svg">
         </button>
         <div class="add-task-form-divider"></div>
-        <button data-index="${subtaskEditArray.length - 1}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+        <button data-index="${
+          subtaskEditArray.length - 1
+        }" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${
+      subtask.value
+    }'); spliceEditSubArray(this)">
             <img src="./assets/icon/bin.svg">
         </button>
       </div>
     </li>`;
-}
+  }
 }
 
 async function spliceEditSubArray(ele) {
@@ -553,5 +587,3 @@ function minDate() {
   const dateInput = document.getElementById("task-date");
   dateInput.setAttribute("min", today);
 }
-
-
