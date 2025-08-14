@@ -37,7 +37,7 @@
     }
 
     #main {
-        width: 90%
+        width: 90%;
     }
 
     #login-div {
@@ -114,6 +114,7 @@
         margin-right: 0;
         margin-bottom: 0;
         width: 95%;
+        padding: 0;
     }
 
     .title-main {
@@ -182,6 +183,45 @@
 
     .legal-info {
         display: none;
+    }
+
+    /*addTask.html*/
+
+    main h1 {
+        padding-top: 10px;
+    }
+
+    .add-task-form {
+        margin-bottom: 10px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+        width: 100%;
+    }
+
+    .add-task-text-div,
+    .add-task-select-div {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .add-task-form-divider {
+        display: none;
+    }
+
+    .add-task-importance-selection,
+    #drop-down-users-input-div,
+    #category-button,
+    .subtask-div {
+        margin-bottom: 24px !important;
+    }
+
+    #drop-down-users-input,
+    #drop-down-users-input-img-div {
+        margin-bottom: 0;
     }
 }
 
