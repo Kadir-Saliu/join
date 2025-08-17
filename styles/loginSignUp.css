@@ -156,6 +156,18 @@ main {
   border-color: rgb(255, 64, 87);
 }
 
+#wrong-password-div {
+  display: flex;
+  justify-content: start;
+  width: 360px;
+  margin-top: 8px;
+}
+
+.wrongPasswordText {
+  color: rgb(255, 64, 87);
+  font-size: 12px;
+}
+
 #checkbox-input-sign-up {
   cursor: pointer;
 }

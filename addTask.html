@@ -11,12 +11,13 @@
     <link rel="stylesheet" href="./styles/navigation.css" />
     <link rel="stylesheet" href="./styles/addTaskBoard.css" />
     <link rel="stylesheet" href="./styles/accountNav.css" />
+    <link rel="stylesheet" href="./styles/responsivness.css">
   </head>
   <body onload="addTaskInit()">
     <div template="navigation.html"></div>
     <div template="accountNav.html" class="account-nav-render-div hide"></div>
 
-    <header template="header.html"></header>
+    <header template="header.html" class="header-responsive"></header>
 
     <main>
       <h1>Add Task</h1>
@@ -91,6 +92,10 @@
             </div>
           </div>
           <div id="subtask-render-div"></div>
+          <div class="span-div" id="required-div-mobile">
+            <span>*</span>
+            <p>This field is required</p>
+          </div>
         </div>
       </div>
       <div class="bottom-section">

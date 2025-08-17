@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="./styles/addTaskBoard.css" />
   <link rel="stylesheet" href="./styles/accountNav.css" />
   <link rel="stylesheet" href="./styles/boardTaskPopUp.css" />
+    <link rel="stylesheet" href="./styles/responsivness.css">
 </head>
 
 <body onload="boardInit()">
@@ -21,7 +22,7 @@
   <div template="accountNav.html" class="account-nav-render-div hide"></div>
   <div template="boardTaskPopUp.html" class="hide slide-out" id="board-task-pop-up"></div>
 
-  <header template="header.html"></header>
+  <header template="header.html" class="header-responsive"></header>
 
 
   <main>
@@ -34,7 +35,8 @@
             <img  src="./assets/imgs/search_lense.png" class="search-bar-lense" alt="search lense" />
           </button>
         </div>
-        <button class="board-add-task" onclick="popUpAddTask(popup, 'To do')">Add task +</button>
+        <button class="board-add-task full-screen-button" onclick="popUpAddTask(popup, 'To do')">Add task +</button>
+        <a class="board-add-task mobile-button" id="board-add-task-a" href="./addTask.html">Add task +</a>
       </div>
     </div>
 
@@ -43,7 +45,8 @@
       <div class="kanban-column" >
         <div class="kanban-header">
           <h3>To do</h3>
-          <button class="add-task-btn" onclick="popUpAddTask(popup, 'To do')">+</button>
+          <button class="add-task-btn full-screen-button" onclick="popUpAddTask(popup, 'To do')">+</button>
+          <a class="add-task-btn mobile-button style-a" href="./addTask.html">+</a>
         </div>
 
         <div id="noTasksToDo" class="kanban-task no-tasks">No tasks in To do</div>
@@ -54,7 +57,8 @@
       <div class="kanban-column" >
         <div class="kanban-header">
           <h3>In progress</h3>
-          <button class="add-task-btn" onclick="popUpAddTask(popup, 'In progress')">+</button>
+          <button class="add-task-btn full-screen-button" onclick="popUpAddTask(popup, 'In progress')">+</button>
+          <a class="add-task-btn mobile-button style-a" href="./addTask.html">+</a>
         </div>
         
           <div id="noTasksProgress" class="kanban-task no-tasks">No tasks in progress</div>
@@ -67,7 +71,8 @@
       <div class="kanban-column" >
         <div class="kanban-header">
           <h3>Await feedback</h3>
-          <button class="add-task-btn" onclick="popUpAddTask(popup, 'Await feedback')">+</button>
+          <button class="add-task-btn full-screen-button" onclick="popUpAddTask(popup, 'Await feedback')">+</button>
+          <a class="add-task-btn mobile-button style-a" href="./addTask.html">+</a>
         </div>
 
         <div id="noTasksFeedback" class="kanban-task no-tasks">No tasks in await feedback</div>
