@@ -33,6 +33,9 @@ async function boardInit() {
   getTicketData();
   renderTickets();
   minDate();
+   if(typeof toggleNoTaskContainer === 'function') {
+  toggleNoTaskContainer();    
+  }
 }
 
 async function addTaskInit() {
@@ -78,9 +81,7 @@ async function getTicketData() {
   } catch (error) {
     console.log(error);
   }
-  if(typeof toggleNoTaskContainer === 'function') {
-  toggleNoTaskContainer();    
-  }
+ 
 }
 
 /**

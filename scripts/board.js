@@ -122,7 +122,7 @@ async function renderTickets() {
       renderSubtaskProgress(index, subtasks);
     }
   }
-  toggleNoTaskContainer(allTickets);
+  toggleNoTaskContainer();
 }
 
 /**
@@ -213,7 +213,7 @@ async function saveChangedTicketInFirbase() {
  * Assumes the existence of global `allTickets` array and HTML elements with
  * IDs: "noTasksToDo", "noTasksProgress", "noTasksFeedback", "noTasksDone".
  */
-function toggleNoTaskContainer(allTickets) {
+function toggleNoTaskContainer() {
   let allTicketsToDo = allTickets.filter((obj) => obj.column == "To do");
   let allTicketsProgress = allTickets.filter(
     (obj) => obj.column == "In progress"
