@@ -13,3 +13,13 @@ h2 {
     margin-bottom: 16px;
     margin-top: 16px;
 }
+
+@media (max-width: 1100px) {
+    main {
+        margin-bottom: 12vh !important;
+    }
+
+    h1 {
+        font-size: 40px !important;
+    }
+}

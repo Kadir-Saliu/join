@@ -4,7 +4,7 @@ body {
 }
 
 main {
-    margin-bottom: 64px;
+    margin-bottom: 64px ;
 }
 
 ul {
@@ -24,4 +24,10 @@ a {
 #imprint {
     margin-bottom: 20px;
     font-size: 32px;
+}
+
+@media (max-width: 1100px) {
+    main {
+        margin-bottom: 12vh !important;
+    }
 }
