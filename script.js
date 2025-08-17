@@ -10,7 +10,7 @@ let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
   username: "",
   initals: "",
 };
-let allTickets = [];
+
 let tickets;
 
 async function init() {
@@ -31,6 +31,7 @@ async function summaryInit() {
 async function boardInit() {
   loadNavigationAndSetInitials();
   getTicketData();
+  renderTickets();
   minDate();
 }
 
@@ -73,12 +74,10 @@ async function getTicketData() {
     tickets = responseJson.ticket;
     let result = Object.values(tickets);
     localStorage.setItem("tickets", JSON.stringify(result));
-    renderTickets(result);
     return tickets;
   } catch (error) {
     console.log(error);
   }
-  allTickets.push(tickets);
   if(typeof toggleNoTaskContainer === 'function') {
   toggleNoTaskContainer();    
   }
