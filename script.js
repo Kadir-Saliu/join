@@ -235,3 +235,7 @@ function setProfileInitials() {
     document.getElementById("profile").innerText = "G";
   }
 }
+
+function goToBoardHtml(){
+location.href = "./board.html";
+}

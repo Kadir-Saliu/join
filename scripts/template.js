@@ -278,7 +278,7 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
 
 function getRenderTasksTemplate() {
   return `
-             <div class="toDo-and-done">
+             <div onclick="goToBoardHtml()" class="toDo-and-done">
               <div class="to-do">
                 <a href=""
                   ><svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
@@ -307,7 +307,7 @@ function getRenderTasksTemplate() {
                   <p>To-do</p>
                 </div>
               </div>
-              <div class="done">
+              <div onclick="goToBoardHtml()" class="done">
                 <a href=""
                   ><svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
                     <circle class="change-circle-color" cx="35" cy="35" r="34.5" fill="#2A3647" />
@@ -320,13 +320,13 @@ function getRenderTasksTemplate() {
                       stroke-linejoin="round"
                     /></svg
                 ></a>
-                <div class="center">
+                <div  class="center">
                   <h3>${done}</h3>
                   <p>Done</p>
                 </div>
               </div>
             </div>
-            <div class="urgent-and-date">
+            <div onclick="goToBoardHtml()" class="urgent-and-date">
               <div class="urgent">
                 <a href=""><img src="./assets/icon/urgent-orange-icon.svg" alt="" /></a>
                 <div>
@@ -340,7 +340,7 @@ function getRenderTasksTemplate() {
                 <p>Upcoming Deadline</p>
               </div>
             </div>
-            <div class="tasks-in-editing">
+            <div onclick="goToBoardHtml()" class="tasks-in-editing">
               <div class="tasks-in-board">
                 <h3>${currentTickets.length}</h3>
                 <p>
@@ -348,14 +348,14 @@ function getRenderTasksTemplate() {
                   Board
                 </p>
               </div>
-              <div class="tasks-in-progress">
+              <div onclick="goToBoardHtml()" class="tasks-in-progress">
                 <h3>${inProgress}</h3>
                 <p>
                   Tasks in <br />
                   Progress
                 </p>
               </div>
-              <div class="awaiting-feedback">
+              <div onclick="goToBoardHtml()" class="awaiting-feedback">
                 <h3>${awaitFeedback}</h3>
                 <p>
                   Awaiting <br />
