@@ -15,6 +15,8 @@ let subtaskEditArray = [];
 let dataTicketIndex;
 let dataTicketCounterId;
 let dataMode;
+const getTickets = localStorage.getItem("tickets");
+const allTickets = JSON.parse(getTickets);
 
 /**
  * function to open/close the addTask pop-up
@@ -84,8 +86,9 @@ function setGlobalEditInformation(ele) {
  * @param {Array<Object>} tickets - An array of ticket objects to render. Each ticket should contain properties such as `title`, `description`, `category`, `column`, `assignedTo`, `priority`, and `subtask`.
  * @returns {Promise<void>} Resolves when all tickets have been rendered to the DOM.
  */
-async function renderTickets(tickets) {
-  allTickets = tickets;
+async function renderTickets() {
+  console.log(allTickets);
+
   document.getElementById("to-do-div").innerHTML = "";
   document.getElementById("in-progress-div").innerHTML = "";
   document.getElementById("await-feedback-div").innerHTML = "";
