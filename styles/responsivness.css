@@ -193,7 +193,7 @@
 
     .add-task-form {
         margin-bottom: 10px;
-        height: 500px;
+        height: 450px;
         display: flex;
         flex-direction: column;
         overflow: scroll;
@@ -222,6 +222,21 @@
     #drop-down-users-input,
     #drop-down-users-input-img-div {
         margin-bottom: 0;
+    }
+
+    #required-div {
+        display: none;
+    }
+
+    #required-div-mobile {
+        display: flex;
+    }
+
+    #button-div {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10vh;
     }
 }
 

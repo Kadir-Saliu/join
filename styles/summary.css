@@ -428,6 +428,17 @@ main {
     }
 
     .urgent-and-date {
-      max-width: 540px;
+      max-width: 900px;
+    }
+
+    .to-do,
+    .done {
+      width: 520px;
+    }
+
+    .tasks-in-board,
+    .tasks-in-progress,
+    .awaiting-feedback {
+      width: 336px;
     }
 }

@@ -553,6 +553,10 @@ textarea {
   outline: none;
 }
 
+#required-div-mobile {
+  display: none;
+}
+
 /* userfeedback */
 
 .added-animation {
