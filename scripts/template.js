@@ -42,9 +42,10 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
         .join("")
         .toUpperCase();
       return `<span class="user-icon-rendered User-bc-${renderedUserBgIndex}">${initials}</span>`;
-    }));    
+    })
+  );
 
-    let userSpans = userSpansArray.join("");
+  let userSpans = userSpansArray.join("");
 
     return `
         <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
@@ -74,27 +75,92 @@ function getInitialTemplate(inital) {
   `;
 }
 
-/**
- * 
- * Generates an HTML string representing a contact card.
- *
- * @param {Object} contact - Contact information object.
- * @param {string} contact.name - Full name of the contact.
- * @param {string} contact.email - Email address of the contact.
- * @param {string} initials - Initials to show in the contact icon.
- * @returns {string} An HTML snippet for the contact, including initials and contact details.
-  
- */
-function getContactTemplate(contact, initials) {
+function getContactTemplate(initials, userName, email, phone) {
   return /*html*/ `
-    <div class="contact">
-        <div>${initials}</div>
+    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone}, this)" class="contact" data-contact="${userName}">
+        <div class="contact-initials">${initials}</div>
         <div class="contact-details">
-            <div class="contact-list-name">${contact.name}</div>
-            <div class="email-color">${contact.email}</div>
+            <div class="contact-list-name">${userName}</div>
+            <div class="email-color">${email}</div>
         </div>
     </div>
-  `;    
+  `;
+}
+
+function getContactDetailsTemplate(initials, userName, email, phone) {
+  return /*html*/ `
+    <div class="contact-information-mt">
+      <div class="initials-and-username">
+        <span class="contact-information-initials">${initials}</span>
+        <div>
+          <div class="contact-information-username">${userName}</div>
+          <div class="edit-and-delete">
+            <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}')" class="align-icon-and-text">
+              <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
+              <span>Edit</span>
+            </div>
+            <div onclick="deleteContactFromDatabase()" class="align-icon-and-text">
+              <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
+              <span>Delete</span>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div class="contact-information-headline">Contact Information</div>
+    <div class="contact-information">
+      <span><b>Email</b></span>
+      <span class="email-color">${email}</span>
+      <span><b>Phone</b></span>
+      <span>+${phone}</span>
+    </div>
+  `;
+}
+
+function getEditOverlayContentTemplate(initials, userName, email, phone) {
+  return /*html*/ `
+    <div class="contact-overlay-header">
+        <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
+        <h1>Edit contact</h1>
+        <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
+      </div>
+      <div class="contact-inputs-container">
+        <div class="edit-overlay-initials">${initials}</div>
+        <div class="contact-inputs">
+          <input
+            id="editContactName"
+            class="contact-input"
+            type="text"
+            placeholder="Name"
+            spellcheck="false"
+            value="${userName}"
+            required
+          />
+          <input
+            id="editContactEmail"
+            class="contact-input"
+            type="text"
+            placeholder="Email"
+            spellcheck="false"
+            value="${email}"
+            required
+          />
+          <input
+            id="editContactPhone"
+            class="contact-input"
+            type="text"
+            placeholder="Phone"
+            spellcheck="false"
+            value="${phone}"
+            required
+          />
+          <div class="contact-inputs-buttons">
+            <button onclick="deleteContactFromDatabase()" class="cancel-button">Delete</button>
+            <button onclick="saveEditedContactToDatabase()" class="create-contact-button">Save &#10003;</button>
+          </div>
+        </div>
+      </div>
+  `;
 }
 
 /**
@@ -124,22 +190,23 @@ async function renderTicketDetails(category, categoryColor, title, description, 
         .map((n) => n[0])
         .join("")
         .toUpperCase();
-        return `<div class="ticket-detail-user-div">
+      return `<div class="ticket-detail-user-div">
                     <span class="user-icon-rendered User-bc-${renderedUserBgIndex}">${initials}</span>
                     <span>${user}</span>
                 </div>
         `;
-    }));
+    })
+  );
 
-    let userSpans = userSpansArray.join("");
+  let userSpans = userSpansArray.join("");
 
     let subtaskEle = subtasks.map((subtask, i) => {        
         return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
         `;
-    }).join("");
-    
-    document.getElementById("board-task-information").innerHTML = 
-    `<div id="task-pop-up-nav">
+    })
+    .join("");
+
+  document.getElementById("board-task-information").innerHTML = `<div id="task-pop-up-nav">
         <p class="${categoryColor}">${category}</p>
         <button  onclick="popUpAddTask(popuptask)">X</button>
     </div>
@@ -193,10 +260,11 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
         .map((n) => n[0])
         .join("")
         .toUpperCase();
-        return `<span data-name="${user}" class="user-icon-rendered User-bc-${renderedUserBgIndex} user-icon-selected">${initials}</span>`;
-    }));
+      return `<span data-name="${user}" class="user-icon-rendered User-bc-${renderedUserBgIndex} user-icon-selected">${initials}</span>`;
+    })
+  );
 
-    let userSpans = userSpansArray.join("");
+  let userSpans = userSpansArray.join("");
 
   let subtaskEle = subtasks.map((subtask, i) => {
       return `<li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
@@ -267,12 +335,12 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
     <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
   `;
   document.querySelectorAll(".set-priority").forEach((ele) => {
-  if(ele.innerText.toLowerCase().trim() === priority) {
-    ele.classList.add(priority);
-    buttonPriority = priority;
-  } else {
-    ele.classList.remove(ele.innerText.toLowerCase().trim());
-  }
+    if (ele.innerText.toLowerCase().trim() === priority) {
+      ele.classList.add(priority);
+      buttonPriority = priority;
+    } else {
+      ele.classList.remove(ele.innerText.toLowerCase().trim());
+    }
   });
 }
 
