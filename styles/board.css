@@ -27,7 +27,7 @@ h1 {
   margin-right: 20px;
   border: 1px solid lightgray;
   border-radius: 5px;
-  padding: 0px 4px;
+  padding: 4px 12px 4px 4px;
   background-color: white;
 }
 
@@ -58,9 +58,25 @@ button {
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
+#searchbar {
+  border-right: 1px solid rgb(231, 231, 231);
+  margin-right: 16px;
+}
+
+.search-bar-lense-button {
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
 .search-bar-lense {
   cursor: pointer;
-  padding-right: 8px;
+  width: 24px;
+  border-radius: 50%;
+}
+
+.search-bar-lense:hover {
+  background-color: rgb(231, 231, 231);
 }
 
 /* Columns */
@@ -89,6 +105,11 @@ button {
   font-weight: bold;
   cursor: pointer;
   font-size: 15px;
+}
+
+.add-task-btn:hover {
+  border: 1px solid rgb(41, 171, 227);
+  color: rgb(41, 171, 227);
 }
 
 .kanban-task {
@@ -260,12 +281,7 @@ button {
   cursor: pointer;
 }
 
-#drop-down-users-input-board {
-  margin-bottom: 16px;
-}
-
 #drop-down-users-input-board:focus {
-  border: 1px solid rgb(93, 190, 231) !important;
   outline: none;
 }
 
@@ -277,6 +293,7 @@ button {
   border-radius: 0 0 5px 5px;
   display: flex;
   flex-direction: column;
+  max-height: 240px;
 }
 
 #drop-down-users-board div {
@@ -314,6 +331,7 @@ button {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+  box-shadow: 0 0 10px rgb(231, 231, 231);
 }
 
 #drop-down-category-board button {
@@ -355,6 +373,189 @@ button {
 .medium:hover,
 .low:hover {
   box-shadow: none !important;
+}
+
+#drop-down-users-input-img-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -1px;
+    margin-bottom: 16px;
+    background-color: white;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 0 5px 5px 0;
+    border-left: none !important;
+    box-shadow: 0px 1px rgb(219, 219, 219);
+    width: 24px;
+    cursor: pointer;
+}
+
+#category-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px !important;
+    border-right: 1px solid rgb(219, 219, 219);
+}
+
+#category-button img {
+    height: 6px;
+    width: auto;
+    margin-right: 8px;
+}
+
+#category-button:focus {
+  border: 1px solid rgb(41, 171, 226) !important;
+}
+
+#subtask {
+  outline: none;
+}
+
+.subtask-div:focus-within #subtask {
+  border: 1px solid rgb(41, 171, 226) !important;
+  border-right: none !important;
+}
+
+.subtask-div:focus-within #subtask-button {
+  border: 1px solid rgb(41, 171, 226) !important;
+  border-left: none !important;
+}
+
+.subtask-div:focus-within #subtask-clear-button,
+#subtask-button-div-divider {
+  border-top: 1px solid rgb(41, 171, 226);
+  border-bottom: 1px solid rgb(41, 171, 226);
+}
+
+#subtask-button-div {
+    display: flex;
+    background-color: white;
+    align-items: center;
+}
+
+#subtask-clear-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    border-right: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+#subtask-button-div-divider {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgb(219, 219, 219);
+    border-bottom: 1px solid rgb(219, 219, 219);
+}
+
+#subtask-button-divider {
+    width: 1px;
+    height: 60%;
+    background-color: rgb(219, 219, 219);
+    border-top: 1px solid rgb(219, 219, 219) !important;
+}
+
+#subtask-button {
+  margin: 0;
+}
+
+#subtask-render-div li:hover {
+  background-color: rgb(231, 231, 231);  
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#subtask-render-div li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    list-style-type: disc !important;
+    height: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.li-buttons {
+  display: flex;
+}
+
+.li-buttons button {
+    border: none;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    margin-left: 4px;
+    margin-right: 4px;
+    background-color: rgb(231, 231, 231);
+}
+
+.li-buttons img {
+  width: 20px;
+}
+
+.edit-div {
+  background-color: white;
+  border-bottom: 1px solid rgb(41, 171, 226);
+  margin-bottom: 4px;
+}
+
+.edit-div:hover {
+  background-color: white !important;
+}
+
+.edit-div input {
+  border: 0;
+  flex-grow: 1;
+}
+
+.edit-div button {
+  background-color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.edit-div button:hover {
+  background-color: rgb(231, 231, 231);
+}
+
+.edit-subtask-div {
+  display: flex;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-subtask-div button {
+  border: none;
+  margin-bottom: 0 !important;
+}
+
+.edit-subtask-div img {
+  width: 20px;
+  border: none;
+}
+
+.edit-subtask-div div {
+  width: 1px;
+  height: 80%;
+}
+
+#subtask-render-div input {
+  outline: none;
 }
 
 /* userfeedback */
@@ -407,6 +608,13 @@ button {
 
 #subtasks-div li {
   font-size: 14px;
+  margin-left: 0;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+#subtasks-div li:hover {
+  background-color: rgb(231, 231, 231);
 }
 
 #subtasks-div input {
@@ -425,6 +633,8 @@ button {
 
 .min-height-task{
   min-height: 150px;
+}
+
 .subtask-progress-div {
   display: flex;
   align-items: center;
@@ -448,4 +658,168 @@ button {
 .subtask-count {
   color: black !important;
   font-size: 12px;
+}
+
+#required-div, #button-div {
+  position: fixed;
+}
+
+#required-div {
+  bottom: 50px;
+  left: 75px;
+}
+
+#button-div {
+  bottom: 50px;
+  right: 75px;
+}
+
+.overlay-textarea{
+  resize: none;
+}
+
+#task-title {
+  margin-bottom: 8px;
+}
+
+.mobile-button {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .big-logo {
+      display: none;
+  }
+
+  .mobile-logo {
+      display: block !important;
+      height: 48px;
+      width: auto !important;
+      margin-left: 5%;
+  }
+
+  .header-responsive {
+      margin-left: 0;
+      width: 100%;
+      height: 8vh;
+  }
+
+  .header-and-icon {
+      height: 100%;
+  }
+
+  .header-and-icon h2,
+  .help-person-icon a {
+      display: none;
+  }
+
+  main {
+      margin-top: 8vh;
+      margin-left: 0 !important;
+      margin-right: 0;
+      margin-bottom: 0;
+      width: 95% !important;
+      padding: 0;
+  }
+
+  .title-main {
+      padding: 0;
+      padding-top: 10px;
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      margin-bottom: 25px;
+  }
+
+  nav {
+      position: fixed !important;
+      bottom: 0;
+      top: auto !important;
+      height: 10vh !important;
+      width: 100% !important;
+  }
+
+  nav div {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      justify-content: space-evenly;
+  }
+
+  .nav-item {
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border-radius: 20px;
+  }
+
+  .nav-logo {
+      padding: 0 !important;
+  }
+
+  .legal-info {
+      display: none !important;
+  }
+
+  .board-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .board-header-btns {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .kanban-board {
+    flex-direction: column;
+    margin-bottom: 12vh;
+  }
+
+  #to-do-div,
+  #in-progress-div,
+  #await-feedback-div,
+  #done-div {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none; /* für Firefox */
+    -ms-overflow-style: none; /* für IE und Edge */
+    gap: 8px;
+  }
+
+  #to-do-div::-webkit-scrollbar,
+  #in-progress-div::-webkit-scrollbar,
+  #await-feedback-div::-webkit-scrollbar,
+  #done-div::-webkit-scrollbar {
+    display: none; /* für Chrome, Safari und Opera */
+  }
+
+  .kanban-task {
+    min-width: 240px;
+  }
+
+  .mobile-button {
+    display: block;
+  }
+
+  .full-screen-button {
+    display: none;
+  }
+
+  #board-add-task-a,
+  .style-a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+  }
+
+  #board-add-task-a {
+    font-size: 12px;
+  }
 }

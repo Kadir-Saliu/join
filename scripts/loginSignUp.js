@@ -34,6 +34,16 @@ async function checkLoginData(data) {
   }
 }
 
+
+
+/**
+ * Saves the given user information to localStorage under the key "loggedInUser".
+ * Sets the username and initials properties of the loggedInUser object.
+ * Initials are generated from the first letters of the first and second words in the user's name.
+ *
+ * @param {Object} user - The user object containing user details.
+ * @param {string} user.name - The full name of the user (expects at least two words).
+ */
 function saveUserToLocalStorage(user) {
   loggedInUser.username = user.name;
   loggedInUser.initals = user.name.split(" ")[0][0] + user.name.split(" ")[1][0];
@@ -50,6 +60,7 @@ function wrongPassword() {
   document.getElementById("email-input").classList.add("wrongPassword");
   document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
   document.getElementById("password-input").value = "";
+  document.getElementById("wrong-password-info").classList.add("wrongPasswordText");
 }
 
 /**
@@ -61,7 +72,6 @@ async function checkUserDataInput(event) {
   event.preventDefault();
   if (!document.getElementById("sign-up-div").checkValidity()) {
     document.getElementById("sign-up-div").reportValidity();
-    return;
   }
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";

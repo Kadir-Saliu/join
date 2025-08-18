@@ -1,13 +1,20 @@
-let allTickets = [];
 const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
 let currentDraggedElement;
-
-console.log(currentDraggedElement);
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = currentDate.getMonth() + 1;
+const day = currentDate.getDate();
+const today = `${year}-${0}${month}-${day}`;
 
 let subtaskCount = 0;
 let subtaskWidth = 0;
+let subtaskEditArray = [];
+
+let dataTicketIndex;
+let dataTicketCounterId;
+let dataMode;
 
 /**
  * function to open/close the addTask pop-up
@@ -37,6 +44,13 @@ function popUpAddTask(ele, columnV) {
   }
 }
 
+/**
+ * Handles closing a popup via its overlay element.
+ * Retrieves the target popup element using the overlay's data-target attribute,
+ * and calls the popUpAddTask function with the popup element if it exists.
+ *
+ * @param {HTMLElement} overlayElement - The overlay element that was interacted with.
+ */
 function closeViaOverlay(overlayElement) {
   const targetId = overlayElement.dataset.target;
   const popupElement = document.getElementById(targetId);
@@ -45,12 +59,31 @@ function closeViaOverlay(overlayElement) {
   }
 }
 
+/**
+ * Toggles the visibility of the task information and task edit sections on the board,
+ * and renders the ticket overlay for the specified element.
+ *
+ * @param {HTMLElement} ele - The DOM element representing the ticket to be rendered in the overlay.
+ */
 function switchEditInfoMenu(ele) {
   document.getElementById("board-task-information").classList.toggle("hide");
   document.getElementById("board-task-edit").classList.toggle("hide");
   renderTicketOverlay(ele);
 }
 
+function setGlobalEditInformation(ele) {
+  dataTicketIndex = ele.dataset.ticketindex;
+  dataTicketCounterId = ele.dataset.ticketcounterid;
+  dataMode = ele.dataset.mode;
+}
+
+/**
+ * Renders a list of tickets into their respective board columns.
+ *
+ * @async
+ * @param {Array<Object>} tickets - An array of ticket objects to render. Each ticket should contain properties such as `title`, `description`, `category`, `column`, `assignedTo`, `priority`, and `subtask`.
+ * @returns {Promise<void>} Resolves when all tickets have been rendered to the DOM.
+ */
 async function renderTickets(tickets) {
   allTickets = tickets;
   document.getElementById("to-do-div").innerHTML = "";
@@ -68,6 +101,7 @@ async function renderTickets(tickets) {
       let assignedTo = t.assignedTo || [];
       let priority = t.priority || [];
       let subtasks = t.subtask || [];
+      let ticketCounterId = t.id;
 
       calculateSubtaskCounter(subtasks);
 
@@ -79,19 +113,32 @@ async function renderTickets(tickets) {
         assignedTo,
         priority,
         index,
-        subtasks
+        subtasks,
+        ticketCounterId
       );
+      renderSubtaskProgress(index, subtasks);
     }
   }
-  console.log(allTickets);
   toggleNoTaskContainer();
 }
 
+/**
+ * Initiates the dragging process for a task at the specified index.
+ * Sets the current dragged element and toggles the visibility of the "no task" container.
+ *
+ * @param {number} index - The index of the task to start dragging.
+ */
 function startDragging(index) {
   currentDraggedElement = index;
   toggleNoTaskContainer();
 }
 
+/**
+ * Calculates the number of checked subtasks and the completion percentage.
+ * Updates the global variables `subtaskCount` and `subtaskWidth` accordingly.
+ *
+ * @param {Array<{checked: boolean}>} subtasks - An array of subtask objects, each with a `checked` property.
+ */
 function calculateSubtaskCounter(subtasks) {
   subtaskCount = 0;
   subtaskWidth = 0;
@@ -105,22 +152,64 @@ function calculateSubtaskCounter(subtasks) {
   }
 }
 
+/**
+ * Displays the subtask progress element for a given index if there is at least one subtask.
+ *
+ * @param {number} index - The index used to identify the subtask progress element.
+ * @param {Array} subtasks - An array of subtasks to check for existence.
+ */
 function renderSubtaskProgress(index, subtasks) {
   if (subtasks[0]) {
     document.getElementById(`p-subtask-${index}`).classList.remove("hide");
   }
 }
 
+/**
+ * Enables an element to accept drop events by preventing the default handling of the dragover event.
+ *
+ * @param {DragEvent} ev - The drag event object.
+ */
 function allowDrop(ev) {
   ev.preventDefault();
 }
 
+/**
+ * Moves the currently dragged ticket to the specified category (column).
+ *
+ * @param {string} category - The target category (column) to move the ticket to.
+ */
 function moveTo(category) {
-  console.log(category);
   allTickets[currentDraggedElement]["column"] = category;
+  saveChangedTicketInFirbase();
   renderTickets(allTickets);
 }
 
+async function saveChangedTicketInFirbase() {
+  try {
+    await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[currentDraggedElement].id}.json`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allTickets[currentDraggedElement]),
+      }
+    );
+  } catch (error) {
+    console.error("Error saving ticket:", error);
+  }
+}
+
+/**
+ * Toggles the visibility of "no tasks" containers for each board column
+ * ("To do", "In progress", "Await feedback", "done") based on the presence
+ * of tickets in each column. If a column has no tickets, its corresponding
+ * "no tasks" container is shown; otherwise, it is hidden.
+ *
+ * Assumes the existence of global `allTickets` array and HTML elements with
+ * IDs: "noTasksToDo", "noTasksProgress", "noTasksFeedback", "noTasksDone".
+ */
 function toggleNoTaskContainer() {
   let allTicketsToDo = allTickets.filter((obj) => obj.column == "To do");
   let allTicketsProgress = allTickets.filter(
@@ -171,6 +260,14 @@ function filterTickets(tickets) {
   renderTickets(filteredTickets);
 }
 
+/**
+ * Asynchronously fetches ticket data and renders the ticket overlay for the selected element.
+ *
+ * @async
+ * @function renderTicketOverlay
+ * @param {HTMLElement} ele - The DOM element that triggered the overlay, containing `data-ticketindex` and `data-mode` attributes.
+ * @returns {Promise<void>} Resolves when the ticket overlay has been rendered.
+ */
 async function renderTicketOverlay(ele) {
   try {
     let response = await fetch(BASE_URL_TICKETS);
@@ -180,14 +277,29 @@ async function renderTicketOverlay(ele) {
 
     let index = ele.dataset.ticketindex;
     let mode = ele.dataset.mode;
+    let ticketCounterId = ele.dataset.ticketcounterid;
 
-    defineTicketDetailVariables(result, mode, index);
+    defineTicketDetailVariables(result, mode, index, ticketCounterId);
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
 }
 
-async function defineTicketDetailVariables(ticket, mode, index) {
+/**
+ * Defines and prepares ticket detail variables for viewing or editing a ticket.
+ *
+ * @async
+ * @param {Array<Object>} ticket - Array of ticket objects.
+ * @param {string} mode - The mode of operation, either "view" or "edit".
+ * @param {number} index - The index of the ticket to process in the ticket array.
+ * @returns {Promise<void>} Resolves when the operation is complete.
+ */
+async function defineTicketDetailVariables(
+  ticket,
+  mode,
+  index,
+  ticketCounterId
+) {
   let category = ticket[index].category;
   let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
   let title = ticket[index].title;
@@ -207,18 +319,36 @@ async function defineTicketDetailVariables(ticket, mode, index) {
       priority,
       assignedTo,
       subtasks,
-      index
+      index,
+      ticketCounterId
     );
   } else if (mode === "edit") {
-    editTicket(title, description, priority, assignedTo, subtasks, index, mode);
+    editTicket(
+      title,
+      description,
+      priority,
+      assignedTo,
+      subtasks,
+      index,
+      mode,
+      ticketCounterId
+    );
   }
 }
 
-function checkEditedValues(ele) {
+/**
+ * Checks and retrieves edited values from input fields for a ticket,
+ * then updates the ticket with the new values.
+ *
+ * @param {HTMLElement} ele - The element representing the ticket being edited.
+ *                            Must have a `dataset.ticketindex` property.
+ */
+async function checkEditedValues(ele) {
   let index = ele.dataset.ticketindex;
   let title = "";
   let description = "";
   let date;
+  let ticketCounterId = ele.dataset.ticketcounterid;
   if (document.getElementById("task-title-edit").value) {
     title = document.getElementById("task-title-edit").value;
   }
@@ -229,15 +359,34 @@ function checkEditedValues(ele) {
     date = document.getElementById("task-date-edit").value;
   }
   ele.dataset.mode = "view";
-  takeOverEditedTicket(ele, index, title, description, date);
+  return takeOverEditedTicket(
+    ele,
+    index,
+    title,
+    description,
+    date,
+    ticketCounterId
+  );
 }
 
+/**
+ * Updates a ticket with edited values and saves it to Firebase.
+ *
+ * @param {HTMLElement} ele - The DOM element representing the ticket.
+ * @param {number} index - The index of the ticket to edit.
+ * @param {string} [titleEdit] - The new title for the ticket (optional).
+ * @param {string} [descriptionEdit] - The new description for the ticket (optional).
+ * @param {string} [dateEdit] - The new due date for the ticket (optional).
+ *
+ * @returns {void}
+ */
 function takeOverEditedTicket(
   ele,
   index,
   titleEdit,
   descriptionEdit,
-  dateEdit
+  dateEdit,
+  ticketCounterId
 ) {
   let editedTicket = {};
 
@@ -250,24 +399,49 @@ function takeOverEditedTicket(
   if (dateEdit) {
     editedTicket.date = dateEdit;
   }
+
   editedTicket.priority = buttonPriority;
   let selectedUsers = getSelectedUsers();
   editedTicket.assignedTo = selectedUsers;
+
+  let originalTicket = allTickets[index];
+  let originalSubtasks = originalTicket?.subtask || [];
+
   subtaskArray = [];
   document.querySelectorAll(".subtask-li").forEach((li) => {
+    let text = li.innerText.trim();
+
+    let existing = originalSubtasks.find((s) => s.text === text);
+    let isChecked = existing ? existing.checked : false;
+
     subtaskArray.push({
-      text: li.innerText,
-      checked: false,
+      text,
+      checked: isChecked,
     });
   });
+
   editedTicket.subtask = subtaskArray;
-  saveEditedTaskToFirebase(ele, index, editedTicket);
+  return saveEditedTaskToFirebase(ele, index, editedTicket, ticketCounterId);
 }
 
-async function saveEditedTaskToFirebase(ele, index, ticketData) {
+/**
+ * Updates a ticket in Firebase with the provided edited data and re-renders the ticket overlay.
+ *
+ * @async
+ * @param {HTMLElement} ele - The DOM element associated with the ticket being edited.
+ * @param {number|string} index - The unique identifier or index of the ticket to update.
+ * @param {Object} ticketData - The updated ticket data to be saved to Firebase.
+ * @returns {Promise<void>} Resolves when the ticket is successfully updated and UI is refreshed.
+ */
+async function saveEditedTaskToFirebase(
+  ele,
+  index,
+  ticketData,
+  ticketCounterId
+) {
   try {
     let response = await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
     );
     let ticket = await response.json();
     let updatedTicket = {
@@ -275,7 +449,7 @@ async function saveEditedTaskToFirebase(ele, index, ticketData) {
       ...ticketData,
     };
     await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`,
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`,
       {
         method: "PUT",
         headers: {
@@ -291,14 +465,60 @@ async function saveEditedTaskToFirebase(ele, index, ticketData) {
   }
 }
 
+/**
+ * Adds a new subtask to the subtask list by appending a new <li> element
+ * containing the value from the input field with id "edit-subtask" to the
+ * element with id "subtask-edit-render".
+ */
 function addNewSubtask() {
-  document.getElementById(
-    "subtask-edit-render"
-  ).innerHTML += `<li class="subtask-li">${
-    document.getElementById("edit-subtask").value
-  }</li>`;
+  subtaskEditArray.push(document.getElementById("edit-subtask").value);
+
+  if (document.getElementById("edit-subtask").value.trim() !== "") {
+    document.getElementById(
+      "subtask-render-div"
+    ).innerHTML += `<li class="subtask-li" data-index="${
+      subtaskEditArray.length - 1
+    }" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+      ${document.getElementById("edit-subtask").value}
+      <div class="li-buttons hide">
+        <button data-index="${
+          subtaskEditArray.length - 1
+        }" onclick="editSubtaskInEditMenu(this)">
+            <img src="./assets/icon/pencil.svg">
+        </button>
+        <div class="add-task-form-divider"></div>
+        <button data-index="${
+          subtaskEditArray.length - 1
+        }" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${
+      subtask.value
+    }'); spliceEditSubArray(this)">
+            <img src="./assets/icon/bin.svg">
+        </button>
+      </div>
+    </li>`;
+  }
 }
 
+async function spliceEditSubArray(ele) {
+  if (subtaskEditArray.length > 0) {
+    subtaskEditArray.splice(ele.dataset.index, 1);
+    console.log(ele.dataset.ticketcounterid);
+    await checkEditedValues(ele);
+    renderTicketOverlay(ele);
+  }
+}
+
+/**
+ * Deletes a ticket from the Firebase database by its index.
+ *
+ * Sends a DELETE request to the specified ticket endpoint, hides the overlay and pop-up,
+ * and refreshes the ticket data. Logs an error to the console if the operation fails.
+ *
+ * @async
+ * @function
+ * @param {number|string} index - The index or ID of the ticket to delete.
+ * @returns {Promise<void>} Resolves when the ticket is deleted and UI is updated.
+ */
 async function deleteTicket(index) {
   try {
     await fetch(
@@ -315,17 +535,40 @@ async function deleteTicket(index) {
   }
 }
 
+/**
+ * Toggles the checked state of a subtask for a given ticket and saves the update to Firebase.
+ *
+ * @param {HTMLInputElement} input - The input element representing the subtask checkbox.
+ *   Must have `data-index` (subtask index) and `data-ticketindex` (ticket index) attributes.
+ */
 function toggleSubtask(input) {
   let subIndex = input.dataset.index;
   let ticketIndex = input.dataset.ticketindex;
-  let currentChecked = tickets[0][ticketIndex].subtask[subIndex].checked;
-  tickets[0][ticketIndex].subtask[subIndex].checked = !currentChecked;
+  let ticketCounterIndex = input.dataset.ticketcounterid;
+  let currentChecked = tickets[ticketCounterIndex].subtask[subIndex].checked;
+  tickets[ticketCounterIndex].subtask[subIndex].checked = !currentChecked;
   let partialUpdate = {
-    subtask: tickets[0][ticketIndex].subtask,
+    subtask: tickets[ticketCounterIndex].subtask,
   };
-  saveEditedTaskToFirebase(input, ticketIndex, partialUpdate);
+  saveEditedTaskToFirebase(
+    input,
+    ticketIndex,
+    partialUpdate,
+    ticketCounterIndex
+  );
 }
 
+/**
+ * Asynchronously retrieves the ID of a user by their name.
+ *
+ * Fetches the list of users from the BASE_URL_USERS endpoint, filters out null entries,
+ * and searches for a user with the specified name. Returns the user's ID if found,
+ * otherwise returns 0. Logs an error and returns 0 if the fetch operation fails.
+ *
+ * @async
+ * @param {string} user - The name of the user to search for.
+ * @returns {Promise<number>} The ID of the found user, or 0 if not found or on error.
+ */
 async function getUserDetails(user) {
   try {
     let response = await fetch(BASE_URL_USERS);
@@ -338,4 +581,9 @@ async function getUserDetails(user) {
     console.error("error");
     return 0;
   }
+}
+
+function minDate() {
+  const dateInput = document.getElementById("task-date");
+  dateInput.setAttribute("min", today);
 }

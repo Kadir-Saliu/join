@@ -1,8 +1,9 @@
 .add-task-form {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   width: 100%;
+  height: 334px;
   margin-bottom: 150px;
 }
 
@@ -67,8 +68,14 @@
 }
 
 .add-task-form-divider {
-  align-self: stretch;
+  align-self: center;
+  width: 1px;
+  height: 80%;
   border-left: 1px solid rgb(227, 228, 228);
+}
+
+.li-buttons {
+  height: 24px;
 }
 
 .add-task-select-div {
@@ -222,7 +229,7 @@
   background-color: white;
   margin: auto;
   width: 75%;
-  height: 80%;
+  height: 90%;
   padding: 75px;
   border-radius: 25px;
   z-index: 1000;

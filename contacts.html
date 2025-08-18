@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./styles/header.css" />
     <link rel="stylesheet" href="./styles/accountNav.css" />
     <link rel="stylesheet" href="./styles/addTaskBoard.css" />
+    <link rel="stylesheet" href="./styles/responsivness.css">
   </head>
   <body onload="contactsInit()">
     <div class="add-contact-successful d_none">Contact successfully created</div>
@@ -18,7 +19,6 @@
     <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
     <div template="navigation.html"></div>
     <div template="accountNav.html" class="account-nav-render-div hide"></div>
-    <header template="header.html"></header>
     <div onclick="bubblingPrevention(event)" id="addContactOverlay" class="d_none">
       <div class="contact-overlay-header">
         <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
@@ -65,6 +65,7 @@
       </div>
     </div>
     <div onclick="bubblingPrevention(event)" id="editOverlay" class="d_none"></div>
+    <header template="header.html" class="header-responsive"></header>
     <main>
       <div class="contacts-page">
         <div class="contacts-container">
