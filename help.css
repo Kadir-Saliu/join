@@ -154,4 +154,8 @@ h3{
   .legal-info {
       display: none !important;
   }
+
+  .account-nav-render-div {
+    top: 8vh !important;
+  }
 }

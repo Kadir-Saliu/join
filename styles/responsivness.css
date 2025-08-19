@@ -292,6 +292,23 @@
     .kanban-task {
         min-width: 240px;
     }
+
+    #board-task-pop-up {
+        width: 95%;
+    }
+
+    #drop-down-users-input {
+        width: auto;
+        flex-grow: 1;
+    }
+
+    .add-task-importance-selection {
+        flex-direction: column;
+    }
+
+    #edit-subtask {
+        max-width: 193px;
+    }
 }
 
 @media (max-width: 750px) {
