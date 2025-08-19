@@ -212,12 +212,8 @@ async function saveChangedTicketInFirbase() {
  */
 function toggleNoTaskContainer() {
   let allTicketsToDo = allTickets.filter((obj) => obj.column == "To do");
-  let allTicketsProgress = allTickets.filter(
-    (obj) => obj.column == "In progress"
-  );
-  let allTicketsFeedback = allTickets.filter(
-    (obj) => obj.column == "Await feedback"
-  );
+  let allTicketsProgress = allTickets.filter((obj) => obj.column == "In progress");
+  let allTicketsFeedback = allTickets.filter((obj) => obj.column == "Await feedback");
   let allTicketsDone = allTickets.filter((obj) => obj.column == "done");
 
   if (allTicketsToDo.length == 0) {
@@ -247,17 +243,20 @@ function toggleNoTaskContainer() {
 
 /**
  * This function filters the tickets based on the search input
- *
- * @param {*} tickets tickets from the database to filter
  */
-function filterTickets(tickets) {
+function filterTickets() {
   let searchInput = document.getElementById("searchbar").value.toLowerCase();
-  let filteredTickets = tickets.filter(
-    (ticket) =>
-      ticket.title.toLowerCase().includes(searchInput) ||
-      ticket.description.toLowerCase().includes(searchInput)
-  );
-  renderTickets(filteredTickets);
+  const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+  if (searchInput) {
+    let filteredTickets = tickets.filter(
+      (ticket) =>
+        ticket.title.toLowerCase().includes(searchInput) ||
+        ticket.description.toLowerCase().includes(searchInput)
+    );
+    renderTickets(filteredTickets);
+  } else {
+    renderTickets(tickets);
+  }
 }
 
 /**
@@ -294,12 +293,7 @@ async function renderTicketOverlay(ele) {
  * @param {number} index - The index of the ticket to process in the ticket array.
  * @returns {Promise<void>} Resolves when the operation is complete.
  */
-async function defineTicketDetailVariables(
-  ticket,
-  mode,
-  index,
-  ticketCounterId
-) {
+async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId) {
   let category = ticket[index].category;
   let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
   let title = ticket[index].title;
@@ -323,16 +317,7 @@ async function defineTicketDetailVariables(
       ticketCounterId
     );
   } else if (mode === "edit") {
-    editTicket(
-      title,
-      description,
-      priority,
-      assignedTo,
-      subtasks,
-      index,
-      mode,
-      ticketCounterId
-    );
+    editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId);
   }
 }
 
@@ -359,14 +344,7 @@ async function checkEditedValues(ele) {
     date = document.getElementById("task-date-edit").value;
   }
   ele.dataset.mode = "view";
-  return takeOverEditedTicket(
-    ele,
-    index,
-    title,
-    description,
-    date,
-    ticketCounterId
-  );
+  return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
 }
 
 /**
@@ -380,14 +358,7 @@ async function checkEditedValues(ele) {
  *
  * @returns {void}
  */
-function takeOverEditedTicket(
-  ele,
-  index,
-  titleEdit,
-  descriptionEdit,
-  dateEdit,
-  ticketCounterId
-) {
+function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit, ticketCounterId) {
   let editedTicket = {};
 
   if (titleEdit) {
@@ -433,12 +404,7 @@ function takeOverEditedTicket(
  * @param {Object} ticketData - The updated ticket data to be saved to Firebase.
  * @returns {Promise<void>} Resolves when the ticket is successfully updated and UI is refreshed.
  */
-async function saveEditedTaskToFirebase(
-  ele,
-  index,
-  ticketData,
-  ticketCounterId
-) {
+async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId) {
   try {
     let response = await fetch(
       `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
@@ -474,16 +440,12 @@ function addNewSubtask() {
   subtaskEditArray.push(document.getElementById("edit-subtask").value);
 
   if (document.getElementById("edit-subtask").value.trim() !== "") {
-    document.getElementById(
-      "subtask-render-div"
-    ).innerHTML += `<li class="subtask-li" data-index="${
+    document.getElementById("subtask-render-div").innerHTML += `<li class="subtask-li" data-index="${
       subtaskEditArray.length - 1
     }" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
       ${document.getElementById("edit-subtask").value}
       <div class="li-buttons hide">
-        <button data-index="${
-          subtaskEditArray.length - 1
-        }" onclick="editSubtaskInEditMenu(this)">
+        <button data-index="${subtaskEditArray.length - 1}" onclick="editSubtaskInEditMenu(this)">
             <img src="./assets/icon/pencil.svg">
         </button>
         <div class="add-task-form-divider"></div>
@@ -550,12 +512,7 @@ function toggleSubtask(input) {
   let partialUpdate = {
     subtask: tickets[ticketCounterIndex].subtask,
   };
-  saveEditedTaskToFirebase(
-    input,
-    ticketIndex,
-    partialUpdate,
-    ticketCounterIndex
-  );
+  saveEditedTaskToFirebase(input, ticketIndex, partialUpdate, ticketCounterIndex);
 }
 
 /**
