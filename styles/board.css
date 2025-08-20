@@ -632,7 +632,7 @@ button {
 }
 
 .min-height-task{
-  min-height: 150px;
+  min-height: 140px;
 }
 
 .subtask-progress-div {
@@ -686,7 +686,7 @@ button {
   display: none;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1165px) {
   .big-logo {
       display: none;
   }
