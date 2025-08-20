@@ -26,8 +26,21 @@ a {
     font-size: 32px;
 }
 
+.header-arrow-left{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+}
+
 @media (max-width: 1100px) {
     main {
         margin-bottom: 12vh !important;
     }
+}
+
+@media (max-width: 925px) {
+    .account-nav-render-div {
+    top: 8vh !important;
+  }
 }

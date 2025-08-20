@@ -441,4 +441,8 @@ main {
     .awaiting-feedback {
       width: 336px;
     }
+
+    .account-nav-render-div {
+    top: 8vh !important;
+  }
 }

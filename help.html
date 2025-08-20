@@ -5,28 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Help</title>
     <link rel="icon" type="image/x-icon" href="./assets/icon/fav-icon.svg" />
+    <link rel="stylesheet" href="./styles/addTaskBoard.css">
     <link rel="stylesheet" href="help.css" />
-    <link rel="stylesheet" href="summary.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
     <link rel="stylesheet" href="./styles/navigation.css" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles/accountNav.css" />
     <link rel="stylesheet" href="./styles/responsivness.css">
   </head>
-  <body onload="includeHTML()">
+  <body onload="addTaskInit()">
     <div template="navigation.html"></div>
+    <div template="accountNav.html" class="account-nav-render-div hide"></div>
+    <header template="header.html" class="header-responsive"></header>
     <main>
-      <header class="header-responsive">
-        <div class="header-and-icon">
-          <h2>Kanban Project Managment Tool</h2>
-          <div class="help-person-icon">
-            <a href=""><img src="./assets/icon/person-icon.svg" alt="" /></a>
-          </div>
-        </div>
-      </header>
       <div class="container">
-        <header>
+        <div>
           <div class="header-arrow-left">
             <h1>Help</h1>
-            <a href="summary.html"><img src="./assets/icon/arrow-left-line.svg" alt="" /></a>
+            <a href="#" onclick="history.back(); return false;"><img src="./assets/icon/arrow-left-line.svg" alt="" /></a>
           </div>
           <p>
             Welcome to the help page for
@@ -34,7 +30,7 @@
             provide an overview of what <strong class="join-blue-color">Join</strong> is, how it can benefit you, and how to use
             it.
           </p>
-        </header>
+        </div>
 
         <section>
           <h2>What is Join?</h2>
@@ -132,6 +128,10 @@
         <h2 class="enjoy-text">Enjoy using Join!</h2>
       </div>
     </main>
+    <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
+
+    <script src="./scripts/template.js" defer></script>
+    <script src="./scripts/board.js" defer></script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -92,8 +92,7 @@ async function signUpUser() {
     newUser = {
       name: document.getElementById("name-input-sign-up").value,
       Email: document.getElementById("email-input-sign-up").value,
-      Password: document.getElementById("password-input-sign-up").value,
-      "phone number": "",
+      Password: document.getElementById("password-input-sign-up").value
     };
     loggedInUser.username = newUser.name;
     loggedInUser.initals = newUser.name.split(" ")[0][0] + newUser.name.split(" ")[1][0];
