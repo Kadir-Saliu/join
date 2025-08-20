@@ -22,6 +22,10 @@ header img {
   margin-right: 35px;
 }
 
+#mobile-screen-logo {
+  display: none;
+}
+
 footer {
   width: 100%;
   height: 85px;

@@ -411,10 +411,6 @@ main {
         display: none !important;
     }
 
-    #goodMorning {
-      display: none;
-    }
-
     main {
       margin-left: 0 !important;
     }
@@ -445,4 +441,32 @@ main {
     .account-nav-render-div {
     top: 8vh !important;
   }
+
+  .greeting {
+  position: fixed;
+  top: 8vh;
+  left: 0;
+  width: 100vw;
+  height: 82vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-size: 24px;
+
+  animation: fadeOut 1.5s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 }
