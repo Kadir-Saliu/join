@@ -366,6 +366,59 @@
     #edit-subtask {
         max-width: 193px;
     }
+
+    /* contacts.html*/
+
+    #header-contacts {
+        display: none;
+    }
+
+    .contacts-page {
+        width: 100%;
+    }
+
+    #contacts {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    hr {
+        width: 100%;;
+    }
+
+    .contact-details {
+        margin-left: 16px;
+    }
+
+    .contact {
+        width: 100%;
+    }
+
+    .contacts-container {
+        width: 100%;
+        margin-bottom: 10vh;
+        padding-top: 48px;
+    }
+
+    .add-contact-button {
+        display: none;
+    }
+
+    #mobile-contact-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: fixed;
+        right: 4vw;
+        bottom: 12vh;
+        cursor: pointer;
+        border: none;
+        background-color: #2a3647;
+        color: #ffffff;
+    }
 }
 
 @media (max-width: 750px) {
@@ -379,5 +432,11 @@
     
     .nav-item {
        padding: 10px 40px
+    }
+}
+
+@media (max-width: 400px) {
+    #contacts {
+        padding: 0;
     }
 }
