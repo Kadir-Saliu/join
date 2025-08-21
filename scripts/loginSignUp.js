@@ -34,8 +34,6 @@ async function checkLoginData(data) {
   }
 }
 
-
-
 /**
  * Saves the given user information to localStorage under the key "loggedInUser".
  * Sets the username and initials properties of the loggedInUser object.
@@ -72,6 +70,7 @@ async function checkUserDataInput(event) {
   event.preventDefault();
   if (!document.getElementById("sign-up-div").checkValidity()) {
     document.getElementById("sign-up-div").reportValidity();
+    return;
   }
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
