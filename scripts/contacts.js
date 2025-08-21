@@ -273,24 +273,23 @@ const clearEditForm = () => {
  *
  * Sends a PUT request to the database, storing the provided contact object
  * under the path `/contacts/{currentUser.id}/{nextKey}.json` where nextKey is
- * the highest existing firebaseKey + 1.
+ * the highest existing firebaseKey + 1, but skips 10000 (guest key).
  *
  * @async
  * @param {Object} contact - The contact object to be added to the database.
  * @returns {Promise<void>} A promise that resolves when the contact has been added.
  */
 const putNewContactToDatabase = async (contact) => {
-  const newKey = Math.max(...firebaseKeys) + 1;
-  await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${newKey}.json`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(contact),
-    }
-  );
+  const filteredKeys = firebaseKeys.filter((key) => key !== 10000);
+  let newKey = Math.max(...filteredKeys) + 1;
+  newKey === 10000 ? (newKey = 10001) : (newKey = newKey);
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${newKey}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact),
+  });
   await showContacts();
 };
 
