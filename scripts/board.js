@@ -6,7 +6,8 @@ const currentDate = new Date();
 const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
-const today = `${year}-${0}${month}-${day}`;
+const today = `${year}-${month.length === 2 ? month : "0" + month}-${day}`;
+console.log(today);
 
 let subtaskCount = 0;
 let subtaskWidth = 0;
@@ -249,9 +250,7 @@ function filterTickets() {
   const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
   if (searchInput) {
     let filteredTickets = tickets.filter(
-      (ticket) =>
-        ticket.title.toLowerCase().includes(searchInput) ||
-        ticket.description.toLowerCase().includes(searchInput)
+      (ticket) => ticket.title.toLowerCase().includes(searchInput) || ticket.description.toLowerCase().includes(searchInput)
     );
     renderTickets(filteredTickets);
   } else {
@@ -414,16 +413,13 @@ async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId)
       ...ticket,
       ...ticketData,
     };
-    await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedTicket),
-      }
-    );
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTicket),
+    });
     renderTicketOverlay(ele);
     getTicketData();
   } catch (error) {
@@ -483,12 +479,9 @@ async function spliceEditSubArray(ele) {
  */
 async function deleteTicket(index) {
   try {
-    await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`,
-      {
-        method: "DELETE",
-      }
-    );
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`, {
+      method: "DELETE",
+    });
     overlay.classList.add("hide");
     document.getElementById("board-task-pop-up").classList.add("hide");
     getTicketData();
