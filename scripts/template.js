@@ -404,7 +404,7 @@ function getRenderTasksTemplate() {
               </div>
               <img src="./assets/icon/hyphen.svg" alt="" />
               <div class="deadline">
-                <h4>Mai 19. 2025</h4>
+                <h4>${deadline}</h4>
                 <p>Upcoming Deadline</p>
               </div>
             </div>
