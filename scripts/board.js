@@ -7,7 +7,7 @@ const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const today = `${year}-${month.length === 2 ? month : "0" + month}-${day}`;
-console.log(today);
+
 
 let subtaskCount = 0;
 let subtaskWidth = 0;
