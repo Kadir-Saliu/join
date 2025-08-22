@@ -114,7 +114,8 @@ const escapeQuotes = (str) => {
  * If the overlay is hidden, it will be shown and an event listener will be added to close it when clicking outside.
  * Also displays a background overlay to indicate modal state.
  */
-const openAddContactOverlay = () => {
+const openAddContactOverlay = (event) => {
+  event.stopPropagation();
   const contactOverlayRef = document.getElementById("addContactOverlay");
   if (contactOverlayRef.classList.contains("d_none")) {
     contactOverlayRef.classList.remove("d_none");

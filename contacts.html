@@ -27,8 +27,8 @@
         <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
       </div>
       <div class="contact-inputs-container">
-        <div>
-          <img src="./assets//icon/add_contact_person_icon.svg" alt="" />
+        <div id="contact-logo-div">
+          <img id="contact-person-logo" src="./assets//icon/add_contact_person_icon.svg" alt="" />
         </div>
         <div class="contact-inputs">
           <input
@@ -69,11 +69,11 @@
     <main>
       <div class="contacts-page">
         <div class="contacts-container">
-          <button onclick="openAddContactOverlay()" class="add-contact-button">
+          <button onclick="openAddContactOverlay(event)" class="add-contact-button">
             <span>Add new contact</span>
             <img src="./assets/imgs/add_contact.png" alt="Add contact" />
           </button>
-          <button onclick="openAddContactOverlay()" id="mobile-contact-button">
+          <button onclick="openAddContactOverlay(event)" id="mobile-contact-button">
             <img src="./assets/imgs/add_contact.png" alt="Add contact" />
           </button>
           <div id="contacts" class="contacts"></div>

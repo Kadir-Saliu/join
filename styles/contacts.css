@@ -501,11 +501,78 @@ hr {
     margin-bottom: 12vh;
   }
 
-  hr {width: 100%;}
+  hr {
+    width: 100%;
+  }
 
-  .contact {width: 100%;}
+  .contact {
+    width: 100%;
+  }
 
   #header-contacts {
     display: none;
+  }
+
+  #addContactOverlay {
+    flex-direction: column;
+    height: 79vh;
+  }
+
+  .contact-overlay-header {
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .join-logo-img {
+    display: none;
+  }
+
+  .contact-inputs-container,
+  .contact-overlay-header {
+    height: 50%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    width: 100%;
+  }
+
+  .contact-inputs {
+    width: 100%;
+  }
+
+  #contactName {
+    margin-top: 100px;
+  }
+
+  #contact-logo-div {
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    display: flex;
+    align-items: center;
+  }
+
+  .contact-inputs-buttons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cancel-button {
+    display: none;
+  }
+}
+
+@media (max-width: 1215px) {
+  #addContactOverlay {
+    width: 95%;
+  }
+
+  .contact-inputs-container {
+    margin-left: 40px;
+    margin-right: 16px;
+  }
+
+  .contact-input {
+    width: 100%;
   }
 }
