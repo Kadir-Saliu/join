@@ -418,6 +418,10 @@
         border: none;
         background-color: #2a3647;
         color: #ffffff;
+    }    
+
+    #help-button {
+        display: none;
     }
 }
 
