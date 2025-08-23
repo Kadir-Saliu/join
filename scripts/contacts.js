@@ -281,7 +281,7 @@ const clearEditForm = () => {
  */
 const putNewContactToDatabase = async (contact) => {
   const filteredKeys = firebaseKeys.filter((key) => key !== 10000);
-  let newKey = Math.max(...filteredKeys) + 1;
+  let newKey = filteredKeys.length > 0 ? Math.max(...filteredKeys) + 1 : 1;
   newKey === 10000 ? (newKey = 10001) : (newKey = newKey);
   await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${currentUser.id}/${newKey}.json`, {
     method: "PUT",
