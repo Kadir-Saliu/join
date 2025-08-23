@@ -272,6 +272,10 @@ hr {
   padding: 20px;
 }
 
+.contact-inputs > div {
+  position: relative;
+}
+
 .contact-inputs-container {
   display: flex;
   align-items: center;
@@ -296,6 +300,7 @@ hr {
   border-radius: 10px;
   border: 1px solid #d1d1d1;
   padding-left: 12px;
+  padding-right: 45px;
   font-size: 20px;
 }
 
@@ -377,4 +382,14 @@ hr {
 
 .add-contact-successful.active {
   transform: translate(-50%, -50%);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }

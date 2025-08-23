@@ -32,9 +32,9 @@ function userDropDownTemplate(name, inititals, index, id) {
  * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
  *
  */
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {  
-  let userSpansArray = await Promise.all(assignedTo
-    .map(async (user, i) => {
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {
+  let userSpansArray = await Promise.all(
+    assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let initials = user
         .split(" ")
@@ -47,7 +47,7 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
 
   let userSpans = userSpansArray.join("");
 
-    return `
+  return `
         <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
             <div class="task-type ${categoryCss}">${category}</div>
             <h4>${title}</h4>
@@ -62,7 +62,7 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
               <div>
               ${userSpans}
               </div>
-              <img src="${priority[0] && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt="" />
+              <img src="${priority[0] && priority !== "-" ? `./assets/icon/${priority}.svg` : ""}" alt="" />
             </div>
           </div>
     `;
@@ -127,33 +127,42 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
       <div class="contact-inputs-container">
         <div class="edit-overlay-initials">${initials}</div>
         <div class="contact-inputs">
-          <input
-            id="editContactName"
-            class="contact-input"
-            type="text"
-            placeholder="Name"
-            spellcheck="false"
-            value="${userName}"
-            required
-          />
-          <input
-            id="editContactEmail"
-            class="contact-input"
-            type="text"
-            placeholder="Email"
-            spellcheck="false"
-            value="${email}"
-            required
-          />
-          <input
-            id="editContactPhone"
-            class="contact-input"
-            type="text"
-            placeholder="Phone"
-            spellcheck="false"
-            value="${phone}"
-            required
-          />
+          <div>
+            <input
+              id="editContactName"
+              class="contact-input"
+              type="text"
+              placeholder="Name"
+              spellcheck="false"
+              value="${userName}"
+              required
+            />
+            <img src="./assets/icon/user_grey.svg" alt="" class="icon" />
+          </div>
+          <div>
+            <input
+              id="editContactEmail"
+              class="contact-input"
+              type="text"
+              placeholder="Email"
+              spellcheck="false"
+              value="${email}"
+              required
+            />
+            <img src="./assets/icon/mail-icon-grey.svg" alt="" class="icon" />
+          </div>
+          <div>
+            <input
+              id="editContactPhone"
+              class="contact-input"
+              type="text"
+              placeholder="Phone"
+              spellcheck="false"
+              value="${phone}"
+              required
+            />
+            <img src="./assets/icon/call-grey.svg" alt="" class="icon" />
+          </div>
           <div class="contact-inputs-buttons">
             <button onclick="deleteContactFromDatabase()" class="cancel-button">Delete</button>
             <button onclick="saveEditedContactToDatabase()" class="create-contact-button">Save &#10003;</button>
@@ -181,9 +190,20 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
  * each containing user initials and name inside styled elements.
  * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
  */
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {  
-    let userSpansArray = await Promise.all(assignedTo
-    .map(async (user, i) => {
+async function renderTicketDetails(
+  category,
+  categoryColor,
+  title,
+  description,
+  date,
+  priority,
+  assignedTo,
+  subtasks,
+  index,
+  ticketCounterId
+) {
+  let userSpansArray = await Promise.all(
+    assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let initials = user
         .split(" ")
@@ -200,8 +220,13 @@ async function renderTicketDetails(category, categoryColor, title, description, 
 
   let userSpans = userSpansArray.join("");
 
-    let subtaskEle = subtasks.map((subtask, i) => {        
-        return `<li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
+  let subtaskEle = subtasks
+    .map((subtask, i) => {
+      return `<li><input data-index="${i}" ${
+        subtask.checked ? "checked" : ""
+      } data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${
+        subtask.text
+      }</li>
         `;
     })
     .join("");
@@ -218,7 +243,9 @@ async function renderTicketDetails(category, categoryColor, title, description, 
     </div>
     <div class="pop-up-margin-b-25 gap-10">
         <p>Priority:</p>
-        <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${priority && priority !== '-' ? `./assets/icon/${priority}.svg` : ''}" alt=""></span>
+        <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${
+    priority && priority !== "-" ? `./assets/icon/${priority}.svg` : ""
+  }" alt=""></span>
     </div>
     <div class="pop-up-margin-b-25" id="assigned-users-div">
        ${userSpans}
@@ -231,9 +258,8 @@ async function renderTicketDetails(category, categoryColor, title, description, 
         <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
         <div></div>
         <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
-    </div>`
+    </div>`;
 }
-
 
 /**
  * Generates an array of HTML `<span>` snippets representing users assigned to a ticket in edit mode.
@@ -251,9 +277,9 @@ async function renderTicketDetails(category, categoryColor, title, description, 
  * each showing a user's initials, styled dynamically, and with a data-name attribute.
  * @throws {Error} If any call to `getUserDetails(user)` fails.
  */
-async function editTicket (title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
-  let userSpansArray = await Promise.all(assignedTo
-    .map(async (user, i) => {
+async function editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
+  let userSpansArray = await Promise.all(
+    assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let initials = user
         .split(" ")
@@ -266,7 +292,8 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
 
   let userSpans = userSpansArray.join("");
 
-  let subtaskEle = subtasks.map((subtask, i) => {
+  let subtaskEle = subtasks
+    .map((subtask, i) => {
       return `<li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
                 ${subtask.text}
                 <div class="li-buttons hide">
@@ -280,15 +307,14 @@ async function editTicket (title, description, priority, assignedTo, subtasks, i
                 </div>
               </li>
       `;
-  }).join("");
+    })
+    .join("");
   subtaskEditArray = [];
-  subtasks.forEach(subtask => subtaskEditArray.push(subtask.text)
-  );
+  subtasks.forEach((subtask) => subtaskEditArray.push(subtask.text));
   console.log(subtaskEditArray.length);
-  
+
   document.getElementById("subtask-render-div").innerHTML = "";
-  document.getElementById("board-task-edit").innerHTML =
-  `
+  document.getElementById("board-task-edit").innerHTML = `
 <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
     <div class="add-task-text-div" id="edit-add-task-text-div">
         <div class="span-div">

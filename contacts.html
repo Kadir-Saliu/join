@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./styles/header.css" />
     <link rel="stylesheet" href="./styles/accountNav.css" />
     <link rel="stylesheet" href="./styles/addTaskBoard.css" />
-    <link rel="stylesheet" href="./styles/responsivness.css">
+    <link rel="stylesheet" href="./styles/responsivness.css" />
   </head>
   <body onload="contactsInit()">
     <div class="add-contact-successful d_none">Contact successfully created</div>
@@ -31,35 +31,22 @@
           <img src="./assets//icon/add_contact_person_icon.svg" alt="" />
         </div>
         <div class="contact-inputs">
-          <input
-            id="contactName"
-            class="contact-input"
-            type="text"
-            placeholder="Name"
-            spellcheck="false"
-            required
-          />
-          <input
-            id="contactEmail"
-            class="contact-input"
-            type="text"
-            placeholder="Email"
-            spellcheck="false"
-            required
-          />
-          <input
-            id="contactPhone"
-            class="contact-input"
-            type="text"
-            placeholder="Phone"
-            spellcheck="false"
-            required
-          />
+          <div>
+            <input id="contactName" class="contact-input" type="text" placeholder="Name" spellcheck="false" required />
+            <img src="./assets/icon/user_grey.svg" alt="" class="icon" />
+          </div>
+          <div>
+            <input id="contactEmail" class="contact-input" type="text" placeholder="Email" spellcheck="false" required />
+            <img src="./assets/icon/mail-icon-grey.svg" alt="" class="icon" />
+          </div>
+          <div>
+            <input id="contactPhone" class="contact-input" type="text" placeholder="Phone" spellcheck="false" required />
+            <img src="./assets/icon/call-grey.svg" alt="" class="icon" />
+          </div>
+
           <div class="contact-inputs-buttons">
             <button onclick="closeAddContactOverlay()" class="cancel-button">Cancel x</button>
-            <button onclick="addContactToDatabase()" class="create-contact-button">
-              Create contact &#10003;
-            </button>
+            <button onclick="addContactToDatabase()" class="create-contact-button">Create contact &#10003;</button>
           </div>
         </div>
       </div>
