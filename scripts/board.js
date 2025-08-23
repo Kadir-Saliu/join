@@ -508,31 +508,6 @@ function toggleSubtask(input) {
   saveEditedTaskToFirebase(input, ticketIndex, partialUpdate, ticketCounterIndex);
 }
 
-/**
- * Asynchronously retrieves the ID of a user by their name.
- *
- * Fetches the list of users from the BASE_URL_USERS endpoint, filters out null entries,
- * and searches for a user with the specified name. Returns the user's ID if found,
- * otherwise returns 0. Logs an error and returns 0 if the fetch operation fails.
- *
- * @async
- * @param {string} user - The name of the user to search for.
- * @returns {Promise<number>} The ID of the found user, or 0 if not found or on error.
- */
-async function getUserDetails(user) {
-  try {
-    let response = await fetch(BASE_URL_USERS);
-    let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter((u) => u !== null);
-
-    let foundUser = users.find((u) => u.name === user);
-    return foundUser ? foundUser.id : 0;
-  } catch (error) {
-    console.error("error");
-    return 0;
-  }
-}
-
 function minDate() {
   const dateInput = document.getElementById("task-date");
   dateInput.setAttribute("min", today);

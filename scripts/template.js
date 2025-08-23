@@ -36,12 +36,13 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
+      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
       let initials = user
         .split(" ")
         .map((n) => n[0])
         .join("")
         .toUpperCase();
-      return `<span class="user-icon-rendered User-bc-${renderedUserBgIndex}">${initials}</span>`;
+      return `<span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>`;
     })
   );
 
@@ -205,13 +206,14 @@ async function renderTicketDetails(
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
+      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;      
       let initials = user
         .split(" ")
         .map((n) => n[0])
         .join("")
         .toUpperCase();
       return `<div class="ticket-detail-user-div">
-                    <span class="user-icon-rendered User-bc-${renderedUserBgIndex}">${initials}</span>
+                    <span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>
                     <span>${user}</span>
                 </div>
         `;
@@ -281,12 +283,13 @@ async function editTicket(title, description, priority, assignedTo, subtasks, in
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
+      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
       let initials = user
         .split(" ")
         .map((n) => n[0])
         .join("")
         .toUpperCase();
-      return `<span data-name="${user}" class="user-icon-rendered User-bc-${renderedUserBgIndex} user-icon-selected">${initials}</span>`;
+      return `<span data-name="${user}" class="user-icon-rendered User-bc-${safeIndex} user-icon-selected">${initials}</span>`;
     })
   );
 
