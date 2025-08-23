@@ -194,24 +194,33 @@ document.querySelector(".add-contact-button").addEventListener("click", (event) 
 
 /**
  * Adds a new contact to the database using values from input fields.
- * Validates that all fields (name, email, phone) are filled.
+ * Validates that all fields (name, email, phone) are filled and that the name
+ * contains both first name and surname.
  * If valid, creates a new contact object and saves it to the database,
  * updates the contact list, closes the add contact overlay, and clears the form.
- * Alerts the user if any field is missing.
+ * Alerts the user if any field is missing or name format is invalid.
  *
  * @async
  * @function addContactToDatabase
  * @returns {Promise<void>}
  */
 const addContactToDatabase = async () => {
-  if (!name.value || !email.value || !phone.value) {
+  const nameValue = name.value;
+  const emailValue = email.value;
+  const phoneValue = phone.value;
+
+  if (!nameValue || !emailValue || !phoneValue) {
     alert("Bitte fülle alle Felder aus.");
     return;
   }
+  if (!validateFullName(nameValue)) {
+    alert("Bitte gib Vor- und Nachname ein (z.B. 'Max Mustermann').");
+    return;
+  }
   let newContact = {
-    name: name.value,
-    email: email.value,
-    phone: phone.value,
+    name: nameValue,
+    email: emailValue,
+    phone: phoneValue,
   };
   await putNewContactToDatabase(newContact);
   closeAddContactOverlay();
@@ -295,11 +304,23 @@ const putNewContactToDatabase = async (contact) => {
 };
 
 /**
+ * Validates if a name contains exactly two words (first name and surname).
+ * @param {string} name - The name to validate.
+ * @returns {boolean} True if the name has exactly two words, false otherwise.
+ */
+const validateFullName = (name) => {
+  const trimmedName = name.trim();
+  const words = trimmedName.split(/\s+/);
+  return words.length === 2 && words.every((word) => word.length > 0);
+};
+
+/**
  * Saves the edited contact information to the Firebase database.
  *
  * This function retrieves the currently selected contact's name from the DOM,
  * finds the corresponding contact object, collects the edited values from the
- * input fields, and updates the contact in the database using a PUT request.
+ * input fields, validates that the name contains both first name and surname,
+ * and updates the contact in the database using a PUT request.
  * After saving, it closes the edit overlay, clears the edit form, and refreshes
  * the contact list display.
  *
@@ -310,12 +331,24 @@ const putNewContactToDatabase = async (contact) => {
 const saveEditedContactToDatabase = async () => {
   const contactName = document.querySelector(".contact-information-username").innerText;
   const contact = contacts.find((contact) => contact.name === contactName);
+  const editedName = document.getElementById("editContactName").value.trim();
+  const editedEmail = document.getElementById("editContactEmail").value;
+  const editedPhone = document.getElementById("editContactPhone").value;
+
+  if (!editedName || !editedEmail || !editedPhone) {
+    alert("Bitte fülle alle Felder aus.");
+    return;
+  }
+  if (!validateFullName(editedName)) {
+    alert("Bitte gib Vor- und Nachname ein (z.B. 'Max Mustermann').");
+    return;
+  }
   const editedContact = {
-    name: document.getElementById("editContactName").value,
-    email: document.getElementById("editContactEmail").value,
-    phone: document.getElementById("editContactPhone").value,
+    name: editedName,
+    email: editedEmail,
+    phone: editedPhone,
   };
-  putEditedContactToDatabase(editedContact, contact);
+  await putEditedContactToDatabase(editedContact, contact);
   finishEdit();
 };
 
