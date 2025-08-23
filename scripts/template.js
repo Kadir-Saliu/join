@@ -206,7 +206,7 @@ async function renderTicketDetails(
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
-      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;      
+      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
       let initials = user
         .split(" ")
         .map((n) => n[0])
@@ -317,15 +317,15 @@ async function editTicket(title, description, priority, assignedTo, subtasks, in
   console.log(subtaskEditArray.length);
 
   document.getElementById("subtask-render-div").innerHTML = "";
-  document.getElementById("board-task-edit").innerHTML = `
+  document.getElementById("board-task-edit").innerHTML = /*html*/ `
 <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
     <div class="add-task-text-div" id="edit-add-task-text-div">
         <div class="span-div">
             <p>Title</p>
         </div>
-        <input type="text" placeholder="${title}" id="task-title-edit">
+        <input type="text" value="${title}" placeholder="Title" id="task-title-edit">
         <p class="margin-top-24">Description</p>
-        <textarea name="" id="task-description-edit" placeholder="${description}"></textarea>
+        <textarea name="" id="task-description-edit" placeholder="Description">${description}</textarea>
         <div class="span-div">
             <p class="margin-top-24">Due date</p>
         </div>
