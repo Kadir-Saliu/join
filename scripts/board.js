@@ -8,7 +8,6 @@ const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const today = `${year}-${month.length === 2 ? month : "0" + month}-${day}`;
 
-
 let subtaskCount = 0;
 let subtaskWidth = 0;
 let subtaskEditArray = [];
@@ -297,6 +296,7 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let categoryColor = ticket[index].category.toLowerCase().replace(" ", "-");
   let title = ticket[index].title;
   let description = ticket[index].description || [];
+  let dateForEditOverlay = ticket[index].date;
   let date = ticket[index].date.split("-");
   let formattedDate = `${date[2]}/${date[1]}/${date[0]}`;
   let priority = ticket[index].priority || "-";
@@ -316,7 +316,7 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
       ticketCounterId
     );
   } else if (mode === "edit") {
-    editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId);
+    editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
   }
 }
 
