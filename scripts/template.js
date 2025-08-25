@@ -279,7 +279,7 @@ async function renderTicketDetails(
  * each showing a user's initials, styled dynamically, and with a data-name attribute.
  * @throws {Error} If any call to `getUserDetails(user)` fails.
  */
-async function editTicket(title, description, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
+async function editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -318,7 +318,7 @@ async function editTicket(title, description, priority, assignedTo, subtasks, in
 
   document.getElementById("subtask-render-div").innerHTML = "";
   document.getElementById("board-task-edit").innerHTML = /*html*/ `
-<button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
+  <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
     <div class="add-task-text-div" id="edit-add-task-text-div">
         <div class="span-div">
             <p>Title</p>
@@ -329,7 +329,7 @@ async function editTicket(title, description, priority, assignedTo, subtasks, in
         <div class="span-div">
             <p class="margin-top-24">Due date</p>
         </div>
-        <input type="date" id="task-date-edit">
+        <input type="date" id="task-date-edit" value="${dateForEditOverlay}">
         <p class="margin-top-24">Priority</p>
         <div class="add-task-importance-selection">
             <button class="priority-button set-priority" onclick="setPriority('urgent', this)">Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
