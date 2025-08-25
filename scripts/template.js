@@ -76,10 +76,10 @@ function getInitialTemplate(inital) {
   `;
 }
 
-function getContactTemplate(initials, userName, email, phone) {
+function getContactTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
-    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone}, this)" class="contact" data-contact="${userName}">
-        <div class="contact-initials">${initials}</div>
+    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone}, ${contactIconId}, this)" class="contact" data-contact="${userName}">
+        <div class="contact-initials User-bc-${contactIconId}">${initials}</div>
         <div class="contact-details">
             <div class="contact-list-name">${userName}</div>
             <div class="email-color">${email}</div>
@@ -88,11 +88,11 @@ function getContactTemplate(initials, userName, email, phone) {
   `;
 }
 
-function getContactDetailsTemplate(initials, userName, email, phone) {
+function getContactDetailsTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
     <div class="contact-information-mt">
       <div class="initials-and-username">
-        <span class="contact-information-initials">${initials}</span>
+        <span class="contact-information-initials User-bc-${contactIconId}">${initials}</span>
         <div>
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
