@@ -35,11 +35,11 @@ const showContacts = async () => {
   cacheFirebaseKeys();
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   let sortedContacts = {};
-  contacts.forEach((contact) => {
+  contacts.forEach(async (contact) => {
     sortContactByInitials(contact, sortedContacts);
   });
   let contactsRef = document.getElementById("contacts");
-  contactsRef.innerHTML = "";
+  contactsRef.innerHTML = "";  
   renderContacts(sortedContacts, contactsRef);
 };
 
@@ -71,7 +71,9 @@ const renderContacts = (sortedContacts, contactsRef) => {
       let userName = escapeQuotes(contact.name);
       let email = escapeQuotes(contact.email);
       let phone = escapeQuotes(contact.phone);
-      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone);
+      let safeIndex = contact.firebaseKey;  
+      let contactIconId = ((safeIndex - 1) % 15) + 1;    
+      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId);
     });
   });
 };
@@ -84,7 +86,7 @@ const renderContacts = (sortedContacts, contactsRef) => {
  * @param {string} phone - The contact's phone number.
  * @param {HTMLElement} clickedElement - The clicked contact element.
  */
-const showContactsDetails = (initials, userName, email, phone, clickedElement) => {
+const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
   document.querySelectorAll(".contact").forEach((contact) => {
     contact.classList.remove("active");
   });
@@ -96,7 +98,7 @@ const showContactsDetails = (initials, userName, email, phone, clickedElement) =
   initialsElement.classList.add("active");
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = "";
-  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone);
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
   contactDetailsRef.classList.add("active");
 };
 
