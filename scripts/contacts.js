@@ -39,7 +39,7 @@ const showContacts = async () => {
     sortContactByInitials(contact, sortedContacts);
   });
   let contactsRef = document.getElementById("contacts");
-  contactsRef.innerHTML = "";  
+  contactsRef.innerHTML = "";
   renderContacts(sortedContacts, contactsRef);
 };
 
@@ -71,9 +71,9 @@ const renderContacts = (sortedContacts, contactsRef) => {
       let userName = escapeQuotes(contact.name);
       let email = escapeQuotes(contact.email);
       let phone = escapeQuotes(contact.phone);
-      let safeIndex = contact.firebaseKey;  
-      let contactIconId = ((safeIndex - 1) % 15) + 1;    
-      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId);
+      let safeIndex = contact.firebaseKey;
+      let contactIconId = ((safeIndex - 1) % 15) + 1;
+      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId, contact);
     });
   });
 };
@@ -228,7 +228,9 @@ const addContactToDatabase = async () => {
   closeAddContactOverlay();
   clearContactForm();
   showSuccessMessage();
-  scrollToNewContact(newContact);
+  setTimeout(() => {
+    scrollToNewContact(newContact);
+  }, 100);
 };
 
 /**
@@ -420,9 +422,11 @@ const finishEdit = () => {
 const scrollToNewContact = (newContact) => {
   const initials = newContact.name.split(" ")[0][0] + newContact.name.split(" ")[1][0];
   const contact = document.querySelector(`[data-contact="${newContact.name}"]`);
+  const contactData = contacts.find((c) => c.name === newContact.name);
+  const contactIconId = ((contactData.firebaseKey - 1) % 15) + 1;
   contact.scrollIntoView({
     behavior: "smooth",
     block: "center",
   });
-  showContactsDetails(initials, newContact.name, newContact.email, newContact.phone, contact);
+  showContactsDetails(initials, newContact.name, newContact.email, newContact.phone, contactIconId, contact);
 };

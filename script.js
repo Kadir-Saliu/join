@@ -73,8 +73,8 @@ async function getTicketData() {
     console.log(error);
   }
   allTickets.push(tickets);
-  if(typeof toggleNoTaskContainer === 'function') {
-  toggleNoTaskContainer();    
+  if (typeof toggleNoTaskContainer === "function") {
+    toggleNoTaskContainer();
   }
 }
 
@@ -86,9 +86,7 @@ async function getTicketData() {
  */
 async function getContactsData(user) {
   try {
-    let response = await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`
-    );
+    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`);
     let responseJson = await response.json();
     let contacts = Object.entries(responseJson || {})
       .filter(([, contact]) => contact !== null)
@@ -132,7 +130,6 @@ function popUpAccNav() {
   document.getElementById("board-overlay-transparent").classList.toggle("hide");
 }
 
-
 /**
  * Toggles the visibility of the category drop-down menu by adding or removing the "hide" class
  * from the element with the ID "drop-down-category".
@@ -171,13 +168,12 @@ function removeUserfromLocalStorage() {
  */
 function greetUser() {
   if (loggedInUser.username) {
-    document.getElementById("goodMorning").innerText = "Good morning,";
-    document.getElementById("username").innerText = loggedInUser.username;
+    loggedInUser.username === "Guest User"
+      ? ((document.getElementById("goodMorning").innerText = "Good morning"),
+        (document.getElementById("username").innerText = ""))
+      : ((document.getElementById("goodMorning").innerText = "Good morning,"),
+        (document.getElementById("username").innerText = loggedInUser.username));
     document.getElementById("profile").innerText = loggedInUser.initals;
-  } else {
-    document.getElementById("goodMorning").innerText = "Good morning";
-    document.getElementById("username").innerText = "";
-    document.getElementById("profile").innerText = "G";
   }
 }
 
@@ -231,8 +227,8 @@ function setProfileInitials() {
   }
 }
 
-function goToBoardHtml(){
-location.href = "./board.html";
+function goToBoardHtml() {
+  location.href = "./board.html";
 }
 
 /**

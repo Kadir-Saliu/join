@@ -91,7 +91,7 @@ async function signUpUser() {
     newUser = {
       name: document.getElementById("name-input-sign-up").value,
       Email: document.getElementById("email-input-sign-up").value,
-      Password: document.getElementById("password-input-sign-up").value
+      Password: document.getElementById("password-input-sign-up").value,
     };
     loggedInUser.username = newUser.name;
     loggedInUser.initals = newUser.name.split(" ")[0][0] + newUser.name.split(" ")[1][0];
@@ -163,3 +163,12 @@ function showSuccessAnimationAndRedirect() {
     window.location.href = "summary.html";
   }, 3500);
 }
+
+const loginAsGuest = () => {
+  loggedInUser = {
+    username: "Guest User",
+    initals: "G",
+  };
+  localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+  window.location.href = "summary.html";
+};
