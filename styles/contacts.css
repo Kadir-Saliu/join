@@ -261,6 +261,19 @@ hr {
   width: 467px;
 }
 
+.close-icon {
+  position: absolute;
+  top: 60px;
+  right: 50px;
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.close-icon:hover {
+  background-color: #eeeeee;
+  border-radius: 50%;
+}
+
 .contact-overlay-header > *:first-child {
   margin-top: -80px;
 }
@@ -420,79 +433,79 @@ hr {
 
 @media (max-width: 1000px) {
   .big-logo {
-      display: none;
+    display: none;
   }
 
   .mobile-logo {
-      display: block !important;
-      height: 48px;
-      width: auto !important;
-      margin-left: 5%;
+    display: block !important;
+    height: 48px;
+    width: auto !important;
+    margin-left: 5%;
   }
 
   .header-responsive {
-      margin-left: 0;
-      width: 100%;
-      height: 8vh;
+    margin-left: 0;
+    width: 100%;
+    height: 8vh;
   }
 
   .header-and-icon {
-      height: 100%;
+    height: 100%;
   }
 
   .header-and-icon h2,
   .help-person-icon a {
-      display: none;
+    display: none;
   }
 
   main {
-      margin-top: 8vh;
-      margin-left: 0 !important;
-      margin-right: 0;
-      margin-bottom: 0;
-      width: 95% !important;
-      padding: 0;
+    margin-top: 8vh;
+    margin-left: 0 !important;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 95% !important;
+    padding: 0;
   }
 
   .title-main {
-      padding: 0;
-      padding-top: 10px;
-      gap: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      margin-bottom: 25px;
+    padding: 0;
+    padding-top: 10px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 25px;
   }
 
   nav {
-      position: fixed !important;
-      bottom: 0;
-      top: auto !important;
-      height: 10vh !important;
-      width: 100% !important;
+    position: fixed !important;
+    bottom: 0;
+    top: auto !important;
+    height: 10vh !important;
+    width: 100% !important;
   }
 
   nav div {
-      display: flex;
-      flex-direction: row;
-      height: 100%;
-      justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: space-evenly;
   }
 
   .nav-item {
-      padding: 10px 10px;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      border-radius: 20px;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 20px;
   }
 
   .nav-logo {
-      padding: 0 !important;
+    padding: 0 !important;
   }
 
   .legal-info {
-      display: none !important;
+    display: none !important;
   }
 
   .contacts-header {
@@ -566,7 +579,7 @@ hr {
   #contact-logo-div {
     position: fixed;
     top: 50%;
-    left: 50%;    
+    left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
@@ -592,7 +605,7 @@ hr {
   }
 
   .create-contact-button {
-    height: 36px;;
+    height: 36px;
   }
 
   .account-nav-render-div {
