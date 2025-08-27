@@ -120,6 +120,7 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
 
 function getEditOverlayContentTemplate(initials, userName, email, phone) {
   return /*html*/ `
+  <img class="close-icon" src="./assets/icon/close.svg" alt="" onclick="closeEditOverlay()" />
     <div class="contact-overlay-header">
         <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
         <h1>Edit contact</h1>
