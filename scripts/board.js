@@ -19,8 +19,7 @@ let dataMode;
 /**
  * function to open/close the addTask pop-up
  */
-function popUpAddTask(ele, columnV) {
-  columnVal = columnV;
+function popUpAddTask(ele) {
   const isHidden = ele.classList.contains("hide");
   if (
     document.getElementById("board-task-information").className === "hide" &&
@@ -303,18 +302,7 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let assignedTo = ticket[index].assignedTo || [];
   let subtasks = ticket[index].subtask || [];
   if (mode === "view") {
-    renderTicketDetails(
-      category,
-      categoryColor,
-      title,
-      description,
-      formattedDate,
-      priority,
-      assignedTo,
-      subtasks,
-      index,
-      ticketCounterId
-    );
+    renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
   } else if (mode === "edit") {
     editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
   }
@@ -405,9 +393,7 @@ function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit, 
  */
 async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId) {
   try {
-    let response = await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
-    );
+    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`);
     let ticket = await response.json();
     let updatedTicket = {
       ...ticket,
