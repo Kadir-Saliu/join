@@ -1,4 +1,4 @@
-const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/.json";
+const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/";
 const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
 const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
 const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
@@ -169,8 +169,7 @@ function removeUserfromLocalStorage() {
 function greetUser() {
   if (loggedInUser.username) {
     loggedInUser.username === "Guest User"
-      ? ((document.getElementById("goodMorning").innerText = "Good morning"),
-        (document.getElementById("username").innerText = ""))
+      ? ((document.getElementById("goodMorning").innerText = "Good morning"), (document.getElementById("username").innerText = ""))
       : ((document.getElementById("goodMorning").innerText = "Good morning,"),
         (document.getElementById("username").innerText = loggedInUser.username));
     document.getElementById("profile").innerText = loggedInUser.initals;

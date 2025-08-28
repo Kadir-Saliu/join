@@ -1,0 +1,78 @@
+/**
+ * Initializes the current user by fetching user data and finding the logged-in user
+ */
+const initializeCurrentUser = async () => {
+  if (!currentUser) {
+    currentUser = Object.entries(await (await fetch(BASE_URL_USERS)).json())
+      .map(([id, user]) => ({ id, ...user }))
+      .find((user) => user.name === loggedInUser.username);
+  }
+  return currentUser;
+};
+
+/**
+ * Adds a new contact to the Firebase Realtime Database for the current user.
+ *
+ * Sends a PUT request to the database, storing the provided contact object
+ * under the path `/contacts/{currentUser.id}/{nextKey}.json` where nextKey is
+ * the highest existing firebaseKey + 1, but skips 10000 (guest key).
+ *
+ * @async
+ * @param {Object} contact - The contact object to be added to the database.
+ * @returns {Promise<void>} A promise that resolves when the contact has been added.
+ */
+const putNewContactToDatabase = async (contact) => {
+  const filteredKeys = firebaseKeys.filter((key) => key !== 10000);
+  let newKey = filteredKeys.length > 0 ? Math.max(...filteredKeys) + 1 : 1;
+  newKey === 10000 ? (newKey = 10001) : (newKey = newKey);
+  await fetch(`${BASE_URL}contacts/${currentUser.id}/${newKey}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact),
+  });
+  await showContacts();
+};
+
+/**
+ * Updates an existing contact in the Firebase Realtime Database with the provided edited contact data.
+ *
+ * @async
+ * @function
+ * @param {Object} editedContact - The updated contact data to be saved in the database.
+ * @param {Object} contact - The original contact object, containing at least the `firebaseKey` property.
+ * @returns {Promise<void>} A promise that resolves when the contact has been updated in the database.
+ */
+const putEditedContactToDatabase = async (editedContact, contact) => {
+  await fetch(`${BASE_URL}contacts/${currentUser.id}/${contact.firebaseKey}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editedContact),
+  });
+};
+
+/**
+ * Deletes the currently selected contact from the Firebase database.
+ *
+ * This function retrieves the contact name from the DOM, finds the corresponding contact object,
+ * and sends a DELETE request to remove the contact from the database. After deletion, it clears
+ * the contact details section in the UI and refreshes the contact list.
+ *
+ * @async
+ * @function
+ * @returns {Promise<void>} Resolves when the contact has been deleted and the UI updated.
+ */
+const deleteContactFromDatabase = async () => {
+  const contactName = document.querySelector(".contact-information-username").innerText;
+  const contact = contacts.find((contact) => contact.name === contactName);
+  await fetch(`${BASE_URL}contacts/${currentUser.id}/${contact.firebaseKey}.json`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  finishEdit();
+};
