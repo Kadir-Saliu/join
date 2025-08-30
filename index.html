@@ -28,7 +28,7 @@
   <header class="mw1920">
     <div id="header-div" class="animation-hide">
       <p>Not a Join user?</p>
-      <button class="grey-btn" id="sign-up-btn" onclick="toogleInputMenu()">Sign up</button>
+      <button class="grey-btn" id="sign-up-btn" onclick="toogleInputMenu(event)">Sign up</button>
     </div>
   </header>
   
@@ -54,7 +54,7 @@
       </div>
     </form>  
     
-    <form class="animation-hide menu-div" id="sign-up-div" onsubmit="checkUserDataInput(event)">
+    <form class="animation-hide menu-div" id="sign-up-div" onsubmit="checkUserDataInput()">
       <button id="back-btn" type="button" onclick="toogleInputMenu()"><img id="arrow-left" src="./assets/icon/arrow-left-solid.svg" alt="arrow left"></button>
       <h1>Sign up</h1>
       <div id="divider-sign-up" class="divider-line"></div>
