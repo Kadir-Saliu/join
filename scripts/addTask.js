@@ -110,10 +110,9 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
 async function iterateContacts(responseJson, id, renderId) {
     document.getElementById(id).classList.toggle("hide");
     document.getElementById(id).innerHTML = "";
-    let valuesArray = Object.values(responseJson);
     let backgroundIndex = 0;
-    for (let index = 0; index < valuesArray.length; index++) {
-        let name = valuesArray[index]?.name;        
+    for (let index = 0; index < responseJson.length; index++) {
+        let name = responseJson[index]?.name;        
         if (!name) continue;
         if(backgroundIndex > 14) backgroundIndex = 1;
         else backgroundIndex ++;
