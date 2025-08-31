@@ -109,17 +109,13 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
 async function iterateContacts(responseJson, id, renderId) {
     document.getElementById(id).classList.toggle("hide");
     document.getElementById(id).innerHTML = "";
+    let valuesArray = Object.values(responseJson);
     let backgroundIndex = 0;
-    for (let index = 0; index < responseJson.length; index++) {
-        let name = responseJson[index]?.name
-        if (!name) {
-            continue;
-        }
-        if(backgroundIndex > 14) {
-            backgroundIndex = 1;
-        } else {
-            backgroundIndex ++;
-        }
+    for (let index = 0; index < valuesArray.length; index++) {
+        let name = valuesArray[index]?.name;        
+        if (!name) continue;
+        if(backgroundIndex > 14) backgroundIndex = 1;
+        else backgroundIndex ++;
         let initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
         document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId);   
     }
@@ -135,6 +131,15 @@ async function changeDropDownArrow(id) {
 
 function checkRequiredInput(columnValue, validation) {
     let hasError = false;
+    checkRequiredInputTaskTitle();
+    checkRequiredInputTaskDate();
+    checkRequiredInputCategory();
+    if (!hasError && validation) {
+        createNewTicket(columnValue);
+    }
+}
+
+function checkRequiredInputTaskTitle() {
     if (!taskTitle.value) {
         document.getElementById("missing-title-info").classList.remove("hide");
         taskTitle.style.border = "1px solid red";
@@ -143,6 +148,9 @@ function checkRequiredInput(columnValue, validation) {
         document.getElementById("missing-title-info").classList.add("hide");
         taskTitle.style.border = "";
     }
+}
+
+function checkRequiredInputTaskDate() {
     if (!taskDate.value) {
         document.getElementById("missing-date-info").classList.remove("hide");
         taskDate.style.border = "1px solid red";
@@ -151,6 +159,9 @@ function checkRequiredInput(columnValue, validation) {
         document.getElementById("missing-date-info").classList.add("hide");
         taskDate.style.border = "";
     }
+}
+
+function checkRequiredInputCategory() {
     if (document.getElementById("category-button").innerText === "Select task category") {
         document.getElementById("missing-category-info").classList.remove("hide");
         document.getElementById("category-button").style.border = "1px solid red";
@@ -158,9 +169,6 @@ function checkRequiredInput(columnValue, validation) {
     } else {
         document.getElementById("missing-category-info").classList.add("hide");
         document.getElementById("category-button").style.border = "";
-    }
-    if (!hasError && validation) {
-        createNewTicket(columnValue);
     }
 }
 
@@ -176,24 +184,26 @@ async function createNewTicket(columnValue) {
     let selectedUsers = getSelectedUsers();
     let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
     let ticketCounter = await counterResponse.json();
-
     if (ticketCounter === null) {
       ticketCounter = 0;
     }
     ticketCounter++;
-
-    let newTicket = {
-        title: taskTitle.value,
-        description: taskDescription.value,
-        date: taskDate.value,
-        priority: buttonPriority,
-        assignedTo: selectedUsers,
-        category: buttonCategory,
-        subtask: subtaskArray,
-        column: columnValue,
-        id: ticketCounter
-    }
+    let newTicket = buildTicket(ticketCounter, columnValue, selectedUsers);
     await saveTaskToFirebase(newTicket, ticketCounter);
+}
+
+function buildTicket(ticketCounter, columnValue, selectedUsers) {
+  return {
+    title: taskTitle.value,
+    description: taskDescription.value,
+    date: taskDate.value,
+    priority: buttonPriority,
+    assignedTo: selectedUsers,
+    category: buttonCategory,
+    subtask: subtaskArray,
+    column: columnValue,
+    id: ticketCounter
+  };
 }
 
 /**
@@ -227,9 +237,7 @@ function renderSelectedUsers(id) {
             let userIconColor = "";            
             let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
             userIconClasses.forEach(spanClass => {
-                if(spanClass.innerText === initials) {
-                    userIconColor = spanClass.dataset.bcindex;
-                } 
+                if(spanClass.innerText === initials) userIconColor = spanClass.dataset.bcindex; 
             });
             document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`
         }
@@ -252,26 +260,13 @@ function addSubtask() {
             text: subtask.value,
             checked: subtask.checked
         });
-        document.getElementById("subtask-render-div").innerHTML +=`<li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
-                                                                        ${subtask.value} 
-                                                                        <div class="li-buttons hide">
-                                                                            <button data-index="${subtaskCounter}" onclick="editSubtask(this)">
-                                                                                <img src="./assets/icon/pencil.svg">
-                                                                            </button>
-                                                                            <div class="add-task-form-divider"></div>
-                                                                            <button data-index="${subtaskCounter}" onclick="deleteSubtask(this, '${subtask.value}')">
-                                                                                <img src="./assets/icon/bin.svg">
-                                                                            </button>
-                                                                        </div>
-                                                                    </li>`;
+        document.getElementById("subtask-render-div").innerHTML += addSubtaskRenderDiv(subtask.value, subtaskCounter);
         subtaskCounter++;
         subtask.value = "";
         document.getElementById("subtask-clear-button").classList.add("hide");
         document.getElementById("subtask-button-div-divider").classList.add("hide");
     }
 }
-
-
 
 /**
  * Reveals the first child element of the given element by removing the "hide" class.
@@ -349,35 +344,37 @@ function deleteSubtask(ele, liVal) {
     ele.parentElement.parentElement.remove();
 }
 
-
-
-/**
- * Saves a task to Firebase Realtime Database and updates the ticket counter.
- * Displays user feedback and redirects to the board page upon success.
- *
- * @async
- * @function saveTaskToFirebase
- * @param {Object} ticketData - The data of the ticket to be saved.
- * @param {number} ticketCounter - The current ticket counter value.
- * @returns {Promise<void>} Resolves when the task is saved and the user is redirected.
- */
 async function saveTaskToFirebase(ticketData, ticketCounter) {
   try {
-    
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ticketData),
-    });
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ticketCounter)
-    });
+    await saveTicketData(ticketData, ticketCounter);
+    await updateTicketCounter(ticketCounter);
+    saveTaskToFirebasePassalong();
+  } catch (error) {
+    console.error("Fehler beim Speichern:", error);
+  }
+}
+
+async function saveTicketData(ticketData, ticketCounter) {
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(ticketData),
+  });
+}
+
+async function updateTicketCounter(ticketCounter) {
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(ticketCounter),
+  });
+}
+
+function saveTaskToFirebasePassalong() {    
     addedUserfeedback.classList.remove("hide");
     addedUserfeedback.classList.add("show");
     history.pushState(null, "");
@@ -386,18 +383,9 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
     addedUserfeedback.classList.add("hide");
     addedUserfeedback.classList.remove("show"); 
     window.location.href = "board.html";   
-    }, 3000);
-    
-    if(addTaskPopUp) {
-        addTaskPopUp.classList.add("hide");
-    }
-    if(bordOverlay) {
-        bordOverlay.classList.add("hide");
-    }
-
-  } catch (error) {
-    console.error("Fehler beim Speichern:", error);
-  }
+    }, 3000);    
+    if(addTaskPopUp) addTaskPopUp.classList.add("hide");
+    if(bordOverlay) bordOverlay.classList.add("hide");
 }
 
 function clearSubtaskValue(subtaskId) {
@@ -420,58 +408,27 @@ function editSubtask(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
     ele.parentElement.parentElement.removeAttribute("onmouseleave");
-    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
-    
-    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
-                                                    <div class="edit-subtask-div li-buttons">
-                                                        <button data-index="${ele.dataset.index}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
-                                                            <img src="./assets/icon/bin.svg">
-                                                        </button>
-                                                        <div class="add-task-form-divider"></div>
-                                                        <button data-index="${ele.dataset.index}"  onclick="confirmEditedSubtask(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
-                                                            <img src="./assets/icon/check.png">
-                                                        </button>
-                                                    </div>`;
-    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");      
-    
+    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);    
+    ele.parentElement.parentElement.innerHTML = editSubtaskRender(liVal, ele.dataset.index);
+    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");   
 }
 
 function editSubtaskInEditMenu(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
     ele.parentElement.parentElement.removeAttribute("onmouseleave");
-    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
-    
-    ele.parentElement.parentElement.innerHTML = `   <input type="text" value="${liVal}" id='${ele.dataset.index}-${liVal}'/>
-                                                    <div class="edit-subtask-div li-buttons">
-                                                        <button data-index="${ele.dataset.index}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${liVal}'); spliceEditSubArray(this)">
-                                                            <img src="./assets/icon/bin.svg">
-                                                        </button>
-                                                        <div class="add-task-form-divider"></div>
-                                                        <button data-index="${ele.dataset.index}"  onclick="confirmEditedSubtaskInEditMenu(this, '${liVal}', '${ele.dataset.index}-${liVal}', '${liVal}-${ele.dataset.index}')">
-                                                            <img src="./assets/icon/check.png">
-                                                        </button>
-                                                    </div>`;
+    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);    
+    ele.parentElement.parentElement.innerHTML = editSubtaskInEditMenuRender(liVal, ele.dataset.index);
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div"); 
 }
 
 function confirmEditedSubtask(ele, liVal, inputId, liId) {
     let index = subtaskValue.indexOf(liVal);
     subtaskArray[index].text = document.getElementById(inputId).value;
-    subtaskValue[index] = subtaskArray[index].text;
-    
+    subtaskValue[index] = subtaskArray[index].text;    
     document.getElementById(inputId).remove();
     document.getElementById(liId).innerHTML = "";
-    document.getElementById(liId).innerHTML =  `${subtaskArray[index].text}
-                                                <div class="li-buttons hide" id="buttons-${liId}">
-                                                <button data-index="${ele.dataset.index}" onclick="editSubtask(this)">
-                                                    <img src="./assets/icon/pencil.svg">
-                                                </button>
-                                                <div class="add-task-form-divider"></div>
-                                                <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
-                                                    <img src="./assets/icon/bin.svg">
-                                                </button>
-                                                </div>`
+    document.getElementById(liId).innerHTML =  confirmEditedSubtaskRender(subtaskArray[index].text, liId, ele.dataset.index);
     document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
     document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div"); 
@@ -480,16 +437,7 @@ function confirmEditedSubtask(ele, liVal, inputId, liId) {
 function confirmEditedSubtaskInEditMenu(ele, liVal, inputId, liId) {
     let inputText = document.getElementById(inputId).value;
     document.getElementById(inputId).remove();
-    document.getElementById(liId).innerHTML =  `${inputText}
-                                                <div class="li-buttons hide" id="buttons-${liId}">
-                                                <button data-index="${ele.dataset.index}" onclick="editSubtask(this)">
-                                                    <img src="./assets/icon/pencil.svg">
-                                                </button>
-                                                <div class="add-task-form-divider"></div>
-                                                <button data-index="${ele.dataset.index}" onclick="deleteSubtask(this)">
-                                                    <img src="./assets/icon/bin.svg">
-                                                </button>
-                                                </div>`
+    document.getElementById(liId).innerHTML =  confirmEditedSubtaskInEditMenuRender(inputText, liId, ele.dataset.index);
     document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
     document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div");

@@ -287,8 +287,8 @@ function getRenderTasksTemplate() {
   return /*html*/ `
              <div onclick="goToBoardHtml()" class="toDo-and-done">
               <div class="to-do">
-                <a href=""
-                  ><svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
+                <a href="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
                     <circle class="change-circle-color" cx="34.5" cy="35" r="34.5" fill="#2A3647" />
                     <mask
                       id="mask0_319113_6282"
@@ -307,16 +307,17 @@ function getRenderTasksTemplate() {
                         d="M25.1667 44.3332H27.0333L38.5333 32.8332L36.6667 30.9665L25.1667 42.4665V44.3332ZM44.2333 30.8998L38.5667 25.2998L40.4333 23.4332C40.9444 22.9221 41.5722 22.6665 42.3167 22.6665C43.0611 22.6665 43.6889 22.9221 44.2 23.4332L46.0667 25.2998C46.5778 25.8109 46.8444 26.4276 46.8667 27.1498C46.8889 27.8721 46.6444 28.4887 46.1333 28.9998L44.2333 30.8998ZM42.3 32.8665L28.1667 46.9998H22.5V41.3332L36.6333 27.1998L42.3 32.8665Z"
                         fill="white"
                       />
-                    </g></svg
-                ></a>
+                    </g>
+                  </svg>
+                </a>
                 <div class="center">
                   <h3>${toDos}</h3>
                   <p>To-do</p>
                 </div>
               </div>
               <div onclick="goToBoardHtml()" class="done">
-                <a href=""
-                  ><svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
+                <a href="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
                     <circle class="change-circle-color" cx="35" cy="35" r="34.5" fill="#2A3647" />
                     <path
                       class="change-contents-color"
@@ -325,8 +326,9 @@ function getRenderTasksTemplate() {
                       stroke-width="7"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    /></svg
-                ></a>
+                    />
+                  </svg>
+                </a>
                 <div  class="center">
                   <h3>${done}</h3>
                   <p>Done</p>
@@ -370,5 +372,82 @@ function getRenderTasksTemplate() {
                 </p>
               </div>
             </div>
+  `;
+}
+
+function addSubtaskRenderDiv(subtaskValue, subtaskCounter) {
+  return /*html*/  `
+  <li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+      ${subtaskValue} 
+      <div class="li-buttons hide">
+          <button data-index="${subtaskCounter}" onclick="editSubtask(this)">
+              <img src="./assets/icon/pencil.svg">
+          </button>
+          <div class="add-task-form-divider"></div>
+          <button data-index="${subtaskCounter}" onclick="deleteSubtask(this, '${subtaskValue}')">
+              <img src="./assets/icon/bin.svg">
+          </button>
+      </div>
+  </li>
+  `;
+}
+
+function editSubtaskRender(listValue, dataId) {
+  return /*html*/ `   
+  <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
+  <div class="edit-subtask-div li-buttons">
+      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
+          <img src="./assets/icon/bin.svg">
+      </button>
+      <div class="add-task-form-divider"></div>
+      <button data-index="${dataId}"  onclick="confirmEditedSubtask(this, '${listValue}', '${dataId}-${listValue}', '${listValue}-${dataId}')">
+          <img src="./assets/icon/check.png">
+      </button>
+  </div>
+  `;
+}
+
+function editSubtaskInEditMenuRender(listValue, dataId) {
+  return /*html*/ `   
+  <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
+  <div class="edit-subtask-div li-buttons">
+      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
+          <img src="./assets/icon/bin.svg">
+      </button>
+      <div class="add-task-form-divider"></div>
+      <button data-index="${dataId}"  onclick="confirmEditedSubtaskInEditMenu(this, '${listValue}', '${dataId}-${listValue}', '${listValue}-${dataId}')">
+          <img src="./assets/icon/check.png">
+      </button>
+  </div>
+  `;
+}
+
+function confirmEditedSubtaskRender(subtaskArrayText, listId, dataId) {
+  return /*html*/ `
+  ${subtaskArrayText}
+    <div class="li-buttons hide" id="buttons-${listId}">
+    <button data-index="${dataId}" onclick="editSubtask(this)">
+        <img src="./assets/icon/pencil.svg">
+    </button>
+    <div class="add-task-form-divider"></div>
+    <button data-index="${dataId}" onclick="deleteSubtask(this)">
+        <img src="./assets/icon/bin.svg">
+    </button>
+  </div>
+  `;
+}
+
+function confirmEditedSubtaskInEditMenuRender(inputText, listId, dataIndex) {
+  return /*html*/ `
+  ${inputText}
+  <div class="li-buttons hide" id="buttons-${listId}">
+  <button data-index="${dataIndex}" onclick="editSubtask(this)">
+      <img src="./assets/icon/pencil.svg">
+  </button>
+  <div class="add-task-form-divider"></div>
+  <button data-index="${dataIndex}" onclick="deleteSubtask(this)">
+      <img src="./assets/icon/bin.svg">
+  </button>
+  </div>
   `;
 }
