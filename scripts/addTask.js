@@ -62,7 +62,8 @@ function setCategory(category, idButton, idDropDown) {
 async function dropDownUsers(id, renderId, imgId) {
     try {
         let response = await fetch(BASE_URL_USERS);
-        let responseJson = await response.json();
+        let data = await response.json();
+        let responseJson = Object.values(data)
         changeDropDownArrow(imgId);
         iterateContacts(responseJson, id, renderId);
     } catch (error) {
@@ -111,7 +112,7 @@ async function iterateContacts(responseJson, id, renderId) {
     document.getElementById(id).innerHTML = "";
     let backgroundIndex = 0;
     for (let index = 0; index < responseJson.length; index++) {
-        let name = responseJson[index]?.name
+        let name = responseJson[index].name
         if (!name) {
             continue;
         }
