@@ -8,66 +8,44 @@
  * @returns {string} The HTML string representing the user dropdown item.
  */
 function userDropDownTemplate(name, inititals, index, id) {
-  return `<div>
-                <div>
-                    <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
-                    <p>${name}</p>
-                </div>
-                <input type="checkbox" class="user-checkbox" value="${name}" onclick="renderSelectedUsers('${id}')">
-            </div>`;
+  return /*html*/ `
+    <div>
+      <div>
+        <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
+        <p>${name}</p>
+      </div>
+      <input type="checkbox" class="user-checkbox" value="${name}" onclick="renderSelectedUsers('${id}')">
+    </div>
+  `;
 }
 
-/**
- * Generates an HTML snippet for a ticket , rendering assigned user icons concurrently.
- *
- * @async
- * @param {string} title - The ticket's title.
- * @param {string} description - A brief description of the ticket.
- * @param {string} category - The category or type of the ticket.
- * @param {string} categoryCss - CSS class suffix to style the category badge.
- * @param {string[]} assignedTo - Array of user full names assigned to the ticket.
- * @param {string} priority - Priority level (e.g. "low", "medium", "high").
- * @param {number} index - Zero‑based index of the ticket in a list.
- * @param {Array<object>} subtasks - An array of subtask objects, each with its own properties.
- * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
- *
- */
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {
-  let userSpansArray = await Promise.all(
-    assignedTo.map(async (user, i) => {
-      let renderedUserBgIndex = await getUserDetails(user);
-      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase();
-      return `<span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>`;
-    })
-  );
-
-  let userSpans = userSpansArray.join("");
-
-  return `
-        <div draggable="true" ondragstart="startDragging(${index})" class="kanban-task" data-ticketIndex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="view" onclick="popUpAddTask(popuptask); renderTicketOverlay(this)">
-            <div class="task-type ${categoryCss}">${category}</div>
-            <h4>${title}</h4>
-            <p>${description}</p>
-            <div id="p-subtask-${index}" class="subtask-progress-div hide">
-                <div class="subtask-progress-grey-div">
-                    <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>
-                </div>
-                <p class="subtask-count">${subtaskCount}/${subtasks.length} Subtasks</p>
-            </div>
-            <div class="assigned-users">
-              <div>
-              ${userSpans}
-              </div>
-              <img src="${priority[0] && priority !== "-" ? `./assets/icon/${priority}.svg` : ""}" alt="" />
-            </div>
-          </div>
-    `;
-}
+const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans) => {
+  return /*html*/ `
+    <div
+      draggable="true"
+      ondragstart="startDragging(${index})"
+      class="kanban-task"
+      data-ticketIndex="${index}"
+      data-ticketcounterid="${ticketCounterId}"
+      data-mode="view"
+      onclick="popUpAddTask(popuptask); renderTicketOverlay(this)"
+    >
+      <div class="task-type ${categoryCss}">${category}</div>
+      <h4>${title}</h4>
+      <p>${description}</p>
+      <div id="p-subtask-${index}" class="subtask-progress-div hide">
+        <div class="subtask-progress-grey-div">
+          <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>
+        </div>
+        <p class="subtask-count">${subtaskCount}/${subtasks.length} Subtasks</p>
+      </div>
+      <div class="assigned-users">
+        <div>${userSpans}</div>
+        <img src="${priority[0] && priority !== "-" ? `./assets/icon/${priority}.svg` : ""}" alt="" />
+      </div>
+    </div>
+  `;
+};
 
 function getInitialTemplate(inital) {
   return /*html*/ `
@@ -174,79 +152,49 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
   `;
 }
 
-/**
- * Builds and returns an array of HTML snippets representing assigned users for a ticket detail view.
- * Each user is rendered with an icon (initials) styled dynamically based on user-specific details.
- *
- * @async
- * @param {string} category - The ticket's category or type.
- * @param {string} categoryColor - CSS class or color indicator for styling the category.
- * @param {string} title - Title of the ticket.
- * @param {string} description - Description text for the ticket.
- * @param {string|Date} date - Date associated with ticket (e.g. creation or due date).
- * @param {string} priority - Priority level (e.g. "low", "medium", "high").
- * @param {string[]} assignedTo - Array of full names of users assigned to the ticket.
- * @param {Array<object>} subtasks - Array of subtask objects related to the ticket.
- * @param {number} index - Zero-based index of the ticket in a list or collection.
- * @returns {Promise<string[]>} Promise resolving to an array of HTML `<div>` strings,
- * each containing user initials and name inside styled elements.
- * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
- */
-async function renderTicketDetails(
+const getRenderTicketDetailsSubtaskEleTemplate = (i, subtask, index, ticketCounterId) => {
+  return /*html*/ `
+    <li><input data-index="${i}" ${
+    subtask.checked ? "checked" : ""
+  } data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
+  `;
+};
+
+const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user) => {
+  return /*html*/ `
+    <div class="ticket-detail-user-div">
+      <span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>
+      <span>${user}</span>
+    </div>
+  `;
+};
+
+const getRenderTicketDetailsTemplate = (
   category,
   categoryColor,
   title,
   description,
   date,
   priority,
-  assignedTo,
-  subtasks,
   index,
-  ticketCounterId
-) {
-  let userSpansArray = await Promise.all(
-    assignedTo.map(async (user, i) => {
-      let renderedUserBgIndex = await getUserDetails(user);
-      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase();
-      return `<div class="ticket-detail-user-div">
-                    <span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>
-                    <span>${user}</span>
-                </div>
-        `;
-    })
-  );
-
-  let userSpans = userSpansArray.join("");
-
-  let subtaskEle = subtasks
-    .map((subtask, i) => {
-      return `<li><input data-index="${i}" ${
-        subtask.checked ? "checked" : ""
-      } data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${
-        subtask.text
-      }</li>
-        `;
-    })
-    .join("");
-
-  document.getElementById("board-task-information").innerHTML = `<div id="task-pop-up-nav">
-        <p class="${categoryColor}">${category}</p>
-        <button  onclick="popUpAddTask(popuptask)">X</button>
+  ticketCounterId,
+  userSpans,
+  subtaskEle
+) => {
+  return /*html*/ `
+    <div id="task-pop-up-nav">
+      <p class="${categoryColor}">${category}</p>
+      <button  onclick="popUpAddTask(popuptask)">X</button>
     </div>
     <h1 class="pop-up-margin-b-25">${title}</h1>
     <p class="pop-up-margin-b-25" id="pop-up-task-description">${description}</p>
     <div class="pop-up-margin-b-25 gap-10" id="pop-up-deadline">
-        <p>Due date:</p>
-        <p>${date}</p>
+      <p>Due date:</p>
+      <p>${date}</p>
     </div>
     <div class="pop-up-margin-b-25 gap-10">
-        <p>Priority:</p>
-        <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${
+      <p>Priority:</p>
+      <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${
     priority && priority !== "-" ? `./assets/icon/${priority}.svg` : ""
   }" alt=""></span>
     </div>
@@ -254,71 +202,40 @@ async function renderTicketDetails(
        ${userSpans}
     </div>
     <div id="subtasks-div" class="pop-up-margin-b-25">
-        <p>Subtasks</p>
-        <ul>${subtaskEle}</ul>
+      <p>Subtasks</p>
+      <ul>${subtaskEle}</ul>
     </div>
     <div id="pop-up-bottom-buttons">
-        <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
-        <div></div>
-        <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+      <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
+      <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
     </div>`;
-}
+};
 
-/**
- * Generates an array of HTML `<span>` snippets representing users assigned to a ticket in edit mode.
- * Fetches user-specific styling information concurrently and renders each user's initials with styling.
- *
- * @async
- * @param {string} title - The ticket title.
- * @param {string} description - A description of the ticket.
- * @param {string} priority - Priority level (e.g. "low", "medium", "high").
- * @param {string[]} assignedTo - Array of full names of users assigned to the ticket.
- * @param {Array<object>} subtasks - Array of subtask objects related to the ticket.
- * @param {number} index - Zero-based index of the ticket in the list or UI.
- * @param {string} mode - Mode identifier indicating how the ticket is being edited.
- * @returns {Promise<string[]>} A promise resolving to an array of `<span>` HTML strings,
- * each showing a user's initials, styled dynamically, and with a data-name attribute.
- * @throws {Error} If any call to `getUserDetails(user)` fails.
- */
-async function editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
-  let userSpansArray = await Promise.all(
-    assignedTo.map(async (user, i) => {
-      let renderedUserBgIndex = await getUserDetails(user);
-      let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase();
-      return `<span data-name="${user}" class="user-icon-rendered User-bc-${safeIndex} user-icon-selected">${initials}</span>`;
-    })
-  );
+const getEditTicketUserSpansArrayTemplate = (user, safeIndex, initials) => {
+  return /*html*/ `
+    <span data-name="${user}" class="user-icon-rendered User-bc-${safeIndex} user-icon-selected">${initials}</span>
+  `;
+};
 
-  let userSpans = userSpansArray.join("");
+const getEditTicketSubtaskEleTemplate = (subtask, i, dataTicketIndex, dataTicketCounterId, dataMode) => {
+  return /*html*/ `
+    <li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+      ${subtask.text}
+      <div class="li-buttons hide">
+        <button data-index="${i}" onclick="editSubtaskInEditMenu(this)">
+          <img src="./assets/icon/pencil.svg">
+        </button>
+        <div class="add-task-form-divider"></div>
+        <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+          <img src="./assets/icon/bin.svg">
+        </button>
+      </div>
+    </li>
+  `;
+};
 
-  let subtaskEle = subtasks
-    .map((subtask, i) => {
-      return `<li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
-                ${subtask.text}
-                <div class="li-buttons hide">
-                  <button data-index="${i}" onclick="editSubtaskInEditMenu(this)">
-                      <img src="./assets/icon/pencil.svg">
-                  </button>
-                  <div class="add-task-form-divider"></div>
-                  <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
-                      <img src="./assets/icon/bin.svg">
-                  </button>
-                </div>
-              </li>
-      `;
-    })
-    .join("");
-  subtaskEditArray = [];
-  subtasks.forEach((subtask) => subtaskEditArray.push(subtask.text));
-  console.log(subtaskEditArray.length);
-
-  document.getElementById("subtask-render-div").innerHTML = "";
-  document.getElementById("board-task-edit").innerHTML = /*html*/ `
+const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode) => {
+  return /*html*/ `
   <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
     <div class="add-task-text-div" id="edit-add-task-text-div">
         <div class="span-div">
@@ -362,24 +279,16 @@ async function editTicket(title, description, dateForEditOverlay, priority, assi
         ${subtaskEle}
         </ul>
     </div>
-    <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(); checkEditedValues(this)">Ok</button>
+    <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(this); checkEditedValues(this)">Ok</button>
   `;
-  document.querySelectorAll(".set-priority").forEach((ele) => {
-    if (ele.innerText.toLowerCase().trim() === priority) {
-      ele.classList.add(priority);
-      buttonPriority = priority;
-    } else {
-      ele.classList.remove(ele.innerText.toLowerCase().trim());
-    }
-  });
-}
+};
 
 function getRenderTasksTemplate() {
-  return `
+  return /*html*/ `
              <div onclick="goToBoardHtml()" class="toDo-and-done">
               <div class="to-do">
-                <a href=""
-                  ><svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
+                <a href="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
                     <circle class="change-circle-color" cx="34.5" cy="35" r="34.5" fill="#2A3647" />
                     <mask
                       id="mask0_319113_6282"
@@ -398,16 +307,17 @@ function getRenderTasksTemplate() {
                         d="M25.1667 44.3332H27.0333L38.5333 32.8332L36.6667 30.9665L25.1667 42.4665V44.3332ZM44.2333 30.8998L38.5667 25.2998L40.4333 23.4332C40.9444 22.9221 41.5722 22.6665 42.3167 22.6665C43.0611 22.6665 43.6889 22.9221 44.2 23.4332L46.0667 25.2998C46.5778 25.8109 46.8444 26.4276 46.8667 27.1498C46.8889 27.8721 46.6444 28.4887 46.1333 28.9998L44.2333 30.8998ZM42.3 32.8665L28.1667 46.9998H22.5V41.3332L36.6333 27.1998L42.3 32.8665Z"
                         fill="white"
                       />
-                    </g></svg
-                ></a>
+                    </g>
+                  </svg>
+                </a>
                 <div class="center">
                   <h3>${toDos}</h3>
                   <p>To-do</p>
                 </div>
               </div>
               <div onclick="goToBoardHtml()" class="done">
-                <a href=""
-                  ><svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
+                <a href="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
                     <circle class="change-circle-color" cx="35" cy="35" r="34.5" fill="#2A3647" />
                     <path
                       class="change-contents-color"
@@ -416,8 +326,9 @@ function getRenderTasksTemplate() {
                       stroke-width="7"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    /></svg
-                ></a>
+                    />
+                  </svg>
+                </a>
                 <div  class="center">
                   <h3>${done}</h3>
                   <p>Done</p>
@@ -461,6 +372,82 @@ function getRenderTasksTemplate() {
                 </p>
               </div>
             </div>
-    
-    `;
+  `;
+}
+
+function addSubtaskRenderDiv(subtaskValue, subtaskCounter) {
+  return /*html*/  `
+  <li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+      ${subtaskValue} 
+      <div class="li-buttons hide">
+          <button data-index="${subtaskCounter}" onclick="editSubtask(this)">
+              <img src="./assets/icon/pencil.svg">
+          </button>
+          <div class="add-task-form-divider"></div>
+          <button data-index="${subtaskCounter}" onclick="deleteSubtask(this, '${subtaskValue}')">
+              <img src="./assets/icon/bin.svg">
+          </button>
+      </div>
+  </li>
+  `;
+}
+
+function editSubtaskRender(listValue, dataId) {
+  return /*html*/ `   
+  <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
+  <div class="edit-subtask-div li-buttons">
+      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
+          <img src="./assets/icon/bin.svg">
+      </button>
+      <div class="add-task-form-divider"></div>
+      <button data-index="${dataId}"  onclick="confirmEditedSubtask(this, '${listValue}', '${dataId}-${listValue}', '${listValue}-${dataId}')">
+          <img src="./assets/icon/check.png">
+      </button>
+  </div>
+  `;
+}
+
+function editSubtaskInEditMenuRender(listValue, dataId) {
+  return /*html*/ `   
+  <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
+  <div class="edit-subtask-div li-buttons">
+      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
+          <img src="./assets/icon/bin.svg">
+      </button>
+      <div class="add-task-form-divider"></div>
+      <button data-index="${dataId}"  onclick="confirmEditedSubtaskInEditMenu(this, '${listValue}', '${dataId}-${listValue}', '${listValue}-${dataId}')">
+          <img src="./assets/icon/check.png">
+      </button>
+  </div>
+  `;
+}
+
+function confirmEditedSubtaskRender(subtaskArrayText, listId, dataId) {
+  return /*html*/ `
+  ${subtaskArrayText}
+    <div class="li-buttons hide" id="buttons-${listId}">
+    <button data-index="${dataId}" onclick="editSubtask(this)">
+        <img src="./assets/icon/pencil.svg">
+    </button>
+    <div class="add-task-form-divider"></div>
+    <button data-index="${dataId}" onclick="deleteSubtask(this)">
+        <img src="./assets/icon/bin.svg">
+    </button>
+  </div>
+  `;
+}
+
+function confirmEditedSubtaskInEditMenuRender(inputText, listId, dataIndex) {
+  return /*html*/ `
+  ${inputText}
+  <div class="li-buttons hide" id="buttons-${listId}">
+  <button data-index="${dataIndex}" onclick="editSubtask(this)">
+      <img src="./assets/icon/pencil.svg">
+  </button>
+  <div class="add-task-form-divider"></div>
+  <button data-index="${dataIndex}" onclick="deleteSubtask(this)">
+      <img src="./assets/icon/bin.svg">
+  </button>
+  </div>
+  `;
 }
