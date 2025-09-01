@@ -172,3 +172,39 @@ const loginAsGuest = () => {
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   window.location.href = "summary.html";
 };
+
+/*document.addEventListener("DOMContentLoaded", () => {
+  const nameInput = document.getElementById("name-input-sign-up");
+  const emailInput = document.getElementById("email-input-sign-up");
+  const passwordInput = document.getElementById("password-input-sign-up");
+  const confirmInput = document.getElementById("confirm-input-sign-up");
+  const checkbox = document.getElementById("checkbox-input-sign-up");
+  const signUpBtn = document.getElementById("sign-up-btn");
+
+  function validateForm() {
+    const nameValid = nameInput.value.trim() !== "";
+    const emailValid = emailInput.value.trim() !== "";
+    const passwordValid = passwordInput.value.trim() !== "";
+    const confirmValid = confirmInput.value.trim() !== "";
+    const checkboxChecked = checkbox.checked;
+
+    // Button aktivieren, wenn alles passt
+    signUpBtn.disabled = !(nameValid && emailValid && passwordValid && confirmValid && checkboxChecked);
+  }
+
+  // Event Listener für alle Inputs + Checkbox
+  [nameInput, emailInput, passwordInput, confirmInput, checkbox].forEach(el => {
+    el.addEventListener("input", validateForm);
+    el.addEventListener("change", validateForm);
+  });
+})*/
+
+function validateForm() {
+if(document.getElementById("name-input-sign-up").value.trim()){
+  console.log(document.getElementById("sign-up-btn").disabled);
+  document.getElementById("sign-up-btn").disabled = true;
+  console.log(document.getElementById("sign-up-btn").disabled);
+  
+  
+}
+}

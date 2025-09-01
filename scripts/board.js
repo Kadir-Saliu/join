@@ -23,8 +23,8 @@ let allTickets = JSON.parse(getTickets);
 /**
  * function to open/close the addTask pop-up
  */
-function popUpAddTask(ele) {
-  const isHidden = ele.classList.contains("hide");
+function popUpAddTask(ele, columnVal) {
+    const isHidden = ele.classList.contains("hide");
   if (
     document.getElementById("board-task-information").className === "hide" &&
     document.getElementById("board-task-edit").className === ""
@@ -44,7 +44,8 @@ function popUpAddTask(ele) {
       ele.classList.add("hide");
       overlay.classList.add("hide");
     }, 200);
-  }
+  }  
+  document.getElementById("create-task-button").dataset.column = columnVal || "To do";
 }
 
 /**
