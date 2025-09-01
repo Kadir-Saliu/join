@@ -26,6 +26,7 @@ async function summaryInit() {
 async function boardInit() {
   loadNavigationAndSetInitials();
   getTicketData();
+  toggleNoTaskContainer();
   renderTickets();
   minDate();
 }
@@ -64,6 +65,11 @@ async function getTicketData() {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
+     if (!responseJson.ticket || Object.keys(responseJson.ticket).length === 0) {
+      console.warn("Keine Tickets gefunden.");
+      localStorage.setItem("tickets", JSON.stringify([]));
+      return {};
+     }
     tickets = responseJson.ticket;
     let result = Object.values(tickets);
     localStorage.setItem("tickets", JSON.stringify(result));

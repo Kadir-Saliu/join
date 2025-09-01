@@ -25,14 +25,19 @@ const upcomingTickets = sortedTickets.filter(
 );
 
 const nextTicket = upcomingTickets[0];
-
-const earliestDate = nextTicket.date;
-const earliestDateToDate = new Date(earliestDate)
-const earliestDateYear = earliestDate.substring(0, 4);
-const earliestDateDay = earliestDate.substring(8, 10);
-const earliestDateMonth = earliestDate.substring(5, 7);
-const fullMonth = earliestDateToDate.toLocaleDateString("de-DE", { month: "long" });
-const deadline = `${fullMonth} ${earliestDateDay}. ${earliestDateYear}`;
+let deadline = "Keine Deadline verfügbar";
+if (upcomingTickets.length === 0) {
+  console.warn("Keine kommenden Tickets vorhanden.");
+} else {
+    const nextTicket = upcomingTickets[0];
+  const earliestDate = nextTicket.date;
+  const earliestDateToDate = new Date(earliestDate);
+  const earliestDateYear = earliestDate.substring(0, 4);
+  const earliestDateDay = earliestDate.substring(8, 10);
+  const earliestDateMonth = earliestDate.substring(5, 7);
+  const fullMonth = earliestDateToDate.toLocaleDateString("de-DE", {month: "long",});
+  deadline = `${fullMonth} ${earliestDateDay}. ${earliestDateYear}`;
+}
 
 function renderTasks() {
   const allTasks = document.querySelector(".all-tasks");

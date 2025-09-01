@@ -267,12 +267,8 @@ async function saveChangedTicketInFirbase() {
  */
 function toggleNoTaskContainer() {
   let allTicketsToDo = allTickets.filter((obj) => obj.column == "To do");
-  let allTicketsProgress = allTickets.filter(
-    (obj) => obj.column == "In progress"
-  );
-  let allTicketsFeedback = allTickets.filter(
-    (obj) => obj.column == "Await feedback"
-  );
+  let allTicketsProgress = allTickets.filter((obj) => obj.column == "In progress");
+  let allTicketsFeedback = allTickets.filter((obj) => obj.column == "Await feedback");
   let allTicketsDone = allTickets.filter((obj) => obj.column == "done");
   checkTicketsForToggle(allTicketsToDo, "noTasksToDo");
   checkTicketsForToggle(allTicketsProgress, "noTasksProgress");
