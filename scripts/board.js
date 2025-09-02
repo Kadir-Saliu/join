@@ -23,7 +23,8 @@ let allTickets = JSON.parse(getTickets);
 /**
  * function to open/close the addTask pop-up
  */
-function popUpAddTask(ele) {
+function popUpAddTask(ele,columnV) {
+  columnVal = columnV
   const isHidden = ele.classList.contains("hide");
   if (
     document.getElementById("board-task-information").className === "hide" &&
