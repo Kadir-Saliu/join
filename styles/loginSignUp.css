@@ -287,6 +287,12 @@ input:-webkit-autofill {
   border-radius: 8px;
 }
 
+#btn-sign-up:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;     
+  opacity: 0.6;             
+}
+
 @keyframes slideMessage {
   0% {
     transform: translateX(-100vw);

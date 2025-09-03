@@ -131,9 +131,9 @@ async function changeDropDownArrow(id) {
 
 function checkRequiredInput(columnValue, validation) {
     let hasError = false;
-    checkRequiredInputTaskTitle();
-    checkRequiredInputTaskDate();
-    checkRequiredInputCategory();
+    if (checkRequiredInputTaskTitle()) hasError = true;
+    if (checkRequiredInputTaskDate()) hasError = true;
+    if (checkRequiredInputCategory()) hasError = true;
     if (!hasError && validation) {
         createNewTicket(columnValue);
     }
@@ -143,10 +143,11 @@ function checkRequiredInputTaskTitle() {
     if (!taskTitle.value) {
         document.getElementById("missing-title-info").classList.remove("hide");
         taskTitle.style.border = "1px solid red";
-        hasError = true;
+        return true;
     } else {
         document.getElementById("missing-title-info").classList.add("hide");
         taskTitle.style.border = "";
+        return false;
     }
 }
 
@@ -154,10 +155,11 @@ function checkRequiredInputTaskDate() {
     if (!taskDate.value) {
         document.getElementById("missing-date-info").classList.remove("hide");
         taskDate.style.border = "1px solid red";
-        hasError = true;
+        return true;
     } else {
         document.getElementById("missing-date-info").classList.add("hide");
         taskDate.style.border = "";
+        return false;
     }
 }
 
@@ -165,10 +167,11 @@ function checkRequiredInputCategory() {
     if (document.getElementById("category-button").innerText === "Select task category") {
         document.getElementById("missing-category-info").classList.remove("hide");
         document.getElementById("category-button").style.border = "1px solid red";
-        hasError = true;
+        return true;
     } else {
         document.getElementById("missing-category-info").classList.add("hide");
         document.getElementById("category-button").style.border = "";
+        return false;
     }
 }
 

@@ -7,6 +7,13 @@ function addDisplayToContent() {
   document.getElementById("footer").classList.remove("animation-hide");
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("sign-up-btn");
+  setTimeout(() => {
+    btn.removeAttribute("disabled");
+  }, 2500);
+});
+
 /**
  * switching from-log in menu to sign-up menu and vice versa
  */
@@ -73,6 +80,8 @@ async function checkUserDataInput(event) {
     return;
   }
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
+    console.log("?");
+    
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
@@ -94,7 +103,12 @@ async function signUpUser() {
       Password: document.getElementById("password-input-sign-up").value,
     };
     loggedInUser.username = newUser.name;
-    loggedInUser.initals = newUser.name.split(" ")[0][0] + newUser.name.split(" ")[1][0];
+    const nameParts = newUser.name.trim().split(" ");
+    if (nameParts.length >= 2) {
+      loggedInUser.initals = nameParts[0][0] + nameParts[1][0];
+    } else {
+      loggedInUser.initals = nameParts[0][0];
+  }
     localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   } else {
     document.getElementById("missing-checkbox-info-sign-up").innerText = "You need to accept the Privacy policy to continue.";
@@ -111,7 +125,8 @@ async function saveUserToFirebase(userData) {
   try {
     let response = await fetch(BASE_URL_USERS);
     let contacts = await response.json();
-    let newId = contacts.length;
+    let responseJson = Object.values(contacts);    
+    let newId = responseJson.length;
     userData.id = newId;
     await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
       method: "PUT",
@@ -172,3 +187,18 @@ const loginAsGuest = () => {
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   window.location.href = "summary.html";
 };
+
+function checkSignUpValues() {
+  const nameInput = document.getElementById("name-input-sign-up").value.trim();
+  const emailInput = document.getElementById("email-input-sign-up").value.trim();
+  const passwordInput = document.getElementById("password-input-sign-up").value.trim();
+  const confirmInput = document.getElementById("confirm-input-sign-up").value.trim();
+  const checkbox = document.getElementById("checkbox-input-sign-up").checked;
+  const btn = document.getElementById("btn-sign-up");
+
+  if (nameInput === "" || emailInput === "" || passwordInput === "" || confirmInput === "" || !checkbox) {
+    btn.setAttribute("disabled", "disabled");
+  } else {
+    btn.removeAttribute("disabled");
+  }
+}
