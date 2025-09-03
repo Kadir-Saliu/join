@@ -31,8 +31,8 @@ const getTicketTemplate = (index, title, description, category, categoryCss, pri
       onclick="popUpAddTask(popuptask); renderTicketOverlay(this)"
     >
       <div class="task-type ${categoryCss}">${category}</div>
-      <h4>${title}</h4>
-      <p>${description}</p>
+      <h4 class="content-limitation">${title}</h4>
+      <p class="content-limitation">${description}</p>
       <div id="p-subtask-${index}" class="subtask-progress-div hide">
         <div class="subtask-progress-grey-div">
           <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>

@@ -232,6 +232,20 @@ button {
   margin-top: -16px;
 }
 
+.content-limitation {
+  width: 10vw;
+  white-space: nowrap;   
+  overflow: hidden;       
+  text-overflow: ellipsis;
+}
+
+.pop-up-margin-b-25 {
+  width: 25vw;
+  white-space: nowrap;   
+  overflow: hidden;       
+  text-overflow: ellipsis;
+}
+
 /* individual background-colors */
 
 .user-story {
