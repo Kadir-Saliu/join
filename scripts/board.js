@@ -7,18 +7,14 @@ const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
 const today = `${year}-${month.length === 2 ? month : "0" + month}-${day}`;
-
 let subtaskCount = 0;
 let subtaskWidth = 0;
 let subtaskEditArray = [];
-
 let dataTicketIndex;
 let dataTicketCounterId;
 let dataMode;
 let getTickets = localStorage.getItem('tickets')
 let allTickets = JSON.parse(getTickets);
-
-
 
 /**
  * function to open/close the addTask pop-up

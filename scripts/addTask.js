@@ -47,8 +47,6 @@ function setCategory(category, idButton, idDropDown) {
     document.getElementById(idDropDown).classList.add("hide");
 }
 
-
-
 /**
  * Fetches user data from the server and populates a dropdown menu with the retrieved contacts.
  * Also updates the dropdown arrow UI.
@@ -92,6 +90,14 @@ async function filterUsers(id, renderId, inputId) {
     }
 }
 
+/**
+ * Iterates over a list of users and updates a dropdown element with users whose names match the input value.
+ *
+ * @param {Array<Object>} users - Array of user objects, each containing at least a 'name' and 'id' property.
+ * @param {string} dropDownId - The ID of the dropdown element to update.
+ * @param {string} renderId - The ID used for rendering user templates.
+ * @param {string} inputId - The ID of the input element used for filtering users by name.
+ */
 function iterateUsers(users, dropDownId, renderId, inputId) {
     let name;
     let initials;
@@ -107,6 +113,14 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
     });
 }
 
+/**
+ * Iterates over a list of contacts and renders each contact into a specified DOM element.
+ * Each contact is displayed using a template with their name, initials, and a background index.
+ * 
+ * @param {Array<Object>} responseJson - Array of contact objects, each containing at least a 'name' property.
+ * @param {string} id - The ID of the DOM element to render the contacts into.
+ * @param {string} renderId - An identifier passed to the userDropDownTemplate for rendering purposes.
+ */
 async function iterateContacts(responseJson, id, renderId) {
     document.getElementById(id).classList.toggle("hide");
     document.getElementById(id).innerHTML = "";
@@ -121,6 +135,11 @@ async function iterateContacts(responseJson, id, renderId) {
     }
 }
 
+/**
+ * Toggles the source image of a dropdown arrow between "arrow_down" and "arrow_up".
+ * 
+ * @param {string} id - The ID of the image element whose source should be toggled.
+ */
 async function changeDropDownArrow(id) {
     if(document.getElementById(id).src.includes("arrow_down")) {
         document.getElementById(id).src = "./assets/imgs/arrow_up.png"
@@ -129,6 +148,13 @@ async function changeDropDownArrow(id) {
     }
 };
 
+/**
+ * Checks if all required input fields for a task are valid.
+ * If all required fields are valid and validation is true, creates a new ticket.
+ *
+ * @param {*} columnValue - The value to be used when creating a new ticket.
+ * @param {boolean} validation - Flag indicating whether to proceed with ticket creation if inputs are valid.
+ */
 function checkRequiredInput(columnValue, validation) {
     let hasError = false;
     if (checkRequiredInputTaskTitle()) hasError = true;
@@ -139,6 +165,12 @@ function checkRequiredInput(columnValue, validation) {
     }
 }
 
+/**
+ * Checks if the task title input is empty and updates the UI accordingly.
+ * Displays a warning message and highlights the input field if the title is missing.
+ *
+ * @returns {boolean} Returns true if the task title is missing, otherwise false.
+ */
 function checkRequiredInputTaskTitle() {
     if (!taskTitle.value) {
         document.getElementById("missing-title-info").classList.remove("hide");
@@ -151,6 +183,13 @@ function checkRequiredInputTaskTitle() {
     }
 }
 
+/**
+ * Checks if the task date input is provided.
+ * If not, displays a missing date info message and highlights the input border in red.
+ * If provided, hides the missing date info message and resets the input border.
+ *
+ * @returns {boolean} Returns true if the task date input is missing, otherwise false.
+ */
 function checkRequiredInputTaskDate() {
     if (!taskDate.value) {
         document.getElementById("missing-date-info").classList.remove("hide");
@@ -163,6 +202,13 @@ function checkRequiredInputTaskDate() {
     }
 }
 
+/**
+ * Checks if the required task category input has been selected.
+ * If not selected, displays a warning and highlights the category button.
+ * If selected, hides the warning and removes the highlight.
+ *
+ * @returns {boolean} Returns true if the category is missing, false otherwise.
+ */
 function checkRequiredInputCategory() {
     if (document.getElementById("category-button").innerText === "Select task category") {
         document.getElementById("missing-category-info").classList.remove("hide");
@@ -195,6 +241,14 @@ async function createNewTicket(columnValue) {
     await saveTaskToFirebase(newTicket, ticketCounter);
 }
 
+/**
+ * Builds a ticket object with the provided details.
+ *
+ * @param {number} ticketCounter - Unique identifier for the ticket.
+ * @param {string} columnValue - The column/category the ticket belongs to.
+ * @param {Array<string>} selectedUsers - Array of users assigned to the ticket.
+ * @returns {Object} The constructed ticket object containing title, description, date, priority, assigned users, category, subtasks, column, and id.
+ */
 function buildTicket(ticketCounter, columnValue, selectedUsers) {
   return {
     title: taskTitle.value,
@@ -281,8 +335,6 @@ function hoverButtons(ele) {
     ele.firstElementChild.classList.remove("hide");
 }
 
-
-
 /**
  * Hides the first child element of the given element by adding the "hide" class.
  *
@@ -291,8 +343,6 @@ function hoverButtons(ele) {
 function removeHoverButtons(ele) {
     ele.firstElementChild.classList.add("hide");
 }
-
-
 
 /**
  * Clears all input fields and resets the task creation form to its default state.
@@ -314,8 +364,6 @@ function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
     document.getElementById("subtask").value = "";
 }
 
-
-
 /**
  * Resets the priority selection by clearing the buttonPriority variable
  * and removing all priority-related CSS classes ("urgent", "medium", "low")
@@ -326,8 +374,6 @@ function resetPriority() {
     let buttons = document.querySelectorAll(".priority-button");
     buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
 }
-
-
 
 /**
  * Deletes a subtask from the subtask array and removes its corresponding DOM element.
@@ -347,6 +393,16 @@ function deleteSubtask(ele, liVal) {
     ele.parentElement.parentElement.remove();
 }
 
+/**
+ * Saves a task to Firebase by storing ticket data and updating the ticket counter.
+ * Calls a pass-along function after successful operations.
+ *
+ * @async
+ * @function
+ * @param {Object} ticketData - The data of the ticket to be saved.
+ * @param {number} ticketCounter - The current ticket counter value.
+ * @returns {Promise<void>} Resolves when the task is saved and counter updated.
+ */
 async function saveTaskToFirebase(ticketData, ticketCounter) {
   try {
     await saveTicketData(ticketData, ticketCounter);
@@ -357,6 +413,14 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
   }
 }
 
+/**
+ * Saves ticket data to the Firebase Realtime Database at the specified ticket counter.
+ *
+ * @async
+ * @param {Object} ticketData - The data of the ticket to be saved.
+ * @param {number|string} ticketCounter - The unique identifier for the ticket.
+ * @returns {Promise<void>} A promise that resolves when the ticket data has been saved.
+ */
 async function saveTicketData(ticketData, ticketCounter) {
   await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
     method: "PUT",
@@ -367,6 +431,15 @@ async function saveTicketData(ticketData, ticketCounter) {
   });
 }
 
+/**
+ * Updates the ticket counter value in the Firebase Realtime Database.
+ *
+ * Sends a PUT request to the specified Firebase endpoint to update the ticketCounter value.
+ *
+ * @async
+ * @param {number} ticketCounter - The new value for the ticket counter to be stored in the database.
+ * @returns {Promise<void>} A promise that resolves when the update is complete.
+ */
 async function updateTicketCounter(ticketCounter) {
   await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`, {
     method: "PUT",
@@ -377,6 +450,11 @@ async function updateTicketCounter(ticketCounter) {
   });
 }
 
+/**
+ * Handles the UI feedback and navigation after saving a task to Firebase.
+ * Shows a feedback message, updates browser history, retrieves ticket data,
+ * and redirects to the board page after a delay. Also hides popup and overlay elements if present.
+ */
 function saveTaskToFirebasePassalong() {    
     addedUserfeedback.classList.remove("hide");
     addedUserfeedback.classList.add("show");
@@ -391,12 +469,24 @@ function saveTaskToFirebasePassalong() {
     if(bordOverlay) bordOverlay.classList.add("hide");
 }
 
+/**
+ * Clears the value of the subtask input field and hides related UI elements.
+ *
+ * @param {string} subtaskId - The ID of the subtask input element to clear.
+ */
 function clearSubtaskValue(subtaskId) {
     document.getElementById(subtaskId).value = "";
     document.getElementById("subtask-clear-button").classList.add("hide");
     document.getElementById("subtask-button-div-divider").classList.add("hide");
 }
 
+/**
+ * Shows or hides the subtask clear button and divider based on the input element's value.
+ * If the input is not empty, removes the "hide" class to display the elements.
+ * If the input is empty, adds the "hide" class to hide the elements.
+ *
+ * @param {HTMLInputElement} inputElement - The input element to check for a non-empty value.
+ */
 function removeHideOnInput(inputElement) {
   if (inputElement.value.trim() !== "") {
     document.getElementById("subtask-clear-button").classList.remove("hide");
@@ -407,6 +497,11 @@ function removeHideOnInput(inputElement) {
   }
 }
 
+/**
+ * Enables editing mode for a subtask element by updating its attributes and rendering the edit UI.
+ *
+ * @param {HTMLElement} ele - The element that triggered the edit action, typically an edit button within the subtask.
+ */
 function editSubtask(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
@@ -416,6 +511,13 @@ function editSubtask(ele) {
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");   
 }
 
+/**
+ * Edits a subtask in the edit menu by updating its DOM element.
+ * Removes mouse event attributes, sets a new ID, replaces its inner HTML with an edit form,
+ * and adds the "edit-div" class for styling.
+ *
+ * @param {HTMLElement} ele - The element that triggered the edit, typically an edit button within the subtask.
+ */
 function editSubtaskInEditMenu(ele) {
     let liVal = ele.parentElement.parentElement.innerText;
     ele.parentElement.parentElement.removeAttribute("onmouseenter");
@@ -425,6 +527,15 @@ function editSubtaskInEditMenu(ele) {
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div"); 
 }
 
+/**
+ * Confirms the editing of a subtask, updates its value in the arrays, 
+ * removes the input element, and re-renders the subtask list item.
+ *
+ * @param {HTMLElement} ele - The element that triggered the edit confirmation, containing dataset info.
+ * @param {string} liVal - The current value of the subtask list item.
+ * @param {string} inputId - The ID of the input element used for editing.
+ * @param {string} liId - The ID of the list item element to update.
+ */
 function confirmEditedSubtask(ele, liVal, inputId, liId) {
     let index = subtaskValue.indexOf(liVal);
     subtaskArray[index].text = document.getElementById(inputId).value;
@@ -437,6 +548,14 @@ function confirmEditedSubtask(ele, liVal, inputId, liId) {
     document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div"); 
 }
 
+/**
+ * Confirms the editing of a subtask in the edit menu by updating the DOM elements accordingly.
+ *
+ * @param {HTMLElement} ele - The element representing the subtask being edited, containing a dataset index.
+ * @param {string} liVal - The base value or identifier for the list item.
+ * @param {string} inputId - The ID of the input element containing the edited subtask text.
+ * @param {string} liId - The ID of the list item element to update.
+ */
 function confirmEditedSubtaskInEditMenu(ele, liVal, inputId, liId) {
     let inputText = document.getElementById(inputId).value;
     document.getElementById(inputId).remove();

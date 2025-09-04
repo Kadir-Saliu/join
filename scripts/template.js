@@ -19,6 +19,20 @@ function userDropDownTemplate(name, inititals, index, id) {
   `;
 }
 
+/**
+ * Generates an HTML template string for a kanban ticket/task.
+ *
+ * @param {number} index - The index of the ticket in the list.
+ * @param {string} title - The title of the ticket.
+ * @param {string} description - The description of the ticket.
+ * @param {string} category - The category of the ticket.
+ * @param {string} categoryCss - The CSS class for the ticket category.
+ * @param {string} priority - The priority of the ticket (used for icon).
+ * @param {Array} subtasks - Array of subtasks associated with the ticket.
+ * @param {number|string} ticketCounterId - Unique identifier for the ticket.
+ * @param {string} userSpans - HTML string representing assigned users.
+ * @returns {string} HTML string representing the ticket template.
+ */
 const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans) => {
   return /*html*/ `
     <div
@@ -47,6 +61,12 @@ const getTicketTemplate = (index, title, description, category, categoryCss, pri
   `;
 };
 
+/**
+ * Generates an HTML template containing a letter and a horizontal rule.
+ *
+ * @param {string} inital - The initial letter to display in the template.
+ * @returns {string} The HTML string for the template.
+ */
 function getInitialTemplate(inital) {
   return /*html*/ `
     <div class="letter">${inital}</div>
@@ -54,6 +74,16 @@ function getInitialTemplate(inital) {
   `;
 }
 
+/**
+ * Generates an HTML template string for displaying a contact.
+ *
+ * @param {string} initials - The initials of the contact.
+ * @param {string} userName - The name of the contact.
+ * @param {string} email - The email address of the contact.
+ * @param {string|number} phone - The phone number of the contact.
+ * @param {string|number} contactIconId - The identifier for the contact's icon/background color.
+ * @returns {string} The HTML template string representing the contact.
+ */
 function getContactTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
     <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone}, ${contactIconId}, this)" class="contact" data-contact="${userName}">
@@ -66,6 +96,16 @@ function getContactTemplate(initials, userName, email, phone, contactIconId) {
   `;
 }
 
+/**
+ * Generates an HTML template string for displaying contact details.
+ *
+ * @param {string} initials - The initials of the contact.
+ * @param {string} userName - The name of the contact.
+ * @param {string} email - The email address of the contact.
+ * @param {string} phone - The phone number of the contact.
+ * @param {string|number} contactIconId - The identifier used for the contact's icon background color.
+ * @returns {string} The HTML template string for the contact details.
+ */
 function getContactDetailsTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
     <div class="contact-information-mt">
@@ -96,6 +136,15 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
   `;
 }
 
+/**
+ * Generates the HTML content for the edit contact overlay.
+ *
+ * @param {string} initials - The initials of the contact to display.
+ * @param {string} userName - The name of the contact to prefill in the input.
+ * @param {string} email - The email of the contact to prefill in the input.
+ * @param {string} phone - The phone number of the contact to prefill in the input.
+ * @returns {string} The HTML string for the edit contact overlay.
+ */
 function getEditOverlayContentTemplate(initials, userName, email, phone) {
   return /*html*/ `
   <img class="close-icon" src="./assets/icon/close.svg" alt="" onclick="closeEditOverlay()" />
@@ -152,6 +201,15 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
   `;
 }
 
+/**
+ * Generates an HTML template string for a subtask list item in ticket details.
+ *
+ * @param {number} i - The index of the subtask in the list.
+ * @param {{ checked: boolean, text: string }} subtask - The subtask object containing its checked state and text.
+ * @param {number} index - The index of the ticket.
+ * @param {number|string} ticketCounterId - The unique identifier for the ticket counter.
+ * @returns {string} The HTML string representing the subtask list item.
+ */
 const getRenderTicketDetailsSubtaskEleTemplate = (i, subtask, index, ticketCounterId) => {
   return /*html*/ `
     <li><input data-index="${i}" ${
@@ -160,6 +218,14 @@ const getRenderTicketDetailsSubtaskEleTemplate = (i, subtask, index, ticketCount
   `;
 };
 
+/**
+ * Generates an HTML template string for rendering ticket user details.
+ *
+ * @param {number|string} safeIndex - A safe index used for generating a unique CSS class for the user icon.
+ * @param {string} initials - The initials of the user to display inside the user icon.
+ * @param {string} user - The full name or identifier of the user to display.
+ * @returns {string} An HTML string representing the user details section.
+ */
 const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user) => {
   return /*html*/ `
     <div class="ticket-detail-user-div">
@@ -169,6 +235,21 @@ const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user)
   `;
 };
 
+/**
+ * Generates an HTML template string for rendering ticket details in a pop-up.
+ *
+ * @param {string} category - The category of the ticket.
+ * @param {string} categoryColor - The CSS class for the category color.
+ * @param {string} title - The title of the ticket.
+ * @param {string} description - The description of the ticket.
+ * @param {string} date - The due date of the ticket.
+ * @param {string} priority - The priority level of the ticket.
+ * @param {number} index - The index of the ticket in the list.
+ * @param {number|string} ticketCounterId - The unique identifier for the ticket.
+ * @param {string} userSpans - HTML string representing assigned users.
+ * @param {string} subtaskEle - HTML string representing subtasks.
+ * @returns {string} The HTML template string for the ticket details pop-up.
+ */
 const getRenderTicketDetailsTemplate = (
   category,
   categoryColor,
@@ -211,12 +292,32 @@ const getRenderTicketDetailsTemplate = (
     </div>`;
 };
 
+/**
+ * Generates an HTML span element string representing a user icon for editing tickets.
+ *
+ * @param {string} user - The name or identifier of the user.
+ * @param {number|string} safeIndex - A safe index used for generating a unique class name.
+ * @param {string} initials - The initials to display inside the span.
+ * @returns {string} An HTML string for the user icon span element.
+ */
 const getEditTicketUserSpansArrayTemplate = (user, safeIndex, initials) => {
   return /*html*/ `
     <span data-name="${user}" class="user-icon-rendered User-bc-${safeIndex} user-icon-selected">${initials}</span>
   `;
 };
 
+/**
+ * Generates an HTML template string for a subtask list item in the edit ticket menu.
+ *
+ * @param {Object} subtask - The subtask object containing details for rendering.
+ * @param {string} subtask.text - The display text of the subtask.
+ * @param {string|number} subtask.value - The unique value or identifier of the subtask.
+ * @param {number} i - The index of the subtask in the list.
+ * @param {number|string} dataTicketIndex - The index of the ticket being edited.
+ * @param {number|string} dataTicketCounterId - The counter ID associated with the ticket.
+ * @param {string} dataMode - The current mode (e.g., 'edit', 'view') for the ticket.
+ * @returns {string} HTML string representing the subtask list item.
+ */
 const getEditTicketSubtaskEleTemplate = (subtask, i, dataTicketIndex, dataTicketCounterId, dataMode) => {
   return /*html*/ `
     <li class="subtask-li" data-index="${i}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
@@ -234,6 +335,19 @@ const getEditTicketSubtaskEleTemplate = (subtask, i, dataTicketIndex, dataTicket
   `;
 };
 
+/**
+ * Generates the HTML template for editing a ticket.
+ *
+ * @param {string} title - The title of the ticket.
+ * @param {string} description - The description of the ticket.
+ * @param {string} dateForEditOverlay - The due date for the ticket in 'YYYY-MM-DD' format.
+ * @param {string} userSpans - HTML string representing assigned user elements.
+ * @param {string} subtaskEle - HTML string representing subtask elements.
+ * @param {number} index - The index of the ticket being edited.
+ * @param {string|number} ticketCounterId - The unique identifier for the ticket.
+ * @param {string} mode - The mode in which the template is rendered (e.g., 'edit', 'view').
+ * @returns {string} HTML string for the edit ticket overlay.
+ */
 const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode) => {
   return /*html*/ `
   <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
@@ -283,6 +397,25 @@ const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans
   `;
 };
 
+/**
+ * Generates an HTML template string for rendering task statistics on the dashboard.
+ *
+ * The template includes sections for:
+ * - To-do and Done tasks
+ * - Urgent tasks and upcoming deadlines
+ * - Tasks in board, in progress, and awaiting feedback
+ *
+ * The template expects the following variables to be defined in the scope:
+ * - toDos: Number of to-do tasks
+ * - done: Number of completed tasks
+ * - urgentTickets: Number of urgent tasks
+ * - deadline: Upcoming deadline (string or date)
+ * - currentTickets: Array of current tickets/tasks
+ * - inProgress: Number of tasks in progress
+ * - awaitFeedback: Number of tasks awaiting feedback
+ *
+ * @returns {string} HTML template string for rendering the dashboard task statistics.
+ */
 function getRenderTasksTemplate() {
   return /*html*/ `
              <div onclick="goToBoardHtml()" class="toDo-and-done">
@@ -375,6 +508,13 @@ function getRenderTasksTemplate() {
   `;
 }
 
+/**
+ * Generates an HTML string for rendering a subtask list item with edit and delete buttons.
+ *
+ * @param {string} subtaskValue - The text value of the subtask to display.
+ * @param {number} subtaskCounter - The index or identifier for the subtask, used for button data attributes.
+ * @returns {string} The HTML string representing the subtask list item.
+ */
 function addSubtaskRenderDiv(subtaskValue, subtaskCounter) {
   return /*html*/  `
   <li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
@@ -392,6 +532,13 @@ function addSubtaskRenderDiv(subtaskValue, subtaskCounter) {
   `;
 }
 
+/**
+ * Renders the HTML for editing a subtask, including input field and action buttons.
+ *
+ * @param {string} listValue - The value of the subtask to be edited.
+ * @param {string|number} dataId - The unique identifier for the subtask.
+ * @returns {string} The HTML string for the editable subtask element.
+ */
 function editSubtaskRender(listValue, dataId) {
   return /*html*/ `   
   <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
@@ -407,6 +554,13 @@ function editSubtaskRender(listValue, dataId) {
   `;
 }
 
+/**
+ * Renders the HTML for editing a subtask in the edit menu.
+ *
+ * @param {string} listValue - The value of the subtask to be edited.
+ * @param {string|number} dataId - The unique identifier for the subtask.
+ * @returns {string} The HTML string for the subtask edit input and action buttons.
+ */
 function editSubtaskInEditMenuRender(listValue, dataId) {
   return /*html*/ `   
   <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
@@ -422,6 +576,14 @@ function editSubtaskInEditMenuRender(listValue, dataId) {
   `;
 }
 
+/**
+ * Renders the HTML for a subtask item with edit and delete buttons.
+ *
+ * @param {string} subtaskArrayText - The HTML string representing the subtask content.
+ * @param {string|number} listId - The unique identifier for the subtask list.
+ * @param {string|number} dataId - The unique identifier for the subtask item.
+ * @returns {string} The HTML string for the subtask item with action buttons.
+ */
 function confirmEditedSubtaskRender(subtaskArrayText, listId, dataId) {
   return /*html*/ `
   ${subtaskArrayText}
@@ -437,6 +599,14 @@ function confirmEditedSubtaskRender(subtaskArrayText, listId, dataId) {
   `;
 }
 
+/**
+ * Generates HTML markup for a subtask item in the edit menu, including edit and delete buttons.
+ *
+ * @param {string} inputText - The text content of the subtask.
+ * @param {string|number} listId - The unique identifier for the subtask list.
+ * @param {number} dataIndex - The index of the subtask in the data array.
+ * @returns {string} The HTML string representing the subtask item with edit and delete controls.
+ */
 function confirmEditedSubtaskInEditMenuRender(inputText, listId, dataIndex) {
   return /*html*/ `
   ${inputText}
