@@ -8,6 +8,11 @@ function addDisplayToContent() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  /**
+   * Represents the "Sign Up" button element in the DOM. Used to avoid conflicts with the login Div.
+   * Used to handle user interactions for signing up.
+   * @type {HTMLButtonElement}
+   */
   const btn = document.getElementById("sign-up-btn");
   setTimeout(() => {
     btn.removeAttribute("disabled");
@@ -80,8 +85,6 @@ async function checkUserDataInput(event) {
     return;
   }
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
-    console.log("?");
-    
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
@@ -90,31 +93,45 @@ async function checkUserDataInput(event) {
   await signUpUser();
 }
 
+
 /**
- * check privacy policy confirmation and sign up user
- * @returns
+ * Handles the user sign-up process.
+ * Checks if the privacy policy checkbox is accepted before proceeding.
+ * If accepted, retrieves new user data and saves it to Firebase.
+ * Displays an error message if the checkbox is not checked.
+ *
+ * @async
+ * @function signUpUser
+ * @returns {Promise<void>} Resolves when the user is saved or the process is halted due to missing checkbox acceptance.
  */
 async function signUpUser() {
-  let newUser;
-  if (document.getElementById("checkbox-input-sign-up").checked) {
-    newUser = {
-      name: document.getElementById("name-input-sign-up").value,
-      Email: document.getElementById("email-input-sign-up").value,
-      Password: document.getElementById("password-input-sign-up").value,
-    };
-    loggedInUser.username = newUser.name;
-    const nameParts = newUser.name.trim().split(" ");
-    if (nameParts.length >= 2) {
-      loggedInUser.initals = nameParts[0][0] + nameParts[1][0];
-    } else {
-      loggedInUser.initals = nameParts[0][0];
-  }
-    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-  } else {
-    document.getElementById("missing-checkbox-info-sign-up").innerText = "You need to accept the Privacy policy to continue.";
+  if (!document.getElementById("checkbox-input-sign-up").checked) {
+    document.getElementById("missing-checkbox-info-sign-up").innerText =
+      "You need to accept the Privacy policy to continue.";
     return;
   }
+  const newUser = getNewUserData();
   await saveUserToFirebase(newUser);
+}
+
+/**
+ * Retrieves new user data from sign-up input fields, updates the `loggedInUser` object with the username and initials,
+ * stores it in localStorage, and returns the new user data.
+ *
+ * @returns {Object} An object containing the new user's name, email, and password.
+ */
+function getNewUserData() {
+  const newUser = {
+    name: document.getElementById("name-input-sign-up").value.trim(),
+    Email: document.getElementById("email-input-sign-up").value.trim(),
+    Password: document.getElementById("password-input-sign-up").value.trim(),
+  };
+  loggedInUser.username = newUser.name;
+  const nameParts = newUser.name.split(" ");
+  if (nameParts.length >= 2) loggedInUser.initals = nameParts[0][0] + nameParts[1][0];
+  else  loggedInUser.initals = nameParts[0][0];
+  localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+  return newUser;
 }
 
 /**
@@ -123,17 +140,13 @@ async function signUpUser() {
  */
 async function saveUserToFirebase(userData) {
   try {
-    let response = await fetch(BASE_URL_USERS);
-    let contacts = await response.json();
-    let responseJson = Object.values(contacts);    
-    let newId = responseJson.length;
-    userData.id = newId;
+    const response = await fetch(BASE_URL_USERS);
+    const contacts = await response.json();
+    const newId = Object.keys(contacts || {}).length;
     await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...userData, id: newId }),
     });
     showSuccessAnimationAndRedirect();
   } catch (error) {
@@ -179,6 +192,12 @@ function showSuccessAnimationAndRedirect() {
   }, 3500);
 }
 
+/**
+ * Logs in the user as a guest by setting a default user object,
+ * storing it in localStorage, and redirecting to the summary page.
+ *
+ * @function
+ */
 const loginAsGuest = () => {
   loggedInUser = {
     username: "Guest User",
@@ -188,6 +207,13 @@ const loginAsGuest = () => {
   window.location.href = "summary.html";
 };
 
+/**
+ * Validates the sign-up form input fields and enables or disables the sign-up button accordingly.
+ * 
+ * Checks if all required fields (name, email, password, confirm password) are filled and the terms checkbox is checked.
+ * If any field is empty or the checkbox is not checked, the sign-up button is disabled.
+ * Otherwise, the sign-up button is enabled.
+ */
 function checkSignUpValues() {
   const nameInput = document.getElementById("name-input-sign-up").value.trim();
   const emailInput = document.getElementById("email-input-sign-up").value.trim();
