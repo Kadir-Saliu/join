@@ -6,6 +6,11 @@ const name = document.getElementById("contactName");
 const email = document.getElementById("contactEmail");
 const phone = document.getElementById("contactPhone");
 
+/**
+ * Iterates over the global `contacts` array and pushes each contact's
+ * `firebaseKey` (converted to an integer) into the global `firebaseKeys` array,
+ * if the contact has a `firebaseKey` property.
+ */
 const cacheFirebaseKeys = () => {
   contacts.forEach((contact) => {
     if (contact.firebaseKey) {
