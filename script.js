@@ -8,6 +8,20 @@ let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
 };
 let tickets;
 
+/**
+ * Initializes the application by loading HTML, clearing user data, and handling animations.
+ *
+ * This function performs the following steps:
+ * 1. Includes HTML content via `includeHTML()`.
+ * 2. Removes the current user from localStorage using `removeUserfromLocalStorage()`.
+ * 3. Schedules `addDisplayToContent()` to run after a 2.5-second delay.
+ * 4. Adds an event listener to the logo element to trigger `addDisplayToContent()` 
+ *    when its animation ends.
+ *
+ * @async
+ * @function init
+ * @returns {Promise<void>} - Resolves after the HTML is loaded and event listeners are set.
+ */
 async function init() {
   await includeHTML();
   removeUserfromLocalStorage();
@@ -18,11 +32,36 @@ async function init() {
   });
 }
 
+/**
+ * Initializes the summary page by loading navigation, greeting the user, and rendering tasks.
+ *
+ * This function calls `loadNavigationAndGreetUser()` to include the navigation HTML,
+ * highlight the current page, and greet the user. It then calls `renderTasks()` 
+ * to display all tasks on the summary page.
+ *
+ * @async
+ * @function summaryInit
+ * @returns {Promise<void>} - Resolves after navigation is loaded and tasks are rendered.
+ */
 async function summaryInit() {
   loadNavigationAndGreetUser();
   renderTasks();
 }
 
+/**
+ * Initializes the board page by setting up navigation, loading tickets, and rendering content.
+ *
+ * This function performs the following steps:
+ * 1. Calls `loadNavigationAndSetInitials()` to load the navigation and display user initials.
+ * 2. Retrieves ticket data via `getTicketData()`.
+ * 3. Updates the visibility of the "no tasks" container using `toggleNoTaskContainer()`.
+ * 4. Renders all tickets on the board with `renderTickets()`.
+ * 5. Sets the minimum date for relevant date inputs using `minDate()`.
+ *
+ * @async
+ * @function boardInit
+ * @returns {Promise<void>} - Resolves after the board is fully initialized and tickets are rendered.
+ */
 async function boardInit() {
   loadNavigationAndSetInitials();
   getTicketData();
@@ -31,10 +70,31 @@ async function boardInit() {
   minDate();
 }
 
+/**
+ * Initializes the "Add Task" page by loading navigation and displaying user initials.
+ *
+ * This function calls `loadNavigationAndSetInitials()` to include the navigation
+ * HTML and show the current user's initials.
+ *
+ * @async
+ * @function addTaskInit
+ * @returns {Promise<void>} - Resolves after navigation is loaded and initials are set.
+ */
 async function addTaskInit() {
   loadNavigationAndSetInitials();
 }
 
+/**
+ * Initializes the contacts page by loading navigation, displaying user initials, and showing contacts.
+ *
+ * This function performs the following steps:
+ * 1. Calls `loadNavigationAndSetInitials()` to include the navigation HTML and display the current user's initials.
+ * 2. Calls `showContacts()` to render the list of contacts on the page.
+ *
+ * @async
+ * @function contactsInit
+ * @returns {Promise<void>} - Resolves after navigation is loaded and contacts are displayed.
+ */
 async function contactsInit() {
   loadNavigationAndSetInitials();
   showContacts();
@@ -66,7 +126,6 @@ async function getTicketData() {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
      if (!responseJson.ticket || Object.keys(responseJson.ticket).length === 0) {
-      console.warn("Keine Tickets gefunden.");
       localStorage.setItem("tickets", JSON.stringify([]));
       return {};
      }
@@ -191,6 +250,17 @@ function highlightPageInNav() {
   });
 }
 
+/**
+ * Loads the navigation HTML, highlights the current page, and greets the user.
+ *
+ * This function first includes the navigation HTML via `includeHTML()`, then
+ * highlights the active page in the navigation using `highlightPageInNav()`,
+ * and finally displays a greeting to the user with `greetUser()`.
+ *
+ * @async
+ * @function loadNavigationAndGreetUser
+ * @returns {Promise<void>} - Resolves after the navigation is loaded, the page is highlighted, and the user is greeted.
+ */
 async function loadNavigationAndGreetUser() {
   await includeHTML();
   highlightPageInNav();
@@ -227,6 +297,9 @@ function setProfileInitials() {
   }
 }
 
+/**
+ * Redirects the current page to 'board.html' in the same directory.
+ */
 function goToBoardHtml() {
   location.href = "./board.html";
 }
@@ -247,7 +320,6 @@ async function getUserDetails(user) {
     let response = await fetch(BASE_URL_USERS);
     let responseJson = await response.json();
     let users = Object.values(responseJson || {}).filter((u) => u !== null);
-
     let foundUser = users.find((u) => u.name === user);
     return foundUser ? foundUser.id : 0;
   } catch (error) {

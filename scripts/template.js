@@ -86,7 +86,7 @@ function getInitialTemplate(inital) {
  */
 function getContactTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
-    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', ${phone}, ${contactIconId}, this)" class="contact" data-contact="${userName}">
+    <div onclick="showContactsDetails('${initials}','${userName}', '${email}', '${phone}', '${contactIconId}', this)" class="contact" data-contact="${userName}">
         <div class="contact-initials User-bc-${contactIconId}">${initials}</div>
         <div class="contact-details">
             <div class="contact-list-name">${userName}</div>
@@ -620,4 +620,32 @@ function confirmEditedSubtaskInEditMenuRender(inputText, listId, dataIndex) {
   </button>
   </div>
   `;
+}
+
+/**
+ * Generates the HTML markup for a new subtask list item in the edit menu.
+ * The subtask is rendered with edit and delete buttons, and uses values from the DOM and global variables.
+ *
+ * @returns {string} The HTML string representing the new subtask list item.
+ */
+function addNewSubtaskRender() {
+  return /*html*/ `
+  <li class="subtask-li" data-index="${
+    subtaskEditArray.length - 1
+  }" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+    ${document.getElementById("edit-subtask").value}
+    <div class="li-buttons hide">
+      <button data-index="${
+        subtaskEditArray.length - 1
+      }" onclick="editSubtaskInEditMenu(this)">
+          <img src="./assets/icon/pencil.svg">
+      </button>
+      <div class="add-task-form-divider"></div>
+      <button data-index="${
+        subtaskEditArray.length - 1
+      }" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+          <img src="./assets/icon/bin.svg">
+      </button>
+    </div>
+  </li>`;
 }
