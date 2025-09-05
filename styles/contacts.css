@@ -541,6 +541,10 @@ hr {
     width: 100%;
   }
 
+  #icon-img {
+    transform: translateY(35%);
+  }
+
   #header-contacts {
     display: none;
   }
