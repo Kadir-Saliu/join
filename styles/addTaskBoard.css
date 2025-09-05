@@ -240,6 +240,11 @@
   transition: opacity 0.2s ease;
 }
 
+.add-task-select-div {
+  overflow: scroll;
+  max-height: 100%;
+}
+
 /* Animationen */
 @keyframes slideInFromLeft {
   from {
@@ -271,4 +276,52 @@
 .pop-up.slide-out {
   animation: slideOutToRight 0.2s forwards;
   pointer-events: none;
+}
+
+@media (max-width: 840px) {
+  #add-task-pop-up {
+    padding: 24px;
+  }
+  .add-task-form {
+    flex-direction: column;
+    overflow: scroll;
+  }
+
+  .add-task-form-divider {
+    display: none;
+  }
+
+  .add-task-text-div,
+  .add-task-select-div {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 24px;
+  }
+
+  .bottom-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  #clear-task-button,
+  #create-task-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  #required-div p{
+    display: none;
+  }
+
+  #button-div {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    width: 25%
+  }
+
+  #clear-task-button {
+    margin-bottom: 24px;
+  }
 }
