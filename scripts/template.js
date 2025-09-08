@@ -115,11 +115,11 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
             <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}')" class="align-icon-and-text">
-              <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
+              <img class="edit-delete-icons" src="./assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
             <div onclick="deleteContactFromDatabase()" class="align-icon-and-text">
-              <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
+              <img class="edit-delete-icons" src="./assets/icon/delete_contact.svg" alt="">
               <span>Delete</span>
             </div>
           </div>

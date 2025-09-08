@@ -241,7 +241,6 @@
 }
 
 .add-task-select-div {
-  overflow: scroll;
   max-height: 100%;
 }
 
