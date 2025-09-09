@@ -150,7 +150,7 @@ hr {
   font-size: 47px;
   color: white;
   background-color: aqua;
-  width: 90px;
+  min-width: 90px;
   height: 90px;
   border-radius: 50%;
   display: flex;
@@ -281,8 +281,11 @@ hr {
 .contact-inputs {
   display: flex;
   flex-direction: column;
-  gap: 32px;
   padding: 20px;
+}
+
+.contact-inputs div {
+  margin-top: 24px;
 }
 
 .contact-inputs > div {
@@ -431,7 +434,7 @@ hr {
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1130px) {
   .big-logo {
     display: none;
   }
@@ -456,6 +459,16 @@ hr {
   .header-and-icon h2,
   .help-person-icon a {
     display: none;
+  }
+
+  .initials-and-username {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .contact-information-initials {
+    width: 90px;
   }
 
   main {
@@ -547,7 +560,18 @@ hr {
 
   #header-contacts {
     display: none;
+    position: relative;
   }
+
+  #leave-contact-details-btn {
+  position: absolute;
+  top: 1.5rem;   /* Abstand von oben */
+  right: 0; /* Abstand von rechts */
+  background-color: transparent; /* optional: Hintergrund entfernen */
+  border: none;                   /* optional: Rahmen entfernen */
+  font-size: 1.5rem;              /* z. B. für ein "X"-Icon */
+  cursor: pointer;
+}
 
   #addContactOverlay {
     flex-direction: column;
@@ -615,6 +639,11 @@ hr {
   .account-nav-render-div {
     top: 8vh !important;
   }
+}
+
+.contact-error {
+  color: red;
+  font-size: 12px !important;
 }
 
 @media (max-width: 1215px) {

@@ -108,6 +108,7 @@ function getContactTemplate(initials, userName, email, phone, contactIconId) {
  */
 function getContactDetailsTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
+    <img src="./assets/icon/arrow-left-line.svg" alt="" id="leave-contact-details-btn" onclick="hideContactDetails()"  class="hide">
     <div class="contact-information-mt">
       <div class="initials-and-username">
         <span class="contact-information-initials User-bc-${contactIconId}">${initials}</span>
@@ -115,11 +116,11 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
             <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}')" class="align-icon-and-text">
-              <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
+              <img class="edit-delete-icons" src="./assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
             <div onclick="deleteContactFromDatabase()" class="align-icon-and-text">
-              <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
+              <img class="edit-delete-icons" src="./assets/icon/delete_contact.svg" alt="">
               <span>Delete</span>
             </div>
           </div>
@@ -168,6 +169,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
             />
             <img src="./assets/icon/user_grey.svg" alt="" class="icon" />
           </div>
+          <p id="name-error-msg-edit" class="contact-error hide">Please enter a valid Name.</p>
           <div>
             <input
               id="editContactEmail"
@@ -180,6 +182,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
             />
             <img src="./assets/icon/mail-icon-grey.svg" alt="" class="icon" />
           </div>
+          <p id="email-error-msg-edit" class="contact-error hide">Please enter a valid Email.</p>
           <div>
             <input
               id="editContactPhone"
@@ -192,9 +195,10 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
             />
             <img src="./assets/icon/call-grey.svg" alt="" class="icon" />
           </div>
+          <p id="phone-error-msg-edit" class="contact-error hide">Please enter a valid german Phone number.</p>
           <div class="contact-inputs-buttons">
             <button onclick="deleteContactFromDatabase()" class="cancel-button">Delete</button>
-            <button onclick="saveEditedContactToDatabase()" class="create-contact-button">Save &#10003;</button>
+            <button onclick="saveEditedContactToDatabase('name-error-msg-edit', 'email-error-msg-edit', 'phone-error-msg-edit')" class="create-contact-button">Save &#10003;</button>
           </div>
         </div>
       </div>

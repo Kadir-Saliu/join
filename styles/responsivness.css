@@ -93,6 +93,17 @@
         width: 90px;
     }
 
+    .user-account {
+        width: 48px;
+        height: 48px;
+    }
+
+    #contact-logo-div,
+    #contact-logo-div img {
+        width: 64px;
+        height: 64px;
+    }
+
     #main {
         width: 90%;
     }
