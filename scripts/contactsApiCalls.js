@@ -76,3 +76,37 @@ const deleteContactFromDatabase = async () => {
   });
   finishEdit();
 };
+
+/**
+ * Displays the contact details header as an overlay.
+ *
+ * This function makes the `#header-contacts` element visible and positions it
+ * as a fixed overlay between 8vh from the top and 10vh from the bottom of the viewport.  
+ * It also sets styling such as background color and z-index to ensure it appears
+ * above other content. Additionally, it reveals the "leave contact details" button.
+ *
+ * @function popUpContactDetails
+ * @returns {void} - No return value, modifies DOM elements directly.
+ */
+const popUpContactDetails = () => {
+  const header = document.getElementById("header-contacts");
+  if (header) {
+    header.style.display = "flex";
+    header.style.position = "fixed";
+    header.style.top = "8vh";      // beginnt 8% unterhalb vom oberen Rand
+    header.style.bottom = "10vh";  // endet 10% oberhalb vom unteren Rand
+    header.style.left = "0";
+    header.style.right = "0";
+    header.style.zIndex = "9999";  // sorgt dafür, dass es über allem liegt
+    header.style.backgroundColor = "rgb(246, 247, 248)"; // optional, damit nichts durchscheint
+    document.getElementById("leave-contact-details-btn").classList.remove("hide");
+  }
+};
+
+/**
+ * Hides the contact details section by setting its display style to "none".
+ * Targets the element with the ID "header-contacts".
+ */
+const hideContactDetails = () => {
+  document.getElementById("header-contacts").style.display = "none";
+}

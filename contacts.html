@@ -36,19 +36,22 @@
             <input id="contactName" class="contact-input" type="text" placeholder="Name" spellcheck="false" required />
             <img src="./assets/icon/user_grey.svg" alt="" id="icon-img" class="icon" />
           </div>
+          <p id="name-error-msg" class="contact-error hide">Please enter a valid Name.</p>
           <div>
             <input id="contactEmail" class="contact-input" type="text" placeholder="Email" spellcheck="false" required />
             <img src="./assets/icon/mail-icon-grey.svg" alt="" class="icon" />
           </div>
+          <p id="email-error-msg" class="contact-error hide">Please enter a valid Email.</p>
           <div>
             <input id="contactPhone" class="contact-input" type="text" placeholder="Phone" spellcheck="false" required />
             <img src="./assets/icon/call-grey.svg" alt="" class="icon" />
           </div>
+          <p id="phone-error-msg" class="contact-error hide">Please enter a valid german Phone number.</p>
 
           <div class="contact-inputs-buttons">
             <button onclick="closeAddContactOverlay()" id="cancel-full-screen" class="cancel-button">Cancel x</button>
             <button onclick="closeAddContactOverlay()" id="cancel-mobile" class="cancel-button">X</button>
-            <button onclick="addContactToDatabase()" class="create-contact-button">Create contact &#10003;</button>
+            <button onclick="addContactToDatabase('name-error-msg', 'email-error-msg', 'phone-error-msg')" class="create-contact-button">Create contact &#10003;</button>
           </div>
         </div>
       </div>

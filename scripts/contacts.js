@@ -80,12 +80,8 @@ const renderContacts = (sortedContacts, contactsRef) => {
  * @param {HTMLElement} clickedElement - The clicked contact element.
  */
 const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
-  document.querySelectorAll(".contact").forEach((contact) => {
-    contact.classList.remove("active");
-  });
-  document.querySelectorAll(".contact-initials").forEach((contactInitials) => {
-    contactInitials.classList.remove("active");
-  });
+  document.querySelectorAll(".contact").forEach((contact) => contact.classList.remove("active"));
+  document.querySelectorAll(".contact-initials").forEach((contactInitials) => contactInitials.classList.remove("active"));
   clickedElement.classList.add("active");
   const initialsElement = clickedElement.querySelector(".contact-initials");
   initialsElement.classList.add("active");
@@ -93,6 +89,7 @@ const showContactsDetails = (initials, userName, email, phone, contactIconId, cl
   contactDetailsRef.innerHTML = "";
   contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
   contactDetailsRef.classList.add("active");
+  if (window.innerWidth <= 1130) popUpContactDetails();
 };
 
 /**
@@ -129,6 +126,9 @@ const closeAddContactOverlay = () => {
   contactOverlayRef.classList.remove("active");
   contactOverlayRef.classList.add("d_none");
   document.querySelector(".body-background-overlay").classList.add("d_none");
+  document.getElementById("name-error-msg").classList.add("hide");
+  document.getElementById("email-error-msg").classList.add("hide");
+  document.getElementById("phone-error-msg").classList.add("hide");
 };
 
 /**
@@ -199,11 +199,11 @@ document.querySelector(".add-contact-button").addEventListener("click", (event) 
  * @function addContactToDatabase
  * @returns {Promise<void>}
  */
-const addContactToDatabase = async () => {
+const addContactToDatabase = async (nameVal, emailVal, phoneVal) => {
   const nameValue = name.value;
   const emailValue = email.value;
   const phoneValue = phone.value;
-  if (!overlayValidation(nameValue, emailValue, phoneValue)) return;
+  if (!overlayValidation(nameValue, emailValue, phoneValue, nameVal, emailVal, phoneVal)) return;
   let newContact = { name: nameValue, email: emailValue, phone: phoneValue };
   await putNewContactToDatabase(newContact);
   closeAddContactOverlay();
@@ -277,13 +277,13 @@ const clearEditForm = () => {
  * @function
  * @returns {Promise<void>} Resolves when the contact has been updated and the UI refreshed.
  */
-const saveEditedContactToDatabase = async () => {
+const saveEditedContactToDatabase = async (nameVal, emailVal, phoneVal) => {
   const contactName = document.querySelector(".contact-information-username").innerText;
   const contact = contacts.find((contact) => contact.name === contactName);
   const editedName = document.getElementById("editContactName").value.trim();
   const editedEmail = document.getElementById("editContactEmail").value;
   const editedPhone = document.getElementById("editContactPhone").value;
-  if (!overlayValidation(editedName, editedEmail, editedPhone)) return;
+  if (!overlayValidation(editedName, editedEmail, editedPhone, nameVal, emailVal, phoneVal)) return;
   const editedContact = { name: editedName, email: editedEmail, phone: editedPhone };
   await putEditedContactToDatabase(editedContact, contact);
   finishEdit();
@@ -313,17 +313,52 @@ const validateFullName = (name) => {
  * - Validates that the name contains both first and last name using validateFullName()
  * - Shows appropriate German error messages via alert() if validation fails
  */
-const overlayValidation = (editedName, editedEmail, editedPhone) => {
-  if (!editedName || !editedEmail || !editedPhone) {
-    alert("Bitte fülle alle Felder aus.");
-    return false;
-  }
+const overlayValidation = (editedName, editedEmail, editedPhone, nameVal, emailVal, phoneVal) => {
+  let isValid = true;
   if (!validateFullName(editedName)) {
-    alert("Bitte gib Vor- und Nachname ein (z.B. 'Max Mustermann').");
+    document.getElementById(nameVal).classList.remove("hide");
+    isValid = false;
+  } else document.getElementById(nameVal).classList.add("hide");
+  if (!validateEmail(editedEmail)) {
+    document.getElementById(emailVal).classList.remove("hide");
+    isValid = false;
+  } else document.getElementById(emailVal).classList.add("hide");
+  if (!validatePhoneNumber(editedPhone)) {
+    document.getElementById(phoneVal).classList.remove("hide");
+    isValid = false;
+  } else document.getElementById(phoneVal).classList.add("hide");
+  return isValid;
+};
+
+/**
+ * Validates whether the given string is a properly formatted email address.
+ *
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} Returns true if the email is valid, otherwise false.
+ */
+const validateEmail = (email) => {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
     return false;
   }
   return true;
-};
+}
+
+/**
+ * Validates a German phone number.
+ *
+ * Accepts numbers starting with +49, 0049, or 0, followed by a valid mobile prefix (15, 16, or 17) and 7-8 digits.
+ *
+ * @param {string} phone - The phone number to validate.
+ * @returns {boolean} True if the phone number is valid, false otherwise.
+ */
+const validatePhoneNumber = (phone) => {
+  const phoneRegex = /^(?:\+49|0049|0)(1[5-7][0-9]\d{7,8})$/;
+  if (!phoneRegex.test(phone)) {
+    return false;
+  }
+  return true;
+}
 
 /**
  * Finalizes the contact editing process by clearing the contact details display,
