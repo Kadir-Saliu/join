@@ -190,6 +190,20 @@ function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
     subtaskArray = [];
     document.getElementById(subtaskList).innerHTML = "";
     document.getElementById("subtask").value = "";
+    clearValidationFeedback();
+}
+
+/**
+ * Clears validation feedback from the task creation form.
+ * Hides missing field info messages and resets input borders for title, date, and category fields.
+ */
+function clearValidationFeedback() {
+  document.getElementById("missing-title-info").classList.add("hide");
+  taskTitle.style.border = "";
+  document.getElementById("missing-date-info").classList.add("hide");
+  taskDate.style.border = "";
+  document.getElementById("missing-category-info").classList.add("hide");
+  document.getElementById("category-button").style.border = "";
 }
 
 /**

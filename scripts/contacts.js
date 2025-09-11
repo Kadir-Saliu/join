@@ -353,7 +353,7 @@ const validateEmail = (email) => {
  * @returns {boolean} True if the phone number is valid, false otherwise.
  */
 const validatePhoneNumber = (phone) => {
-  const phoneRegex = /^(?:\+49|0049|0)(1[5-7][0-9]\d{7,8})$/;
+  const phoneRegex = /^\+?[1-9]\d{7,14}$/;
   if (!phoneRegex.test(phone)) {
     return false;
   }

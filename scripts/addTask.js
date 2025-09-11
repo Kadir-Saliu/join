@@ -1,7 +1,7 @@
 const taskTitle = document.getElementById("task-title");
 const taskDescription = document.getElementById("task-description");
 const taskDate = document.getElementById("task-date");
-let buttonPriority;
+let buttonPriority = "medium";
 let buttonCategory;
 const subtask = document.getElementById("subtask");
 let subtaskArray = [];
@@ -41,7 +41,6 @@ async function dropDownUsers(id, renderId, imgId) {
     }
 }
 
-
 /**
  * Iterates over a list of contact objects and renders each contact's name and initials
  * into a specified DOM element using a template function. The background index cycles
@@ -56,7 +55,8 @@ async function filterUsers(id, renderId, inputId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let responseJson = await response.json();
-        iterateUsers(responseJson, id, renderId, inputId);
+        let responseJsonValues = Object.values(responseJson);
+        iterateUsers(responseJsonValues, id, renderId, inputId);
     } catch (error) {
         console.log(error);
     }
@@ -75,12 +75,14 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
     let initials;
     let id;
     document.getElementById(dropDownId).innerHTML = "";
+    if (document.getElementById(dropDownId).classList.contains("hide")) document.getElementById(dropDownId).classList.remove("hide");
     users.forEach(user => {
         if(user?.name.toLowerCase().includes(document.getElementById(inputId).value.toLowerCase())) {
             name = user?.name;
             id= user?.id;
-            initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
-            document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId); 
+            initials = name.split(" ").map(n => n[0]).join("").toUpperCase();  
+            let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+            document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId, isSelected); 
         }  
     });
 }
@@ -103,7 +105,8 @@ async function iterateContacts(responseJson, id, renderId) {
         if(backgroundIndex > 14) backgroundIndex = 1;
         else backgroundIndex ++;
         let initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
-        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId);   
+        let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected);   
     }
 }
 

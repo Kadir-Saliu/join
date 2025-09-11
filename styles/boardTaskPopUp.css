@@ -56,6 +56,11 @@
     flex-direction: column;
 }
 
+#assigned-users-div {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
 .pop-up-margin-b-10 {
     margin-bottom: 10px;
 }

@@ -19,7 +19,7 @@
 .contacts-details {
   display: flex;
   flex-direction: column;
-  margin-left: 55px;
+  margin-left: 5%;
   transform: translate(100vw, 0);
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -33,7 +33,7 @@
   align-items: center;
   margin-top: 106px;
   gap: 30px;
-  margin-left: 52px;
+  margin-left: 5%;
 }
 
 .contacts-header img {
@@ -200,6 +200,7 @@ hr {
 .initials-and-username {
   display: flex;
   gap: 100px;
+  padding-right: 30px;
 }
 
 .d_none {
@@ -434,7 +435,7 @@ hr {
   }
 }
 
-@media (max-width: 1130px) {
+@media (max-width: 1160px) {
   .big-logo {
     display: none;
   }
@@ -527,6 +528,11 @@ hr {
 
   .contacts-page {
     width: 100%;
+  }
+
+  #contactDetails {
+    width: 100%;
+    margin-right: 5%;
   }
 
   .contacts-container {

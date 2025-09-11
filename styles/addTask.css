@@ -3,7 +3,7 @@ main {
   width: calc(100% - 232px);
   margin-left: 232px;
   padding-left: 100px;
-  padding-right: 100px;
+  margin-right: 7%;
   padding-top: 100px;
 }
 
@@ -213,7 +213,7 @@ textarea {
   max-height: 240px;
 }
 
-#drop-down-users div {
+#drop-down-users label {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -223,22 +223,27 @@ textarea {
   cursor: pointer;
 }
 
-#drop-down-users div span {
+#drop-down-users label span {
   margin-left: 16px !important;
 }
 
-#drop-down-users div p {
+#drop-down-users label p {
   margin-bottom: 0 !important;
   margin-left: 16px;
 }
 
-#drop-down-users div:hover {
+#drop-down-users label:hover {
   background-color: rgb(246, 247, 248);
 }
 
-#drop-down-users div input {
+#drop-down-users label input {
   margin-right: 16px;
   cursor: pointer;
+}
+
+#drop-down-users label div {
+  display: flex;
+  align-items: center;
 }
 
 .user-icon {
