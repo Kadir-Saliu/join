@@ -7,15 +7,15 @@
  * @param {string|number} id - The unique identifier for the user, used in the checkbox onclick handler.
  * @returns {string} The HTML string representing the user dropdown item.
  */
-function userDropDownTemplate(name, inititals, index, id) {
+function userDropDownTemplate(name, inititals, index, id, isSelected) {  
   return /*html*/ `
-    <div>
+    <label>
       <div>
         <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
         <p>${name}</p>
       </div>
-      <input type="checkbox" class="user-checkbox" value="${name}" onclick="renderSelectedUsers('${id}')">
-    </div>
+      <input type="checkbox" class="user-checkbox" value="${name}" ${isSelected ? "checked" : ""} onclick="renderSelectedUsers('${id}')">
+</label>
   `;
 }
 
@@ -195,7 +195,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
             />
             <img src="./assets/icon/call-grey.svg" alt="" class="icon" />
           </div>
-          <p id="phone-error-msg-edit" class="contact-error hide">Please enter a valid german Phone number.</p>
+          <p id="phone-error-msg-edit" class="contact-error hide">Please enter a valid Phone number.</p>
           <div class="contact-inputs-buttons">
             <button onclick="deleteContactFromDatabase()" class="cancel-button">Delete</button>
             <button onclick="saveEditedContactToDatabase('name-error-msg-edit', 'email-error-msg-edit', 'phone-error-msg-edit')" class="create-contact-button">Save &#10003;</button>

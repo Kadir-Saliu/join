@@ -312,7 +312,9 @@
         display: flex;
         justify-content: space-around;
         flex-direction: row !important;
-        margin-bottom: 10vh;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        gap: 24px;
     }
 
     /* board.html */

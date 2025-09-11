@@ -3,7 +3,7 @@
     top: 50px;
     background-color: white;
     padding: 30px;
-    width: 400px;
+    width: 60vw;
 }
 
 #board-task-information {
@@ -54,6 +54,11 @@
 
 #assigned-users-div, #subtasks-div {
     flex-direction: column;
+}
+
+#assigned-users-div {
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
 .pop-up-margin-b-10 {

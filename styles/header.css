@@ -28,7 +28,7 @@ header h2 {
 }
 
 .help-person-icon {
-  padding-right: 30px;
+  margin-right: 5%;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -52,4 +52,10 @@ header h2 {
 
 .user-account:hover {
   background-color: rgb(219, 219, 219);
+}
+
+@media (min-width: 1920px) {
+  .help-person-icon {
+    margin-right: 0;
+  }
 }

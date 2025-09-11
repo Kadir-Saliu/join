@@ -19,7 +19,7 @@
 
     <header template="header.html" class="header-responsive"></header>
 
-    <main>
+    <main class="mw1920">
       <h1>Add Task</h1>
       <div class="add-task-form">
         <div class="add-task-text-div">
@@ -27,7 +27,7 @@
             <p>Title</p>
             <span>*</span>
           </div>
-          <input type="text" placeholder="Enter a title" id="task-title" oninput="checkRequiredInput('none', false)"/>
+          <input type="text" placeholder="Enter a title" id="task-title"/>
           <p class="missing-value hide" id="missing-title-info">This field is required</p>
           <p>Description</p>
           <textarea name="" id="task-description" placeholder="Enter a Description"></textarea>
@@ -35,7 +35,7 @@
             <p>Due date</p>
             <span>*</span>
           </div>
-          <input type="date" id="task-date" oninput="checkRequiredInput('none', false)"/>
+          <input type="date" id="task-date"/>
           <p class="missing-value hide" id="missing-date-info">This field is required</p>
         </div>
         <div class="add-task-form-divider"></div>
@@ -45,7 +45,7 @@
             <button class="priority-button" onclick="setPriority('urgent', this)">
               Urgent<img src="./assets/icon/red-arrows.svg" alt="" />
             </button>
-            <button class="priority-button" onclick="setPriority('medium', this)">
+            <button class="priority-button medium" onclick="setPriority('medium', this)">
               Medium <img src="./assets/icon/orange-same.svg" alt="" />
             </button>
             <button class="priority-button" onclick="setPriority('low', this)">
@@ -71,7 +71,7 @@
             <p>Category</p>
             <span>*</span>
           </div>
-          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img'); checkRequiredInput('none', false)">
+          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img')">
             Select task category
             <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
           </button>

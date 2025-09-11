@@ -323,4 +323,24 @@
   #clear-task-button {
     margin-bottom: 24px;
   }
+
+  #required-div-mobile {
+    margin-top: 24px;
+    display: flex;
+  }
+
+  #required-div {
+    display: none;
+  }
+
+  .add-task-form {
+    height: 50vh;
+    margin-bottom: 24px;
+  }
+}
+
+@media (min-width: 840px) {
+    .add-task-select-div {
+        overflow-y: scroll;
+    }
 }

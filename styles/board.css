@@ -180,6 +180,10 @@ button {
   display: flex;
 }
 
+.assigned-users div > :nth-child(n+6) {
+  display: none;
+}
+
 .user-icon {
   display: flex;
   align-items: center;
@@ -245,6 +249,17 @@ button {
   overflow: hidden;       
   text-overflow: ellipsis;
 }
+
+#drop-down-users-board label {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+#drop-down-users-board label:hover {
+  background-color: rgb(246, 247, 248);
+}
+
 
 /* individual background-colors */
 
@@ -839,5 +854,11 @@ button {
 
   .account-nav-render-div {
     top: 8vh !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  main {
+    margin-left: 0 !important;
   }
 }
