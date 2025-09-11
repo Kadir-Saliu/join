@@ -54,7 +54,7 @@ header h2 {
   background-color: rgb(219, 219, 219);
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 2300px) {
   .help-person-icon {
     margin-right: 0;
   }

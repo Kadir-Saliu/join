@@ -30,7 +30,7 @@
     background-color: rgb(42, 61, 89);
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 2300px) {
   .account-nav-render-div {
     left: 1980px;
     right: auto;
