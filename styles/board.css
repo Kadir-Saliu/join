@@ -2,6 +2,10 @@ html {
   overflow: hidden;
 }
 
+body{
+  align-items: flex-start;
+}
+
 h1 {
   font-size: 48px;
 }
@@ -14,6 +18,7 @@ h1 {
   padding-right: 100px;
   padding-top: 50px;
   margin-bottom: 50px;
+  margin-left: 232px;
 }
 
 .board-header-btns {
@@ -85,6 +90,7 @@ button {
   display: flex;
   gap: 20px;
   padding: 20px 100px;
+  margin-left: 232px;
 }
 
 .kanban-column {
