@@ -264,15 +264,16 @@
 
     main h1 {
         padding-top: 10px;
+        padding-left: 10px;
     }
 
     .add-task-form {
         margin-bottom: 10px;
-        height: 450px;
         display: flex;
         flex-direction: column;
-        overflow: scroll;
         width: 100%;
+        height: 100vh;
+        padding-left:10px ;
     }
 
     .add-task-text-div,

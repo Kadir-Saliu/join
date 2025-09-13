@@ -283,7 +283,7 @@
   }
   .add-task-form {
     flex-direction: column;
-    overflow: scroll;
+    
   }
 
   .add-task-form-divider {
