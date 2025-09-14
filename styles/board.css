@@ -868,3 +868,7 @@ button {
     margin-left: 0 !important;
   }
 }
+
+#add-task-pop-up{
+  margin-left: 12.5%;
+}
