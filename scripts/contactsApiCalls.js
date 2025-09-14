@@ -97,7 +97,7 @@ const popUpContactDetails = () => {
     header.style.bottom = "10vh";  // endet 10% oberhalb vom unteren Rand
     header.style.left = "0";
     header.style.right = "0";
-    header.style.zIndex = "9999";  // sorgt dafür, dass es über allem liegt
+    header.style.zIndex = "1400";  // sorgt dafür, dass es über allem liegt
     header.style.backgroundColor = "rgb(246, 247, 248)"; // optional, damit nichts durchscheint
     document.getElementById("leave-contact-details-btn").classList.remove("hide");
   }
