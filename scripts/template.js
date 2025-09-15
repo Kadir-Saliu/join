@@ -7,14 +7,16 @@
  * @param {string|number} id - The unique identifier for the user, used in the checkbox onclick handler.
  * @returns {string} The HTML string representing the user dropdown item.
  */
-function userDropDownTemplate(name, inititals, index, id, isSelected) {  
+function userDropDownTemplate(name, inititals, index, id, isSelected) {
   return /*html*/ `
     <label>
       <div>
         <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
         <p>${name}</p>
       </div>
-      <input type="checkbox" class="user-checkbox" value="${name}" ${isSelected ? "checked" : ""} onclick="renderSelectedUsers('${id}')">
+      <input type="checkbox" class="user-checkbox" value="${name}" ${
+    isSelected ? "checked" : ""
+  } onclick="renderSelectedUsers('${id}')">
 </label>
   `;
 }
@@ -33,7 +35,17 @@ function userDropDownTemplate(name, inititals, index, id, isSelected) {
  * @param {string} userSpans - HTML string representing assigned users.
  * @returns {string} HTML string representing the ticket template.
  */
-const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans) => {
+const getTicketTemplate = (
+  index,
+  title,
+  description,
+  category,
+  categoryCss,
+  priority,
+  subtasks,
+  ticketCounterId,
+  userSpans
+) => {
   return /*html*/ `
     <div
       draggable="true"
@@ -55,7 +67,9 @@ const getTicketTemplate = (index, title, description, category, categoryCss, pri
       </div>
       <div class="assigned-users">
         <div>${userSpans}</div>
-        <img src="${priority[0] && priority !== "-" ? `./assets/icon/${priority}.svg` : ""}" alt="" />
+        <img src="${
+          priority[0] && priority !== "-" ? `./assets/icon/${priority}.svg` : ""
+        }" alt="" />
       </div>
     </div>
   `;
@@ -115,7 +129,7 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
         <div>
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
-            <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}')" class="align-icon-and-text">
+            <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}', '${contactIconId}')" class="align-icon-and-text">
               <img class="edit-delete-icons" src="./assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
@@ -146,7 +160,7 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
  * @param {string} phone - The phone number of the contact to prefill in the input.
  * @returns {string} The HTML string for the edit contact overlay.
  */
-function getEditOverlayContentTemplate(initials, userName, email, phone) {
+function getEditOverlayContentTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
   <img class="close-icon" src="./assets/icon/close.svg" alt="" onclick="closeEditOverlay()" />
     <div class="contact-overlay-header">
@@ -155,7 +169,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone) {
         <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
       </div>
       <div class="contact-inputs-container">
-        <div class="edit-overlay-initials">${initials}</div>
+        <div class="edit-overlay-initials User-bc-${contactIconId}">${initials}</div>
         <div class="contact-inputs">
           <div>
             <input
@@ -218,7 +232,9 @@ const getRenderTicketDetailsSubtaskEleTemplate = (i, subtask, index, ticketCount
   return /*html*/ `
     <li><input data-index="${i}" ${
     subtask.checked ? "checked" : ""
-  } data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
+  } data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${
+    subtask.text
+  }</li>
   `;
 };
 
@@ -254,7 +270,18 @@ const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user)
  * @param {string} subtaskEle - HTML string representing subtasks.
  * @returns {string} The HTML template string for the ticket details pop-up.
  */
-const getRenderTicketDetailsTemplate = (category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle) => {
+const getRenderTicketDetailsTemplate = (
+  category,
+  categoryColor,
+  title,
+  description,
+  date,
+  priority,
+  index,
+  ticketCounterId,
+  userSpans,
+  subtaskEle
+) => {
   return /*html*/ `
     <div id="task-pop-up-nav">
       <p class="${categoryColor}">${category}</p>

@@ -66,7 +66,14 @@ const renderContacts = (sortedContacts, contactsRef) => {
       let phone = escapeQuotes(contact.phone);
       let safeIndex = contact.firebaseKey;
       let contactIconId = ((safeIndex - 1) % 15) + 1;
-      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId, contact);
+      contactsRef.innerHTML += getContactTemplate(
+        initials,
+        userName,
+        email,
+        phone,
+        contactIconId,
+        contact
+      );
     });
   });
 };
@@ -81,13 +88,21 @@ const renderContacts = (sortedContacts, contactsRef) => {
  */
 const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
   document.querySelectorAll(".contact").forEach((contact) => contact.classList.remove("active"));
-  document.querySelectorAll(".contact-initials").forEach((contactInitials) => contactInitials.classList.remove("active"));
+  document
+    .querySelectorAll(".contact-initials")
+    .forEach((contactInitials) => contactInitials.classList.remove("active"));
   clickedElement.classList.add("active");
   const initialsElement = clickedElement.querySelector(".contact-initials");
   initialsElement.classList.add("active");
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = "";
-  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(
+    initials,
+    userName,
+    email,
+    phone,
+    contactIconId
+  );
   contactDetailsRef.classList.add("active");
   if (window.innerWidth <= 1130) popUpContactDetails();
 };
@@ -136,9 +151,15 @@ const closeAddContactOverlay = () => {
  * Shows the overlay by adding the active class, removing the hidden class,
  * displaying the background overlay, and adding a click listener to close it.
  */
-const openEditOverlay = (initials, userName, email, phone) => {
+const openEditOverlay = (initials, userName, email, phone, contactIconId) => {
   const editOverlayRef = document.getElementById("editOverlay");
-  editOverlayRef.innerHTML = getEditOverlayContentTemplate(initials, userName, email, phone);
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate(
+    initials,
+    userName,
+    email,
+    phone,
+    contactIconId
+  );
   if (editOverlayRef.classList.contains("d_none")) {
     editOverlayRef.classList.add("active");
     editOverlayRef.classList.remove("d_none");
@@ -164,9 +185,16 @@ const closeEditOverlay = () => {
  *
  * @param {Event} event - The event object to stop propagation for
  */
-const openEditOverlayWithBubblingPrevention = (event, initials, userName, email, phone) => {
+const openEditOverlayWithBubblingPrevention = (
+  event,
+  initials,
+  userName,
+  email,
+  phone,
+  contactIconId
+) => {
   event.stopPropagation();
-  openEditOverlay(initials, userName, email, phone);
+  openEditOverlay(initials, userName, email, phone, contactIconId);
 };
 
 /**
@@ -342,7 +370,7 @@ const validateEmail = (email) => {
     return false;
   }
   return true;
-}
+};
 
 /**
  * Validates a German phone number.
@@ -358,7 +386,7 @@ const validatePhoneNumber = (phone) => {
     return false;
   }
   return true;
-}
+};
 
 /**
  * Finalizes the contact editing process by clearing the contact details display,
@@ -384,5 +412,12 @@ const scrollToNewContact = (newContact) => {
     behavior: "smooth",
     block: "center",
   });
-  showContactsDetails(initials, newContact.name, newContact.email, newContact.phone, contactIconId, contact);
+  showContactsDetails(
+    initials,
+    newContact.name,
+    newContact.email,
+    newContact.phone,
+    contactIconId,
+    contact
+  );
 };
