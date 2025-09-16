@@ -658,7 +658,10 @@ hr {
 
   .contact-inputs {
     width: 100%;
-    margin-top: 24px;
+  }
+
+  .contact-inputs div {
+    margin-bottom: 5px;
   }
 
   .contact-input {
@@ -672,27 +675,27 @@ hr {
   }
 
   #email-error-msg {
-    top: 195px;
+    top: 182px;
     left: 24px;
   }
 
   #phone-error-msg {
-    top: 275px;
+    top: 245px;
     left: 24px;
   }
 
   #name-error-msg-edit {
-    top: 83px;
+    top: 80px;
     left: 24px;
   }
 
   #email-error-msg-edit {
-    top: 165px;
+    top: 145px;
     left: 24px;
   }
 
   #phone-error-msg-edit {
-    top: 245px;
+    top: 210px;
     left: 24px;
   }
 

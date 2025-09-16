@@ -76,6 +76,7 @@ const deleteContactFromDatabase = async () => {
     },
   });
   finishEdit();
+  hideContactDetails();
   showDeleteSuccessMessage();
 };
 
