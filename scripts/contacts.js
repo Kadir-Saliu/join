@@ -12,6 +12,7 @@ const phone = document.getElementById("contactPhone");
  * if the contact has a `firebaseKey` property.
  */
 const cacheFirebaseKeys = () => {
+  firebaseKeys.length = 0;
   contacts.forEach((contact) => {
     if (contact.firebaseKey) {
       firebaseKeys.push(parseInt(contact.firebaseKey));
