@@ -12,6 +12,7 @@ const phone = document.getElementById("contactPhone");
  * if the contact has a `firebaseKey` property.
  */
 const cacheFirebaseKeys = () => {
+  firebaseKeys.length = 0;
   contacts.forEach((contact) => {
     if (contact.firebaseKey) {
       firebaseKeys.push(parseInt(contact.firebaseKey));
@@ -66,7 +67,14 @@ const renderContacts = (sortedContacts, contactsRef) => {
       let phone = escapeQuotes(contact.phone);
       let safeIndex = contact.firebaseKey;
       let contactIconId = ((safeIndex - 1) % 15) + 1;
-      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId, contact);
+      contactsRef.innerHTML += getContactTemplate(
+        initials,
+        userName,
+        email,
+        phone,
+        contactIconId,
+        contact
+      );
     });
   });
 };
@@ -81,13 +89,21 @@ const renderContacts = (sortedContacts, contactsRef) => {
  */
 const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
   document.querySelectorAll(".contact").forEach((contact) => contact.classList.remove("active"));
-  document.querySelectorAll(".contact-initials").forEach((contactInitials) => contactInitials.classList.remove("active"));
+  document
+    .querySelectorAll(".contact-initials")
+    .forEach((contactInitials) => contactInitials.classList.remove("active"));
   clickedElement.classList.add("active");
   const initialsElement = clickedElement.querySelector(".contact-initials");
   initialsElement.classList.add("active");
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = "";
-  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(
+    initials,
+    userName,
+    email,
+    phone,
+    contactIconId
+  );
   contactDetailsRef.classList.add("active");
   if (window.innerWidth <= 1130) popUpContactDetails();
 };
@@ -136,9 +152,15 @@ const closeAddContactOverlay = () => {
  * Shows the overlay by adding the active class, removing the hidden class,
  * displaying the background overlay, and adding a click listener to close it.
  */
-const openEditOverlay = (initials, userName, email, phone) => {
+const openEditOverlay = (initials, userName, email, phone, contactIconId) => {
   const editOverlayRef = document.getElementById("editOverlay");
-  editOverlayRef.innerHTML = getEditOverlayContentTemplate(initials, userName, email, phone);
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate(
+    initials,
+    userName,
+    email,
+    phone,
+    contactIconId
+  );
   if (editOverlayRef.classList.contains("d_none")) {
     editOverlayRef.classList.add("active");
     editOverlayRef.classList.remove("d_none");
@@ -164,9 +186,16 @@ const closeEditOverlay = () => {
  *
  * @param {Event} event - The event object to stop propagation for
  */
-const openEditOverlayWithBubblingPrevention = (event, initials, userName, email, phone) => {
+const openEditOverlayWithBubblingPrevention = (
+  event,
+  initials,
+  userName,
+  email,
+  phone,
+  contactIconId
+) => {
   event.stopPropagation();
-  openEditOverlay(initials, userName, email, phone);
+  openEditOverlay(initials, userName, email, phone, contactIconId);
 };
 
 /**
@@ -208,23 +237,69 @@ const addContactToDatabase = async (nameVal, emailVal, phoneVal) => {
   await putNewContactToDatabase(newContact);
   closeAddContactOverlay();
   clearContactForm();
-  showSuccessMessage();
+  showAddSuccessMessage();
   setTimeout(() => {
     scrollToNewContact(newContact);
   }, 100);
 };
 
 /**
- * Displays a success message with fade-in and fade-out animations.
+ * Displays an "add contact successful" message with fade-in and fade-out animations.
  * The message appears after 50ms, stays visible for 2 seconds, then fades out
  * over 400ms before being hidden again.
  *
- * @function showSuccessMessage
+ * @function showAddSuccessMessage
  * @description Shows the add contact success message element by manipulating CSS classes
  * to create a smooth animation sequence (show → fade in → fade out → hide).
  */
-const showSuccessMessage = () => {
+const showAddSuccessMessage = () => {
   const successMessageRef = document.querySelector(".add-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Displays a "delete contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showDeleteSuccessMessage
+ * @description Shows the delete contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showDeleteSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".delete-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Displays an "edit contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showEditSuccessMessage
+ * @description Shows the edit contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showEditSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".edit-contact-successful");
   successMessageRef.classList.remove("d_none");
   setTimeout(() => {
     successMessageRef.classList.add("active");
@@ -342,7 +417,7 @@ const validateEmail = (email) => {
     return false;
   }
   return true;
-}
+};
 
 /**
  * Validates a German phone number.
@@ -358,7 +433,7 @@ const validatePhoneNumber = (phone) => {
     return false;
   }
   return true;
-}
+};
 
 /**
  * Finalizes the contact editing process by clearing the contact details display,
@@ -384,5 +459,12 @@ const scrollToNewContact = (newContact) => {
     behavior: "smooth",
     block: "center",
   });
-  showContactsDetails(initials, newContact.name, newContact.email, newContact.phone, contactIconId, contact);
+  showContactsDetails(
+    initials,
+    newContact.name,
+    newContact.email,
+    newContact.phone,
+    contactIconId,
+    contact
+  );
 };

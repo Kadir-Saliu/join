@@ -214,7 +214,7 @@ hr {
   left: 50%;
   transform: translate(100vw, -50%);
   background-color: white;
-  max-height: 592px;
+  height: 592px;
   max-width: 1212px;
   z-index: 2000;
   border-radius: 24px;
@@ -283,10 +283,12 @@ hr {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  position: relative;
 }
 
 .contact-inputs div {
   margin-top: 24px;
+  margin-bottom: 20px;
 }
 
 .contact-inputs > div {
@@ -300,6 +302,33 @@ hr {
   margin-left: 80px;
   margin-right: 32px;
   gap: 40px;
+}
+
+.contact-error {
+  color: red;
+  font-size: 12px !important;
+  position: absolute;
+  left: 12px;
+  margin-top: 4px;
+  z-index: 1;
+}
+
+#name-error-msg,
+#name-error-msg-edit {
+  top: 95px;
+  left: 24px;
+}
+
+#email-error-msg,
+#email-error-msg-edit {
+  top: 190px;
+  left: 24px;
+}
+
+#phone-error-msg,
+#phone-error-msg-edit {
+  top: 285px;
+  left: 24px;
 }
 
 .join-logo-img {
@@ -374,7 +403,6 @@ hr {
 .edit-overlay-initials {
   height: 120px;
   width: 120px;
-  background-color: aqua;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -383,7 +411,9 @@ hr {
   color: white;
 }
 
-.add-contact-successful {
+.add-contact-successful,
+.delete-contact-successful,
+.edit-contact-successful {
   position: fixed;
   bottom: 15%;
   left: 50%;
@@ -398,6 +428,14 @@ hr {
 }
 
 .add-contact-successful.active {
+  transform: translate(-50%, -50%);
+}
+
+.delete-contact-successful.active {
+  transform: translate(-50%, -50%);
+}
+
+.edit-contact-successful.active {
   transform: translate(-50%, -50%);
 }
 
@@ -571,16 +609,17 @@ hr {
   }
 
   #leave-contact-details-btn {
-  position: absolute;
-  top: 1.5rem;   /* Abstand von oben */
-  right: 0; /* Abstand von rechts */
-  background-color: transparent; /* optional: Hintergrund entfernen */
-  border: none;                   /* optional: Rahmen entfernen */
-  font-size: 1.5rem;              /* z. B. für ein "X"-Icon */
-  cursor: pointer;
-}
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
 
-  #addContactOverlay {
+  #addContactOverlay,
+  #editOverlay {
     flex-direction: column;
     height: 79vh;
     top: 45%;
@@ -596,6 +635,19 @@ hr {
     display: none;
   }
 
+  .edit-overlay-initials {
+    height: 100px;
+    width: 100px;
+    font-size: 32px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    z-index: 10;
+  }
+
   .contact-inputs-container,
   .contact-overlay-header {
     height: 50%;
@@ -606,7 +658,49 @@ hr {
 
   .contact-inputs {
     width: 100%;
-    gap: 16px;
+  }
+
+  .contact-inputs div {
+    margin-bottom: 5px;
+  }
+
+  .contact-input {
+    width: 100%;
+    height: 36px;
+  }
+
+  #name-error-msg {
+    top: 115px;
+    left: 24px;
+  }
+
+  #email-error-msg {
+    top: 182px;
+    left: 24px;
+  }
+
+  #phone-error-msg {
+    top: 245px;
+    left: 24px;
+  }
+
+  #name-error-msg-edit {
+    top: 80px;
+    left: 24px;
+  }
+
+  #email-error-msg-edit {
+    top: 145px;
+    left: 24px;
+  }
+
+  #phone-error-msg-edit {
+    top: 210px;
+    left: 24px;
+  }
+
+  button {
+    font-size: 16px !important;
   }
 
   #contactName {
@@ -620,6 +714,11 @@ hr {
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
+  }
+
+  #contact-person-logo {
+    height: 100px;
+    width: 100px;
   }
 
   .contact-inputs-buttons {
@@ -641,22 +740,29 @@ hr {
     color: white;
   }
 
-  .create-contact-button {
+  .create-contact-button,
+  .cancel-button {
     height: 36px;
   }
 
   .account-nav-render-div {
     top: 8vh !important;
   }
-}
 
-.contact-error {
-  color: red;
-  font-size: 12px !important;
+  .close-icon {
+    content: url("../assets/icon/close-white.svg");
+    top: 20px;
+    right: 20px;
+  }
+
+  .close-icon:hover {
+    background-color: #2a3647;
+  }
 }
 
 @media (max-width: 1215px) {
-  #addContactOverlay {
+  #addContactOverlay,
+  #editOverlay {
     width: 95%;
   }
 
@@ -667,16 +773,21 @@ hr {
 
   .contact-input {
     width: 100%;
-    height: 36px;
   }
 }
 
 @media (max-width: 625px) {
-    #contacts {
+  #contacts {
     margin-bottom: 0;
   }
 
-  .contacts-container{
+  .contacts-container {
     margin-left: 0;
+  }
+
+  .edit-overlay-initials {
+    height: 64px;
+    width: 64px;
+    font-size: 24px;
   }
 }

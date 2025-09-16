@@ -53,8 +53,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    animation: slide-out-bc-tl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      forwards;
+    animation: slide-out-bc-tl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     animation-delay: 1s;
     z-index: 1000;
     background-color: rgb(42, 54, 71);
@@ -109,7 +108,6 @@
     height: 48px;
   }
 
-  #contact-logo-div,
   #contact-logo-div img {
     width: 64px;
     height: 64px;
