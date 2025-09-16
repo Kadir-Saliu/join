@@ -236,23 +236,69 @@ const addContactToDatabase = async (nameVal, emailVal, phoneVal) => {
   await putNewContactToDatabase(newContact);
   closeAddContactOverlay();
   clearContactForm();
-  showSuccessMessage();
+  showAddSuccessMessage();
   setTimeout(() => {
     scrollToNewContact(newContact);
   }, 100);
 };
 
 /**
- * Displays a success message with fade-in and fade-out animations.
+ * Displays an "add contact successful" message with fade-in and fade-out animations.
  * The message appears after 50ms, stays visible for 2 seconds, then fades out
  * over 400ms before being hidden again.
  *
- * @function showSuccessMessage
+ * @function showAddSuccessMessage
  * @description Shows the add contact success message element by manipulating CSS classes
  * to create a smooth animation sequence (show → fade in → fade out → hide).
  */
-const showSuccessMessage = () => {
+const showAddSuccessMessage = () => {
   const successMessageRef = document.querySelector(".add-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Displays a "delete contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showDeleteSuccessMessage
+ * @description Shows the delete contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showDeleteSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".delete-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Displays an "edit contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showEditSuccessMessage
+ * @description Shows the edit contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showEditSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".edit-contact-successful");
   successMessageRef.classList.remove("d_none");
   setTimeout(() => {
     successMessageRef.classList.add("active");

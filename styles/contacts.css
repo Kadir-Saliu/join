@@ -411,7 +411,9 @@ hr {
   color: white;
 }
 
-.add-contact-successful {
+.add-contact-successful,
+.delete-contact-successful,
+.edit-contact-successful {
   position: fixed;
   bottom: 15%;
   left: 50%;
@@ -426,6 +428,14 @@ hr {
 }
 
 .add-contact-successful.active {
+  transform: translate(-50%, -50%);
+}
+
+.delete-contact-successful.active {
+  transform: translate(-50%, -50%);
+}
+
+.edit-contact-successful.active {
   transform: translate(-50%, -50%);
 }
 
