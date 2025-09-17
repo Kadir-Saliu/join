@@ -96,12 +96,12 @@ const popUpContactDetails = () => {
   if (header) {
     header.style.display = "flex";
     header.style.position = "fixed";
-    header.style.top = "8vh"; // beginnt 8% unterhalb vom oberen Rand
-    header.style.bottom = "10vh"; // endet 10% oberhalb vom unteren Rand
+    header.style.top = "8vh";
+    header.style.bottom = "10vh";
     header.style.left = "0";
     header.style.right = "0";
-    header.style.zIndex = "1400"; // sorgt dafür, dass es über allem liegt
-    header.style.backgroundColor = "rgb(246, 247, 248)"; // optional, damit nichts durchscheint
+    header.style.zIndex = "1400";
+    header.style.backgroundColor = "rgb(246, 247, 248)";
     document.getElementById("leave-contact-details-btn").classList.remove("hide");
   }
 };

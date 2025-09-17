@@ -122,7 +122,7 @@ main {
   gap: 10px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
-  transition:  0.1s;
+  transition: 0.1s;
 }
 
 .to-do:hover {
@@ -152,7 +152,7 @@ main {
   gap: 10px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
-  transition:  0.1s;
+  transition: 0.1s;
 }
 
 .done:hover {
@@ -182,7 +182,7 @@ main {
   height: 168px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
-  transition:  0.1s;
+  transition: 0.1s;
 }
 
 .urgent-and-date:hover {
@@ -226,7 +226,7 @@ main {
   border-radius: 30px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
-  transition:  0.1s;
+  transition: 0.1s;
 }
 
 .tasks-in-board:hover {
@@ -248,7 +248,7 @@ main {
   border-radius: 30px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
-  transition:  0.1s;
+  transition: 0.1s;
 }
 
 .tasks-in-progress:hover {
@@ -270,7 +270,7 @@ main {
   border-radius: 30px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
-  transition:  0.1s;
+  transition: 0.1s;
 }
 
 .awaiting-feedback:hover {
@@ -279,11 +279,11 @@ main {
   -ms-transform: scale(1.5); /* IE 9 */
   -webkit-transform: scale(1.5); /* Safari 3-8 */
   transform: scale(1.1);
-    transition: scale(102s);
+  transition: scale(102s);
 }
 
 #goodMorning {
-  width: 100%
+  width: 100%;
 }
 
 .greeting {
@@ -314,135 +314,148 @@ main {
 
 @media (max-width: 1100px) {
   .big-logo {
-        display: none;
-    }
+    display: none;
+  }
 
-    .mobile-logo {
-        display: block !important;
-        height: 48px;
-        width: auto !important;
-        margin-left: 5%;
-    }
+  .mobile-logo {
+    display: block !important;
+    height: 48px;
+    width: auto !important;
+    margin-left: 5%;
+  }
 
-    .header-responsive {
-        margin-left: 0;
-        width: 100%;
-        height: 8vh;
-    }
+  .header-responsive {
+    margin-left: 0;
+    width: 100%;
+    height: 8vh;
+  }
 
-    .header-and-icon {
-        height: 100%;
-    }
+  .header-and-icon {
+    height: 100%;
+  }
 
-    .header-and-icon h2,
-    .help-person-icon a {
-        display: none;
-    }
+  .header-and-icon h2,
+  .help-person-icon a {
+    display: none;
+  }
 
-    main {
-        margin-top: 8vh;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 0;
-        width: 95%;
-    }
+  main {
+    margin-top: 8vh;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 95%;
+  }
 
-    .title-main {
-        padding: 0;
-        padding-top: 10px;
-        gap: 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        margin-bottom: 25px;
-    }
+  .title-main {
+    padding: 0;
+    padding-top: 10px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 25px;
+  }
 
-    .full-screen-border {
-        display: none;
-    }
+  .full-screen-border {
+    display: none;
+  }
 
-    .mobile-border {
-        display: block;
-    }
+  .mobile-border {
+    display: block;
+  }
 
-    .tasks-and-text {
-        padding: 0;
-        height: 436px;
-        width: 100%;
-    }
+  .tasks-and-text {
+    padding: 0;
+    height: 436px;
+    width: 100%;
+  }
 
-    .all-tasks {
-        width: 100%;
-    }
+  .all-tasks {
+    width: 100%;
+  }
 
-    .to-do, 
-    .done,
-    .urgent-and-date,
-    .tasks-in-board,
-    .tasks-in-progress,
-    .awaiting-feedback {
-        height: 132px;
-    }
+  .to-do,
+  .done,
+  .urgent-and-date,
+  .tasks-in-board,
+  .tasks-in-progress,
+  .awaiting-feedback {
+    height: 132px;
+  }
 
-    nav {
-        position: fixed !important;
-        bottom: 0;
-        top: auto !important;
-        height: 10vh !important;
-        width: 100% !important;
-    }
+  .urgent-and-date {
+    gap: 0;
+  }
 
-    nav div {
-        display: flex;
-        flex-direction: row;
-        height: 100%;
-        justify-content: space-evenly;
-    }
+  .urgent {
+    padding-right: 20px;
+    padding-left: 5px;
+  }
 
-    .nav-item {
-        padding: 10px 10px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        border-radius: 20px;
-    }
+  .mobile-padding {
+    padding-right: 5px;
+  }
 
-    .nav-logo {
-        padding: 0 !important;
-    }
+  nav {
+    position: fixed !important;
+    bottom: 0;
+    top: auto !important;
+    height: 10vh !important;
+    width: 100% !important;
+  }
 
-    .legal-info {
-        display: none !important;
-    }
+  nav div {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: space-evenly;
+  }
 
-    main {
-      margin-left: 0 !important;
-    }
+  .nav-item {
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 20px;
+  }
 
-    header {
-        position: absolute;
-        bottom: 128px;
-        margin-top: 0;
-        width: 90%;
-        padding: 0;
-    }
+  .nav-logo {
+    padding: 0 !important;
+  }
 
-    .urgent-and-date {
-      max-width: 900px;
-    }
+  .legal-info {
+    display: none !important;
+  }
 
-    .to-do,
-    .done {
-      width: 520px;
-    }
+  main {
+    margin-left: 0 !important;
+  }
 
-    .tasks-in-board,
-    .tasks-in-progress,
-    .awaiting-feedback {
-      width: 336px;
-    }
+  header {
+    position: absolute;
+    bottom: 128px;
+    margin-top: 0;
+    width: 90%;
+    padding: 0;
+  }
 
-    .account-nav-render-div {
+  .urgent-and-date {
+    max-width: 900px;
+  }
+
+  .to-do,
+  .done {
+    width: 520px;
+  }
+
+  .tasks-in-board,
+  .tasks-in-progress,
+  .awaiting-feedback {
+    width: 336px;
+  }
+
+  .account-nav-render-div {
     top: 8vh !important;
   }
 

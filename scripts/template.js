@@ -391,7 +391,7 @@ function getRenderTasksTemplate() {
                   <p>Urgent</p>
                 </div>
               </div>
-              <img src="./assets/icon/hyphen.svg" alt="" />
+              <img class="mobile-padding" src="./assets/icon/hyphen.svg" alt="" />
               <div class="deadline">
                 <h4>${deadline}</h4>
                 <p>Upcoming Deadline</p>
