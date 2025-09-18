@@ -15,6 +15,10 @@ body {
   background-color: rgb(246, 247, 248);
 }
 
+#index-body {
+  align-items: center;
+}
+
 main {
   flex-grow: 1;
   width: calc(100% - 232px);
