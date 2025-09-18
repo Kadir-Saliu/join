@@ -8,6 +8,17 @@
   }
 }
 
+@media(max-width:1120px){
+  .to-do:hover,
+  .done:hover,
+  .urgent-and-date:hover,
+  .tasks-in-board:hover,
+  .tasks-in-progress:hover,
+  .awaiting-feedback:hover{
+    transform: scale(1.0);
+  }
+}
+
 @media (max-width: 625px) {
   /* index.html */
 
@@ -53,7 +64,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    animation: slide-out-bc-tl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: slide-out-bc-tl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      forwards;
     animation-delay: 1s;
     z-index: 1000;
     background-color: rgb(42, 54, 71);
@@ -237,6 +249,7 @@
   .tasks-in-progress,
   .awaiting-feedback {
     height: 132px;
+    width: 100%;
   }
 
   nav {
@@ -467,5 +480,12 @@
 @media (max-width: 400px) {
   #contacts {
     padding: 0;
+  }
+}
+
+@media (max-width: 350px) {
+  .urgent-icon-responsiv {
+    height: 50px;
+    width: 50px;
   }
 }

@@ -385,7 +385,7 @@ function getRenderTasksTemplate() {
             </div>
             <div onclick="goToBoardHtml()" class="urgent-and-date">
               <div class="urgent">
-                <a href=""><img src="./assets/icon/urgent-orange-icon.svg" alt="" /></a>
+                <a href=""><img class="urgent-icon-responsiv" src="./assets/icon/urgent-orange-icon.svg" alt="" /></a>
                 <div>
                   <h3>${urgentTickets}</h3>
                   <p>Urgent</p>
