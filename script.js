@@ -144,7 +144,7 @@ async function getTicketData() {
  * @param {json} user
  * @returns contacts
  */
-async function getContactsData(user) {
+async function getContactsData(user) {  
   try {
     let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`);
     let responseJson = await response.json();
@@ -153,7 +153,7 @@ async function getContactsData(user) {
       .map(([firebaseKey, contact]) => ({
         ...contact,
         firebaseKey: firebaseKey,
-      }));
+      }));      
     return contacts;
   } catch (error) {
     console.log("Fehler beim Laden der Kontakte: ", error);

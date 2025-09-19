@@ -621,7 +621,7 @@ hr {
   #addContactOverlay,
   #editOverlay {
     flex-direction: column;
-    height: 79vh;
+    height: 85vh;
     top: 45%;
     padding-bottom: 10px;
   }
@@ -786,8 +786,8 @@ hr {
   }
 
   .edit-overlay-initials {
-    height: 64px;
-    width: 64px;
-    font-size: 24px;
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
   }
 }
