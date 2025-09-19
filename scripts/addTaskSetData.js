@@ -311,3 +311,5 @@ async function updateTicketCounter(ticketCounter) {
     body: JSON.stringify(ticketCounter),
   });
 }
+
+document.getElementById("task-date").setAttribute("min", new Date().toISOString().split("T")[0]);

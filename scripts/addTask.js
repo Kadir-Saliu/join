@@ -14,6 +14,7 @@ let ticketCounter = 0;
 let addTaskPopUp = document.getElementById("add-task-pop-up");
 let bordOverlay = document.getElementById("board-overlay");
 let subtaskValue = [];
+let renderBol = false;
 
 document.getElementById("create-task-button").onclick = function () {
     checkRequiredInput(columnVal, true);
@@ -29,13 +30,12 @@ document.getElementById("create-task-button").onclick = function () {
  * @param {string} renderId - The ID of the element where the contacts should be rendered.
  * @returns {Promise<void>} Resolves when the dropdown is populated or logs an error if the fetch fails.
  */
-async function dropDownUsers(id, renderId, imgId) {
+async function dropDownUsers(id, renderId, imgId, inputId) {
     try {
         let response = await fetch(BASE_URL_USERS);
         let data = await response.json();
-        let responseJson = Object.values(data)
-        changeDropDownArrow(imgId);
-        iterateContacts(responseJson, id, renderId);
+        let responseJson = Object.values(data);
+        iterateContacts(responseJson, id, renderId, imgId, inputId);
     } catch (error) {
         console.log(error);
     }
@@ -95,19 +95,36 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
  * @param {string} id - The ID of the DOM element to render the contacts into.
  * @param {string} renderId - An identifier passed to the userDropDownTemplate for rendering purposes.
  */
-async function iterateContacts(responseJson, id, renderId) {
-    document.getElementById(id).classList.toggle("hide");
-    document.getElementById(id).innerHTML = "";
-    let backgroundIndex = 0;
-    for (let index = 0; index < responseJson.length; index++) {
-        let name = responseJson[index]?.name;        
-        if (!name) continue;
-        if(backgroundIndex > 14) backgroundIndex = 1;
-        else backgroundIndex ++;
-        let initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
-        let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
-        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected);   
+
+async function iterateContacts(responseJson, id, renderId, imgId, inputId) {
+  if (!renderBol) {
+    document.getElementById(id).classList.remove("hide");    
+    changeDropDownArrow(imgId);
+    renderBol = true;
+  } else {
+    document.getElementById(id).classList.add("hide");
+    changeDropDownArrow(imgId);
+    renderBol = false;
+    return;
+  }
+  document.getElementById(id).innerHTML = "";
+  let backgroundIndex = 0;
+  for (let index = 0; index < responseJson.length; index++) {
+    let name = responseJson[index]?.name;
+    if (!name) continue;
+    backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
+    let initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
+    let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+    document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected);
+  }
+  document.addEventListener("click", function handler(event) {
+    if (!document.getElementById(id).contains(event.target) && event.target.id !== inputId) {
+      document.getElementById(id).classList.add("hide");
+      if(renderBol) changeDropDownArrow(imgId);
+      renderBol = false;
+      document.removeEventListener("click", handler);
     }
+  });
 }
 
 /**
@@ -208,17 +225,35 @@ function getSelectedUsers() {
 function renderSelectedUsers(id) {
     let checkboxes = document.querySelectorAll(".user-checkbox");
     let userIconClasses = document.querySelectorAll(".user-icon");
-    document.getElementById(id).innerHTML = "";        
+    document.getElementById(id).innerHTML = "";     
+    let checkCounter = 0;   
     checkboxes.forEach(cb => {
-        if (cb.checked) {
-            let userIconColor = "";            
-            let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
-            userIconClasses.forEach(spanClass => {
-                if(spanClass.innerText === initials) userIconColor = spanClass.dataset.bcindex; 
-            });
-            document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`
-        }
-    }); 
+        checkCounter = renderIcons(cb, checkCounter, userIconClasses, id);
+    });
+}
+
+/**
+ * Renders user icons based on the checkbox state and updates the icon container.
+ *
+ * @param {HTMLInputElement} cb - The checkbox input element representing a user.
+ * @param {number} checkCounter - The current count of checked users.
+ * @param {NodeListOf<HTMLElement>} userIconClasses - A list of span elements representing user icons with color data.
+ * @param {string} id - The ID of the container element where icons are rendered.
+ * @returns {number} The updated count of checked users.
+ */
+function renderIcons(cb, checkCounter, userIconClasses, id) {
+    if (cb.checked) {
+        checkCounter++;
+        let userIconColor = "";
+        let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
+        userIconClasses.forEach(spanClass => {
+            if (spanClass.innerText === initials) userIconColor = spanClass.dataset.bcindex;
+        });
+        if (checkCounter < 6) document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`;
+        else if (checkCounter === 6) document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-14" id="hidden-users">+${checkCounter - 5}</span>`;
+        else document.getElementById("hidden-users").innerText = `+${checkCounter - 5}`;
+    }
+    return checkCounter;
 }
 
 /**

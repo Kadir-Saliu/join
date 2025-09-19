@@ -231,6 +231,7 @@ button {
 
 #render-selected-users-board {
   display: flex;
+  margin-bottom: 8px;
 }
 
 .missing-value {
