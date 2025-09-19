@@ -212,9 +212,10 @@ function clearValidationFeedback() {
  * from elements with the "priority-button" class.
  */
 function resetPriority() {   
-    buttonPriority = "";
+    buttonPriority = "medium";
     let buttons = document.querySelectorAll(".priority-button");
     buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
+    document.getElementById("medium-priority-button").classList.add("medium");
 }
 
 /**

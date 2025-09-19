@@ -376,6 +376,8 @@ textarea {
 
 #render-selected-users {
   display: flex;
+  padding-left: 8px;
+  margin-bottom: 8px;
 }
 
 #drop-down-users-input-div {
