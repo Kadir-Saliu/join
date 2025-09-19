@@ -367,3 +367,26 @@ function setGlobalEditInformation(ele) {
   dataTicketCounterId = ele.dataset.ticketcounterid;
   dataMode = ele.dataset.mode;
 }
+
+/**
+ * Retrieves the value of the "greetingShown" flag from sessionStorage.
+ * Indicates whether the greeting has already been displayed in the current session.
+ * @type {string|null} "true" if the greeting was shown, otherwise null if not set.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const greetingShown = sessionStorage.getItem("greetingShown");
+  if (!greetingShown) {
+    const greeting = document.querySelector(".greeting");
+    if (greeting) {
+      greeting.addEventListener("animationend", () => {
+      greeting.style.display = "none"; 
+      });
+      sessionStorage.setItem("greetingShown", "true");
+    }
+  } else {
+    const greeting = document.querySelector(".greeting");
+    if (greeting) {
+      greeting.style.display = "none";
+    }
+  }
+});

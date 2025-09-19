@@ -266,6 +266,9 @@ button {
   background-color: rgb(246, 247, 248);
 }
 
+#pop-up-task-description {
+  white-space: normal !important;
+}
 
 /* individual background-colors */
 

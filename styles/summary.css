@@ -502,3 +502,9 @@ main {
     font-size: 48px;
   }
 }
+
+@media (max-width: 1000px) {
+  main {
+    width: 95% !important;
+  }
+}
