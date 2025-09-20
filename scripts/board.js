@@ -13,7 +13,7 @@ let subtaskEditArray = [];
 let dataTicketIndex;
 let dataTicketCounterId;
 let dataMode;
-let getTickets = localStorage.getItem('tickets')
+let getTickets = localStorage.getItem("tickets");
 let allTickets = JSON.parse(getTickets);
 
 /**
@@ -56,7 +56,17 @@ function getVariablesToRenderTickets(t) {
   let priority = t.priority || [];
   let subtasks = t.subtask || [];
   let ticketCounterId = t.id;
-  return { subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId };
+  return {
+    subtasks,
+    columnId,
+    title,
+    description,
+    category,
+    categoryCss,
+    assignedTo,
+    priority,
+    ticketCounterId,
+  };
 }
 
 /**
@@ -102,13 +112,13 @@ function allowDrop(ev) {
  * Saves the currently modified ticket to Firebase.
  *
  * Updates the corresponding ticket entry in the Firebase Realtime Database
- * using a PUT request. After saving, the updated tickets are also stored in 
- * localStorage, and the UI is refreshed by calling `getTicketData()` and 
+ * using a PUT request. After saving, the updated tickets are also stored in
+ * localStorage, and the UI is refreshed by calling `getTicketData()` and
  * `renderTickets()`.
  *
  * @async
  * @function saveChangedTicketInFirbase
- * @returns {Promise<void>} - Returns nothing but updates the database, 
+ * @returns {Promise<void>} - Returns nothing but updates the database,
  *                            local storage, and re-renders the UI.
  */
 async function saveChangedTicketInFirbase() {
@@ -152,7 +162,7 @@ function checkTicketsForToggle(column, id) {
  * This function filters the tickets based on the search input
  */
 function filterTickets() {
-  let searchInput = document.getElementById("searchbar").value.toLowerCase();
+  const searchInput = document.getElementById("searchbar").value.toLowerCase();
   const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
   if (searchInput) {
     let filteredTickets = tickets.filter(
@@ -186,8 +196,31 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let priority = ticket[index].priority || "-";
   let assignedTo = ticket[index].assignedTo || [];
   let subtasks = ticket[index].subtask || [];
-  if (mode === "view") renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
-  else if (mode === "edit") editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);  
+  if (mode === "view")
+    renderTicketDetails(
+      category,
+      categoryColor,
+      title,
+      description,
+      formattedDate,
+      priority,
+      assignedTo,
+      subtasks,
+      index,
+      ticketCounterId
+    );
+  else if (mode === "edit")
+    editTicket(
+      title,
+      description,
+      dateForEditOverlay,
+      priority,
+      assignedTo,
+      subtasks,
+      index,
+      mode,
+      ticketCounterId
+    );
 }
 
 /**
@@ -203,9 +236,12 @@ async function checkEditedValues(ele) {
   let description = "";
   let date;
   let ticketCounterId = ele.dataset.ticketcounterid;
-  if (document.getElementById("task-title-edit").value) title = document.getElementById("task-title-edit").value;  
-  if (document.getElementById("task-description-edit").value) description = document.getElementById("task-description-edit").value;
-  if (document.getElementById("task-date-edit").value) date = document.getElementById("task-date-edit").value;
+  if (document.getElementById("task-title-edit").value)
+    title = document.getElementById("task-title-edit").value;
+  if (document.getElementById("task-description-edit").value)
+    description = document.getElementById("task-description-edit").value;
+  if (document.getElementById("task-date-edit").value)
+    date = document.getElementById("task-date-edit").value;
   ele.dataset.mode = "view";
   return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
 }
@@ -239,12 +275,12 @@ function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit, 
  * Collects all subtask list items from the DOM and updates the subtask array.
  *
  * Iterates through elements with the class `.subtask-li`, extracts their text,
- * checks whether they already exist in the provided original subtasks, and 
- * determines their checked state. Each subtask is then pushed into the global 
+ * checks whether they already exist in the provided original subtasks, and
+ * determines their checked state. Each subtask is then pushed into the global
  * `subtaskArray`.
  *
  * @function queryThroughListElements
- * @param {Array<{text: string, checked: boolean}>} originalSubtasks - 
+ * @param {Array<{text: string, checked: boolean}>} originalSubtasks -
  *        The original list of subtasks with their checked states.
  * @returns {void}
  */
@@ -253,7 +289,7 @@ function queryThroughListElements(originalSubtasks) {
     let text = li.innerText.trim();
     let existing = originalSubtasks.find((s) => s.text === text);
     let isChecked = existing ? existing.checked : false;
-    subtaskArray.push({ text, checked: isChecked, });
+    subtaskArray.push({ text, checked: isChecked });
   });
 }
 
@@ -390,7 +426,7 @@ async function deleteTicket(index) {
 function updateUIAfterDelete(index) {
   overlay.classList.add("hide");
   document.getElementById("board-task-pop-up").classList.add("hide");
-  delete allTickets[index]; // entfernt das Ticket aus dem Objekt
+  delete allTickets[index];
   allTickets = allTickets.filter((t) => t.id !== index);
   localStorage.setItem("tickets", JSON.stringify(allTickets));
   renderTickets();
