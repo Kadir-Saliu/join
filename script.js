@@ -194,9 +194,32 @@ function popUpAccNav() {
  * Toggles the visibility of the category drop-down menu by adding or removing the "hide" class
  * from the element with the ID "drop-down-category".
  */
-function popUpDropDownCategory(imgId) {
-  document.getElementById("drop-down-category").classList.toggle("hide");
+function popUpDropDownCategory(imgId, id) {
+  const dropDown = document.getElementById(id);
+  dropDown.classList.toggle("hide");
   changeDropDownArrow(imgId);
+  if (!dropDown.classList.contains("hide")) {
+    toggleCategoryDropdown(dropDown, imgId);
+  }
+}
+
+/**
+ * Toggles the visibility of a category dropdown and sets up an event listener to close it when clicking outside.
+ *
+ * @param {HTMLElement} dropDown - The dropdown element to toggle.
+ * @param {string} imgId - The ID of the image element whose arrow should be changed.
+ */
+function toggleCategoryDropdown(dropDown, imgId) {
+  function outsideClickHandler(event) {
+    if (!dropDown.contains(event.target)) {
+      dropDown.classList.add("hide");
+      changeDropDownArrow(imgId);
+      document.removeEventListener("click", outsideClickHandler);
+    }
+  }
+  setTimeout(() => {
+    document.addEventListener("click", outsideClickHandler);
+  }, 0);
 }
 
 /**
@@ -205,15 +228,6 @@ function popUpDropDownCategory(imgId) {
  */
 function popUpDropDownUsersInBoard() {
   document.getElementById("drop-down-users-board").classList.toggle("hide");
-}
-
-/**
- *  Toggles the visibility of the users dropdown menu in the board.
- * Adds or removes the "hide" class from the element with ID "drop-down-category-board".
- */
-function popUpDropDownCategoryInBoard(imgId) {
-  document.getElementById("drop-down-category-board").classList.toggle("hide");
-  changeDropDownArrow(imgId);
 }
 
 /**

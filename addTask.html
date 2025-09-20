@@ -35,7 +35,7 @@
             <p>Due date</p>
             <span>*</span>
           </div>
-          <input type="date" id="task-date"/>
+          <input type="date" id="task-date" min="2025-09-18"/>
           <p class="missing-value hide" id="missing-date-info">This field is required</p>
         </div>
         <div class="add-task-form-divider"></div>
@@ -58,10 +58,10 @@
               id="drop-down-users-input"
               class="drop-down-selection"
               placeholder="Select Contacts to assign"
-              onclick="dropDownUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input-img')"
+              onclick="dropDownUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input-img', 'drop-down-users-input')"
               oninput="filterUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input')"
             />
-            <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input-img')">
+            <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users', 'render-selected-users', 'drop-down-users-input-img', 'drop-down-users-input')">
               <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
             </div>
           </div>
@@ -71,7 +71,7 @@
             <p>Category</p>
             <span>*</span>
           </div>
-          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img')">
+          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img', 'drop-down-category')">
             Select task category
             <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
           </button>
