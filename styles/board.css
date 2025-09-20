@@ -2,7 +2,7 @@ html {
   overflow: hidden;
 }
 
-body{
+body {
   align-items: flex-start;
 }
 
@@ -186,7 +186,7 @@ button {
   display: flex;
 }
 
-.assigned-users div > :nth-child(n+6) {
+.assigned-users div > :nth-child(n + 6) {
   display: none;
 }
 
@@ -245,15 +245,14 @@ button {
 
 .content-limitation {
   width: 10vw;
-  white-space: nowrap;   
-  overflow: hidden;       
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .pop-up-margin-b-25 {
-
-  white-space: nowrap;   
-  overflow: hidden;       
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -415,32 +414,32 @@ button {
 }
 
 #drop-down-users-input-img-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: -1px;
-    margin-bottom: 16px;
-    background-color: white;
-    border: 1px solid rgb(219, 219, 219);
-    border-radius: 0 5px 5px 0;
-    border-left: none !important;
-    box-shadow: 0px 1px rgb(219, 219, 219);
-    width: 24px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -1px;
+  margin-bottom: 16px;
+  background-color: white;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 0 5px 5px 0;
+  border-left: none !important;
+  box-shadow: 0px 1px rgb(219, 219, 219);
+  width: 24px;
+  cursor: pointer;
 }
 
 #category-button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px !important;
-    border-right: 1px solid rgb(219, 219, 219);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px !important;
+  border-right: 1px solid rgb(219, 219, 219);
 }
 
 #category-button img {
-    height: 6px;
-    width: auto;
-    margin-right: 8px;
+  height: 6px;
+  width: auto;
+  margin-right: 8px;
 }
 
 #category-button:focus {
@@ -468,36 +467,36 @@ button {
 }
 
 #subtask-button-div {
-    display: flex;
-    background-color: white;
-    align-items: center;
+  display: flex;
+  background-color: white;
+  align-items: center;
 }
 
 #subtask-clear-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    font-size: 16px;
-    font-weight: bold;
-    border-right: none;
-    border-radius: 0;
-    margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  font-size: 16px;
+  font-weight: bold;
+  border-right: none;
+  border-radius: 0;
+  margin-bottom: 0;
 }
 
 #subtask-button-div-divider {
-    height: 36px;
-    display: flex;
-    align-items: center;
-    border-top: 1px solid rgb(219, 219, 219);
-    border-bottom: 1px solid rgb(219, 219, 219);
+  height: 36px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgb(219, 219, 219);
+  border-bottom: 1px solid rgb(219, 219, 219);
 }
 
 #subtask-button-divider {
-    width: 1px;
-    height: 60%;
-    background-color: rgb(219, 219, 219);
-    border-top: 1px solid rgb(219, 219, 219) !important;
+  width: 1px;
+  height: 60%;
+  background-color: rgb(219, 219, 219);
+  border-top: 1px solid rgb(219, 219, 219) !important;
 }
 
 #subtask-button {
@@ -505,22 +504,22 @@ button {
 }
 
 #subtask-render-div li:hover {
-  background-color: rgb(231, 231, 231);  
+  background-color: rgb(231, 231, 231);
   border-radius: 5px;
   cursor: pointer;
 }
 
 #subtask-render-div li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-    list-style-type: disc !important;
-    height: 24px;
-    padding-left: 12px;
-    padding-right: 12px;
-    margin-left: 0;
-    margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  list-style-type: disc !important;
+  height: 24px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: 0;
+  margin-bottom: 0;
 }
 
 .li-buttons {
@@ -528,13 +527,13 @@ button {
 }
 
 .li-buttons button {
-    border: none;
-    cursor: pointer;
-    width: 22px;
-    height: 22px;
-    margin-left: 4px;
-    margin-right: 4px;
-    background-color: rgb(231, 231, 231);
+  border: none;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  margin-left: 4px;
+  margin-right: 4px;
+  background-color: rgb(231, 231, 231);
 }
 
 .li-buttons img {
@@ -670,7 +669,7 @@ button {
   padding-top: 20px;
 }
 
-.min-height-task{
+.min-height-task {
   min-height: 140px;
 }
 
@@ -699,7 +698,8 @@ button {
   font-size: 12px;
 }
 
-#required-div, #button-div {
+#required-div,
+#button-div {
   position: fixed;
 }
 
@@ -713,7 +713,7 @@ button {
   right: 75px;
 }
 
-.overlay-textarea{
+.overlay-textarea {
   resize: none;
 }
 
@@ -727,79 +727,79 @@ button {
 
 @media (max-width: 1165px) {
   .big-logo {
-      display: none;
+    display: none;
   }
 
   .mobile-logo {
-      display: block !important;
-      height: 48px;
-      width: auto !important;
-      margin-left: 5%;
+    display: block !important;
+    height: 48px;
+    width: auto !important;
+    margin-left: 5%;
   }
 
   .header-responsive {
-      margin-left: 0;
-      width: 100%;
-      height: 8vh;
+    margin-left: 0;
+    width: 100%;
+    height: 8vh;
   }
 
   .header-and-icon {
-      height: 100%;
+    height: 100%;
   }
 
   .header-and-icon h2,
   .help-person-icon a {
-      display: none;
+    display: none;
   }
 
   main {
-      margin-top: 8vh;
-      margin-left: 0 !important;
-      margin-right: 0;
-      margin-bottom: 0;
-      width: 95% !important;
-      padding: 0;
+    margin-top: 8vh;
+    margin-left: 0 !important;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 95% !important;
+    padding: 0;
   }
 
   .title-main {
-      padding: 0;
-      padding-top: 10px;
-      gap: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      margin-bottom: 25px;
+    padding: 0;
+    padding-top: 10px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 25px;
   }
 
   nav {
-      position: fixed !important;
-      bottom: 0;
-      top: auto !important;
-      height: 10vh !important;
-      width: 100% !important;
+    position: fixed !important;
+    bottom: 0;
+    top: auto !important;
+    height: 10vh !important;
+    width: 100% !important;
   }
 
   nav div {
-      display: flex;
-      flex-direction: row;
-      height: 100%;
-      justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: space-evenly;
   }
 
   .nav-item {
-      padding: 10px 10px;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      border-radius: 20px;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 20px;
   }
 
   .nav-logo {
-      padding: 0 !important;
+    padding: 0 !important;
   }
 
   .legal-info {
-      display: none !important;
+    display: none !important;
   }
 
   .board-header {
@@ -855,7 +855,7 @@ button {
     text-decoration: none;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
   }
 
   #board-add-task-a {
@@ -873,6 +873,7 @@ button {
   }
 }
 
-#add-task-pop-up{
-  margin-left: 12.5%;
+#add-task-pop-up {
+  margin-left: 7%;
+  height: 70%;
 }
