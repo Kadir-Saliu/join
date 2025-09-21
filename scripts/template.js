@@ -35,17 +35,7 @@ function userDropDownTemplate(name, inititals, index, id, isSelected) {
  * @param {string} userSpans - HTML string representing assigned users.
  * @returns {string} HTML string representing the ticket template.
  */
-const getTicketTemplate = (
-  index,
-  title,
-  description,
-  category,
-  categoryCss,
-  priority,
-  subtasks,
-  ticketCounterId,
-  userSpans
-) => {
+const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans) => {
   return /*html*/ `
     <div
       draggable="true"
@@ -270,18 +260,7 @@ const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user)
  * @param {string} subtaskEle - HTML string representing subtasks.
  * @returns {string} The HTML template string for the ticket details pop-up.
  */
-const getRenderTicketDetailsTemplate = (
-  category,
-  categoryColor,
-  title,
-  description,
-  date,
-  priority,
-  index,
-  ticketCounterId,
-  userSpans,
-  subtaskEle
-) => {
+const getRenderTicketDetailsTemplate = (category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle) => {
   return /*html*/ `
     <div id="task-pop-up-nav">
       <p class="${categoryColor}">${category}</p>

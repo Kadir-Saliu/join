@@ -5,6 +5,7 @@
   width: 100%;
   height: 450px;
   margin-bottom: 50px;
+  overflow: hidden;
 }
 
 .add-task-form p {
@@ -128,6 +129,11 @@
   display: flex;
 }
 
+#subtasks-div {
+  max-height: 175px;
+  overflow-y: scroll;
+}
+
 .subtask-div input {
   height: 36px;
   flex-grow: 1;
@@ -231,9 +237,9 @@
   width: 75%;
   height: 90%;
   padding: 75px;
+  padding-top: 50px;
   border-radius: 25px;
   z-index: 1000;
-
   opacity: 0;
   pointer-events: none;
   transform: translateX(-100%);

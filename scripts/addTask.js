@@ -109,22 +109,49 @@ async function iterateContacts(responseJson, id, renderId, imgId, inputId) {
   }
   document.getElementById(id).innerHTML = "";
   let backgroundIndex = 0;
-  for (let index = 0; index < responseJson.length; index++) {
-    let name = responseJson[index]?.name;
-    if (!name) continue;
-    backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
-    let initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
-    let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
-    document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected);
-  }
-  document.addEventListener("click", function handler(event) {
-    if (!document.getElementById(id).contains(event.target) && event.target.id !== inputId) {
-      document.getElementById(id).classList.add("hide");
-      if(renderBol) changeDropDownArrow(imgId);
-      renderBol = false;
-      document.removeEventListener("click", handler);
+  backgroundIndex = getBGIndex(responseJson, backgroundIndex, id, renderId);
+  closeDropDowns(id, inputId, imgId);
+}
+
+/**
+ * Attaches a one-time click event listener to the document that closes a dropdown menu
+ * if a click occurs outside of the specified dropdown element or its associated input.
+ *
+ * @param {string} id - The ID of the dropdown element to be closed.
+ * @param {string} inputId - The ID of the input element associated with the dropdown.
+ * @param {string} imgId - The ID of the image element representing the dropdown arrow.
+ */
+function closeDropDowns(id, inputId, imgId) {
+    document.addEventListener("click", function handler(event) {
+        if (!document.getElementById(id).contains(event.target) && event.target.id !== inputId) {
+            document.getElementById(id).classList.add("hide");
+            if (renderBol) changeDropDownArrow(imgId);
+            renderBol = false;
+            document.removeEventListener("click", handler);
+        }
+    });
+}
+
+/**
+ * Iterates over a list of user objects, generates user dropdown elements, and appends them to a specified DOM element.
+ * Updates and returns the background index for user icons.
+ *
+ * @param {Array<Object>} responseJson - Array of user objects, each expected to have a 'name' property.
+ * @param {number} backgroundIndex - The current background index to use for user icons.
+ * @param {string} id - The ID of the DOM element to which the user dropdown elements will be appended.
+ * @param {string} renderId - An identifier used in rendering the user dropdown template.
+ * @returns {number} The updated background index after processing all users.
+ */
+function getBGIndex(responseJson, backgroundIndex, id, renderId) {
+    for (let index = 0; index < responseJson.length; index++) {
+        let name = responseJson[index]?.name;
+        if (!name) continue;
+        backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
+        let initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
+        let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected);
     }
-  });
+    return backgroundIndex;
 }
 
 /**

@@ -113,3 +113,47 @@ const popUpContactDetails = () => {
 const hideContactDetails = () => {
   document.getElementById("header-contacts").style.display = "none";
 };
+
+
+/**
+ * Validates a German phone number.
+ *
+ * Accepts numbers starting with +49, 0049, or 0, followed by a valid mobile prefix (15, 16, or 17) and 7-8 digits.
+ *
+ * @param {string} phone - The phone number to validate.
+ * @returns {boolean} True if the phone number is valid, false otherwise.
+ */
+const validatePhoneNumber = (phone) => {
+  const phoneRegex = /^\+?[1-9]\d{7,14}$/;
+  if (!phoneRegex.test(phone)) {
+    return false;
+  }
+  return true;
+};
+
+/**
+ * Finalizes the contact editing process by clearing the contact details display,
+ * closing the edit overlay, resetting the edit form, and refreshing the contact list.
+ */
+const finishEdit = () => {
+  document.getElementById("contactDetails").innerHTML = "";
+  closeEditOverlay();
+  clearEditForm();
+  showContacts();
+};
+
+/**
+ * Scrolls to a specific contact in the contacts list
+ * @param {string} contactName - The name of the contact to scroll to
+ */
+const scrollToNewContact = (newContact) => {
+  const initials = newContact.name.split(" ")[0][0] + newContact.name.split(" ")[1][0];
+  const contact = document.querySelector(`[data-contact="${newContact.name}"]`);
+  const contactData = contacts.find((c) => c.name === newContact.name);
+  const contactIconId = ((contactData.firebaseKey - 1) % 15) + 1;
+  contact.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+  showContactsDetails(initials, newContact.name, newContact.email, newContact.phone, contactIconId, contact);
+};

@@ -366,6 +366,10 @@
     margin-bottom: 12vh;
   }
 
+  .board-search {
+    margin-right: 0;
+  }
+
   #to-do-div,
   #in-progress-div,
   #await-feedback-div,
@@ -391,6 +395,7 @@
   #board-task-pop-up {
     width: 95%;
     margin-left: 2.5%;
+    overflow-y: scroll;
   }
 
   #drop-down-users-input {
