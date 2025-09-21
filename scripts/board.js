@@ -56,17 +56,7 @@ function getVariablesToRenderTickets(t) {
   let priority = t.priority || [];
   let subtasks = t.subtask || [];
   let ticketCounterId = t.id;
-  return {
-    subtasks,
-    columnId,
-    title,
-    description,
-    category,
-    categoryCss,
-    assignedTo,
-    priority,
-    ticketCounterId,
-  };
+  return {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId,};
 }
 
 /**
@@ -196,31 +186,8 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let priority = ticket[index].priority || "-";
   let assignedTo = ticket[index].assignedTo || [];
   let subtasks = ticket[index].subtask || [];
-  if (mode === "view")
-    renderTicketDetails(
-      category,
-      categoryColor,
-      title,
-      description,
-      formattedDate,
-      priority,
-      assignedTo,
-      subtasks,
-      index,
-      ticketCounterId
-    );
-  else if (mode === "edit")
-    editTicket(
-      title,
-      description,
-      dateForEditOverlay,
-      priority,
-      assignedTo,
-      subtasks,
-      index,
-      mode,
-      ticketCounterId
-    );
+  if (mode === "view") renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
+  else if (mode === "edit") editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
 }
 
 /**

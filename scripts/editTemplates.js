@@ -220,8 +220,8 @@ const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans
         </div>
         <p class="margin-top-24">Assigned to</p>
         <div id="drop-down-users-input-div">
-          <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
-          <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit')">
+          <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')" autocomplete="off" />
+          <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')">
                 <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
               </div>
         </div>

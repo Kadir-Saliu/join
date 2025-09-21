@@ -67,14 +67,7 @@ const renderContacts = (sortedContacts, contactsRef) => {
       let phone = escapeQuotes(contact.phone);
       let safeIndex = contact.firebaseKey;
       let contactIconId = ((safeIndex - 1) % 15) + 1;
-      contactsRef.innerHTML += getContactTemplate(
-        initials,
-        userName,
-        email,
-        phone,
-        contactIconId,
-        contact
-      );
+      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId, contact);
     });
   });
 };
@@ -89,21 +82,13 @@ const renderContacts = (sortedContacts, contactsRef) => {
  */
 const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
   document.querySelectorAll(".contact").forEach((contact) => contact.classList.remove("active"));
-  document
-    .querySelectorAll(".contact-initials")
-    .forEach((contactInitials) => contactInitials.classList.remove("active"));
+  document.querySelectorAll(".contact-initials").forEach((contactInitials) => contactInitials.classList.remove("active"));
   clickedElement.classList.add("active");
   const initialsElement = clickedElement.querySelector(".contact-initials");
   initialsElement.classList.add("active");
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = "";
-  contactDetailsRef.innerHTML = getContactDetailsTemplate(
-    initials,
-    userName,
-    email,
-    phone,
-    contactIconId
-  );
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
   contactDetailsRef.classList.add("active");
   if (window.innerWidth <= 1130) popUpContactDetails();
 };
@@ -154,13 +139,7 @@ const closeAddContactOverlay = () => {
  */
 const openEditOverlay = (initials, userName, email, phone, contactIconId) => {
   const editOverlayRef = document.getElementById("editOverlay");
-  editOverlayRef.innerHTML = getEditOverlayContentTemplate(
-    initials,
-    userName,
-    email,
-    phone,
-    contactIconId
-  );
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate(initials, userName, email, phone, contactIconId);
   if (editOverlayRef.classList.contains("d_none")) {
     editOverlayRef.classList.add("active");
     editOverlayRef.classList.remove("d_none");
@@ -186,14 +165,7 @@ const closeEditOverlay = () => {
  *
  * @param {Event} event - The event object to stop propagation for
  */
-const openEditOverlayWithBubblingPrevention = (
-  event,
-  initials,
-  userName,
-  email,
-  phone,
-  contactIconId
-) => {
+const openEditOverlayWithBubblingPrevention = (event, initials, userName, email, phone, contactIconId) => {
   event.stopPropagation();
   openEditOverlay(initials, userName, email, phone, contactIconId);
 };
@@ -417,54 +389,4 @@ const validateEmail = (email) => {
     return false;
   }
   return true;
-};
-
-/**
- * Validates a German phone number.
- *
- * Accepts numbers starting with +49, 0049, or 0, followed by a valid mobile prefix (15, 16, or 17) and 7-8 digits.
- *
- * @param {string} phone - The phone number to validate.
- * @returns {boolean} True if the phone number is valid, false otherwise.
- */
-const validatePhoneNumber = (phone) => {
-  const phoneRegex = /^\+?[1-9]\d{7,14}$/;
-  if (!phoneRegex.test(phone)) {
-    return false;
-  }
-  return true;
-};
-
-/**
- * Finalizes the contact editing process by clearing the contact details display,
- * closing the edit overlay, resetting the edit form, and refreshing the contact list.
- */
-const finishEdit = () => {
-  document.getElementById("contactDetails").innerHTML = "";
-  closeEditOverlay();
-  clearEditForm();
-  showContacts();
-};
-
-/**
- * Scrolls to a specific contact in the contacts list
- * @param {string} contactName - The name of the contact to scroll to
- */
-const scrollToNewContact = (newContact) => {
-  const initials = newContact.name.split(" ")[0][0] + newContact.name.split(" ")[1][0];
-  const contact = document.querySelector(`[data-contact="${newContact.name}"]`);
-  const contactData = contacts.find((c) => c.name === newContact.name);
-  const contactIconId = ((contactData.firebaseKey - 1) % 15) + 1;
-  contact.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-  });
-  showContactsDetails(
-    initials,
-    newContact.name,
-    newContact.email,
-    newContact.phone,
-    contactIconId,
-    contact
-  );
 };

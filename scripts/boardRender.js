@@ -95,29 +95,9 @@ async function renderTickets(tickets = allTickets) {
 async function renderAllTickets(tickets = allTickets) {
   for (const [index, t] of Object.entries(tickets)) {
     if (t) {
-      const {
-        subtasks,
-        columnId,
-        title,
-        description,
-        category,
-        categoryCss,
-        assignedTo,
-        priority,
-        ticketCounterId,
-      } = getVariablesToRenderTickets(t);
+      const {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId,} = getVariablesToRenderTickets(t);
       calculateSubtaskCounter(subtasks);
-      document.getElementById(columnId).innerHTML += await ticketTemplate(
-        title,
-        description,
-        category,
-        categoryCss,
-        assignedTo,
-        priority,
-        index,
-        subtasks,
-        ticketCounterId
-      );
+      document.getElementById(columnId).innerHTML += await ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId);
       renderSubtaskProgress(index, subtasks);
     }
   }
@@ -138,41 +118,17 @@ async function renderAllTickets(tickets = allTickets) {
  * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
  *
  */
-async function ticketTemplate(
-  title,
-  description,
-  category,
-  categoryCss,
-  assignedTo,
-  priority,
-  index,
-  subtasks,
-  ticketCounterId
-) {
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user
-        ?.split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase();
+      let initials = user?.split(" ").map((n) => n[0]).join("").toUpperCase();
       return `<span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>`;
     })
   );
   let userSpans = userSpansArray.join("");
-  return getTicketTemplate(
-    index,
-    title,
-    description,
-    category,
-    categoryCss,
-    priority,
-    subtasks,
-    ticketCounterId,
-    userSpans
-  );
+  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans);
 }
 
 /**
@@ -248,28 +204,9 @@ async function renderTicketOverlay(ele) {
  * @param {string} priority - The ticket priority (e.g., "urgent", "medium", "low").
  * @returns {void}
  */
-function renderHTMLElementsForEditing(
-  title,
-  description,
-  dateForEditOverlay,
-  userSpans,
-  subtaskEle,
-  index,
-  ticketCounterId,
-  mode,
-  priority
-) {
+function renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority) {
   document.getElementById("subtask-render-div").innerHTML = "";
-  document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(
-    title,
-    description,
-    dateForEditOverlay,
-    userSpans,
-    subtaskEle,
-    index,
-    ticketCounterId,
-    mode
-  );
+  document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode);
   document.querySelectorAll(".set-priority").forEach((ele) => {
     if (ele.innerText.toLowerCase().trim() === priority) {
       ele.classList.add(priority);
@@ -296,48 +233,20 @@ function renderHTMLElementsForEditing(
  * each containing user initials and name inside styled elements.
  * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
  */
-async function renderTicketDetails(
-  category,
-  categoryColor,
-  title,
-  description,
-  date,
-  priority,
-  assignedTo,
-  subtasks,
-  index,
-  ticketCounterId
-) {
+async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase();
+      let initials = user.split(" ").map((n) => n[0]).join("").toUpperCase();
       return getRenderTicketDetailsUserSpansArrayTemplate(safeIndex, initials, user);
     })
   );
   let userSpans = userSpansArray.join("");
-  let subtaskEle = subtasks
-    .map((subtask, i) => {
+  let subtaskEle = subtasks.map((subtask, i) => {
       return getRenderTicketDetailsSubtaskEleTemplate(i, subtask, index, ticketCounterId);
-    })
-    .join("");
-  document.getElementById("board-task-information").innerHTML = getRenderTicketDetailsTemplate(
-    category,
-    categoryColor,
-    title,
-    description,
-    date,
-    priority,
-    index,
-    ticketCounterId,
-    userSpans,
-    subtaskEle
-  );
+    }).join("");
+  document.getElementById("board-task-information").innerHTML = getRenderTicketDetailsTemplate(category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle);
 }
 
 /**
@@ -403,43 +312,15 @@ function minDate() {
  * each showing a user's initials, styled dynamically, and with a data-name attribute.
  * @throws {Error} If any call to `getUserDetails(user)` fails.
  */
-async function editTicket(
-  title,
-  description,
-  dateForEditOverlay,
-  priority,
-  assignedTo,
-  subtasks,
-  index,
-  mode,
-  ticketCounterId
-) {
+async function editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
   let userSpansArray = await Promise.all(iterateThroughUsersForVisualization(assignedTo));
   let userSpans = userSpansArray.join("");
-  let subtaskEle = subtasks
-    .map((subtask, i) => {
-      return getEditTicketSubtaskEleTemplate(
-        subtask,
-        i,
-        dataTicketIndex,
-        dataTicketCounterId,
-        dataMode
-      );
-    })
-    .join("");
+  let subtaskEle = subtasks.map((subtask, i) => {
+      return getEditTicketSubtaskEleTemplate(subtask, i, dataTicketIndex, dataTicketCounterId, dataMode);
+    }).join("");
   subtaskEditArray = [];
   subtasks.forEach((subtask) => subtaskEditArray.push(subtask.text));
-  renderHTMLElementsForEditing(
-    title,
-    description,
-    dateForEditOverlay,
-    userSpans,
-    subtaskEle,
-    index,
-    ticketCounterId,
-    mode,
-    priority
-  );
+  renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority);
 }
 
 /**
@@ -460,11 +341,7 @@ function iterateThroughUsersForVisualization(assignedTo) {
   return assignedTo.map(async (user, i) => {
     let renderedUserBgIndex = await getUserDetails(user);
     let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-    let initials = user
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
+    let initials = user.split(" ").map((n) => n[0]).join("").toUpperCase();
     return getEditTicketUserSpansArrayTemplate(user, safeIndex, initials);
   });
 }

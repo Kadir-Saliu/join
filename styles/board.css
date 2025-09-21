@@ -56,6 +56,9 @@ button {
   height: 35px;
   width: 100px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .board-add-task:hover {
@@ -291,7 +294,7 @@ button {
   flex-shrink: 0;
 }
 
-#drop-down-users-edit div {
+#drop-down-users-edit label {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -411,6 +414,10 @@ button {
 .medium:hover,
 .low:hover {
   box-shadow: none !important;
+}
+
+#drop-down-users-input {
+  width: calc(100% - 23px);
 }
 
 #drop-down-users-input-img-div {
@@ -660,8 +667,12 @@ button {
   cursor: pointer;
 }
 
+#edit-render-user {
+  padding-left: 8px;
+}
+
 #edit-render-user span {
-  margin-left: 8px;
+  margin-left: -8px;
   margin-top: 8px;
 }
 
@@ -859,7 +870,8 @@ button {
   }
 
   #board-add-task-a {
-    font-size: 12px;
+    font-size: 20px;
+    width: 35px;
   }
 
   .account-nav-render-div {
@@ -874,6 +886,6 @@ button {
 }
 
 #add-task-pop-up {
-  margin-left: 7%;
-  height: 70%;
+  margin-left: 12.5%;
+  height: 75%;
 }

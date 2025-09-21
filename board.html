@@ -35,8 +35,11 @@
             <img  src="./assets/imgs/search_lense.png" class="search-bar-lense" alt="search lense" />
           </button>
         </div>
-        <button class="board-add-task full-screen-button" onclick="popUpAddTask(popup, 'To do')">Add task +</button>
-        <a class="board-add-task mobile-button" id="board-add-task-a" href="./addTask.html">Add task +</a>
+        <button class="board-add-task full-screen-button" onclick="popUpAddTask(popup, 'To do')">
+          <p id="task-btn-mobile">Add task</p>
+          <p>+</p>
+        </button>
+        <a class="board-add-task mobile-button" id="board-add-task-a" href="./addTask.html">+</a>
       </div>
     </div>
 
@@ -94,7 +97,7 @@
     </div>
   </main>
 
-  <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this)"></div>
+  <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this); boardInit()"></div>
   <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
 
   <div class="hide slide-out mw1920" id="add-task-pop-up">
