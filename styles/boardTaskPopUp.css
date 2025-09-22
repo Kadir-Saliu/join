@@ -249,19 +249,32 @@ li {
 @media (max-width: 630px) {
   #board-task-pop-up {
     margin-left: 10vw;
+    width: 400px;
+  }
+}
+
+@media (max-width: 470px) {
+  #board-task-pop-up {
+    margin-left: 7vw;
+    width: 350px;
+  }
+}
+
+@media (max-width: 400px) {
+  #board-task-pop-up {
+    margin-left: 5vw;
     width: 310px;
   }
 }
 
-@media (max-width: 360px) {
-  #board-task-pop-up {
-    margin-left: 5vw;
-  }
-}
-
-@media (max-width: 325px) {
+@media (max-width: 330px) {
   #board-task-pop-up {
     margin-left: 3vw;
+  }
+}
+@media (max-width: 320px) {
+  #board-task-pop-up {
+    margin-left: 2vw;
   }
 }
 

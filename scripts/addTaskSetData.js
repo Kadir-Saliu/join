@@ -4,11 +4,11 @@
  * @param {string} prio - The priority level to set (e.g., "urgent", "medium", "low").
  * @param {HTMLElement} clickedButton - The button element that was clicked to select the priority.
  */
-function setPriority(prio, clickedButton) {   
-    buttonPriority = prio;
-    let buttons = document.querySelectorAll(".priority-button");
-    buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
-    clickedButton.classList.add(clickedButton.innerText.toLowerCase().trim());
+function setPriority(prio, clickedButton) {
+  buttonPriority = prio;
+  let buttons = document.querySelectorAll(".priority-button");
+  buttons.forEach((btn) => btn.classList.remove("urgent", "medium", "low"));
+  clickedButton.classList.add(clickedButton.innerText.toLowerCase().trim());
 }
 
 /**
@@ -18,26 +18,26 @@ function setPriority(prio, clickedButton) {
  * @param {string} idButton - The ID of the button element to update.
  * @param {string} idDropDown - The ID of the dropdown element to hide.
  */
-function setCategory(category, idButton, idDropDown) {   
-    buttonCategory = category;  
-    document.getElementById(idButton).innerHTML =   `${buttonCategory}
+function setCategory(category, idButton, idDropDown) {
+  buttonCategory = category;
+  document.getElementById(idButton).innerHTML = `${buttonCategory}
                                                     <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
-                                                    `; 
-    document.getElementById(idDropDown).classList.add("hide");
+                                                    `;
+  document.getElementById(idDropDown).classList.add("hide");
 }
 
 /**
  * Toggles the source image of a dropdown arrow between "arrow_down" and "arrow_up".
- * 
+ *
  * @param {string} id - The ID of the image element whose source should be toggled.
  */
 async function changeDropDownArrow(id) {
-    if(document.getElementById(id).src.includes("arrow_down")) {
-        document.getElementById(id).src = "./assets/imgs/arrow_up.png"
-    } else if (document.getElementById(id).src.includes("arrow_up")) {
-        document.getElementById(id).src = "./assets/imgs/arrow_down.png"
-    }
-};
+  if (document.getElementById(id).src.includes("arrow_down")) {
+    document.getElementById(id).src = "./assets/imgs/arrow_up.png";
+  } else if (document.getElementById(id).src.includes("arrow_up")) {
+    document.getElementById(id).src = "./assets/imgs/arrow_down.png";
+  }
+}
 
 /**
  * Creates a new ticket with the provided column value and saves it to Firebase.
@@ -48,15 +48,17 @@ async function changeDropDownArrow(id) {
  * @returns {Promise<void>} Resolves when the ticket has been saved to Firebase.
  */
 async function createNewTicket(columnValue) {
-    let selectedUsers = getSelectedUsers();
-    let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
-    let ticketCounter = await counterResponse.json();
-    if (ticketCounter === null) {
-      ticketCounter = 0;
-    }
-    ticketCounter++;
-    let newTicket = buildTicket(ticketCounter, columnValue, selectedUsers);
-    await saveTaskToFirebase(newTicket, ticketCounter);
+  let selectedUsers = getSelectedUsers();
+  let counterResponse = await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`
+  );
+  let ticketCounter = await counterResponse.json();
+  if (ticketCounter === null) {
+    ticketCounter = 0;
+  }
+  ticketCounter++;
+  let newTicket = buildTicket(ticketCounter, columnValue, selectedUsers);
+  await saveTaskToFirebase(newTicket, ticketCounter);
 }
 
 /**
@@ -77,7 +79,7 @@ function buildTicket(ticketCounter, columnValue, selectedUsers) {
     category: buttonCategory,
     subtask: subtaskArray,
     column: columnValue,
-    id: ticketCounter
+    id: ticketCounter,
   };
 }
 
@@ -91,18 +93,21 @@ function buildTicket(ticketCounter, columnValue, selectedUsers) {
  * Also assumes an element with ID "subtask-render-div" exists in the DOM.
  */
 function addSubtask() {
-    subtaskValue.push(subtask.value);
-    if(subtask.value) {
-        subtaskArray.push({
-            text: subtask.value,
-            checked: subtask.checked
-        });
-        document.getElementById("subtask-render-div").innerHTML += addSubtaskRenderDiv(subtask.value, subtaskCounter);
-        subtaskCounter++;
-        subtask.value = "";
-        document.getElementById("subtask-clear-button").classList.add("hide");
-        document.getElementById("subtask-button-div-divider").classList.add("hide");
-    }
+  subtaskValue.push(subtask.value);
+  if (subtask.value) {
+    subtaskArray.push({
+      text: subtask.value,
+      checked: subtask.checked,
+    });
+    document.getElementById("subtask-render-div").innerHTML += addSubtaskRenderDiv(
+      subtask.value,
+      subtaskCounter
+    );
+    subtaskCounter++;
+    subtask.value = "";
+    document.getElementById("subtask-clear-button").classList.add("hide");
+    document.getElementById("subtask-button-div-divider").classList.add("hide");
+  }
 }
 
 /**
@@ -111,12 +116,12 @@ function addSubtask() {
  * @param {HTMLElement} ele - The element that triggered the edit action, typically an edit button within the subtask.
  */
 function editSubtask(ele) {
-    let liVal = ele.parentElement.parentElement.innerText;
-    ele.parentElement.parentElement.removeAttribute("onmouseenter");
-    ele.parentElement.parentElement.removeAttribute("onmouseleave");
-    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);    
-    ele.parentElement.parentElement.innerHTML = editSubtaskRender(liVal, ele.dataset.index);
-    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");   
+  let liVal = ele.parentElement.parentElement.innerText;
+  ele.parentElement.parentElement.removeAttribute("onmouseenter");
+  ele.parentElement.parentElement.removeAttribute("onmouseleave");
+  ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
+  ele.parentElement.parentElement.innerHTML = editSubtaskRender(liVal, ele.dataset.index);
+  document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");
 }
 
 /**
@@ -127,12 +132,12 @@ function editSubtask(ele) {
  * @param {HTMLElement} ele - The element that triggered the edit, typically an edit button within the subtask.
  */
 function editSubtaskInEditMenu(ele) {
-    let liVal = ele.parentElement.parentElement.innerText;
-    ele.parentElement.parentElement.removeAttribute("onmouseenter");
-    ele.parentElement.parentElement.removeAttribute("onmouseleave");
-    ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);    
-    ele.parentElement.parentElement.innerHTML = editSubtaskInEditMenuRender(liVal, ele.dataset.index);
-    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div"); 
+  let liVal = ele.parentElement.parentElement.innerText;
+  ele.parentElement.parentElement.removeAttribute("onmouseenter");
+  ele.parentElement.parentElement.removeAttribute("onmouseleave");
+  ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
+  ele.parentElement.parentElement.innerHTML = editSubtaskInEditMenuRender(liVal, ele.dataset.index);
+  document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");
 }
 
 /**
@@ -141,7 +146,7 @@ function editSubtaskInEditMenu(ele) {
  * @param {HTMLElement} ele - The parent element whose first child will be hidden.
  */
 function removeHoverButtons(ele) {
-    ele.firstElementChild.classList.add("hide");
+  ele.firstElementChild.classList.add("hide");
 }
 
 /**
@@ -167,9 +172,9 @@ function removeHideOnInput(inputElement) {
  * @param {string} subtaskId - The ID of the subtask input element to clear.
  */
 function clearSubtaskValue(subtaskId) {
-    document.getElementById(subtaskId).value = "";
-    document.getElementById("subtask-clear-button").classList.add("hide");
-    document.getElementById("subtask-button-div-divider").classList.add("hide");
+  document.getElementById(subtaskId).value = "";
+  document.getElementById("subtask-clear-button").classList.add("hide");
+  document.getElementById("subtask-button-div-divider").classList.add("hide");
 }
 
 /**
@@ -181,17 +186,17 @@ function clearSubtaskValue(subtaskId) {
  * - Empties the subtask array and clears the subtask display.
  */
 function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
-    taskTitle.value = "";
-    taskDescription.value = "";
-    taskDate.value = "";
-    resetPriority();
-    document.getElementById(userSpans).innerHTML = "";
-    setCategory(category, idButton, idDropDown);
-    subtaskArray = [];
-    document.getElementById(subtaskList).innerHTML = "";
-    document.getElementById("subtask").value = "";
-    uncheckAllUserIcons();
-    clearValidationFeedback();
+  taskTitle.value = "";
+  taskDescription.value = "";
+  taskDate.value = "";
+  resetPriority();
+  document.getElementById(userSpans).innerHTML = "";
+  setCategory(category, idButton, idDropDown);
+  subtaskArray = [];
+  document.getElementById(subtaskList).innerHTML = "";
+  document.getElementById("subtask").value = "";
+  uncheckAllUserIcons();
+  clearValidationFeedback();
 }
 
 /**
@@ -200,7 +205,7 @@ function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
  * and sets their checked property to false.
  */
 function uncheckAllUserIcons() {
-  document.querySelectorAll(".user-icon input[type='checkbox']").forEach(checkbox => {
+  document.querySelectorAll(".user-icon input[type='checkbox']").forEach((checkbox) => {
     checkbox.checked = false;
   });
 }
@@ -223,11 +228,11 @@ function clearValidationFeedback() {
  * and removing all priority-related CSS classes ("urgent", "medium", "low")
  * from elements with the "priority-button" class.
  */
-function resetPriority() {   
-    buttonPriority = "medium";
-    let buttons = document.querySelectorAll(".priority-button");
-    buttons.forEach(btn => btn.classList.remove("urgent", "medium", "low"));
-    document.getElementById("medium-priority-button").classList.add("medium");
+function resetPriority() {
+  buttonPriority = "medium";
+  let buttons = document.querySelectorAll(".priority-button");
+  buttons.forEach((btn) => btn.classList.remove("urgent", "medium", "low"));
+  document.getElementById("medium-priority-button").classList.add("medium");
 }
 
 /**
@@ -236,16 +241,19 @@ function resetPriority() {
  * @param {HTMLElement} ele - The element that triggered the delete action, typically a button within the subtask.
  */
 function deleteSubtask(ele, liVal) {
-    let index = subtaskValue.indexOf(liVal);
-    subtaskValue.splice(index, 1);
-    
-    for (let index = 0; index < subtaskArray.length; index++) {
-        if(ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
-            subtaskArray.splice(index, 1);         
-        }
+  let index = subtaskValue.indexOf(liVal);
+  subtaskValue.splice(index, 1);
+
+  for (let index = 0; index < subtaskArray.length; index++) {
+    if (
+      ele.parentElement.parentElement.innerText === subtaskArray[index].text &&
+      ele.dataset.index == index
+    ) {
+      subtaskArray.splice(index, 1);
     }
-    subtaskCounter--;
-    ele.parentElement.parentElement.remove();
+  }
+  subtaskCounter--;
+  ele.parentElement.parentElement.remove();
 }
 
 /**
@@ -277,13 +285,16 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
  * @returns {Promise<void>} A promise that resolves when the ticket data has been saved.
  */
 async function saveTicketData(ticketData, ticketCounter) {
-  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(ticketData),
-  });
+  await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ticketData),
+    }
+  );
 }
 
 /**
@@ -291,18 +302,20 @@ async function saveTicketData(ticketData, ticketCounter) {
  * Shows a feedback message, updates browser history, retrieves ticket data,
  * and redirects to the board page after a delay. Also hides popup and overlay elements if present.
  */
-function saveTaskToFirebasePassalong() {    
-    addedUserfeedback.classList.remove("hide");
-    addedUserfeedback.classList.add("show");
-    history.pushState(null, "");
-    getTicketData();
-    setTimeout(() => {
+function saveTaskToFirebasePassalong() {
+  addedUserfeedback.classList.remove("hide");
+  addedUserfeedback.classList.add("show");
+  history.pushState(null, "");
+  getTicketData();
+  setTimeout(() => {
     addedUserfeedback.classList.add("hide");
-    addedUserfeedback.classList.remove("show"); 
-    window.location.href = "board.html";   
-    }, 3000);    
-    if(addTaskPopUp) addTaskPopUp.classList.add("hide");
-    if(bordOverlay) bordOverlay.classList.add("hide");
+    addedUserfeedback.classList.remove("show");
+    window.location.href.includes("board.html")
+      ? renderTickets()
+      : (window.location.href = "board.html");
+  }, 3000);
+  if (addTaskPopUp) addTaskPopUp.classList.add("hide");
+  if (bordOverlay) bordOverlay.classList.add("hide");
 }
 
 /**
@@ -315,13 +328,16 @@ function saveTaskToFirebasePassalong() {
  * @returns {Promise<void>} A promise that resolves when the update is complete.
  */
 async function updateTicketCounter(ticketCounter) {
-  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(ticketCounter),
-  });
+  await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ticketCounter),
+    }
+  );
 }
 
 document.getElementById("task-date").setAttribute("min", new Date().toISOString().split("T")[0]);

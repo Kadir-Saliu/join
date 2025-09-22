@@ -9,7 +9,7 @@ let progressColumn;
 let ticketID = 0;
 const addedUserfeedback = document.getElementById("added-userfeedback");
 let subtaskCounter = 0;
-let columnVal = 'To do';
+let columnVal = "To do";
 let ticketCounter = 0;
 let addTaskPopUp = document.getElementById("add-task-pop-up");
 let bordOverlay = document.getElementById("board-overlay");
@@ -17,7 +17,7 @@ let subtaskValue = [];
 let renderBol = false;
 
 document.getElementById("create-task-button").onclick = function () {
-    checkRequiredInput(columnVal, true);
+  checkRequiredInput(columnVal, true);
 };
 
 /**
@@ -31,14 +31,14 @@ document.getElementById("create-task-button").onclick = function () {
  * @returns {Promise<void>} Resolves when the dropdown is populated or logs an error if the fetch fails.
  */
 async function dropDownUsers(id, renderId, imgId, inputId) {
-    try {
-        let response = await fetch(BASE_URL_USERS);
-        let data = await response.json();
-        let responseJson = Object.values(data);
-        iterateContacts(responseJson, id, renderId, imgId, inputId);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    let response = await fetch(BASE_URL_USERS);
+    let data = await response.json();
+    let responseJson = Object.values(data);
+    iterateContacts(responseJson, id, renderId, imgId, inputId);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**
@@ -52,14 +52,14 @@ async function dropDownUsers(id, renderId, imgId, inputId) {
  * @param {string} renderId - An identifier passed to the template function for rendering.
  */
 async function filterUsers(id, renderId, inputId) {
-    try {
-        let response = await fetch(BASE_URL_USERS);
-        let responseJson = await response.json();
-        let responseJsonValues = Object.values(responseJson);
-        iterateUsers(responseJsonValues, id, renderId, inputId);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    let response = await fetch(BASE_URL_USERS);
+    let responseJson = await response.json();
+    let responseJsonValues = Object.values(responseJson);
+    iterateUsers(responseJsonValues, id, renderId, inputId);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**
@@ -71,26 +71,37 @@ async function filterUsers(id, renderId, inputId) {
  * @param {string} inputId - The ID of the input element used for filtering users by name.
  */
 function iterateUsers(users, dropDownId, renderId, inputId) {
-    let name;
-    let initials;
-    let id;
-    document.getElementById(dropDownId).innerHTML = "";
-    if (document.getElementById(dropDownId).classList.contains("hide")) document.getElementById(dropDownId).classList.remove("hide");
-    users.forEach(user => {
-        if(user?.name.toLowerCase().includes(document.getElementById(inputId).value.toLowerCase())) {
-            name = user?.name;
-            id= user?.id;
-            initials = name.split(" ").map(n => n[0]).join("").toUpperCase();  
-            let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);            
-            document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId, isSelected); 
-        }  
-    });
+  let name;
+  let initials;
+  let id;
+  document.getElementById(dropDownId).innerHTML = "";
+  if (document.getElementById(dropDownId).classList.contains("hide"))
+    document.getElementById(dropDownId).classList.remove("hide");
+  users.forEach((user) => {
+    if (user?.name.toLowerCase().includes(document.getElementById(inputId).value.toLowerCase())) {
+      name = user?.name;
+      id = user?.id;
+      initials = name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+      let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+      document.getElementById(dropDownId).innerHTML += userDropDownTemplate(
+        name,
+        initials,
+        id,
+        renderId,
+        isSelected
+      );
+    }
+  });
 }
 
 /**
  * Iterates over a list of contacts and renders each contact into a specified DOM element.
  * Each contact is displayed using a template with their name, initials, and a background index.
- * 
+ *
  * @param {Array<Object>} responseJson - Array of contact objects, each containing at least a 'name' property.
  * @param {string} id - The ID of the DOM element to render the contacts into.
  * @param {string} renderId - An identifier passed to the userDropDownTemplate for rendering purposes.
@@ -98,7 +109,7 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
 
 async function iterateContacts(responseJson, id, renderId, imgId, inputId) {
   if (!renderBol) {
-    document.getElementById(id).classList.remove("hide");    
+    document.getElementById(id).classList.remove("hide");
     changeDropDownArrow(imgId);
     renderBol = true;
   } else {
@@ -121,11 +132,11 @@ async function iterateContacts(responseJson, id, renderId, imgId, inputId) {
  * @param {string} imgId - The ID of the image element related to the dropdown.
  */
 function renderCheckedUsers(id, renderId, responseJson, inputId, imgId) {
-    document.getElementById(id).innerHTML = "";
-    let backgroundIndex = 0;
-    let classChecker = (renderId == "render-selected-users-board") ? true : false;
-    backgroundIndex = getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker);
-    closeDropDowns(id, inputId, imgId);
+  document.getElementById(id).innerHTML = "";
+  let backgroundIndex = 0;
+  let classChecker = renderId == "render-selected-users-board" ? true : false;
+  backgroundIndex = getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker);
+  closeDropDowns(id, inputId, imgId);
 }
 
 /**
@@ -137,14 +148,14 @@ function renderCheckedUsers(id, renderId, responseJson, inputId, imgId) {
  * @param {string} imgId - The ID of the image element representing the dropdown arrow.
  */
 function closeDropDowns(id, inputId, imgId) {
-    document.addEventListener("click", function handler(event) {
-        if (!document.getElementById(id).contains(event.target) && event.target.id !== inputId) {
-            document.getElementById(id).classList.add("hide");
-            if (renderBol) changeDropDownArrow(imgId);
-            renderBol = false;
-            document.removeEventListener("click", handler);
-        }
-    });
+  document.addEventListener("click", function handler(event) {
+    if (!document.getElementById(id).contains(event.target) && event.target.id !== inputId) {
+      document.getElementById(id).classList.add("hide");
+      if (renderBol) changeDropDownArrow(imgId);
+      renderBol = false;
+      document.removeEventListener("click", handler);
+    }
+  });
 }
 
 /**
@@ -158,15 +169,26 @@ function closeDropDowns(id, inputId, imgId) {
  * @returns {number} The updated background index after processing all users.
  */
 function getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker) {
-    for (let index = 0; index < responseJson.length; index++) {
-        let name = responseJson[index]?.name;
-        if (!name) continue;
-        backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
-        let initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
-        let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
-        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected, classChecker);
-    }
-    return backgroundIndex;
+  for (let index = 0; index < responseJson.length; index++) {
+    let name = responseJson[index]?.name;
+    if (!name) continue;
+    backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
+    let initials = name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+    let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+    document.getElementById(id).innerHTML += userDropDownTemplate(
+      name,
+      initials,
+      backgroundIndex,
+      renderId,
+      isSelected,
+      classChecker
+    );
+  }
+  return backgroundIndex;
 }
 
 /**
@@ -177,13 +199,13 @@ function getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker) {
  * @param {boolean} validation - Flag indicating whether to proceed with ticket creation if inputs are valid.
  */
 function checkRequiredInput(columnValue, validation) {
-    let hasError = false;
-    if (checkRequiredInputTaskTitle()) hasError = true;
-    if (checkRequiredInputTaskDate()) hasError = true;
-    if (checkRequiredInputCategory()) hasError = true;
-    if (!hasError && validation) {
-        createNewTicket(columnValue);
-    }
+  let hasError = false;
+  if (checkRequiredInputTaskTitle()) hasError = true;
+  if (checkRequiredInputTaskDate()) hasError = true;
+  if (checkRequiredInputCategory()) hasError = true;
+  if (!hasError && validation) {
+    createNewTicket(columnValue);
+  }
 }
 
 /**
@@ -193,15 +215,15 @@ function checkRequiredInput(columnValue, validation) {
  * @returns {boolean} Returns true if the task title is missing, otherwise false.
  */
 function checkRequiredInputTaskTitle() {
-    if (!taskTitle.value) {
-        document.getElementById("missing-title-info").classList.remove("hide");
-        taskTitle.style.border = "1px solid red";
-        return true;
-    } else {
-        document.getElementById("missing-title-info").classList.add("hide");
-        taskTitle.style.border = "";
-        return false;
-    }
+  if (!taskTitle.value) {
+    document.getElementById("missing-title-info").classList.remove("hide");
+    taskTitle.style.border = "1px solid red";
+    return true;
+  } else {
+    document.getElementById("missing-title-info").classList.add("hide");
+    taskTitle.style.border = "";
+    return false;
+  }
 }
 
 /**
@@ -212,15 +234,15 @@ function checkRequiredInputTaskTitle() {
  * @returns {boolean} Returns true if the task date input is missing, otherwise false.
  */
 function checkRequiredInputTaskDate() {
-    if (!taskDate.value) {
-        document.getElementById("missing-date-info").classList.remove("hide");
-        taskDate.style.border = "1px solid red";
-        return true;
-    } else {
-        document.getElementById("missing-date-info").classList.add("hide");
-        taskDate.style.border = "";
-        return false;
-    }
+  if (!taskDate.value) {
+    document.getElementById("missing-date-info").classList.remove("hide");
+    taskDate.style.border = "1px solid red";
+    return true;
+  } else {
+    document.getElementById("missing-date-info").classList.add("hide");
+    taskDate.style.border = "";
+    return false;
+  }
 }
 
 /**
@@ -231,30 +253,29 @@ function checkRequiredInputTaskDate() {
  * @returns {boolean} Returns true if the category is missing, false otherwise.
  */
 function checkRequiredInputCategory() {
-    if (document.getElementById("category-button").innerText === "Select task category") {
-        document.getElementById("missing-category-info").classList.remove("hide");
-        document.getElementById("category-button").style.border = "1px solid red";
-        return true;
-    } else {
-        document.getElementById("missing-category-info").classList.add("hide");
-        document.getElementById("category-button").style.border = "";
-        return false;
-    }
+  if (document.getElementById("category-button").innerText === "Select task category") {
+    document.getElementById("missing-category-info").classList.remove("hide");
+    document.getElementById("category-button").style.border = "1px solid red";
+    return true;
+  } else {
+    document.getElementById("missing-category-info").classList.add("hide");
+    document.getElementById("category-button").style.border = "";
+    return false;
+  }
 }
 
 /**
  * Retrieves the names of users currently selected in the UI.
  *
- * @returns {string[]} An array of selected user names extracted from elements with the class "user-icon-selected".
+ * @returns {string[]} An array of selected user names extracted from checked checkboxes.
  */
 function getSelectedUsers() {
-    let userIcons = document.querySelectorAll(".user-icon-selected");
-    let selectedUsers = [];
-    userIcons.forEach(uI => {
-            selectedUsers.push(uI.dataset.name);
-        }
-    );
-    return selectedUsers;
+  let checkboxes = document.querySelectorAll(".user-checkbox-add:checked");
+  let selectedUsers = [];
+  checkboxes.forEach((checkbox) => {
+    selectedUsers.push(checkbox.value);
+  });
+  return selectedUsers;
 }
 
 /**
@@ -265,13 +286,13 @@ function getSelectedUsers() {
  * @param {string} id - The ID of the DOM element where the selected user icons will be rendered.
  */
 function renderSelectedUsers(id, className) {
-    let checkboxes = document.querySelectorAll(`.${className}`);
-    let userIconClasses = document.querySelectorAll(".user-icon");
-    document.getElementById(id).innerHTML = "";     
-    let checkCounter = 0;   
-    checkboxes.forEach(cb => {
-        checkCounter = renderIcons(cb, checkCounter, userIconClasses, id);
-    });
+  let checkboxes = document.querySelectorAll(`.${className}`);
+  let userIconClasses = document.querySelectorAll(".user-icon");
+  document.getElementById(id).innerHTML = "";
+  let checkCounter = 0;
+  checkboxes.forEach((cb) => {
+    checkCounter = renderIcons(cb, checkCounter, userIconClasses, id);
+  });
 }
 
 /**
@@ -284,18 +305,30 @@ function renderSelectedUsers(id, className) {
  * @returns {number} The updated count of checked users.
  */
 function renderIcons(cb, checkCounter, userIconClasses, id) {
-    if (cb.checked) {
-        checkCounter++;
-        let userIconColor = "";
-        let initials = cb.value.split(" ").map(n => n[0]).join("").toUpperCase();
-        userIconClasses.forEach(spanClass => {
-            if (spanClass.innerText === initials) userIconColor = spanClass.dataset.bcindex;
-        });
-        if (checkCounter < 6) document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`;
-        else if (checkCounter === 6) document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-14" id="hidden-users">+${checkCounter - 5}</span>`;
-        else document.getElementById("hidden-users").innerText = `+${checkCounter - 5}`;
-    }
-    return checkCounter;
+  if (cb.checked) {
+    checkCounter++;
+    let userIconColor = "";
+    let initials = cb.value
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+    userIconClasses.forEach((spanClass) => {
+      if (spanClass.innerText === initials) userIconColor = spanClass.dataset.bcindex;
+    });
+    if (checkCounter < 6)
+      document.getElementById(
+        id
+      ).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`;
+    else if (checkCounter === 6)
+      document.getElementById(
+        id
+      ).innerHTML += `<span class="user-icon-selected User-bc-14" id="hidden-users">+${
+        checkCounter - 5
+      }</span>`;
+    else document.getElementById("hidden-users").innerText = `+${checkCounter - 5}`;
+  }
+  return checkCounter;
 }
 
 /**
@@ -305,11 +338,11 @@ function renderIcons(cb, checkCounter, userIconClasses, id) {
  * @param {HTMLElement} ele - The DOM element whose first child will be revealed.
  */
 function hoverButtons(ele) {
-    ele.firstElementChild.classList.remove("hide");
+  ele.firstElementChild.classList.remove("hide");
 }
 
 /**
- * Confirms the editing of a subtask, updates its value in the arrays, 
+ * Confirms the editing of a subtask, updates its value in the arrays,
  * removes the input element, and re-renders the subtask list item.
  *
  * @param {HTMLElement} ele - The element that triggered the edit confirmation, containing dataset info.
@@ -318,15 +351,19 @@ function hoverButtons(ele) {
  * @param {string} liId - The ID of the list item element to update.
  */
 function confirmEditedSubtask(ele, liVal, inputId, liId) {
-    let index = subtaskValue.indexOf(liVal);
-    subtaskArray[index].text = document.getElementById(inputId).value;
-    subtaskValue[index] = subtaskArray[index].text;    
-    document.getElementById(inputId).remove();
-    document.getElementById(liId).innerHTML = "";
-    document.getElementById(liId).innerHTML =  confirmEditedSubtaskRender(subtaskArray[index].text, liId, ele.dataset.index);
-    document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
-    document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
-    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div"); 
+  let index = subtaskValue.indexOf(liVal);
+  subtaskArray[index].text = document.getElementById(inputId).value;
+  subtaskValue[index] = subtaskArray[index].text;
+  document.getElementById(inputId).remove();
+  document.getElementById(liId).innerHTML = "";
+  document.getElementById(liId).innerHTML = confirmEditedSubtaskRender(
+    subtaskArray[index].text,
+    liId,
+    ele.dataset.index
+  );
+  document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
+  document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
+  document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div");
 }
 
 /**
@@ -338,10 +375,14 @@ function confirmEditedSubtask(ele, liVal, inputId, liId) {
  * @param {string} liId - The ID of the list item element to update.
  */
 function confirmEditedSubtaskInEditMenu(ele, liVal, inputId, liId) {
-    let inputText = document.getElementById(inputId).value;
-    document.getElementById(inputId).remove();
-    document.getElementById(liId).innerHTML =  confirmEditedSubtaskInEditMenuRender(inputText, liId, ele.dataset.index);
-    document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
-    document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
-    document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div");
+  let inputText = document.getElementById(inputId).value;
+  document.getElementById(inputId).remove();
+  document.getElementById(liId).innerHTML = confirmEditedSubtaskInEditMenuRender(
+    inputText,
+    liId,
+    ele.dataset.index
+  );
+  document.getElementById(liId).setAttribute("onmouseenter", "hoverButtons(this)");
+  document.getElementById(liId).setAttribute("onmouseleave", "removeHoverButtons(this)");
+  document.getElementById(`${liVal}-${ele.dataset.index}`).classList.remove("edit-div");
 }
