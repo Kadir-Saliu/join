@@ -97,7 +97,7 @@
     </div>
   </main>
 
-  <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this); boardInit()"></div>
+  <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this); boardInit(); clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div')"></div>
   <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
 
   <div class="hide slide-out mw1920" id="add-task-pop-up">

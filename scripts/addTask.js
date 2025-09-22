@@ -81,7 +81,7 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
             name = user?.name;
             id= user?.id;
             initials = name.split(" ").map(n => n[0]).join("").toUpperCase();  
-            let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
+            let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);            
             document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId, isSelected); 
         }  
     });
@@ -107,10 +107,25 @@ async function iterateContacts(responseJson, id, renderId, imgId, inputId) {
     renderBol = false;
     return;
   }
-  document.getElementById(id).innerHTML = "";
-  let backgroundIndex = 0;
-  backgroundIndex = getBGIndex(responseJson, backgroundIndex, id, renderId);
-  closeDropDowns(id, inputId, imgId);
+  renderCheckedUsers(id, renderId, responseJson, inputId, imgId);
+}
+
+/**
+ * Renders the checked users in the UI by updating the specified element's inner HTML,
+ * determining the background index, and closing related dropdowns.
+ *
+ * @param {string} id - The ID of the HTML element to update.
+ * @param {string} renderId - The ID used to determine rendering context.
+ * @param {Object} responseJson - The JSON object containing user data.
+ * @param {string} inputId - The ID of the input element related to the dropdown.
+ * @param {string} imgId - The ID of the image element related to the dropdown.
+ */
+function renderCheckedUsers(id, renderId, responseJson, inputId, imgId) {
+    document.getElementById(id).innerHTML = "";
+    let backgroundIndex = 0;
+    let classChecker = (renderId == "render-selected-users-board") ? true : false;
+    backgroundIndex = getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker);
+    closeDropDowns(id, inputId, imgId);
 }
 
 /**
@@ -142,14 +157,14 @@ function closeDropDowns(id, inputId, imgId) {
  * @param {string} renderId - An identifier used in rendering the user dropdown template.
  * @returns {number} The updated background index after processing all users.
  */
-function getBGIndex(responseJson, backgroundIndex, id, renderId) {
+function getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker) {
     for (let index = 0; index < responseJson.length; index++) {
         let name = responseJson[index]?.name;
         if (!name) continue;
         backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
         let initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
         let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
-        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected);
+        document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected, classChecker);
     }
     return backgroundIndex;
 }
@@ -249,8 +264,8 @@ function getSelectedUsers() {
  *
  * @param {string} id - The ID of the DOM element where the selected user icons will be rendered.
  */
-function renderSelectedUsers(id) {
-    let checkboxes = document.querySelectorAll(".user-checkbox");
+function renderSelectedUsers(id, className) {
+    let checkboxes = document.querySelectorAll(`.${className}`);
     let userIconClasses = document.querySelectorAll(".user-icon");
     document.getElementById(id).innerHTML = "";     
     let checkCounter = 0;   
