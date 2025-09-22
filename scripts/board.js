@@ -124,8 +124,6 @@ async function saveChangedTicketInFirbase() {
       }
     );
     localStorage.setItem("tickets", JSON.stringify(allTickets));
-    getTicketData();
-    renderTickets();
   } catch (error) {
     console.error("Error saving ticket:", error);
   }
