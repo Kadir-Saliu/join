@@ -190,7 +190,19 @@ function clearTask(userSpans, category, idButton, idDropDown, subtaskList) {
     subtaskArray = [];
     document.getElementById(subtaskList).innerHTML = "";
     document.getElementById("subtask").value = "";
+    uncheckAllUserIcons();
     clearValidationFeedback();
+}
+
+/**
+ * Unchecks all checkbox inputs within elements that have the "user-icon" class.
+ * This function selects all checkboxes inside elements with the class "user-icon"
+ * and sets their checked property to false.
+ */
+function uncheckAllUserIcons() {
+  document.querySelectorAll(".user-icon input[type='checkbox']").forEach(checkbox => {
+    checkbox.checked = false;
+  });
 }
 
 /**

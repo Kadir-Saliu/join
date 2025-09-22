@@ -7,16 +7,16 @@
  * @param {string|number} id - The unique identifier for the user, used in the checkbox onclick handler.
  * @returns {string} The HTML string representing the user dropdown item.
  */
-function userDropDownTemplate(name, inititals, index, id, isSelected) {
+function userDropDownTemplate(name, inititals, index, id, isSelected, classChecker) {
   return /*html*/ `
     <label>
       <div>
         <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
         <p>${name}</p>
       </div>
-      <input type="checkbox" class="user-checkbox" value="${name}" ${
+      <input type="checkbox" class="user-checkbox-${classChecker ? 'add' : 'edit'}" value="${name}" ${
     isSelected ? "checked" : ""
-  } onclick="renderSelectedUsers('${id}')">
+  } onclick="renderSelectedUsers('${id}', '${classChecker  ?  'user-checkbox-add' : 'user-checkbox-edit'}')">
 </label>
   `;
 }
