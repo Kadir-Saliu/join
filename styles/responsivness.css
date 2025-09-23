@@ -392,12 +392,6 @@
     min-width: 240px;
   }
 
-  #board-task-pop-up {
-    width: 95%;
-    margin-left: 2.5%;
-    overflow-y: scroll;
-  }
-
   #drop-down-users-input {
     width: auto;
     flex-grow: 1;
