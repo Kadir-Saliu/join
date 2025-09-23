@@ -17,7 +17,7 @@ let subtaskValue = [];
 let renderBol = false;
 
 document.getElementById("create-task-button").onclick = function () {
-  checkRequiredInput(columnVal, true);
+  checkRequiredInput(columnVal, true, ".user-checkbox-add");
 };
 
 /**
@@ -75,25 +75,14 @@ function iterateUsers(users, dropDownId, renderId, inputId) {
   let initials;
   let id;
   document.getElementById(dropDownId).innerHTML = "";
-  if (document.getElementById(dropDownId).classList.contains("hide"))
-    document.getElementById(dropDownId).classList.remove("hide");
+  if (document.getElementById(dropDownId).classList.contains("hide")) document.getElementById(dropDownId).classList.remove("hide");
   users.forEach((user) => {
     if (user?.name.toLowerCase().includes(document.getElementById(inputId).value.toLowerCase())) {
       name = user?.name;
       id = user?.id;
-      initials = name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase();
+      initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
       let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
-      document.getElementById(dropDownId).innerHTML += userDropDownTemplate(
-        name,
-        initials,
-        id,
-        renderId,
-        isSelected
-      );
+      document.getElementById(dropDownId).innerHTML += userDropDownTemplate(name, initials, id, renderId, isSelected);
     }
   });
 }
@@ -173,20 +162,9 @@ function getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker) {
     let name = responseJson[index]?.name;
     if (!name) continue;
     backgroundIndex = backgroundIndex > 14 ? 1 : backgroundIndex + 1;
-    let initials = name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
+    let initials = name.split(" ").map((n) => n[0]).join("").toUpperCase();
     let isSelected = !!document.querySelector(`.user-icon-selected[data-name="${name}"]`);
-    document.getElementById(id).innerHTML += userDropDownTemplate(
-      name,
-      initials,
-      backgroundIndex,
-      renderId,
-      isSelected,
-      classChecker
-    );
+    document.getElementById(id).innerHTML += userDropDownTemplate(name, initials, backgroundIndex, renderId, isSelected, classChecker);
   }
   return backgroundIndex;
 }
@@ -198,13 +176,13 @@ function getBGIndex(responseJson, backgroundIndex, id, renderId, classChecker) {
  * @param {*} columnValue - The value to be used when creating a new ticket.
  * @param {boolean} validation - Flag indicating whether to proceed with ticket creation if inputs are valid.
  */
-function checkRequiredInput(columnValue, validation) {
+function checkRequiredInput(columnValue, validation, className) {
   let hasError = false;
   if (checkRequiredInputTaskTitle()) hasError = true;
   if (checkRequiredInputTaskDate()) hasError = true;
   if (checkRequiredInputCategory()) hasError = true;
   if (!hasError && validation) {
-    createNewTicket(columnValue);
+    createNewTicket(columnValue, className);
   }
 }
 
@@ -269,8 +247,8 @@ function checkRequiredInputCategory() {
  *
  * @returns {string[]} An array of selected user names extracted from checked checkboxes.
  */
-function getSelectedUsers() {
-  let checkboxes = document.querySelectorAll(".user-checkbox-add:checked");
+function getSelectedUsers(className) {
+  let checkboxes = document.querySelectorAll(`${className}:checked`);
   let selectedUsers = [];
   checkboxes.forEach((checkbox) => {
     selectedUsers.push(checkbox.value);
@@ -308,24 +286,12 @@ function renderIcons(cb, checkCounter, userIconClasses, id) {
   if (cb.checked) {
     checkCounter++;
     let userIconColor = "";
-    let initials = cb.value
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
+    let initials = cb.value.split(" ").map((n) => n[0]).join("").toUpperCase();
     userIconClasses.forEach((spanClass) => {
       if (spanClass.innerText === initials) userIconColor = spanClass.dataset.bcindex;
     });
-    if (checkCounter < 6)
-      document.getElementById(
-        id
-      ).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`;
-    else if (checkCounter === 6)
-      document.getElementById(
-        id
-      ).innerHTML += `<span class="user-icon-selected User-bc-14" id="hidden-users">+${
-        checkCounter - 5
-      }</span>`;
+    if (checkCounter < 6) document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-${userIconColor}" data-bcindex="${userIconColor}" data-name="${cb.value}">${initials}</span>`;
+    else if (checkCounter === 6) document.getElementById(id).innerHTML += `<span class="user-icon-selected User-bc-14" id="hidden-users">+${checkCounter - 5}</span>`;
     else document.getElementById("hidden-users").innerText = `+${checkCounter - 5}`;
   }
   return checkCounter;

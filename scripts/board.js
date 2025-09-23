@@ -195,7 +195,7 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
  * @param {HTMLElement} ele - The element representing the ticket being edited.
  *                            Must have a `dataset.ticketindex` property.
  */
-async function checkEditedValues(ele) {
+async function checkEditedValues(ele, className) {
   let index = ele.dataset.ticketindex;
   let title = "";
   let description = "";
@@ -208,7 +208,7 @@ async function checkEditedValues(ele) {
   if (document.getElementById("task-date-edit").value)
     date = document.getElementById("task-date-edit").value;
   ele.dataset.mode = "view";
-  return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId);
+  return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId, className);
 }
 
 /**
@@ -222,11 +222,11 @@ async function checkEditedValues(ele) {
  *
  * @returns {void}
  */
-function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit, ticketCounterId) {
+function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit, ticketCounterId, className) {
   let editedTicket = {};
   checkNewEditedValues(titleEdit, editedTicket, descriptionEdit, dateEdit);
   editedTicket.priority = buttonPriority;
-  let selectedUsers = getSelectedUsers();
+  let selectedUsers = getSelectedUsers(className);
   editedTicket.assignedTo = selectedUsers;
   let originalTicket = allTickets[index];
   let originalSubtasks = originalTicket?.subtask || [];
