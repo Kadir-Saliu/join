@@ -47,8 +47,8 @@ async function changeDropDownArrow(id) {
  * @param {string} columnValue - The column to which the new ticket will be assigned.
  * @returns {Promise<void>} Resolves when the ticket has been saved to Firebase.
  */
-async function createNewTicket(columnValue) {
-  let selectedUsers = getSelectedUsers();
+async function createNewTicket(columnValue, className) {
+  let selectedUsers = getSelectedUsers(className);
   let counterResponse = await fetch(
     `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`
   );

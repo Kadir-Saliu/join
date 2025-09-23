@@ -243,6 +243,6 @@ const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans
         ${subtaskEle}
         </ul>
     </div>
-    <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(this); checkEditedValues(this)">Ok</button>
+    <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(this); checkEditedValues(this, '.user-checkbox-edit')">Ok</button>
   `;
 };
