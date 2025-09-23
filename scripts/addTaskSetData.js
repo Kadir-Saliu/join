@@ -302,16 +302,16 @@ async function saveTicketData(ticketData, ticketCounter) {
  * Shows a feedback message, updates browser history, retrieves ticket data,
  * and redirects to the board page after a delay. Also hides popup and overlay elements if present.
  */
-function saveTaskToFirebasePassalong() {
+async function saveTaskToFirebasePassalong() {
   addedUserfeedback.classList.remove("hide");
   addedUserfeedback.classList.add("show");
   history.pushState(null, "");
-  getTicketData();
-  setTimeout(() => {
+  await getTicketData();
+  setTimeout(async () => {
     addedUserfeedback.classList.add("hide");
     addedUserfeedback.classList.remove("show");
     window.location.href.includes("board.html")
-      ? renderTickets()
+      ? (await getTicketData(), renderTickets())
       : (window.location.href = "board.html");
   }, 3000);
   if (addTaskPopUp) addTaskPopUp.classList.add("hide");
