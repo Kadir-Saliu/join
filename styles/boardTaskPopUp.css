@@ -1,14 +1,12 @@
 #board-task-pop-up {
   position: absolute;
-  top: 50px;
   background-color: white;
   padding: 30px;
-  width: 500px;
-  max-height: 1000px;
-  margin-left: 30vw;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   min-height: 400px;
+  overflow: auto;
 }
 
 #board-task-information {
@@ -232,39 +230,6 @@ li {
 
 .edit-302 {
   width: 302px;
-}
-
-@media (max-width: 1160px) {
-  #board-task-pop-up {
-    margin-left: 20vw;
-  }
-}
-
-@media (max-width: 768px) {
-  #board-task-pop-up {
-    margin-left: 10vw;
-  }
-}
-
-@media (max-width: 630px) {
-  #board-task-pop-up {
-    margin-left: 10vw;
-    width: 400px;
-  }
-}
-
-@media (max-width: 470px) {
-  #board-task-pop-up {
-    margin-left: 7vw;
-    width: 350px;
-  }
-}
-
-@media (max-width: 400px) {
-  #board-task-pop-up {
-    margin-left: 5vw;
-    width: 310px;
-  }
 }
 
 @media (max-width: 330px) {

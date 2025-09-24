@@ -737,6 +737,14 @@ button {
     display: none;
   }
 
+  .kanban-header{
+    padding-right: 10px;
+  }
+
+      .board-header-btns {
+        padding-right: 10px;
+      }
+
   .mobile-logo {
     display: block !important;
     height: 48px;
@@ -764,7 +772,7 @@ button {
     margin-left: 0 !important;
     margin-right: 0;
     margin-bottom: 0;
-    width: 95% !important;
+    width: 100% !important;
     padding: 0;
   }
 
@@ -872,6 +880,10 @@ button {
 
   .account-nav-render-div {
     top: 8vh !important;
+  }
+
+  .mw1920 {
+    overflow: auto;
   }
 }
 
