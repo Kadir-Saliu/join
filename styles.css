@@ -39,6 +39,10 @@ main {
   display: none !important;
 }
 
+#help-button {
+  display: none;
+}
+
 .User-bc-1 {
   background-color: rgb(255, 122, 0);
 }
