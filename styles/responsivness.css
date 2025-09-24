@@ -149,14 +149,27 @@
     width: 90%;
   }
 
+  .menu-div h1 {
+    margin-top: 24px;
+  }
+
+  #sign-up-div {
+    margin-top: 14vh
+  }
+
   #btn-login-div {
     flex-direction: column;
     width: 60%;
+    margin: 24px 0;
   }
 
   #btn-login-div button {
     width: 100%;
     margin-bottom: 24px;
+  }
+
+  header {
+    bottom: 90px;
   }
 
   /* index.html (sign-up menu)*/
@@ -235,6 +248,7 @@
     padding: 0;
     height: 436px;
     width: 100%;
+    margin-bottom: 11vh;
   }
 
   .all-tasks {
@@ -459,7 +473,7 @@
   }
 
   #help-button {
-    display: none;
+    display: flex;
   }
 }
 

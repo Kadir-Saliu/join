@@ -34,12 +34,13 @@ footer {
   justify-content: center;
 }
 
-footer div span {
+footer div a {
   margin: 0 10px;
   color: rgb(168, 168, 168);
+  text-decoration: none;
 }
 
-footer div span:hover {
+footer div a:hover {
   color: rgb(41, 171, 226);
   cursor: pointer;
 }
@@ -189,6 +190,7 @@ main {
 #privacy-link-checkbox {
   color: rgb(41, 171, 226);
   cursor: pointer;
+  text-decoration: none;
 }
 
 #privacy-link-checkbox:hover {
@@ -287,7 +289,8 @@ input:-webkit-autofill {
   border-radius: 8px;
 }
 
-#btn-sign-up:disabled {
+#btn-sign-up:disabled,
+#btn-login-div .grey-btn:disabled {
   background-color: #aaa;
   cursor: not-allowed;     
   opacity: 0.6;             
@@ -322,5 +325,15 @@ input:-webkit-autofill {
   100% {
     opacity: 0;
     display: none;
+  }
+}
+
+@media (max-width: 625px) {
+  footer {
+    height: 48px;
+  }
+
+  #btn-login-div-sign-up {
+    margin: 18px 0;
   }
 }

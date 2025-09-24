@@ -38,18 +38,18 @@
       <h1>Log in</h1>
       <div id="divider" class="divider-line"></div>
       <div id="email-divider" class="input-divider">
-        <input type="email" name="" id="email-input" class="menu-input" placeholder="Email" required>
+        <input type="text" name="" id="email-input" class="menu-input" placeholder="Email" oninput="checkLoginValues()">
         <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon" class="icon"></img>
       </div>
       <div id="password-divider" class="input-divider">
-        <input type="password" id="password-input" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this)" required>
+        <input type="password" id="password-input" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this); checkLoginValues()">
         <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon" class="icon" onclick="switchPasswordVisibility(this)">
       </div>
       <div id="wrong-password-div">
         <p id="wrong-password-info"></p>
       </div>
       <div id="btn-login-div" class="btn-menu-div">
-        <button class="grey-btn" type="submit">Log in</button>
+        <button class="grey-btn" type="submit" disabled>Log in</button>
         <button class="white-btn" type="button" onclick="loginAsGuest()">Guest Log in</button>
       </div>
     </form>  
@@ -63,8 +63,11 @@
         <img src="assets/icon/user_grey.svg" style="color: rgb(168, 168, 168)"  class="icon"></img>
       </div>
       <div id="email-divider-sign-up" class="input-divider">
-        <input type="email" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" oninput="checkSignUpValues()" required>
+        <input type="text" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" oninput="checkSignUpValues()" required>
         <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
+      </div>
+      <div id="wrong-email-sign-up-div" class="wrong-password-div">
+        <p id="wrong-email-info-sign-up" class="wrong-password-info"></p>
       </div>
       <div id="password-divider-sign-up" class="input-divider">
         <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this); checkSignUpValues()" required>
@@ -79,7 +82,7 @@
       </div>
       <div id="checkbox-divider-sign-up" class="input-diver">
         <input type="checkbox" id="checkbox-input-sign-up" onchange="checkSignUpValues()">
-        <p>I accept the <span id="privacy-link-checkbox">Privacy policy</span></p>
+        <p>I accept the <a href="./privacyPolicy.html" id="privacy-link-checkbox">Privacy policy</a></p>
       </div>
       <div id="missing-checkbox-sign-up-div" class="wrong-password-div">
         <p id="missing-checkbox-info-sign-up" class="wrong-password-info"></p>
@@ -92,8 +95,8 @@
 
   <footer class="animation-hide mw1920" id="footer">
     <div>
-      <span>Privacy Policy</span>
-      <span>Legal notice</span>
+      <a href="./privacyPolicy.html">Privacy Policy</a>
+      <a  href="./legalNotice.html">Legal notice</a>
     </div>
   </footer>
 

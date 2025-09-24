@@ -46,6 +46,8 @@ async function init() {
 async function summaryInit() {
   loadNavigationAndGreetUser();
   renderTasks();
+  console.log(loggedInUser);
+  
 }
 
 /**
@@ -304,6 +306,8 @@ async function loadNavigationAndSetInitials() {
  * and an element with the ID "profile" in the DOM.
  */
 function setProfileInitials() {
+  console.log(loggedInUser);
+  
   if (loggedInUser.username) {
     document.getElementById("profile").innerText = loggedInUser.initals;
   } else {

@@ -56,7 +56,11 @@ async function checkLoginData(data) {
  */
 function saveUserToLocalStorage(user) {
   loggedInUser.username = user.name;
-  loggedInUser.initals = user.name.split(" ")[0][0] + user.name.split(" ")[1][0];
+  const parts = user.name.trim().split(" ");
+  loggedInUser.initals = parts[0][0];
+  if (parts.length > 1) {
+    loggedInUser.initals += parts[1][0];
+  }
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 }
 
@@ -84,6 +88,8 @@ async function checkUserDataInput(event) {
     document.getElementById("sign-up-div").reportValidity();
     return;
   }
+  checkValidEmail();
+
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
@@ -92,6 +98,23 @@ async function checkUserDataInput(event) {
   }
   await signUpUser();
 }
+
+function checkValidEmail() {
+  const emailInput = document.getElementById("email-input-sign-up");
+  const emailValue = emailInput.value.trim();
+  const emailError = document.getElementById("wrong-email-info-sign-up");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  if (!emailRegex.test(emailValue)) {
+    emailError.innerText = "Please enter a valid email address.";
+    emailInput.classList.add("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.add("wrongPassword");
+    return;
+  } else {
+    emailError.innerText = "";
+    emailInput.classList.remove("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
+  }
+};
 
 
 /**
@@ -228,3 +251,21 @@ function checkSignUpValues() {
     btn.removeAttribute("disabled");
   }
 }
+
+/**
+ * Checks the values of the email and password input fields.
+ * Disables the login button if either field is empty, otherwise enables it.
+ *
+ * @function
+ */
+function checkLoginValues() {
+  const emailInput = document.getElementById("email-input").value.trim();
+  const passwordInput = document.getElementById("password-input").value.trim();
+  const btn = document.getElementById("btn-login-div").querySelector(".grey-btn");
+
+  if (emailInput === "" || passwordInput === "") {
+    btn.setAttribute("disabled", "disabled");
+  } else {
+    btn.removeAttribute("disabled");
+  }
+};
