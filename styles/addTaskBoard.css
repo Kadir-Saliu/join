@@ -238,7 +238,7 @@
   background-color: white;
   margin: auto;
   width: 75%;
-  height: 90%;
+  min-height: 70%;
   padding: 75px;
   padding-top: 50px;
   border-radius: 25px;
