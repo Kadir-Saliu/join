@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: 94vh;
   padding-left: 100px;
   padding-top: 100px;
   padding-right: 100px;
@@ -157,11 +157,5 @@ h3{
 
   .account-nav-render-div {
     top: 8vh !important;
-  }
-}
-
-@media (min-width: 2300px) {
-  main {
-    margin-left: 0 !important;
   }
 }

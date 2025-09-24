@@ -337,3 +337,22 @@ input:-webkit-autofill {
     margin: 18px 0;
   }
 }
+
+@media (min-width: 2020px){
+  @keyframes slide-out-tl {
+  0% {
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 366px;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    top: 80px;
+    left: calc((100vw - 1820px) / 2);
+    width: 80px;
+    height: 100px;
+    transform: translate(0, 0) scale(1);
+  }
+}
+}

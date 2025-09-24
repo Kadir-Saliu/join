@@ -20,6 +20,7 @@
 <body onload="boardInit()">
   <div template="navigation.html"></div>
   <div template="accountNav.html" class="account-nav-render-div hide"></div>
+  <div template="boardTaskPopUp.html" class="hide slide-out" id="board-task-pop-up"></div>
  
 
   <header template="header.html" class="header-responsive"></header>
@@ -30,7 +31,7 @@
       <h1>Board</h1>
       <div class="board-header-btns">
         <div class="board-search">
-          <input id="searchbar" type="text" placeholder="Find Task" />
+          <input id="searchbar" type="text" placeholder="Find Task" oninput="filterTickets()" />
           <button onclick="filterTickets()" class="search-bar-lense-button">
             <img  src="./assets/imgs/search_lense.png" class="search-bar-lense" alt="search lense" />
           </button>
@@ -99,7 +100,7 @@
 
   <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this); boardInit(); clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div')">
 
-     <div template="boardTaskPopUp.html" class="hide slide-out" id="board-task-pop-up"></div>
+     
     <div class="hide slide-out mw1920" id="add-task-pop-up">
     <div id="add-task-close-div">
       <h1>Add Task</h1>

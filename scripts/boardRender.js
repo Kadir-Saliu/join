@@ -115,6 +115,27 @@ async function renderAllTickets(tickets = allTickets) {
  *
  */
 async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {
+  let userSpans = await getUserspans(assignedTo);
+  let checkedSubtask = false;
+  if(subtasks[0]) {
+    subtasks.forEach(subtask => { if(subtask.checked) checkedSubtask = true; });
+  }  
+  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask);
+}
+
+/**
+ * Generates user icon span elements for a list of assigned users.
+ * 
+ * - Displays up to 5 user icons with their initials and background color.
+ * - If there are more than 5 users, an additional "+X" icon is appended,
+ *   where X is the number of remaining hidden users.
+ *
+ * @async
+ * @function getUserspans
+ * @param {string[]} assignedTo - Array of user names assigned to the task.
+ * @returns {Promise<string>} A string containing the HTML for the rendered user spans.
+ */
+async function getUserspans(assignedTo) {
   let userSpansArray = await Promise.all(
     assignedTo.slice(0, 5).map(async (user) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -128,8 +149,9 @@ async function ticketTemplate(title, description, category, categoryCss, assigne
     userSpansArray.push(`<span class="user-icon-rendered User-bc-14" id="hidden-users">+${hiddenCount}</span>`);
   }
   let userSpans = userSpansArray.join("");
-  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans);
+  return userSpans;
 }
+
 /**
  * Displays the subtask progress element for a given index if there is at least one subtask.
  *

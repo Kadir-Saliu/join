@@ -356,6 +356,7 @@ function addNewSubtask() {
   if (document.getElementById("edit-subtask").value.trim() !== "") {
     document.getElementById("subtask-render-div").innerHTML += addNewSubtaskRender();
   }
+  document.getElementById("edit-subtask").value = "";
 }
 
 /**
