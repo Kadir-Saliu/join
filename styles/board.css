@@ -10,6 +10,10 @@ h1 {
   font-size: 48px;
 }
 
+main {
+  overflow-y: scroll;
+}
+
 .board-header {
   display: flex;
   justify-content: space-between;
@@ -137,7 +141,6 @@ button {
 }
 
 .task-type {
-  margin-bottom: 24px;
   color: white;
   padding: 4px 8px;
   border-radius: 5px;
@@ -152,6 +155,37 @@ button {
 .kanban-task p {
   margin-bottom: 24px;
   color: rgb(168, 168, 168);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.mobile-navigation-div {
+  display: flex;
+  gap: 4px;
+}
+
+.mobile-navigation-div button{
+  display: none;
+  color: white;
+  background-color: rgb(42, 54, 71);
+  padding: 2px;
+  font-weight: bold;
+  font-size: 12px;
+  width: 40px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.mobile-navigation-div button:hover {
+  scale: 1.1;
+  cursor: pointer;
 }
 
 .progress-div {

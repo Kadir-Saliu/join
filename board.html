@@ -100,94 +100,94 @@
 
   <div id="board-overlay" class="overlay hide" data-target="add-task-pop-up" onclick="closeViaOverlay(this); boardInit(); clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div')">
 
-     
-    <div class="hide slide-out mw1920" id="add-task-pop-up">
-    <div id="add-task-close-div">
-      <h1>Add Task</h1>
-      <button id="board-add-task-close-button" onclick="clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div'); popUpAddTask(popup)">X</button>
-    </div>
-    <div class="add-task-form">
-      <div class="add-task-text-div">
-        <div class="span-div">
-          <p>Title</p>
-          <span>*</span>
-        </div>
-        <input type="text" placeholder="Enter a title" id="task-title" maxlength="70"/>
-        <p class="missing-value hide" id="missing-title-info">This field is required</p>
-        <p>Description</p>
-        <textarea name="" id="task-description" placeholder="Enter a Description" maxlength="500" class="overlay-textarea" ></textarea>
-        <div class="span-div">
-          <p>Due date</p>
-          <span>*</span>
-        </div>
-        <input type="date" id="task-date"/>
-        <p class="missing-value hide" id="missing-date-info">This field is required</p>
-      </div>
-      <div class="add-task-form-divider"></div>
-      <div class="add-task-select-div">
-        <p>Priority</p>
-        <div class="add-task-importance-selection">
-          <button class="priority-button" onclick="setPriority('urgent', this)">
-            Urgent <img src="./assets/icon/red-arrows.svg" alt="" />
-          </button>
-          <button class="priority-button medium" onclick="setPriority('medium', this)" id="medium-priority-button">
-            Medium <img src="./assets/icon/orange-same.svg" alt="" />
-          </button>
-          <button class="priority-button" onclick="setPriority('low', this)">
-            Low <img src="./assets/icon/green-arrows.svg" alt="" />
-          </button>
-        </div>
-        <p>Assigned to</p>
-        <div id="drop-down-users-input-div">
-          <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign"
-            onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img', 'drop-down-users-input-board')" oninput="filterUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-board')"/>
-          <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img', 'drop-down-users-input-board')">
-              <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
-            </div>
-        </div>
-        <div id="drop-down-users-board" class="hide"></div>
-        <div id="render-selected-users-board"></div>
-        <div class="span-div">
-          <p>Category</p>
-          <span>*</span>
-        </div>
-        <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img', 'drop-down-category-board')">
-          Select task category
-          <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
-        </button>
-        <div id="drop-down-category-board" class="hide">
-          <button onclick="setCategory('Technical Task', 'category-button', 'drop-down-category-board')">Technical
-            Task</button>
-          <button onclick="setCategory('User Story', 'category-button', 'drop-down-category-board')">User Story</button>
-        </div>
-        <p class="missing-value hide" id="missing-category-info">This field is required</p>
-        <p>Subtasks</p>
-        <div class="subtask-div">
-          <input type="text" name="" id="subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)"/>
-          <div id="subtask-button-div">
-              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('subtask')">X</button>
-              <div id="subtask-button-div-divider" class="hide">
-                <div id="subtask-button-divider"></div>
-              </div>
-              <button id="subtask-button" onclick="addSubtask()">+</button>
-            </div>
-        </div>
-        <div id="subtask-render-div"></div>
-      </div>
-    </div>
-    <div class="bottom-section">
-      <div class="span-div" id="required-div">
-        <span>*</span>
-        <p>This field is required</p>
-      </div>
-      <div id="button-div">
-        <button id="clear-task-button" onclick="clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div')">Clear X</button>
-        <button id="create-task-button">Create Task</button>
-      </div>
-    </div>
   </div>
 
-  </div>
+     
+    <div class="hide slide-out mw1920" id="add-task-pop-up">
+      <div id="add-task-close-div">
+        <h1>Add Task</h1>
+        <button id="board-add-task-close-button" onclick="clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div'); popUpAddTask(popup)">X</button>
+      </div>
+      <div class="add-task-form">
+        <div class="add-task-text-div">
+          <div class="span-div">
+            <p>Title</p>
+            <span>*</span>
+          </div>
+          <input type="text" placeholder="Enter a title" id="task-title" maxlength="70"/>
+          <p class="missing-value hide" id="missing-title-info">This field is required</p>
+          <p>Description</p>
+          <textarea name="" id="task-description" placeholder="Enter a Description" maxlength="500" class="overlay-textarea" ></textarea>
+          <div class="span-div">
+            <p>Due date</p>
+            <span>*</span>
+          </div>
+          <input type="date" id="task-date"/>
+          <p class="missing-value hide" id="missing-date-info">This field is required</p>
+        </div>
+        <div class="add-task-form-divider"></div>
+        <div class="add-task-select-div">
+          <p>Priority</p>
+          <div class="add-task-importance-selection">
+            <button class="priority-button" onclick="setPriority('urgent', this)">
+              Urgent <img src="./assets/icon/red-arrows.svg" alt="" />
+            </button>
+            <button class="priority-button medium" onclick="setPriority('medium', this)" id="medium-priority-button">
+              Medium <img src="./assets/icon/orange-same.svg" alt="" />
+            </button>
+            <button class="priority-button" onclick="setPriority('low', this)">
+              Low <img src="./assets/icon/green-arrows.svg" alt="" />
+            </button>
+          </div>
+          <p>Assigned to</p>
+          <div id="drop-down-users-input-div">
+            <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign"
+              onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img', 'drop-down-users-input-board')" oninput="filterUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-board')"/>
+            <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img', 'drop-down-users-input-board')">
+                <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
+              </div>
+          </div>
+          <div id="drop-down-users-board" class="hide"></div>
+          <div id="render-selected-users-board"></div>
+          <div class="span-div">
+            <p>Category</p>
+            <span>*</span>
+          </div>
+          <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img', 'drop-down-category-board')">
+            Select task category
+            <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
+          </button>
+          <div id="drop-down-category-board" class="hide">
+            <button onclick="setCategory('Technical Task', 'category-button', 'drop-down-category-board')">Technical
+              Task</button>
+            <button onclick="setCategory('User Story', 'category-button', 'drop-down-category-board')">User Story</button>
+          </div>
+          <p class="missing-value hide" id="missing-category-info">This field is required</p>
+          <p>Subtasks</p>
+          <div class="subtask-div">
+            <input type="text" name="" id="subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)"/>
+            <div id="subtask-button-div">
+                <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('subtask')">X</button>
+                <div id="subtask-button-div-divider" class="hide">
+                  <div id="subtask-button-divider"></div>
+                </div>
+                <button id="subtask-button" onclick="addSubtask()">+</button>
+              </div>
+          </div>
+          <div id="subtask-render-div"></div>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <div class="span-div" id="required-div">
+          <span>*</span>
+          <p>This field is required</p>
+        </div>
+        <div id="button-div">
+          <button id="clear-task-button" onclick="clearTask('render-selected-users-board', 'Select task category', 'category-button', 'drop-down-category-board', 'subtask-render-div')">Clear X</button>
+          <button id="create-task-button">Create Task</button>
+        </div>
+      </div>
+    </div>
   <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
 
   

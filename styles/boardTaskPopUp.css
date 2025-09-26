@@ -5,9 +5,15 @@
   max-width: 500px;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  min-height: 600px;
   overflow: auto;
   margin-left: calc(50vw - 250px);
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+#board-task-pop-up::-webkit-scrollbar {
+  display: none; 
 }
 
 #board-task-information {

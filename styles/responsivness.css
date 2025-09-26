@@ -356,6 +356,10 @@
 
   /* board.html */
 
+  .mobile-hide {
+    display: flex !important;
+  }
+
   .kanban-board,
   .board-header {
     padding: 0;

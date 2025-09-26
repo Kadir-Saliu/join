@@ -48,6 +48,7 @@ let allTickets = JSON.parse(getTickets);
  */
 function getVariablesToRenderTickets(t) {
   const columnId = `${t.column.replace(" ", "-").toLowerCase()}-div`;
+  let columnValue = t.column;
   let description = t.description || "";
   let title = t.title;
   let category = t.category;
@@ -56,7 +57,7 @@ function getVariablesToRenderTickets(t) {
   let priority = t.priority || [];
   let subtasks = t.subtask || [];
   let ticketCounterId = t.id;
-  return {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId,};
+  return {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId, columnValue};
 }
 
 /**
@@ -96,37 +97,6 @@ function calculateSubtaskCounter(subtasks) {
  */
 function allowDrop(ev) {
   ev.preventDefault();
-}
-
-/**
- * Saves the currently modified ticket to Firebase.
- *
- * Updates the corresponding ticket entry in the Firebase Realtime Database
- * using a PUT request. After saving, the updated tickets are also stored in
- * localStorage, and the UI is refreshed by calling `getTicketData()` and
- * `renderTickets()`.
- *
- * @async
- * @function saveChangedTicketInFirbase
- * @returns {Promise<void>} - Returns nothing but updates the database,
- *                            local storage, and re-renders the UI.
- */
-async function saveChangedTicketInFirbase() {
-  try {
-    await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[currentDraggedElement].id}.json`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allTickets[currentDraggedElement]),
-      }
-    );
-    localStorage.setItem("tickets", JSON.stringify(allTickets));
-  } catch (error) {
-    console.error("Error saving ticket:", error);
-  }
 }
 
 /**

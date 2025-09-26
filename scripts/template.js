@@ -35,7 +35,7 @@ function userDropDownTemplate(name, inititals, index, id, isSelected, classCheck
  * @param {string} userSpans - HTML string representing assigned users.
  * @returns {string} HTML string representing the ticket template.
  */
-const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask) => {
+const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn) => {
   return /*html*/ `
     <div
       draggable="true"
@@ -46,7 +46,13 @@ const getTicketTemplate = (index, title, description, category, categoryCss, pri
       data-mode="view"
       onclick="popUpAddTask(popuptask); renderTicketOverlay(this)"
     >
-      <div class="task-type ${categoryCss}">${category}</div>
+      <div class="ticket-header">
+        <div class="task-type ${categoryCss}">${category}</div>
+        <div class="mobile-navigation-div">
+          ${upBtn}
+          ${downBtn}
+        </div>
+      </div>
       <h4 class="content-limitation">${title}</h4>
       <p class="content-limitation">${description}</p>
       <div id="p-subtask-${index}" class="subtask-progress-div hide">

@@ -238,7 +238,8 @@
   background-color: white;
   margin: auto;
   width: 75%;
-  min-height: 70%;
+  height: 40%;
+  min-height: 600px;
   padding: 75px;
   padding-top: 50px;
   border-radius: 25px;
@@ -247,6 +248,7 @@
   pointer-events: none;
   transform: translateX(-100%);
   transition: opacity 0.2s ease;
+  margin-left: 12.5%;
 }
 
 .add-task-select-div {
@@ -352,5 +354,14 @@
   #subtask-render-div {
     overflow-y: scroll;
     max-height: 100px;
+  }
+}
+
+@media (min-width: 2560px) {
+  #add-task-pop-up {
+    margin-left: 0;
+    position: relative;
+    left: calc((100% - 1920px) / 2);
+    bottom: calc((100% - 600px) / 2);
   }
 }
