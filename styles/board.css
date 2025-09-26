@@ -543,6 +543,11 @@ button {
   width: 20px;
 }
 
+.highlight-drop {
+  border: 2px dashed #29abe2;
+  background-color: rgba(41, 171, 226, 0.1);
+}
+
 .edit-div {
   background-color: white;
   border-bottom: 1px solid rgb(41, 171, 226);

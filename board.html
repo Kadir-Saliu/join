@@ -54,7 +54,7 @@
         </div>
 
         <div id="noTasksToDo" class="kanban-task no-tasks">No tasks in To do</div>
-        <div id="to-do-div" class="min-height-task" ondrop="moveTo('To do')" ondragover="allowDrop(event)"></div>
+        <div id="to-do-div" class="min-height-task" ondrop="moveTo('To do')" ondragover="allowDrop(event)" ondragenter="highlightDrop(event)" ondragleave="removeHighlight(event)"></div>
       </div>
 
       <!-- In Progress Column -->
@@ -66,7 +66,7 @@
         </div>
         
           <div id="noTasksProgress" class="kanban-task no-tasks">No tasks in progress</div>
-          <div id="in-progress-div" class="min-height-task" ondrop="moveTo('In progress')" ondragover="allowDrop(event)">
+          <div id="in-progress-div" class="min-height-task" ondrop="moveTo('In progress')" ondragover="allowDrop(event)" ondragenter="highlightDrop(event)" ondragleave="removeHighlight(event)">
         
         </div>
       </div>
@@ -80,7 +80,7 @@
         </div>
 
         <div id="noTasksFeedback" class="kanban-task no-tasks">No tasks in await feedback</div>
-        <div id="await-feedback-div" class="min-height-task" ondrop="moveTo('Await feedback')" ondragover="allowDrop(event)">
+        <div id="await-feedback-div" class="min-height-task" ondrop="moveTo('Await feedback')" ondragover="allowDrop(event)" ondragenter="highlightDrop(event)" ondragleave="removeHighlight(event)">
         </div>
 
       </div>
@@ -92,7 +92,7 @@
         </div>
 
          <div id="noTasksDone"  class="kanban-task no-tasks">No done tickets</div>
-        <div id="done-div" class="min-height-task" ondrop="moveTo('done')" ondragover="allowDrop(event)"></div>
+        <div id="done-div" class="min-height-task" ondrop="moveTo('done')" ondragover="allowDrop(event)" ondragenter="highlightDrop(event)" ondragleave="removeHighlight(event)"></div>
     </div>
     </div>
     </div>
@@ -200,6 +200,7 @@
   <script src="./scripts/addTaskSetData.js" defer></script>
   <script src="./scripts/board.js"></script>
   <script src="./scripts/boardRender.js" defer></script>
+  <script src="./scripts/boardDragAndDrop.js" defer></script>
   <script src="./scripts/summary.js"></script>
   <script src="script.js" defer></script>
 </body>
