@@ -382,9 +382,9 @@ async function createUserIcons(assignedTo) {
  *
  * @param {string} category - The target category (column) to move the ticket to.
  */
-function moveTo(category) {
+async function moveTo(category) {
   allTickets[currentDraggedElement]["column"] = category;
-  saveChangedTicketInFirbase();
+  await saveChangedTicketInFirbase();
   renderTickets();
 }
 
