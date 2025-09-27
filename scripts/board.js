@@ -99,6 +99,37 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 
+ * Saves the currently modified ticket to Firebase.
+ *
+ * Updates the corresponding ticket entry in the Firebase Realtime Database
+ * using a PUT request. After saving, the updated tickets are also stored in
+ * localStorage, and the UI is refreshed by calling `getTicketData()` and
+ * `renderTickets()`.
+ *
+ * @async
+ * @function saveChangedTicketInFirbase
+ * @returns {Promise<void>} - Returns nothing but updates the database,
+ *                            local storage, and re-renders the UI.
+ */
+async function saveChangedTicketInFirbase() {
+  try {
+    await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[currentDraggedElement].id}.json`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allTickets[currentDraggedElement]),
+      }
+    );
+    await getTicketData();
+    allTickets = JSON.parse(localStorage.getItem("tickets"));
+  } catch (error) {
+    console.error("Error saving ticket:", error);
+  }
+}
+
 /**
  * Toggles the display of an HTML element based on the length of the provided column value.
  *
@@ -118,19 +149,24 @@ function checkTicketsForToggle(column, id) {
 
 /**
  * This function filters the tickets based on the search input
+ * Only triggers rendering when at least 3 characters are typed
+ * or when clearing the search (going from 3+ chars to less than 3)
  */
 function filterTickets() {
   const searchInput = document.getElementById("searchbar").value.toLowerCase();
   const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
-  if (searchInput) {
+  if (!filterTickets.previousLength) filterTickets.previousLength = 0;
+  if (searchInput.length >= 3) {
     let filteredTickets = tickets.filter(
-      (ticket) =>
-        ticket.title.toLowerCase().includes(searchInput) ||
-        ticket.description.toLowerCase().includes(searchInput)
+      (ticket) => ticket.title.toLowerCase().includes(searchInput) || ticket.description.toLowerCase().includes(searchInput)
     );
     renderTickets(filteredTickets);
-  } else {
+    filterTickets.previousLength = searchInput.length;
+  } else if (filterTickets.previousLength >= 3) {
     renderTickets(tickets);
+    filterTickets.previousLength = searchInput.length;
+  } else {
+    filterTickets.previousLength = searchInput.length;
   }
 }
 
@@ -154,8 +190,10 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let priority = ticket[index].priority || "-";
   let assignedTo = ticket[index].assignedTo || [];
   let subtasks = ticket[index].subtask || [];
-  if (mode === "view") renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
-  else if (mode === "edit") editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
+  if (mode === "view")
+    renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
+  else if (mode === "edit")
+    editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
 }
 
 /**
@@ -171,12 +209,9 @@ async function checkEditedValues(ele, className) {
   let description = "";
   let date;
   let ticketCounterId = ele.dataset.ticketcounterid;
-  if (document.getElementById("task-title-edit").value)
-    title = document.getElementById("task-title-edit").value;
-  if (document.getElementById("task-description-edit").value)
-    description = document.getElementById("task-description-edit").value;
-  if (document.getElementById("task-date-edit").value)
-    date = document.getElementById("task-date-edit").value;
+  if (document.getElementById("task-title-edit").value) title = document.getElementById("task-title-edit").value;
+  if (document.getElementById("task-description-edit").value) description = document.getElementById("task-description-edit").value;
+  if (document.getElementById("task-date-edit").value) date = document.getElementById("task-date-edit").value;
   ele.dataset.mode = "view";
   return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId, className);
 }
@@ -257,9 +292,7 @@ function checkNewEditedValues(titleEdit, editedTicket, descriptionEdit, dateEdit
  */
 async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId) {
   try {
-    let response = await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
-    );
+    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`);
     let updatedTicket = await updateTicketParameters(response, ticketData);
     await putEditedTaskToFirebase(ticketCounterId, updatedTicket);
     renderTicketOverlay(ele);
@@ -282,16 +315,13 @@ async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId)
  * @returns {Promise<void>} - Resolves when the ticket has been successfully updated.
  */
 async function putEditedTaskToFirebase(ticketCounterId, updatedTicket) {
-  await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedTicket),
-    }
-  );
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedTicket),
+  });
 }
 
 /**
@@ -340,12 +370,9 @@ function addNewSubtask() {
  */
 async function deleteTicket(index) {
   try {
-    await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`,
-      {
-        method: "DELETE",
-      }
-    );
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`, {
+      method: "DELETE",
+    });
     updateUIAfterDelete(index);
   } catch (error) {
     console.error("Fehler beim Löschen des Tickets:", error);
