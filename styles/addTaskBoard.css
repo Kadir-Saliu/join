@@ -350,13 +350,6 @@
   }
 }
 
-@media (min-width: 840px) {
-  #subtask-render-div {
-    overflow-y: scroll;
-    max-height: 100px;
-  }
-}
-
 @media (min-width: 2560px) {
   #add-task-pop-up {
     margin-left: 0;

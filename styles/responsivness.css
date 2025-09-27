@@ -228,7 +228,6 @@
 
   .title-main {
     padding: 0;
-    padding-top: 10px;
     gap: 8px;
     display: flex;
     flex-direction: column;
@@ -246,7 +245,6 @@
 
   .tasks-and-text {
     padding: 0;
-    height: 436px;
     width: 100%;
     margin-bottom: 11vh;
   }
@@ -261,8 +259,16 @@
   .tasks-in-board,
   .tasks-in-progress,
   .awaiting-feedback {
-    height: 132px;
     width: 100%;
+  }
+
+  .urgent-and-date,
+  .tasks-in-editing {
+    margin-top: 4px;
+  }
+
+  .title-main{
+    margin-bottom: 5px;
   }
 
   nav {

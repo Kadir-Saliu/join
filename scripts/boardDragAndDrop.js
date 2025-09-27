@@ -98,6 +98,9 @@ function getColumnValue(columnValue, index) {
 function moveTo(category) {
   allTickets[currentDraggedElement]["column"] = category;  
   saveChangedTicketInFirbase(currentDraggedElement);
+  document.querySelectorAll(".highlight-drop").forEach(el => {
+    el.classList.remove("highlight-drop");
+  });
 }
 
 /**

@@ -46,8 +46,6 @@ async function init() {
 async function summaryInit() {
   loadNavigationAndGreetUser();
   renderTasks();
-  console.log(loggedInUser);
-  
 }
 
 /**

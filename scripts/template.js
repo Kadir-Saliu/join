@@ -270,7 +270,7 @@ const getRenderTicketDetailsTemplate = (category, categoryColor, title, descript
   return /*html*/ `
     <div id="task-pop-up-nav">
       <p class="${categoryColor}">${category}</p>
-      <button  onclick="popUpAddTask(popuptask)">X</button>
+      <button  onclick="popUpAddTask(popuptask); boardInit()">X</button>
     </div>
     <h1 class="pop-up-margin-b-25">${title}</h1>
     <p class="pop-up-margin-b-25" id="pop-up-task-description">${description}</p>

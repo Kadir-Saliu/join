@@ -88,8 +88,7 @@ async function checkUserDataInput(event) {
     document.getElementById("sign-up-div").reportValidity();
     return;
   }
-  checkValidEmail();
-
+  if(!checkValidEmail()) return;
   if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
     document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
@@ -99,6 +98,14 @@ async function checkUserDataInput(event) {
   await signUpUser();
 }
 
+/**
+ * Validates the email input field in the sign-up form.
+ * Checks if the entered email matches a standard email format.
+ * If invalid, displays an error message and applies error styling to the input and icon.
+ * If valid, removes error message and styling.
+ *
+ * @returns {void}
+ */
 function checkValidEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
   const emailValue = emailInput.value.trim();
@@ -108,14 +115,14 @@ function checkValidEmail() {
     emailError.innerText = "Please enter a valid email address.";
     emailInput.classList.add("wrongPassword");
     document.getElementById("mail-icon-sign-up").classList.add("wrongPassword");
-    return;
+    return false;
   } else {
     emailError.innerText = "";
     emailInput.classList.remove("wrongPassword");
     document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
+    return true;
   }
 };
-
 
 /**
  * Handles the user sign-up process.
@@ -211,7 +218,7 @@ function showSuccessAnimationAndRedirect() {
   overlay.style.animation = "fadeOutOverlay 3.5s forwards";
   message.style.animation = "slideMessage 3.5s forwards";
   setTimeout(() => {
-    window.location.href = "summary.html";
+    window.location.href = "index.html";
   }, 3500);
 }
 
@@ -262,10 +269,89 @@ function checkLoginValues() {
   const emailInput = document.getElementById("email-input").value.trim();
   const passwordInput = document.getElementById("password-input").value.trim();
   const btn = document.getElementById("btn-login-div").querySelector(".grey-btn");
-
   if (emailInput === "" || passwordInput === "") {
     btn.setAttribute("disabled", "disabled");
   } else {
     btn.removeAttribute("disabled");
   }
 };
+
+/**
+ * Validates the email input in the sign-up form.
+ * 
+ * This function checks whether the entered email address matches a valid format 
+ * using a regular expression. If the email is invalid, an error message is displayed 
+ * below the input field, and the input as well as the associated icon are styled with 
+ * an error class. If the email is valid, the error message and error styles are removed.
+ *
+ * @function checkEmail
+ * @returns {void} This function does not return a value.
+ */
+function checkEmail() {
+  const emailInput = document.getElementById("email-input-sign-up");
+  const emailValue = emailInput.value.trim();
+  const emailError = document.getElementById("wrong-email-info-sign-up");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  if (!emailRegex.test(emailValue)) {
+    emailError.innerText = "Please enter a valid email address.";
+    emailInput.classList.add("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    emailError.innerText = "";
+    emailInput.classList.remove("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
+  }
+}
+
+/**
+ * Validates the sign-up name input field.
+ * If the input is empty, displays an error message and adds error styling.
+ * Otherwise, clears the error message and removes error styling.
+ */
+function messageMissingName() {
+  if(document.getElementById("name-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-name-info-sign-up").innerText = "Please enter your name.";
+    document.getElementById("name-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("user-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    document.getElementById("wrong-name-info-sign-up").innerText = "";
+    document.getElementById("name-input-sign-up").classList.remove("wrongPassword");
+    document.getElementById("user-icon-sign-up").classList.remove("wrongPassword");
+  }
+}
+
+/**
+ * Checks if the sign-up password input field is empty.
+ * If empty, displays an error message and applies error styling to the input and lock icon.
+ * If not empty, clears the error message and removes error styling.
+ */
+function messageMissingPassword() {
+  if(document.getElementById("password-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-password-info-sign-up").innerText = "Please enter your password.";
+    document.getElementById("password-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("lock-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    document.getElementById("wrong-password-info-sign-up").innerText = "";
+    document.getElementById("password-input-sign-up").classList.remove("wrongPassword");
+    document.getElementById("lock-icon-sign-up").classList.remove("wrongPassword");
+  }
+}
+
+/**
+ * Displays a message and applies styling if the confirm password input is empty.
+ * Removes the message and styling if the input is not empty.
+ *
+ * Checks the value of the confirm password input field. If empty, sets an error message
+ * and adds a CSS class to indicate an error. If not empty, clears the error message and removes the CSS class.
+ */
+function messageMissingConfirmPassword() {
+  if(document.getElementById("confirm-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "Please enter your confirm password.";
+    document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "";
+    document.getElementById("confirm-input-sign-up").classList.remove("wrongPassword");
+    document.getElementById("confirm-icon-sign-up").classList.remove("wrongPassword");
+  }
+}

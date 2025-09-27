@@ -170,6 +170,7 @@
   height: 550px;
   overflow-y: scroll;
   flex-grow: 1;
+  margin-bottom: 20px;
 }
 
 #board-task-edit-x {
