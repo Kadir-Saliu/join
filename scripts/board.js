@@ -48,6 +48,7 @@ let allTickets = JSON.parse(getTickets);
  */
 function getVariablesToRenderTickets(t) {
   const columnId = `${t.column.replace(" ", "-").toLowerCase()}-div`;
+  let columnValue = t.column;
   let description = t.description || "";
   let title = t.title;
   let category = t.category;
@@ -56,7 +57,7 @@ function getVariablesToRenderTickets(t) {
   let priority = t.priority || [];
   let subtasks = t.subtask || [];
   let ticketCounterId = t.id;
-  return { subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId };
+  return {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId, columnValue};
 }
 
 /**
@@ -98,7 +99,6 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 
-/**
  * Saves the currently modified ticket to Firebase.
  *
  * Updates the corresponding ticket entry in the Firebase Realtime Database

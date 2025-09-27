@@ -92,9 +92,9 @@ async function renderTickets(tickets) {
 async function renderAllTickets(tickets = allTickets) {
   for (const [index, t] of Object.entries(tickets)) {
     if (t) {
-      const {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId,} = getVariablesToRenderTickets(t);
+      const {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId, columnValue} = getVariablesToRenderTickets(t);
       calculateSubtaskCounter(subtasks);
-      document.getElementById(columnId).innerHTML += await ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId);
+      document.getElementById(columnId).innerHTML += await ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId, columnValue);
       renderSubtaskProgress(index, subtasks);
     }
   }
@@ -114,13 +114,14 @@ async function renderAllTickets(tickets = allTickets) {
  * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
  *
  */
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId) {
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId, columnValue) {
   let userSpans = await getUserspans(assignedTo);
   let checkedSubtask = false;
+  let { upBtn, downBtn } = getColumnValue(columnValue, index);  
   if(subtasks[0]) {
     subtasks.forEach(subtask => { if(subtask.checked) checkedSubtask = true; });
-  }  
-  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask);
+  }
+  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn);
 }
 
 /**
@@ -377,6 +378,7 @@ async function createUserIcons(assignedTo) {
     })
   );
 }
+
 /**
  * Moves the currently dragged ticket to the specified category (column).
  *
