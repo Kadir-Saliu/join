@@ -132,6 +132,12 @@
 #subtasks-div {
   max-height: 175px;
   overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#subtasks-div::-webkit-scrollbar {
+  display: none;
 }
 
 .subtask-div input {

@@ -57,3 +57,11 @@ nav a {
 .legal-info:hover {
   background-color: #2a3647 !important;
 }
+
+nav {
+    position: fixed ;
+    bottom: 0;
+    top: auto ;
+    height: 10vh ;
+    width: 100% ;
+  }

@@ -44,7 +44,7 @@ const getTicketTemplate = (index, title, description, category, categoryCss, pri
       data-ticketIndex="${index}"
       data-ticketcounterid="${ticketCounterId}"
       data-mode="view"
-      onclick="popUpAddTask(popuptask); renderTicketOverlay(this)"
+      onclick="popUpAddTask(popuptask); renderTicketOverlay(this);"
     >
       <div class="ticket-header">
         <div class="task-type ${categoryCss}">${category}</div>

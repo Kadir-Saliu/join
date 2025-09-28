@@ -101,6 +101,11 @@ button {
   padding-left: 100px;
 }
 
+.kanban-board > * {
+  min-width: 0;   
+  min-height: 0;  
+}
+
 .kanban-column {
   flex: 1;
 }
@@ -847,11 +852,11 @@ button {
   }
 
   nav {
-    position: fixed !important;
+    position: fixed ;
     bottom: 0;
-    top: auto !important;
-    height: 10vh !important;
-    width: 100% !important;
+    top: auto ;
+    height: 10vh ;
+    width: 100% ;
   }
 
   nav div {
