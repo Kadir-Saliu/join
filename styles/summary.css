@@ -39,7 +39,6 @@ main {
 .help-person-icon {
   display: flex;
   align-items: center;
-  padding-right: 30px;
   gap: 16px;
 }
 
@@ -80,7 +79,6 @@ main {
 
 .tasks-and-text {
   display: flex;
-  height: 560px;
   padding-left: 100px;
 }
 
@@ -101,6 +99,16 @@ main {
   flex-direction: column;
 }
 
+.to-do,
+.done,
+.urgent-and-date,
+.tasks-in-board,
+.tasks-in-progress,
+.awaiting-feedback {
+  padding: 8px;
+}
+  
+
 .toDo-and-done {
   display: flex;
   gap: 20px;
@@ -116,7 +124,6 @@ main {
   justify-content: center;
   align-items: center;
   width: 260px;
-  height: 168px;
   background-color: white;
   border-radius: 30px;
   gap: 10px;
@@ -146,7 +153,6 @@ main {
   justify-content: center;
   align-items: center;
   width: 260px;
-  height: 168px;
   background-color: white;
   border-radius: 30px;
   gap: 10px;
@@ -179,7 +185,6 @@ main {
   background-color: white;
   border-radius: 30px;
   margin-top: 20px;
-  height: 168px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
   transition: 0.1s;
@@ -221,8 +226,7 @@ main {
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 168px;
-  width: 168px;
+  width: 30%;
   border-radius: 30px;
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.09);
@@ -243,7 +247,6 @@ main {
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 168px;
   width: 168px;
   border-radius: 30px;
   cursor: pointer;
@@ -265,7 +268,6 @@ main {
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 168px;
   width: 168px;
   border-radius: 30px;
   cursor: pointer;
@@ -367,21 +369,11 @@ main {
 
   .tasks-and-text {
     padding: 0;
-    height: 436px;
     width: 100%;
   }
 
   .all-tasks {
     width: 100%;
-  }
-
-  .to-do,
-  .done,
-  .urgent-and-date,
-  .tasks-in-board,
-  .tasks-in-progress,
-  .awaiting-feedback {
-    height: 132px;
   }
 
   .urgent-and-date {
@@ -506,5 +498,11 @@ main {
 @media (max-width: 1000px) {
   main {
     width: 95% !important;
+  }
+}
+
+@media (max-width: 625px) {
+  main {
+    margin-top: 4vh;
   }
 }

@@ -59,30 +59,36 @@
       <h1>Sign up</h1>
       <div id="divider-sign-up" class="divider-line"></div>
       <div id="name-divider-sign-up" class="input-divider">
-        <input type="text" name="" id="name-input-sign-up" class="menu-input" placeholder="Name" oninput="checkSignUpValues()" required>
-        <img src="assets/icon/user_grey.svg" style="color: rgb(168, 168, 168)"  class="icon"></img>
+        <input type="text" name="" id="name-input-sign-up" class="menu-input" placeholder="Name" oninput="checkSignUpValues()" onblur="messageMissingName()" required>
+        <img src="assets/icon/user_grey.svg" style="color: rgb(168, 168, 168)" id="user-icon-sign-up" class="icon"></img>
+      </div>
+      <div id="wrong-name-sign-up-div" class="wrong-password-div">
+        <p id="wrong-name-info-sign-up" class="wrong-password-info"></p>
       </div>
       <div id="email-divider-sign-up" class="input-divider">
-        <input type="text" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" oninput="checkSignUpValues()" required>
+        <input type="text" name="" id="email-input-sign-up" class="menu-input" placeholder="Email" oninput="checkSignUpValues()" onblur="checkEmail()" required>
         <img src="assets/icon/mail-icon-grey.svg" style="color: rgb(168, 168, 168)" id="mail-icon-sign-up" class="icon"></img>
       </div>
       <div id="wrong-email-sign-up-div" class="wrong-password-div">
         <p id="wrong-email-info-sign-up" class="wrong-password-info"></p>
       </div>
       <div id="password-divider-sign-up" class="input-divider">
-        <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this); checkSignUpValues()" required>
+        <input type="password" id="password-input-sign-up" class="menu-input" placeholder="Password" oninput="switchPasswordIcon(this); checkSignUpValues()" onblur="messageMissingPassword()" required>
         <img src="./assets/icon/lock.svg" alt="lock" id="lock-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
-      </div>
-      <div id="confirm-divider-sign-up" class="input-divider">
-        <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Confirm Password" oninput="switchPasswordIcon(this); checkSignUpValues()" required>
-        <img src="./assets/icon/lock.svg" alt="lock" id="confirm-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
       </div>
       <div id="wrong-password-sign-up-div" class="wrong-password-div">
         <p id="wrong-password-info-sign-up" class="wrong-password-info"></p>
       </div>
+      <div id="confirm-divider-sign-up" class="input-divider">
+        <input type="password" id="confirm-input-sign-up" class="menu-input" placeholder="Confirm Password" oninput="switchPasswordIcon(this); checkSignUpValues()" onblur="messageMissingConfirmPassword()" required>
+        <img src="./assets/icon/lock.svg" alt="lock" id="confirm-icon-sign-up" class="icon" onclick="switchPasswordVisibility(this)">
+      </div>
+      <div id="wrong-confirm-password-sign-up-div" class="wrong-password-div">
+        <p id="wrong-confirm-password-info-sign-up" class="wrong-password-info"></p>
+      </div>
       <div id="checkbox-divider-sign-up" class="input-diver">
-        <input type="checkbox" id="checkbox-input-sign-up" onchange="checkSignUpValues()">
-        <p>I accept the <a href="./privacyPolicy.html" id="privacy-link-checkbox">Privacy policy</a></p>
+        <input type="checkbox" id="checkbox-input-sign-up" onchange="checkSignUpValues()" >
+        <p>I accept the <a href="./privacyPolicyExtern.html" id="privacy-link-checkbox">Privacy policy</a></p>
       </div>
       <div id="missing-checkbox-sign-up-div" class="wrong-password-div">
         <p id="missing-checkbox-info-sign-up" class="wrong-password-info"></p>
@@ -96,8 +102,8 @@
   <footer class="animation-hide mw1920" id="footer">
     <div>
 
-      <a href="./privacyPolicy.html">Privacy Policy</a>
-      <a  href="./legalNotice.html">Legal notice</a>
+      <a href="./privacyPolicyExtern.html">Privacy Policy</a>
+      <a  href="./legalNoticeExtern.html">Legal notice</a>
 
     </div>
   </footer>

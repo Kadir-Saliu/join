@@ -99,6 +99,7 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 
+/**
  * Saves the currently modified ticket to Firebase.
  *
  * Updates the corresponding ticket entry in the Firebase Realtime Database

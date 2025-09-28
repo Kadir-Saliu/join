@@ -202,46 +202,46 @@ const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans
   return /*html*/ `
   <button id="board-task-edit-x"  onclick="popUpAddTask(popuptask)">X</button>
     <div class="add-task-text-div" id="edit-add-task-text-div">
-        <div class="span-div">
-            <p>Title</p>
-        </div>
-        <input type="text" value="${title}" placeholder="Title" id="task-title-edit">
-        <p class="margin-top-24">Description</p>
-        <textarea name="" id="task-description-edit" placeholder="Description">${description}</textarea>
-        <div class="span-div">
-            <p class="margin-top-24">Due date</p>
-        </div>
-        <input type="date" id="task-date-edit" value="${dateForEditOverlay}">
-        <p class="margin-top-24">Priority</p>
-        <div class="add-task-importance-selection">
-            <button class="priority-button set-priority" onclick="setPriority('urgent', this)">Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
-            <button class="priority-button set-priority" onclick="setPriority('medium', this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
-            <button class="priority-button set-priority" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
-        </div>
-        <p class="margin-top-24">Assigned to</p>
-        <div id="drop-down-users-input-div">
-          <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')" autocomplete="off" />
-          <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')">
-                <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
-              </div>
-        </div>
-        <div id="drop-down-users-edit" class="hide">
-        </div>
-        <div id="edit-render-user">${userSpans}</div>
-        <p class="margin-top-24">Subtasks</p>
-        <div class="subtask-div">
-            <input type="text" name="" id="edit-subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)" />
-            <div id="subtask-button-div">
-              <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('edit-subtask')">X</button>
-              <div id="subtask-button-div-divider" class="hide">
-                <div id="subtask-button-divider"></div>
-              </div>
-              <button id="subtask-button" onclick="addNewSubtask()">+</button>
+      <div class="span-div">
+          <p>Title</p>
+      </div>
+      <input type="text" value="${title}" placeholder="Title" id="task-title-edit">
+      <p class="margin-top-24">Description</p>
+      <textarea name="" id="task-description-edit" placeholder="Description">${description}</textarea>
+      <div class="span-div">
+          <p class="margin-top-24">Due date</p>
+      </div>
+      <input type="date" id="task-date-edit" value="${dateForEditOverlay}">
+      <p class="margin-top-24">Priority</p>
+      <div class="add-task-importance-selection">
+          <button class="priority-button set-priority" onclick="setPriority('urgent', this)">Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
+          <button class="priority-button set-priority" onclick="setPriority('medium', this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
+          <button class="priority-button set-priority" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+      </div>
+      <p class="margin-top-24">Assigned to</p>
+      <div id="drop-down-users-input-div">
+        <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')" autocomplete="off" />
+        <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')">
+              <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
             </div>
+      </div>
+      <div id="drop-down-users-edit" class="hide">
+      </div>
+      <div id="edit-render-user">${userSpans}</div>
+      <p class="margin-top-24">Subtasks</p>
+      <div class="subtask-div">
+          <input type="text" name="" id="edit-subtask" placeholder="Add new subtask" oninput="removeHideOnInput(this)" />
+          <div id="subtask-button-div">
+            <button id="subtask-clear-button" class="hide" onclick="clearSubtaskValue('edit-subtask')">X</button>
+            <div id="subtask-button-div-divider" class="hide">
+              <div id="subtask-button-divider"></div>
+            </div>
+            <button id="subtask-button" onclick="addNewSubtask()">+</button>
           </div>
-        <ul id="subtask-render-div">
-        ${subtaskEle}
-        </ul>
+        </div>
+      <ul id="subtask-render-div">
+      ${subtaskEle}
+      </ul>
     </div>
     <button id="board-task-edit-ok" data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" data-mode="${mode}" onclick="switchEditInfoMenu(this); checkEditedValues(this, '.user-checkbox-edit')">Ok</button>
   `;
