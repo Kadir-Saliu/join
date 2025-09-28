@@ -24,7 +24,12 @@ main {
   width: calc(100% - 232px);
   margin-left: 232px;
   margin-top: 100px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
+main::-webkit-scrollbar {
+  display: none;
 }
 
 .mobile-logo {

@@ -12,6 +12,8 @@ h1 {
 
 main {
   overflow-y: scroll;
+  
+  padding-right: 5%;
 }
 
 .board-header {
@@ -947,5 +949,11 @@ button {
 @media (max-width: 625px) {
   .content-limitation {
     width: 30vw;
+  }
+}
+
+@media (min-width: 2300px) {
+  main {
+    padding-right: 0;
   }
 }
