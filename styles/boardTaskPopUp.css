@@ -71,6 +71,12 @@
 #assigned-users-div {
   max-height: 200px;
   overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#assigned-users-div::-webkit-scrollbar {
+  display: none;
 }
 
 .pop-up-margin-b-10 {

@@ -101,6 +101,11 @@ button {
   padding-left: 100px;
 }
 
+.kanban-board > * {
+  min-width: 0;   
+  min-height: 0;  
+}
+
 .kanban-column {
   flex: 1;
 }
@@ -133,6 +138,7 @@ button {
   border-radius: 16px;
   box-shadow: 0px 0px 10px lightgray;
   cursor: pointer;
+  max-width: 440px;
 }
 
 .no-tasks {
@@ -284,7 +290,7 @@ button {
 }
 
 .content-limitation {
-  width: 10vw;
+  width: 90%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -667,7 +673,7 @@ button {
   transform: translateX(-50%);
   opacity: 0;
   transition: none;
-  z-index: 9999;
+  z-index: 110;
 }
 
 .added-animation.show {
@@ -846,11 +852,11 @@ button {
   }
 
   nav {
-    position: fixed !important;
+    position: fixed ;
     bottom: 0;
-    top: auto !important;
-    height: 10vh !important;
-    width: 100% !important;
+    top: auto ;
+    height: 10vh ;
+    width: 100% ;
   }
 
   nav div {
@@ -943,12 +949,6 @@ button {
 
   .mw1920 {
     overflow: auto;
-  }
-}
-
-@media (max-width: 625px) {
-  .content-limitation {
-    width: 30vw;
   }
 }
 

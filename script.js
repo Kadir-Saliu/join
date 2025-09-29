@@ -26,6 +26,7 @@ async function init() {
   await includeHTML();
   removeUserfromLocalStorage();
   setTimeout(addDisplayToContent, 2500);
+  getTicketData();
   const logo = document.querySelector(".slide-out-tl");
   logo.addEventListener("animationend", () => {
     addDisplayToContent();
