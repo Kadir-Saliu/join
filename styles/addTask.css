@@ -1,3 +1,4 @@
+
 main {
   flex-grow: 1;
   width: calc(100% - 232px);
@@ -574,7 +575,7 @@ textarea {
   transform: translateX(-50%);
   opacity: 0;
   transition: none;
-  z-index: 9999;
+  z-index: 110;
 }
 
 .added-animation.show {
@@ -683,3 +684,8 @@ textarea {
   }
 }
 
+@media (max-width: 625px) {
+  main {
+    margin-top: 12vh !important;
+  }
+}
