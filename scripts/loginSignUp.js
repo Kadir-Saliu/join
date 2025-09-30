@@ -246,6 +246,17 @@ const loginAsGuest = () => {
 };
 
 /**
+ * Validates if a name contains exactly two words (first name and surname).
+ * @param {string} name - The name to validate.
+ * @returns {boolean} True if the name has exactly two words, false otherwise.
+ */
+function validateFullName(name) {
+  const trimmedName = name.trim();
+  const words = trimmedName.split(/\s+/);
+  return words.length === 2 && words.every((word) => word.length > 0);
+}
+
+/**
  * Validates the sign-up form input fields and enables or disables the sign-up button accordingly.
  * Button is only enabled when all fields are filled, email is valid, passwords match, and checkbox is checked.
  */
@@ -257,9 +268,10 @@ function checkSignUpValues() {
   const checkbox = document.getElementById("checkbox-input-sign-up").checked;
   const btn = document.getElementById("btn-sign-up");
   const allFieldsFilled = nameInput && emailInput && passwordInput && confirmInput && checkbox;
+  const nameValid = validateFullName(nameInput);
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
   const passwordsMatch = passwordInput === confirmInput;
-  btn.toggleAttribute("disabled", !(allFieldsFilled && emailValid && passwordsMatch));
+  btn.toggleAttribute("disabled", !(allFieldsFilled && nameValid && emailValid && passwordsMatch));
 }
 
 /**
@@ -309,21 +321,52 @@ function checkEmail() {
 
 /**
  * Validates the sign-up name input field.
- * If the input is empty, displays an error message and adds error styling.
- * Otherwise, clears the error message and removes error styling.
+ * Checks if name is empty or doesn't contain exactly two words (first name and surname).
+ * Displays appropriate error messages and styling.
  */
 function messageMissingName() {
-  if (document.getElementById("name-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-name-info-sign-up").innerText = "Please enter your name.";
-    document.getElementById("name-input-sign-up").classList.add("wrongPassword");
-    document.getElementById("user-icon-sign-up").classList.add("wrongPassword");
+  const nameValue = document.getElementById("name-input-sign-up").value.trim();
+  const nameError = document.getElementById("wrong-name-info-sign-up");
+  const nameInput = document.getElementById("name-input-sign-up");
+  const userIcon = document.getElementById("user-icon-sign-up");
+  if (nameValue === "") {
+    setNameError(nameError, nameInput, userIcon, "Please enter your name.");
+  } else if (!validateFullName(nameValue)) {
+    setNameError(nameError, nameInput, userIcon, "Please enter your first and last name.");
   } else {
-    document.getElementById("wrong-name-info-sign-up").innerText = "";
-    document.getElementById("name-input-sign-up").classList.remove("wrongPassword");
-    document.getElementById("user-icon-sign-up").classList.remove("wrongPassword");
+    removeNameErrorMessage(nameError, nameInput, userIcon);
   }
   checkSignUpValues();
 }
+
+/**
+ * Sets error styling and message for name input validation.
+ * Applies the error message to the error element and adds error styling to the input field and icon.
+ *
+ * @param {HTMLElement} nameError - The error message element to display the error text
+ * @param {HTMLElement} nameInput - The name input field element to add error styling to
+ * @param {HTMLElement} userIcon - The user icon element to add error styling to
+ * @param {string} errorMessage - The error message text to display
+ */
+const setNameError = (nameError, nameInput, userIcon, errorMessage) => {
+  nameError.innerText = errorMessage;
+  nameInput.classList.add("wrongPassword");
+  userIcon.classList.add("wrongPassword");
+};
+
+/**
+ * Removes error styling and message from name input validation.
+ * Clears the error message and removes error styling from the input field and icon.
+ *
+ * @param {HTMLElement} nameError - The error message element to clear
+ * @param {HTMLElement} nameInput - The name input field element to remove error styling from
+ * @param {HTMLElement} userIcon - The user icon element to remove error styling from
+ */
+const removeNameErrorMessage = (nameError, nameInput, userIcon) => {
+  nameError.innerText = "";
+  nameInput.classList.remove("wrongPassword");
+  userIcon.classList.remove("wrongPassword");
+};
 
 /**
  * Checks if the sign-up password input field is empty.
