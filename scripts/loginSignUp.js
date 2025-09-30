@@ -72,7 +72,8 @@ function wrongPassword() {
   document.getElementById("password-input").classList.add("wrongPassword");
   document.getElementById("mail-icon").classList.add("wrongPassword");
   document.getElementById("email-input").classList.add("wrongPassword");
-  document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
+  document.getElementById("wrong-password-info").innerText =
+    "Check your email and password.Please try again.";
   document.getElementById("password-input").value = "";
   document.getElementById("wrong-password-info").classList.add("wrongPasswordText");
 }
@@ -88,9 +89,13 @@ async function checkUserDataInput(event) {
     document.getElementById("sign-up-div").reportValidity();
     return;
   }
-  if(!checkValidEmail()) return;
-  if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
-    document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
+  if (!checkValidEmail()) return;
+  if (
+    document.getElementById("password-input-sign-up").value !==
+    document.getElementById("confirm-input-sign-up").value
+  ) {
+    document.getElementById("wrong-password-info-sign-up").innerText =
+      "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
     return;
@@ -110,7 +115,7 @@ function checkValidEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
   const emailValue = emailInput.value.trim();
   const emailError = document.getElementById("wrong-email-info-sign-up");
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(emailValue)) {
     emailError.innerText = "Please enter a valid email address.";
     emailInput.classList.add("wrongPassword");
@@ -122,7 +127,7 @@ function checkValidEmail() {
     document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
     return true;
   }
-};
+}
 
 /**
  * Handles the user sign-up process.
@@ -159,7 +164,7 @@ function getNewUserData() {
   loggedInUser.username = newUser.name;
   const nameParts = newUser.name.split(" ");
   if (nameParts.length >= 2) loggedInUser.initals = nameParts[0][0] + nameParts[1][0];
-  else  loggedInUser.initals = nameParts[0][0];
+  else loggedInUser.initals = nameParts[0][0];
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   return newUser;
 }
@@ -173,11 +178,14 @@ async function saveUserToFirebase(userData) {
     const response = await fetch(BASE_URL_USERS);
     const contacts = await response.json();
     const newId = Object.keys(contacts || {}).length;
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...userData, id: newId }),
-    });
+    await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...userData, id: newId }),
+      }
+    );
     showSuccessAnimationAndRedirect();
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
@@ -239,10 +247,7 @@ const loginAsGuest = () => {
 
 /**
  * Validates the sign-up form input fields and enables or disables the sign-up button accordingly.
- * 
- * Checks if all required fields (name, email, password, confirm password) are filled and the terms checkbox is checked.
- * If any field is empty or the checkbox is not checked, the sign-up button is disabled.
- * Otherwise, the sign-up button is enabled.
+ * Button is only enabled when all fields are filled, email is valid, passwords match, and checkbox is checked.
  */
 function checkSignUpValues() {
   const nameInput = document.getElementById("name-input-sign-up").value.trim();
@@ -251,12 +256,10 @@ function checkSignUpValues() {
   const confirmInput = document.getElementById("confirm-input-sign-up").value.trim();
   const checkbox = document.getElementById("checkbox-input-sign-up").checked;
   const btn = document.getElementById("btn-sign-up");
-
-  if (nameInput === "" || emailInput === "" || passwordInput === "" || confirmInput === "" || !checkbox) {
-    btn.setAttribute("disabled", "disabled");
-  } else {
-    btn.removeAttribute("disabled");
-  }
+  const allFieldsFilled = nameInput && emailInput && passwordInput && confirmInput && checkbox;
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
+  const passwordsMatch = passwordInput === confirmInput;
+  btn.toggleAttribute("disabled", !(allFieldsFilled && emailValid && passwordsMatch));
 }
 
 /**
@@ -274,14 +277,14 @@ function checkLoginValues() {
   } else {
     btn.removeAttribute("disabled");
   }
-};
+}
 
 /**
  * Validates the email input in the sign-up form.
- * 
- * This function checks whether the entered email address matches a valid format 
- * using a regular expression. If the email is invalid, an error message is displayed 
- * below the input field, and the input as well as the associated icon are styled with 
+ *
+ * This function checks whether the entered email address matches a valid format
+ * using a regular expression. If the email is invalid, an error message is displayed
+ * below the input field, and the input as well as the associated icon are styled with
  * an error class. If the email is valid, the error message and error styles are removed.
  *
  * @function checkEmail
@@ -291,7 +294,7 @@ function checkEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
   const emailValue = emailInput.value.trim();
   const emailError = document.getElementById("wrong-email-info-sign-up");
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(emailValue)) {
     emailError.innerText = "Please enter a valid email address.";
     emailInput.classList.add("wrongPassword");
@@ -301,6 +304,7 @@ function checkEmail() {
     emailInput.classList.remove("wrongPassword");
     document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
 
 /**
@@ -309,7 +313,7 @@ function checkEmail() {
  * Otherwise, clears the error message and removes error styling.
  */
 function messageMissingName() {
-  if(document.getElementById("name-input-sign-up").value.trim() === "") {
+  if (document.getElementById("name-input-sign-up").value.trim() === "") {
     document.getElementById("wrong-name-info-sign-up").innerText = "Please enter your name.";
     document.getElementById("name-input-sign-up").classList.add("wrongPassword");
     document.getElementById("user-icon-sign-up").classList.add("wrongPassword");
@@ -318,6 +322,7 @@ function messageMissingName() {
     document.getElementById("name-input-sign-up").classList.remove("wrongPassword");
     document.getElementById("user-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
 
 /**
@@ -326,8 +331,9 @@ function messageMissingName() {
  * If not empty, clears the error message and removes error styling.
  */
 function messageMissingPassword() {
-  if(document.getElementById("password-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-password-info-sign-up").innerText = "Please enter your password.";
+  if (document.getElementById("password-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-password-info-sign-up").innerText =
+      "Please enter your password.";
     document.getElementById("password-input-sign-up").classList.add("wrongPassword");
     document.getElementById("lock-icon-sign-up").classList.add("wrongPassword");
   } else {
@@ -335,6 +341,7 @@ function messageMissingPassword() {
     document.getElementById("password-input-sign-up").classList.remove("wrongPassword");
     document.getElementById("lock-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
 
 /**
@@ -345,8 +352,9 @@ function messageMissingPassword() {
  * and adds a CSS class to indicate an error. If not empty, clears the error message and removes the CSS class.
  */
 function messageMissingConfirmPassword() {
-  if(document.getElementById("confirm-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "Please enter your confirm password.";
+  if (document.getElementById("confirm-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText =
+      "Please enter your confirm password.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
   } else {
@@ -354,4 +362,5 @@ function messageMissingConfirmPassword() {
     document.getElementById("confirm-input-sign-up").classList.remove("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
