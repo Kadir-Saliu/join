@@ -47,12 +47,9 @@ async function checkLoginData(data) {
 }
 
 /**
- * Saves the given user information to localStorage under the key "loggedInUser".
- * Sets the username and initials properties of the loggedInUser object.
- * Initials are generated from the first letters of the first and second words in the user's name.
- *
+ * Saves user information to localStorage with username and initials.
  * @param {Object} user - The user object containing user details.
- * @param {string} user.name - The full name of the user (expects at least two words).
+ * @param {string} user.name - The full name of the user.
  */
 function saveUserToLocalStorage(user) {
   loggedInUser.username = user.name;
@@ -104,12 +101,8 @@ async function checkUserDataInput(event) {
 }
 
 /**
- * Validates the email input field in the sign-up form.
- * Checks if the entered email matches a standard email format.
- * If invalid, displays an error message and applies error styling to the input and icon.
- * If valid, removes error message and styling.
- *
- * @returns {void}
+ * Validates email format in sign-up form and updates UI accordingly.
+ * @returns {boolean} True if email is valid, false otherwise.
  */
 function checkValidEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
@@ -130,14 +123,9 @@ function checkValidEmail() {
 }
 
 /**
- * Handles the user sign-up process.
- * Checks if the privacy policy checkbox is accepted before proceeding.
- * If accepted, retrieves new user data and saves it to Firebase.
- * Displays an error message if the checkbox is not checked.
- *
+ * Handles user sign-up process after privacy policy validation.
  * @async
- * @function signUpUser
- * @returns {Promise<void>} Resolves when the user is saved or the process is halted due to missing checkbox acceptance.
+ * @returns {Promise<void>}
  */
 async function signUpUser() {
   if (!document.getElementById("checkbox-input-sign-up").checked) {
@@ -150,10 +138,8 @@ async function signUpUser() {
 }
 
 /**
- * Retrieves new user data from sign-up input fields, updates the `loggedInUser` object with the username and initials,
- * stores it in localStorage, and returns the new user data.
- *
- * @returns {Object} An object containing the new user's name, email, and password.
+ * Retrieves user data from sign-up form and updates localStorage.
+ * @returns {Object} User object with name, email, and password.
  */
 function getNewUserData() {
   const newUser = {
@@ -231,10 +217,7 @@ function showSuccessAnimationAndRedirect() {
 }
 
 /**
- * Logs in the user as a guest by setting a default user object,
- * storing it in localStorage, and redirecting to the summary page.
- *
- * @function
+ * Logs in user as guest and redirects to summary page.
  */
 const loginAsGuest = () => {
   loggedInUser = {
@@ -275,10 +258,7 @@ function checkSignUpValues() {
 }
 
 /**
- * Checks the values of the email and password input fields.
- * Disables the login button if either field is empty, otherwise enables it.
- *
- * @function
+ * Enables/disables login button based on email and password input.
  */
 function checkLoginValues() {
   const emailInput = document.getElementById("email-input").value.trim();
@@ -292,15 +272,8 @@ function checkLoginValues() {
 }
 
 /**
- * Validates the email input in the sign-up form.
- *
- * This function checks whether the entered email address matches a valid format
- * using a regular expression. If the email is invalid, an error message is displayed
- * below the input field, and the input as well as the associated icon are styled with
- * an error class. If the email is valid, the error message and error styles are removed.
- *
- * @function checkEmail
- * @returns {void} This function does not return a value.
+ * Validates email format in sign-up form and applies styling.
+ * @returns {void}
  */
 function checkEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
@@ -341,12 +314,10 @@ function messageMissingName() {
 
 /**
  * Sets error styling and message for name input validation.
- * Applies the error message to the error element and adds error styling to the input field and icon.
- *
- * @param {HTMLElement} nameError - The error message element to display the error text
- * @param {HTMLElement} nameInput - The name input field element to add error styling to
- * @param {HTMLElement} userIcon - The user icon element to add error styling to
- * @param {string} errorMessage - The error message text to display
+ * @param {HTMLElement} nameError - Error message element
+ * @param {HTMLElement} nameInput - Name input field element
+ * @param {HTMLElement} userIcon - User icon element
+ * @param {string} errorMessage - Error message text
  */
 const setNameError = (nameError, nameInput, userIcon, errorMessage) => {
   nameError.innerText = errorMessage;
@@ -356,11 +327,9 @@ const setNameError = (nameError, nameInput, userIcon, errorMessage) => {
 
 /**
  * Removes error styling and message from name input validation.
- * Clears the error message and removes error styling from the input field and icon.
- *
- * @param {HTMLElement} nameError - The error message element to clear
- * @param {HTMLElement} nameInput - The name input field element to remove error styling from
- * @param {HTMLElement} userIcon - The user icon element to remove error styling from
+ * @param {HTMLElement} nameError - Error message element
+ * @param {HTMLElement} nameInput - Name input field element
+ * @param {HTMLElement} userIcon - User icon element
  */
 const removeNameErrorMessage = (nameError, nameInput, userIcon) => {
   nameError.innerText = "";
@@ -388,11 +357,7 @@ function messageMissingPassword() {
 }
 
 /**
- * Displays a message and applies styling if the confirm password input is empty.
- * Removes the message and styling if the input is not empty.
- *
- * Checks the value of the confirm password input field. If empty, sets an error message
- * and adds a CSS class to indicate an error. If not empty, clears the error message and removes the CSS class.
+ * Validates confirm password field and applies styling.
  */
 function messageMissingConfirmPassword() {
   if (document.getElementById("confirm-input-sign-up").value.trim() === "") {
