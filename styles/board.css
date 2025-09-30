@@ -1,7 +1,3 @@
-html {
-  overflow: hidden;
-}
-
 body {
   align-items: flex-start;
 }
@@ -12,7 +8,6 @@ h1 {
 
 main {
   overflow-y: scroll;
-  
   padding-right: 5%;
 }
 
@@ -102,8 +97,8 @@ button {
 }
 
 .kanban-board > * {
-  min-width: 0;   
-  min-height: 0;  
+  min-width: 0;
+  min-height: 0;
 }
 
 .kanban-column {
@@ -182,7 +177,7 @@ button {
   gap: 4px;
 }
 
-.mobile-navigation-div button{
+.mobile-navigation-div button {
   display: none;
   color: white;
   background-color: rgb(42, 54, 71);
@@ -517,7 +512,7 @@ button {
 }
 
 #edit-subtask:focus {
-  outline: none;    
+  outline: none;
   box-shadow: none;
   border: 1px solid rgb(41, 171, 226) !important;
   border-right: none !important;
@@ -802,7 +797,7 @@ button {
     display: none;
   }
 
-  .kanban-header{
+  .kanban-header {
     padding-right: 10px;
   }
 
@@ -852,11 +847,11 @@ button {
   }
 
   nav {
-    position: fixed ;
+    position: fixed;
     bottom: 0;
-    top: auto ;
-    height: 10vh ;
-    width: 100% ;
+    top: auto;
+    height: 10vh;
+    width: 100%;
   }
 
   nav div {

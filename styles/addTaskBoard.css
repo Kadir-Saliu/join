@@ -264,22 +264,22 @@
 /* Animationen */
 @keyframes slideInFromLeft {
   from {
-    transform: translateX(100%);
+    transform: translate(-50%, -50%) translateX(100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translate(-50%, -50%) translateX(0);
     opacity: 1;
   }
 }
 
 @keyframes slideOutToRight {
   from {
-    transform: translateX(0);
+    transform: translate(-50%, -50%) translateX(0);
     opacity: 1;
   }
   to {
-    transform: translateX(100%);
+    transform: translate(-50%, -50%) translateX(100%);
     opacity: 0;
   }
 }
@@ -326,7 +326,7 @@
     max-width: 300px;
   }
 
-  #required-div p{
+  #required-div p {
     display: none;
   }
 
@@ -334,7 +334,7 @@
     position: static;
     display: flex;
     flex-direction: column;
-    width: 25%
+    width: 25%;
   }
 
   #clear-task-button {

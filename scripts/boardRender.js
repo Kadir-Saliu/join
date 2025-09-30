@@ -23,11 +23,15 @@ function popUpAddTaskAnimation(ele, isHidden) {
   if (isHidden) {
     ele.classList.remove("hide", "slide-out");
     ele.classList.add("slide-in", "pop-up");
+    document.body.classList.add("disable-scrolling");
+    document.documentElement.classList.add("disable-scrolling");
     overlay.dataset.target = ele.id;
     overlay.classList.remove("hide");
   } else {
     ele.classList.remove("slide-in");
     ele.classList.add("slide-out");
+    document.body.classList.remove("disable-scrolling");
+    document.documentElement.classList.remove("disable-scrolling");
     setTimeout(() => {
       ele.classList.add("hide");
       overlay.classList.add("hide");
@@ -92,9 +96,31 @@ async function renderTickets(tickets) {
 async function renderAllTickets(tickets = allTickets) {
   for (const [index, t] of Object.entries(tickets)) {
     if (t) {
-      const {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId, columnValue} = getVariablesToRenderTickets(t);
+      const {
+        subtasks,
+        columnId,
+        title,
+        description,
+        category,
+        categoryCss,
+        assignedTo,
+        priority,
+        ticketCounterId,
+        columnValue,
+      } = getVariablesToRenderTickets(t);
       calculateSubtaskCounter(subtasks);
-      document.getElementById(columnId).innerHTML += await ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId, columnValue);
+      document.getElementById(columnId).innerHTML += await ticketTemplate(
+        title,
+        description,
+        category,
+        categoryCss,
+        assignedTo,
+        priority,
+        index,
+        subtasks,
+        ticketCounterId,
+        columnValue
+      );
       renderSubtaskProgress(index, subtasks);
     }
   }
@@ -114,19 +140,45 @@ async function renderAllTickets(tickets = allTickets) {
  * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
  *
  */
-async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId, columnValue) {
+async function ticketTemplate(
+  title,
+  description,
+  category,
+  categoryCss,
+  assignedTo,
+  priority,
+  index,
+  subtasks,
+  ticketCounterId,
+  columnValue
+) {
   let userSpans = await getUserspans(assignedTo);
   let checkedSubtask = false;
-  let { upBtn, downBtn } = getColumnValue(columnValue, index);  
-  if(subtasks[0]) {
-    subtasks.forEach(subtask => { if(subtask.checked) checkedSubtask = true; });
+  let { upBtn, downBtn } = getColumnValue(columnValue, index);
+  if (subtasks[0]) {
+    subtasks.forEach((subtask) => {
+      if (subtask.checked) checkedSubtask = true;
+    });
   }
-  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn);
+  return getTicketTemplate(
+    index,
+    title,
+    description,
+    category,
+    categoryCss,
+    priority,
+    subtasks,
+    ticketCounterId,
+    userSpans,
+    checkedSubtask,
+    upBtn,
+    downBtn
+  );
 }
 
 /**
  * Generates user icon span elements for a list of assigned users.
- * 
+ *
  * - Displays up to 5 user icons with their initials and background color.
  * - If there are more than 5 users, an additional "+X" icon is appended,
  *   where X is the number of remaining hidden users.
@@ -141,13 +193,19 @@ async function getUserspans(assignedTo) {
     assignedTo.slice(0, 5).map(async (user) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user?.split(" ").map((n) => n[0]).join("").toUpperCase();
+      let initials = user
+        ?.split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
       return `<span class="user-icon-rendered User-bc-${safeIndex}">${initials}</span>`;
     })
   );
   if (assignedTo.length > 5) {
     let hiddenCount = assignedTo.length - 5;
-    userSpansArray.push(`<span class="user-icon-rendered User-bc-14" id="hidden-users">+${hiddenCount}</span>`);
+    userSpansArray.push(
+      `<span class="user-icon-rendered User-bc-14" id="hidden-users">+${hiddenCount}</span>`
+    );
   }
   let userSpans = userSpansArray.join("");
   return userSpans;
@@ -223,9 +281,28 @@ async function renderTicketOverlay(ele) {
  * @param {string} priority - The ticket priority (e.g., "urgent", "medium", "low").
  * @returns {void}
  */
-function renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority) {
+function renderHTMLElementsForEditing(
+  title,
+  description,
+  dateForEditOverlay,
+  userSpans,
+  subtaskEle,
+  index,
+  ticketCounterId,
+  mode,
+  priority
+) {
   document.getElementById("subtask-render-div").innerHTML = "";
-  document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode);
+  document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(
+    title,
+    description,
+    dateForEditOverlay,
+    userSpans,
+    subtaskEle,
+    index,
+    ticketCounterId,
+    mode
+  );
   document.querySelectorAll(".set-priority").forEach((ele) => {
     if (ele.innerText.toLowerCase().trim() === priority) {
       ele.classList.add(priority);
@@ -251,20 +328,48 @@ function renderHTMLElementsForEditing(title, description, dateForEditOverlay, us
  * each containing user initials and name inside styled elements.
  * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
  */
-async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {
+async function renderTicketDetails(
+  category,
+  categoryColor,
+  title,
+  description,
+  date,
+  priority,
+  assignedTo,
+  subtasks,
+  index,
+  ticketCounterId
+) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user.split(" ").map((n) => n[0]).join("").toUpperCase();
+      let initials = user
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
       return getRenderTicketDetailsUserSpansArrayTemplate(safeIndex, initials, user);
     })
   );
   let userSpans = userSpansArray.join("");
-  let subtaskEle = subtasks.map((subtask, i) => {
+  let subtaskEle = subtasks
+    .map((subtask, i) => {
       return getRenderTicketDetailsSubtaskEleTemplate(i, subtask, index, ticketCounterId);
-    }).join("");
-  document.getElementById("board-task-information").innerHTML = getRenderTicketDetailsTemplate(category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle);
+    })
+    .join("");
+  document.getElementById("board-task-information").innerHTML = getRenderTicketDetailsTemplate(
+    category,
+    categoryColor,
+    title,
+    description,
+    date,
+    priority,
+    index,
+    ticketCounterId,
+    userSpans,
+    subtaskEle
+  );
 }
 /**
  * Removes a subtask from the editable subtask array and updates the UI.
@@ -326,15 +431,43 @@ function minDate() {
  * each showing a user's initials, styled dynamically, and with a data-name attribute.
  * @throws {Error} If any call to `getUserDetails(user)` fails.
  */
-async function editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
+async function editTicket(
+  title,
+  description,
+  dateForEditOverlay,
+  priority,
+  assignedTo,
+  subtasks,
+  index,
+  mode,
+  ticketCounterId
+) {
   let userSpansArray = await iterateThroughUsersForVisualization(assignedTo);
   let userSpans = userSpansArray.join("");
-  let subtaskEle = subtasks.map((subtask, i) => {
-      return getEditTicketSubtaskEleTemplate(subtask, i, dataTicketIndex, dataTicketCounterId, dataMode);
-    }).join("");
+  let subtaskEle = subtasks
+    .map((subtask, i) => {
+      return getEditTicketSubtaskEleTemplate(
+        subtask,
+        i,
+        dataTicketIndex,
+        dataTicketCounterId,
+        dataMode
+      );
+    })
+    .join("");
   subtaskEditArray = [];
   subtasks.forEach((subtask) => subtaskEditArray.push(subtask.text));
-  renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority);
+  renderHTMLElementsForEditing(
+    title,
+    description,
+    dateForEditOverlay,
+    userSpans,
+    subtaskEle,
+    index,
+    ticketCounterId,
+    mode,
+    priority
+  );
 }
 /**
  * Iterates through the assigned users and generates visualization elements.
@@ -373,7 +506,11 @@ async function createUserIcons(assignedTo) {
     assignedTo.slice(0, 5).map(async (user) => {
       let renderedUserBgIndex = await getUserDetails(user);
       let safeIndex = ((renderedUserBgIndex - 1) % 15) + 1;
-      let initials = user.split(" ").map((n) => n[0]).join("").toUpperCase();
+      let initials = user
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
       return getEditTicketUserSpansArrayTemplate(user, safeIndex, initials);
     })
   );

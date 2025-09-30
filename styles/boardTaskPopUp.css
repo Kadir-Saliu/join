@@ -1,5 +1,5 @@
 #board-task-pop-up {
-  position: absolute;
+  position: fixed;
   background-color: white;
   padding: 30px;
   max-width: 500px;
@@ -7,13 +7,16 @@
   flex-direction: column;
   min-height: 600px;
   overflow: auto;
-  margin-left: calc(50vw - 250px);
-  scrollbar-width: none; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  scrollbar-width: none;
   -ms-overflow-style: none;
+  z-index: 1000;
 }
 
 #board-task-pop-up::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 #board-task-information {
@@ -148,15 +151,17 @@
   display: none !important;
 }
 
-.center-container {position: fixed;       /* bleibt über allem */
+.center-container {
+  position: fixed; /* bleibt über allem */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center; /* horizontal */
-  align-items: center;    
+  align-items: center;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 /* Edit popup Menu */
@@ -257,22 +262,18 @@ li {
   width: 302px;
 }
 
-@media (max-width: 330px) {
-  #board-task-pop-up {
-    margin-left: 3vw;
-  }
-}
-@media (max-width: 320px) {
-  #board-task-pop-up {
-    margin-left: 2vw;
-  }
+.disable-scrolling,
+html.disable-scrolling {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 @media (max-width: 625px) {
   #board-task-pop-up {
-    margin-left: 0;
-    left: 5%;
-    max-height: 600px;
-    width: 90%
+    max-height: 80vh;
+    width: 90%;
+    max-width: 90vw;
   }
 }

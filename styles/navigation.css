@@ -9,6 +9,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 100;
 }
 
 .nav-logo {
@@ -59,11 +60,12 @@ nav a {
 }
 
 @media (max-width: 1165px) {
-    nav {
-        position: fixed;
-        bottom: 0;
-        top: auto;
-        height: 10vh;
-        width: 100%;
-    }
+  nav {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    height: 10vh;
+    width: 100%;
+    z-index: 100;
+  }
 }
