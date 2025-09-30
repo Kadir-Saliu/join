@@ -67,7 +67,14 @@ const renderContacts = (sortedContacts, contactsRef) => {
       let phone = escapeQuotes(contact.phone);
       let safeIndex = contact.firebaseKey;
       let contactIconId = ((safeIndex - 1) % 15) + 1;
-      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId, contact);
+      contactsRef.innerHTML += getContactTemplate(
+        initials,
+        userName,
+        email,
+        phone,
+        contactIconId,
+        contact
+      );
     });
   });
 };
@@ -82,13 +89,21 @@ const renderContacts = (sortedContacts, contactsRef) => {
  */
 const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
   document.querySelectorAll(".contact").forEach((contact) => contact.classList.remove("active"));
-  document.querySelectorAll(".contact-initials").forEach((contactInitials) => contactInitials.classList.remove("active"));
+  document
+    .querySelectorAll(".contact-initials")
+    .forEach((contactInitials) => contactInitials.classList.remove("active"));
   clickedElement.classList.add("active");
   const initialsElement = clickedElement.querySelector(".contact-initials");
   initialsElement.classList.add("active");
   const contactDetailsRef = document.getElementById("contactDetails");
   contactDetailsRef.innerHTML = "";
-  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(
+    initials,
+    userName,
+    email,
+    phone,
+    contactIconId
+  );
   contactDetailsRef.classList.add("active");
   if (window.innerWidth <= 1130) popUpContactDetails();
 };
@@ -139,7 +154,13 @@ const closeAddContactOverlay = () => {
  */
 const openEditOverlay = (initials, userName, email, phone, contactIconId) => {
   const editOverlayRef = document.getElementById("editOverlay");
-  editOverlayRef.innerHTML = getEditOverlayContentTemplate(initials, userName, email, phone, contactIconId);
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate(
+    initials,
+    userName,
+    email,
+    phone,
+    contactIconId
+  );
   if (editOverlayRef.classList.contains("d_none")) {
     editOverlayRef.classList.add("active");
     editOverlayRef.classList.remove("d_none");
@@ -165,7 +186,14 @@ const closeEditOverlay = () => {
  *
  * @param {Event} event - The event object to stop propagation for
  */
-const openEditOverlayWithBubblingPrevention = (event, initials, userName, email, phone, contactIconId) => {
+const openEditOverlayWithBubblingPrevention = (
+  event,
+  initials,
+  userName,
+  email,
+  phone,
+  contactIconId
+) => {
   event.stopPropagation();
   openEditOverlay(initials, userName, email, phone, contactIconId);
 };
@@ -348,17 +376,21 @@ const validateFullName = (name) => {
 };
 
 /**
- * Validates the input fields for editing a contact in the overlay.
+ * Validates the input fields for contact forms (add/edit contact overlays).
  *
- * @param {string} editedName - The edited name to validate (must be a full name)
- * @param {string} editedEmail - The edited email address to validate
- * @param {string} editedPhone - The edited phone number to validate
+ * @param {string} editedName - The name to validate (must be a full name with first and last name)
+ * @param {string} editedEmail - The email address to validate
+ * @param {string} editedPhone - The phone number to validate
+ * @param {string} nameVal - The ID of the name error message element
+ * @param {string} emailVal - The ID of the email error message element
+ * @param {string} phoneVal - The ID of the phone error message element
  * @returns {boolean} Returns true if all validations pass, false otherwise
  *
  * @description This function performs the following validations:
- * - Checks if all required fields (name, email, phone) are provided
  * - Validates that the name contains both first and last name using validateFullName()
- * - Shows appropriate German error messages via alert() if validation fails
+ * - Validates the email format using validateEmail()
+ * - Validates the phone number format using validatePhoneNumber()
+ * - Shows/hides error message elements by manipulating CSS classes based on validation results
  */
 const overlayValidation = (editedName, editedEmail, editedPhone, nameVal, emailVal, phoneVal) => {
   let isValid = true;

@@ -47,12 +47,9 @@ async function checkLoginData(data) {
 }
 
 /**
- * Saves the given user information to localStorage under the key "loggedInUser".
- * Sets the username and initials properties of the loggedInUser object.
- * Initials are generated from the first letters of the first and second words in the user's name.
- *
+ * Saves user information to localStorage with username and initials.
  * @param {Object} user - The user object containing user details.
- * @param {string} user.name - The full name of the user (expects at least two words).
+ * @param {string} user.name - The full name of the user.
  */
 function saveUserToLocalStorage(user) {
   loggedInUser.username = user.name;
@@ -72,7 +69,8 @@ function wrongPassword() {
   document.getElementById("password-input").classList.add("wrongPassword");
   document.getElementById("mail-icon").classList.add("wrongPassword");
   document.getElementById("email-input").classList.add("wrongPassword");
-  document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
+  document.getElementById("wrong-password-info").innerText =
+    "Check your email and password.Please try again.";
   document.getElementById("password-input").value = "";
   document.getElementById("wrong-password-info").classList.add("wrongPasswordText");
 }
@@ -88,9 +86,13 @@ async function checkUserDataInput(event) {
     document.getElementById("sign-up-div").reportValidity();
     return;
   }
-  if(!checkValidEmail()) return;
-  if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
-    document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
+  if (!checkValidEmail()) return;
+  if (
+    document.getElementById("password-input-sign-up").value !==
+    document.getElementById("confirm-input-sign-up").value
+  ) {
+    document.getElementById("wrong-password-info-sign-up").innerText =
+      "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
     return;
@@ -99,18 +101,14 @@ async function checkUserDataInput(event) {
 }
 
 /**
- * Validates the email input field in the sign-up form.
- * Checks if the entered email matches a standard email format.
- * If invalid, displays an error message and applies error styling to the input and icon.
- * If valid, removes error message and styling.
- *
- * @returns {void}
+ * Validates email format in sign-up form and updates UI accordingly.
+ * @returns {boolean} True if email is valid, false otherwise.
  */
 function checkValidEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
   const emailValue = emailInput.value.trim();
   const emailError = document.getElementById("wrong-email-info-sign-up");
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(emailValue)) {
     emailError.innerText = "Please enter a valid email address.";
     emailInput.classList.add("wrongPassword");
@@ -122,17 +120,12 @@ function checkValidEmail() {
     document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
     return true;
   }
-};
+}
 
 /**
- * Handles the user sign-up process.
- * Checks if the privacy policy checkbox is accepted before proceeding.
- * If accepted, retrieves new user data and saves it to Firebase.
- * Displays an error message if the checkbox is not checked.
- *
+ * Handles user sign-up process after privacy policy validation.
  * @async
- * @function signUpUser
- * @returns {Promise<void>} Resolves when the user is saved or the process is halted due to missing checkbox acceptance.
+ * @returns {Promise<void>}
  */
 async function signUpUser() {
   if (!document.getElementById("checkbox-input-sign-up").checked) {
@@ -145,10 +138,8 @@ async function signUpUser() {
 }
 
 /**
- * Retrieves new user data from sign-up input fields, updates the `loggedInUser` object with the username and initials,
- * stores it in localStorage, and returns the new user data.
- *
- * @returns {Object} An object containing the new user's name, email, and password.
+ * Retrieves user data from sign-up form and updates localStorage.
+ * @returns {Object} User object with name, email, and password.
  */
 function getNewUserData() {
   const newUser = {
@@ -159,7 +150,7 @@ function getNewUserData() {
   loggedInUser.username = newUser.name;
   const nameParts = newUser.name.split(" ");
   if (nameParts.length >= 2) loggedInUser.initals = nameParts[0][0] + nameParts[1][0];
-  else  loggedInUser.initals = nameParts[0][0];
+  else loggedInUser.initals = nameParts[0][0];
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   return newUser;
 }
@@ -173,11 +164,14 @@ async function saveUserToFirebase(userData) {
     const response = await fetch(BASE_URL_USERS);
     const contacts = await response.json();
     const newId = Object.keys(contacts || {}).length;
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...userData, id: newId }),
-    });
+    await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...userData, id: newId }),
+      }
+    );
     showSuccessAnimationAndRedirect();
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
@@ -223,10 +217,7 @@ function showSuccessAnimationAndRedirect() {
 }
 
 /**
- * Logs in the user as a guest by setting a default user object,
- * storing it in localStorage, and redirecting to the summary page.
- *
- * @function
+ * Logs in user as guest and redirects to summary page.
  */
 const loginAsGuest = () => {
   loggedInUser = {
@@ -238,11 +229,19 @@ const loginAsGuest = () => {
 };
 
 /**
+ * Validates if a name contains exactly two words (first name and surname).
+ * @param {string} name - The name to validate.
+ * @returns {boolean} True if the name has exactly two words, false otherwise.
+ */
+function validateFullName(name) {
+  const trimmedName = name.trim();
+  const words = trimmedName.split(/\s+/);
+  return words.length === 2 && words.every((word) => word.length > 0);
+}
+
+/**
  * Validates the sign-up form input fields and enables or disables the sign-up button accordingly.
- * 
- * Checks if all required fields (name, email, password, confirm password) are filled and the terms checkbox is checked.
- * If any field is empty or the checkbox is not checked, the sign-up button is disabled.
- * Otherwise, the sign-up button is enabled.
+ * Button is only enabled when all fields are filled, email is valid, passwords match, and checkbox is checked.
  */
 function checkSignUpValues() {
   const nameInput = document.getElementById("name-input-sign-up").value.trim();
@@ -251,19 +250,15 @@ function checkSignUpValues() {
   const confirmInput = document.getElementById("confirm-input-sign-up").value.trim();
   const checkbox = document.getElementById("checkbox-input-sign-up").checked;
   const btn = document.getElementById("btn-sign-up");
-
-  if (nameInput === "" || emailInput === "" || passwordInput === "" || confirmInput === "" || !checkbox) {
-    btn.setAttribute("disabled", "disabled");
-  } else {
-    btn.removeAttribute("disabled");
-  }
+  const allFieldsFilled = nameInput && emailInput && passwordInput && confirmInput && checkbox;
+  const nameValid = validateFullName(nameInput);
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
+  const passwordsMatch = passwordInput === confirmInput;
+  btn.toggleAttribute("disabled", !(allFieldsFilled && nameValid && emailValid && passwordsMatch));
 }
 
 /**
- * Checks the values of the email and password input fields.
- * Disables the login button if either field is empty, otherwise enables it.
- *
- * @function
+ * Enables/disables login button based on email and password input.
  */
 function checkLoginValues() {
   const emailInput = document.getElementById("email-input").value.trim();
@@ -274,24 +269,17 @@ function checkLoginValues() {
   } else {
     btn.removeAttribute("disabled");
   }
-};
+}
 
 /**
- * Validates the email input in the sign-up form.
- * 
- * This function checks whether the entered email address matches a valid format 
- * using a regular expression. If the email is invalid, an error message is displayed 
- * below the input field, and the input as well as the associated icon are styled with 
- * an error class. If the email is valid, the error message and error styles are removed.
- *
- * @function checkEmail
- * @returns {void} This function does not return a value.
+ * Validates email format in sign-up form and applies styling.
+ * @returns {void}
  */
 function checkEmail() {
   const emailInput = document.getElementById("email-input-sign-up");
   const emailValue = emailInput.value.trim();
   const emailError = document.getElementById("wrong-email-info-sign-up");
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(emailValue)) {
     emailError.innerText = "Please enter a valid email address.";
     emailInput.classList.add("wrongPassword");
@@ -301,24 +289,53 @@ function checkEmail() {
     emailInput.classList.remove("wrongPassword");
     document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
 
 /**
  * Validates the sign-up name input field.
- * If the input is empty, displays an error message and adds error styling.
- * Otherwise, clears the error message and removes error styling.
+ * Checks if name is empty or doesn't contain exactly two words (first name and surname).
+ * Displays appropriate error messages and styling.
  */
 function messageMissingName() {
-  if(document.getElementById("name-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-name-info-sign-up").innerText = "Please enter your name.";
-    document.getElementById("name-input-sign-up").classList.add("wrongPassword");
-    document.getElementById("user-icon-sign-up").classList.add("wrongPassword");
+  const nameValue = document.getElementById("name-input-sign-up").value.trim();
+  const nameError = document.getElementById("wrong-name-info-sign-up");
+  const nameInput = document.getElementById("name-input-sign-up");
+  const userIcon = document.getElementById("user-icon-sign-up");
+  if (nameValue === "") {
+    setNameError(nameError, nameInput, userIcon, "Please enter your name.");
+  } else if (!validateFullName(nameValue)) {
+    setNameError(nameError, nameInput, userIcon, "Please enter your first and last name.");
   } else {
-    document.getElementById("wrong-name-info-sign-up").innerText = "";
-    document.getElementById("name-input-sign-up").classList.remove("wrongPassword");
-    document.getElementById("user-icon-sign-up").classList.remove("wrongPassword");
+    removeNameErrorMessage(nameError, nameInput, userIcon);
   }
+  checkSignUpValues();
 }
+
+/**
+ * Sets error styling and message for name input validation.
+ * @param {HTMLElement} nameError - Error message element
+ * @param {HTMLElement} nameInput - Name input field element
+ * @param {HTMLElement} userIcon - User icon element
+ * @param {string} errorMessage - Error message text
+ */
+const setNameError = (nameError, nameInput, userIcon, errorMessage) => {
+  nameError.innerText = errorMessage;
+  nameInput.classList.add("wrongPassword");
+  userIcon.classList.add("wrongPassword");
+};
+
+/**
+ * Removes error styling and message from name input validation.
+ * @param {HTMLElement} nameError - Error message element
+ * @param {HTMLElement} nameInput - Name input field element
+ * @param {HTMLElement} userIcon - User icon element
+ */
+const removeNameErrorMessage = (nameError, nameInput, userIcon) => {
+  nameError.innerText = "";
+  nameInput.classList.remove("wrongPassword");
+  userIcon.classList.remove("wrongPassword");
+};
 
 /**
  * Checks if the sign-up password input field is empty.
@@ -326,8 +343,9 @@ function messageMissingName() {
  * If not empty, clears the error message and removes error styling.
  */
 function messageMissingPassword() {
-  if(document.getElementById("password-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-password-info-sign-up").innerText = "Please enter your password.";
+  if (document.getElementById("password-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-password-info-sign-up").innerText =
+      "Please enter your password.";
     document.getElementById("password-input-sign-up").classList.add("wrongPassword");
     document.getElementById("lock-icon-sign-up").classList.add("wrongPassword");
   } else {
@@ -335,18 +353,16 @@ function messageMissingPassword() {
     document.getElementById("password-input-sign-up").classList.remove("wrongPassword");
     document.getElementById("lock-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
 
 /**
- * Displays a message and applies styling if the confirm password input is empty.
- * Removes the message and styling if the input is not empty.
- *
- * Checks the value of the confirm password input field. If empty, sets an error message
- * and adds a CSS class to indicate an error. If not empty, clears the error message and removes the CSS class.
+ * Validates confirm password field and applies styling.
  */
 function messageMissingConfirmPassword() {
-  if(document.getElementById("confirm-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "Please enter your confirm password.";
+  if (document.getElementById("confirm-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText =
+      "Please enter your confirm password.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
   } else {
@@ -354,4 +370,5 @@ function messageMissingConfirmPassword() {
     document.getElementById("confirm-input-sign-up").classList.remove("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.remove("wrongPassword");
   }
+  checkSignUpValues();
 }
