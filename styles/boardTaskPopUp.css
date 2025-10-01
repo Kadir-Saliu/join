@@ -277,3 +277,28 @@ html.disable-scrolling {
     max-width: 90vw;
   }
 }
+
+@media (min-width: 2700px) {
+  #board-task-pop-up {
+    left: 45%;
+  }
+}
+
+@media (min-width: 2800px) {
+  #board-task-pop-up {
+    left: 40%;
+    top: 35%;
+  }
+}
+
+@media (min-width: 3300px) {
+  #board-task-pop-up {
+    left: 35%;
+  }
+}
+
+@media (min-width: 3700px) {
+  #board-task-pop-up {
+    left: 30%;
+  }
+}
