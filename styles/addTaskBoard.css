@@ -240,21 +240,10 @@
 }
 
 .pop-up {
-  position: absolute;
-  background-color: white;
-  margin: auto;
   width: 75%;
   height: 40%;
-  min-height: 600px;
-  padding: 75px;
-  padding-top: 50px;
   border-radius: 25px;
-  z-index: 50;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(-100%);
   transition: opacity 0.2s ease;
-  margin-left: 12.5%;
 }
 
 .add-task-select-div {
