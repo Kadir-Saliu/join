@@ -942,7 +942,7 @@ button {
     top: 8vh !important;
   }
 
-  .mw1920 {
+  .max-width-1920 {
     overflow: auto;
   }
 }
