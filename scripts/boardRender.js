@@ -37,6 +37,7 @@ function showPopUp(ele) {
  * Hides a popup with slide-out animation and enables scrolling.
  * @param {HTMLElement} ele - The popup element to hide.
  */
+
 function hidePopUp(ele) {
   ele.classList.remove("slide-in");
   ele.classList.add("slide-out");
