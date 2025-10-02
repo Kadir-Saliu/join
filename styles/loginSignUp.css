@@ -255,7 +255,7 @@ input:-webkit-autofill {
   transform: translate(-50%, -50%) scale(1);
   animation: slide-out-tl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   animation-delay: 1s;
-  z-index: 50;
+  z-index: 5;
 }
 
 @keyframes slide-out-tl {
@@ -284,7 +284,7 @@ input:-webkit-autofill {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 110;
+  z-index: 11;
 }
 
 #signup-message {

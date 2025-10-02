@@ -107,7 +107,6 @@ main {
 .awaiting-feedback {
   padding: 8px;
 }
-  
 
 .toDo-and-done {
   display: flex;
@@ -466,7 +465,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 110;
+    z-index: 11;
     font-size: 24px;
 
     animation: fadeOut 1.5s ease forwards;
