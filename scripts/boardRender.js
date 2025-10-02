@@ -1,43 +1,53 @@
 /**
- * function to open/close the addTask pop-up
- */
-function popUpAddTask(ele, columnV) {
-  columnVal = columnV;
-  const isHidden = ele.classList.contains("hide");
-  if (
-    document.getElementById("board-task-information").className === "hide" &&
-    document.getElementById("board-task-edit").className === ""
-  ) {
-    document.getElementById("board-task-information").classList.remove("hide");
-    document.getElementById("board-task-edit").classList.add("hide");
-  }
-  popUpAddTaskAnimation(ele, isHidden);
-}
-/**
- * Animates the display of a popup element for adding a task.
+ * Opens/closes popup elements with animation and handles task-related UI state.
  *
  * @param {HTMLElement} ele - The popup element to animate.
- * @param {boolean} isHidden - If true, shows the popup with animation; if false, hides it.
+ * @param {string} [columnV] - Optional column value for add task popup.
  */
-function popUpAddTaskAnimation(ele, isHidden) {
-  if (isHidden) {
-    ele.classList.remove("hide", "slide-out");
-    ele.classList.add("slide-in", "pop-up");
-    document.body.classList.add("disable-scrolling");
-    document.documentElement.classList.add("disable-scrolling");
-    overlay.dataset.target = ele.id;
-    overlay.classList.remove("hide");
-  } else {
-    ele.classList.remove("slide-in");
-    ele.classList.add("slide-out");
-    document.body.classList.remove("disable-scrolling");
-    document.documentElement.classList.remove("disable-scrolling");
-    setTimeout(() => {
-      ele.classList.add("hide");
-      overlay.classList.add("hide");
-    }, 200);
+function popUpAddTask(ele, columnV) {
+  if (columnV) columnVal = columnV;
+  const isHidden = ele.classList.contains("hide");
+  if (ele.id === "board-task-pop-up") {
+    const taskInfo = document.getElementById("board-task-information");
+    const taskEdit = document.getElementById("board-task-edit");
+    if (taskInfo && taskEdit) {
+      if (isHidden) {
+        taskInfo.classList.remove("hide");
+        taskEdit.classList.add("hide");
+      }
+    }
   }
+  isHidden ? showPopUp(ele) : hidePopUp(ele);
 }
+
+/**
+ * Shows a popup with slide-in animation and disables scrolling.
+ * @param {HTMLElement} ele - The popup element to show.
+ */
+function showPopUp(ele) {
+  ele.classList.remove("hide", "slide-out");
+  ele.classList.add("slide-in", "pop-up");
+  document.body.classList.add("disable-scrolling");
+  document.documentElement.classList.add("disable-scrolling");
+  overlay.dataset.target = ele.id;
+  overlay.classList.remove("hide");
+}
+
+/**
+ * Hides a popup with slide-out animation and enables scrolling.
+ * @param {HTMLElement} ele - The popup element to hide.
+ */
+function hidePopUp(ele) {
+  ele.classList.remove("slide-in");
+  ele.classList.add("slide-out");
+  document.body.classList.remove("disable-scrolling");
+  document.documentElement.classList.remove("disable-scrolling");
+  setTimeout(() => {
+    ele.classList.add("hide");
+    overlay.classList.add("hide");
+  }, 200);
+}
+
 /**
  * Handles closing a popup via its overlay element.
  * Retrieves the target popup element using the overlay's data-target attribute,

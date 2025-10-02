@@ -14,9 +14,11 @@ function userDropDownTemplate(name, inititals, index, id, isSelected, classCheck
         <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
         <p>${name}</p>
       </div>
-      <input type="checkbox" class="user-checkbox-${classChecker ? 'add' : 'edit'}" value="${name}" ${
-    isSelected ? "checked" : ""
-  } onclick="renderSelectedUsers('${id}', '${classChecker  ?  'user-checkbox-add' : 'user-checkbox-edit'}')">
+      <input type="checkbox" class="user-checkbox-${
+        classChecker ? "add" : "edit"
+      }" value="${name}" ${isSelected ? "checked" : ""} onclick="renderSelectedUsers('${id}', '${
+    classChecker ? "user-checkbox-add" : "user-checkbox-edit"
+  }')">
 </label>
   `;
 }
@@ -35,7 +37,20 @@ function userDropDownTemplate(name, inititals, index, id, isSelected, classCheck
  * @param {string} userSpans - HTML string representing assigned users.
  * @returns {string} HTML string representing the ticket template.
  */
-const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn) => {
+const getTicketTemplate = (
+  index,
+  title,
+  description,
+  category,
+  categoryCss,
+  priority,
+  subtasks,
+  ticketCounterId,
+  userSpans,
+  checkedSubtask,
+  upBtn,
+  downBtn
+) => {
   return /*html*/ `
     <div
       draggable="true"
@@ -56,10 +71,12 @@ const getTicketTemplate = (index, title, description, category, categoryCss, pri
       <h4 class="content-limitation">${title}</h4>
       <p class="content-limitation">${description}</p>
       <div id="p-subtask-${index}" class="subtask-progress-div hide">
-        <div class="subtask-progress-grey-div ${checkedSubtask ? '' : 'hide'}">
+        <div class="subtask-progress-grey-div ${checkedSubtask ? "" : "hide"}">
           <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>
         </div>
-        <p class="subtask-count ${checkedSubtask ? '' : 'hide'}">${subtaskCount}/${subtasks.length} Subtasks</p>
+        <p class="subtask-count ${checkedSubtask ? "" : "hide"}">${subtaskCount}/${
+    subtasks.length
+  } Subtasks</p>
       </div>
       <div class="assigned-users">
         <div>${userSpans}</div>
@@ -266,11 +283,22 @@ const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user)
  * @param {string} subtaskEle - HTML string representing subtasks.
  * @returns {string} The HTML template string for the ticket details pop-up.
  */
-const getRenderTicketDetailsTemplate = (category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle) => {
+const getRenderTicketDetailsTemplate = (
+  category,
+  categoryColor,
+  title,
+  description,
+  date,
+  priority,
+  index,
+  ticketCounterId,
+  userSpans,
+  subtaskEle
+) => {
   return /*html*/ `
     <div id="task-pop-up-nav">
       <p class="${categoryColor}">${category}</p>
-      <button  onclick="popUpAddTask(popuptask); boardInit()">X</button>
+      <button  onclick="popUpAddTask(popuptask)">X</button>
     </div>
     <h1 class="pop-up-margin-b-25">${title}</h1>
     <p class="pop-up-margin-b-25" id="pop-up-task-description">${description}</p>
