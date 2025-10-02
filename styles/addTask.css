@@ -224,11 +224,11 @@ textarea {
 }
 
 #drop-down-users label span {
-  margin-left: 16px !important;
+  margin-left: 16px;
 }
 
 #drop-down-users label p {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
   margin-left: 16px;
 }
 
@@ -283,7 +283,7 @@ textarea {
 
 #drop-down-category button {
   padding: 8px 16px;
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
   cursor: pointer;
   background-color: white;
   border: none;
@@ -310,17 +310,17 @@ textarea {
 }
 
 .urgent {
-  background-color: rgb(255, 61, 0) !important;
+  background-color: rgb(255, 61, 0);
   color: white;
 }
 
 .medium {
-  background-color: rgb(255, 168, 0) !important;
+  background-color: rgb(255, 168, 0);
   color: white;
 }
 
 .low {
-  background-color: rgb(122, 226, 41) !important;
+  background-color: rgb(122, 226, 41);
   color: white;
 }
 
@@ -330,10 +330,10 @@ textarea {
   filter: brightness(0) invert(1);
 }
 
-.urgent:hover,
-.medium:hover,
-.low:hover {
-  box-shadow: none !important;
+.priority-button.urgent:hover,
+.priority-button.medium:hover,
+.priority-button.low:hover {
+  box-shadow: none;
 }
 
 #subtask-render-div li:hover {
@@ -347,7 +347,7 @@ textarea {
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-  list-style-type: disc !important;
+  list-style-type: disc;
   height: 24px;
   padding-left: 12px;
   padding-right: 12px;
@@ -472,7 +472,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px !important;
+  border-radius: 5px;
   border-right: 1px solid rgb(219, 219, 219);
 }
 

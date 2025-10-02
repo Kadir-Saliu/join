@@ -288,7 +288,7 @@
   }
 
   .nav-item {
-    padding: 10px 10px !important;
+    padding: 10px 10px;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -334,7 +334,7 @@
   #drop-down-users-input-div,
   #category-button,
   .subtask-div {
-    margin-bottom: 24px !important;
+    margin-bottom: 24px;
   }
 
   #drop-down-users-input,
@@ -354,7 +354,7 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-    flex-direction: row !important;
+    flex-direction: row;
     margin-top: 5vh;
     margin-bottom: 5vh;
     gap: 24px;
@@ -363,7 +363,7 @@
   /* board.html */
 
   .mobile-hide {
-    display: flex !important;
+    display: flex;
   }
 
   .kanban-board,

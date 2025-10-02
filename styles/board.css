@@ -308,17 +308,17 @@ button {
 }
 
 #pop-up-task-description {
-  white-space: normal !important;
+  white-space: normal;
 }
 
 /* individual background-colors */
 
-.user-story {
-  background-color: rgb(0, 56, 255) !important;
+.task-type.user-story {
+  background-color: rgb(0, 56, 255);
 }
 
-.technical-task {
-  background-color: rgb(31, 215, 193) !important;
+.task-type.technical-task {
+  background-color: rgb(31, 215, 193);
 }
 
 #drop-down-users-edit {
@@ -343,11 +343,11 @@ button {
 }
 
 #drop-down-users-edit div span {
-  margin-left: 16px !important;
+  margin-left: 16px;
 }
 
 #drop-down-users-edit div p {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
   margin-left: 16px;
 }
 
@@ -386,11 +386,11 @@ button {
 }
 
 #drop-down-users-board div span {
-  margin-left: 16px !important;
+  margin-left: 16px;
 }
 
 #drop-down-users-board div p {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
   margin-left: 16px;
 }
 
@@ -415,7 +415,7 @@ button {
 
 #drop-down-category-board button {
   padding: 8px 16px;
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
   cursor: pointer;
   background-color: white;
   border: none;
@@ -428,17 +428,17 @@ button {
 }
 
 .urgent {
-  background-color: rgb(255, 61, 0) !important;
+  background-color: rgb(255, 61, 0);
   color: white;
 }
 
 .medium {
-  background-color: rgb(255, 168, 0) !important;
+  background-color: rgb(255, 168, 0);
   color: white;
 }
 
 .low {
-  background-color: rgb(122, 226, 41) !important;
+  background-color: rgb(122, 226, 41);
   color: white;
 }
 
@@ -448,10 +448,10 @@ button {
   filter: brightness(0) invert(1);
 }
 
-.urgent:hover,
-.medium:hover,
-.low:hover {
-  box-shadow: none !important;
+.priority-button.urgent:hover,
+.priority-button.medium:hover,
+.priority-button.low:hover {
+  box-shadow: none;
 }
 
 #drop-down-users-input {
@@ -554,7 +554,7 @@ button {
   width: 1px;
   height: 60%;
   background-color: rgb(219, 219, 219);
-  border-top: 1px solid rgb(219, 219, 219) !important;
+  border-top: 1px solid rgb(219, 219, 219);
 }
 
 #subtask-button {
@@ -572,7 +572,7 @@ button {
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-  list-style-type: disc !important;
+  list-style-type: disc;
   height: 24px;
   padding-left: 12px;
   padding-right: 12px;
@@ -610,7 +610,7 @@ button {
 }
 
 .edit-div:hover {
-  background-color: white !important;
+  background-color: white;
 }
 
 .edit-div input {
@@ -642,7 +642,7 @@ button {
 
 .edit-subtask-div button {
   border: none;
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
 .edit-subtask-div img {
@@ -761,7 +761,7 @@ button {
 }
 
 .subtask-count {
-  color: black !important;
+  color: black;
   font-size: 12px;
 }
 
@@ -806,9 +806,9 @@ button {
   }
 
   .mobile-logo {
-    display: block !important;
+    display: block;
     height: 48px;
-    width: auto !important;
+    width: auto;
     margin-left: 5%;
   }
 
@@ -829,10 +829,10 @@ button {
 
   main {
     margin-top: 8vh;
-    margin-left: 0 !important;
+    margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    width: 100% !important;
+    width: 100%;
     padding: 0;
   }
 
@@ -870,11 +870,11 @@ button {
   }
 
   .nav-logo {
-    padding: 0 !important;
+    padding: 0;
   }
 
   .legal-info {
-    display: none !important;
+    display: none;
   }
 
   .board-header {
@@ -939,7 +939,7 @@ button {
   }
 
   .account-nav-render-div {
-    top: 8vh !important;
+    top: 8vh;
   }
 
   .max-width-1920 {
