@@ -668,7 +668,7 @@ button {
   transform: translateX(-50%);
   opacity: 0;
   transition: none;
-  z-index: 110;
+  z-index: 11;
 }
 
 .added-animation.show {

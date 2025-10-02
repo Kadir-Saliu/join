@@ -1,4 +1,3 @@
-
 main {
   flex-grow: 1;
   width: calc(100% - 232px);
@@ -29,7 +28,6 @@ main h1 {
 .span-div {
   display: flex;
 }
-
 
 .span-div span {
   color: rgb(254, 136, 151);
@@ -63,7 +61,7 @@ textarea {
 
 #task-title:focus,
 #task-description:focus,
-#task-date:focus{
+#task-date:focus {
   border: 1px solid rgb(93, 190, 231) !important;
   outline: none;
 }
@@ -339,7 +337,7 @@ textarea {
 }
 
 #subtask-render-div li:hover {
-  background-color: rgb(231, 231, 231);  
+  background-color: rgb(231, 231, 231);
   border-radius: 5px;
   cursor: pointer;
 }
@@ -369,7 +367,6 @@ textarea {
   background-color: rgb(231, 231, 231);
 }
 
-
 .li-buttons img {
   width: 20px;
   border: none;
@@ -391,7 +388,7 @@ textarea {
   justify-content: center;
   margin-left: -1px;
   margin-bottom: 16px;
-  background-color: white;  
+  background-color: white;
   border: 1px solid rgb(219, 219, 219);
   border-radius: 0 5px 5px 0;
   border-left: none !important;
@@ -575,7 +572,7 @@ textarea {
   transform: translateX(-50%);
   opacity: 0;
   transition: none;
-  z-index: 110;
+  z-index: 11;
 }
 
 .added-animation.show {
@@ -600,85 +597,84 @@ textarea {
   }
 }
 
-
 @media (max-width: 925px) {
   .big-logo {
-      display: none;
+    display: none;
   }
 
   .mobile-logo {
-      display: block !important;
-      height: 48px;
-      width: auto !important;
-      margin-left: 5%;
+    display: block !important;
+    height: 48px;
+    width: auto !important;
+    margin-left: 5%;
   }
 
   .header-responsive {
-      margin-left: 0;
-      width: 100%;
-      height: 8vh;
+    margin-left: 0;
+    width: 100%;
+    height: 8vh;
   }
 
   .header-and-icon {
-      height: 100%;
+    height: 100%;
   }
 
   .header-and-icon h2,
   .help-person-icon a {
-      display: none;
+    display: none;
   }
 
   main {
-      margin-top: 8vh;
-      margin-left: 0 !important;
-      margin-right: 0;
-      margin-bottom: 0;
-      width: 95% !important;
-      padding: 0;
-      padding-left: 20px;
+    margin-top: 8vh;
+    margin-left: 0 !important;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 95% !important;
+    padding: 0;
+    padding-left: 20px;
   }
 
   .title-main {
-      padding: 0;
-      padding-top: 10px;
-      gap: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      margin-bottom: 25px;
+    padding: 0;
+    padding-top: 10px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 25px;
   }
 
   nav {
-      position: fixed !important;
-      bottom: 0;
-      top: auto !important;
-      height: 10vh !important;
-      width: 100% !important;
+    position: fixed !important;
+    bottom: 0;
+    top: auto !important;
+    height: 10vh !important;
+    width: 100% !important;
   }
 
   nav div {
-      display: flex;
-      flex-direction: row;
-      height: 100%;
-      justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: space-evenly;
   }
 
   .nav-item {
-      padding: 10px 10px;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      border-radius: 20px;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 20px;
   }
 
   .nav-logo {
-      padding: 0 !important;
+    padding: 0 !important;
   }
 
   .legal-info {
-      display: none !important;
+    display: none !important;
   }
-  
+
   .account-nav-render-div {
     top: 8vh !important;
   }

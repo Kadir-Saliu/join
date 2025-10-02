@@ -9,7 +9,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  z-index: 100;
+  z-index: 10;
 }
 
 .nav-logo {
@@ -66,6 +66,6 @@ nav a {
     top: auto;
     height: 10vh;
     width: 100%;
-    z-index: 100;
+    z-index: 10;
   }
 }

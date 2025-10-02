@@ -66,7 +66,7 @@
     height: 100vh;
     animation: slide-out-bc-tl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     animation-delay: 1s;
-    z-index: 50;
+    z-index: 5;
     background-color: rgb(42, 54, 71);
   }
 
@@ -154,7 +154,7 @@
   }
 
   #sign-up-div {
-    margin-top: 14vh
+    margin-top: 14vh;
   }
 
   #btn-login-div {
@@ -267,7 +267,7 @@
     margin-top: 4px;
   }
 
-  .title-main{
+  .title-main {
     margin-bottom: 5px;
   }
 
