@@ -185,13 +185,11 @@
   /*summary.html*/
 
   main {
-    margin-top: 8vh;
+    margin-top: 8vh !important;
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    width: 95%;
     padding: 0;
-    padding-left: 20px;
     scrollbar-width: none; /* für Firefox */
     -ms-overflow-style: none; /* für IE und Edge */
   }

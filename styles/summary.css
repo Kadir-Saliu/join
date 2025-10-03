@@ -2,7 +2,6 @@ body {
   display: flex;
   margin: 0;
   height: 100vh;
-  font-family: "Inter", sans-serif;
 }
 
 p {
@@ -14,13 +13,6 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-main {
-  flex: 1;
-  width: calc(100% - 232px);
-  margin-left: 232px;
-  background-color: #f6f7f8;
 }
 
 .help-person-icon {
