@@ -275,8 +275,6 @@ input:-webkit-autofill {
   }
 }
 
-/* userfeedback*/
-
 #signup-overlay {
   position: fixed;
   inset: 0;
