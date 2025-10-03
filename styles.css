@@ -13,6 +13,7 @@ body {
   justify-content: center;
   flex-direction: column;
   background-color: rgb(246, 247, 248);
+  overflow: hidden;
 }
 
 #index-body {
@@ -102,4 +103,11 @@ main::-webkit-scrollbar {
 
 .User-bc-15 {
   background-color: rgb(255, 187, 43);
+}
+
+@media (max-width: 1165px) {
+  main {
+    width: 100%;
+    margin-left: 0;
+  }
 }

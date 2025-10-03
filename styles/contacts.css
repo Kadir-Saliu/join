@@ -473,7 +473,11 @@ hr {
   }
 }
 
-@media (max-width: 1160px) {
+@media (max-width: 1165px) {
+  main {
+    margin-top: 80px !important;
+  }
+
   .initials-and-username {
     display: flex;
     flex-direction: column;
@@ -482,15 +486,6 @@ hr {
 
   .contact-information-initials {
     width: 90px;
-  }
-
-  main {
-    margin-top: 8vh;
-    margin-left: 0 !important;
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 95% !important;
-    padding: 0;
   }
 
   .title-main {
@@ -519,7 +514,6 @@ hr {
   .contacts-container {
     width: 100%;
     align-items: center;
-    margin-left: 50px;
   }
 
   .add-contact-button {
