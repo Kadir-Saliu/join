@@ -20,8 +20,6 @@
 }
 
 @media (max-width: 625px) {
-  /* index.html */
-
   .slide-out-tl {
     width: 64px;
     height: 84px;
@@ -172,8 +170,6 @@
     bottom: 90px;
   }
 
-  /* index.html (sign-up menu)*/
-
   #sign-up-div {
     width: 90%;
   }
@@ -182,20 +178,18 @@
     width: 100%;
   }
 
-  /*summary.html*/
-
   main {
     margin-top: 8vh !important;
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
     padding: 0;
-    scrollbar-width: none; /* für Firefox */
-    -ms-overflow-style: none; /* für IE und Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   main::-webkit-scrollbar {
-    display: none; /* für Chrome, Safari und Opera */
+    display: none;
   }
 
   .title-main {
@@ -242,8 +236,6 @@
   .title-main {
     margin-bottom: 5px;
   }
-
-  /*addTask.html*/
 
   main h1 {
     padding-top: 10px;
@@ -300,8 +292,6 @@
     gap: 24px;
   }
 
-  /* board.html */
-
   .mobile-hide {
     display: flex;
   }
@@ -340,8 +330,8 @@
   #done-div {
     display: flex;
     overflow-x: auto;
-    scrollbar-width: none; /* für Firefox */
-    -ms-overflow-style: none; /* für IE und Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     gap: 8px;
   }
 
@@ -349,7 +339,7 @@
   #in-progress-div::-webkit-scrollbar,
   #await-feedback-div::-webkit-scrollbar,
   #done-div::-webkit-scrollbar {
-    display: none; /* für Chrome, Safari und Opera */
+    display: none;
   }
 
   .kanban-task {
@@ -368,8 +358,6 @@
   #edit-subtask {
     max-width: 193px;
   }
-
-  /* contacts.html*/
 
   #header-contacts {
     display: none;

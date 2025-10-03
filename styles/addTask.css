@@ -197,8 +197,6 @@ textarea {
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
-/*Drop downs */
-
 #drop-down-users {
   overflow-y: scroll;
   background-color: white;
@@ -402,10 +400,6 @@ textarea {
   box-shadow: -1px 1px rgba(0, 0, 0, 0.4);
 }
 
-/*#drop-down-users-input-div:focus-within #drop-down-users-input-img-div, #drop-down-users-input {
-  border: 1px solid #00aaff !important;
-}*/
-
 #drop-down-users-input:focus {
   outline: none;
   box-shadow: none;
@@ -554,11 +548,9 @@ textarea {
   display: none;
 }
 
-/* userfeedback */
-
 .added-animation {
   position: fixed;
-  bottom: -100px; /* Startposition */
+  bottom: -100px;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;

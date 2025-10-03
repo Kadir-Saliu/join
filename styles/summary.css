@@ -8,11 +8,34 @@ p {
   margin-block-start: 0px;
 }
 
-.center {
+.task-card-base {
   display: flex;
-  flex-direction: column;
+  background-color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  transition: 0.1s;
+}
+
+.task-card-base:hover {
+  background-color: #2a3647;
+  color: white;
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  transform: scale(1.1);
+}
+
+.flex-center {
   justify-content: center;
   align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.center {
+  display: flex;
 }
 
 .help-person-icon {
@@ -30,8 +53,6 @@ p {
   border: 3px solid #2a3647;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .title-main {
@@ -98,24 +119,8 @@ p {
 }
 
 .to-do {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 260px;
-  background-color: white;
-  border-radius: 30px;
   gap: 10px;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  transition: 0.1s;
-}
-
-.to-do:hover {
-  background-color: #2a3647;
-  color: white;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.1);
 }
 
 .to-do:hover .change-circle-color {
@@ -127,24 +132,8 @@ p {
 }
 
 .done {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 260px;
-  background-color: white;
-  border-radius: 30px;
   gap: 10px;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  transition: 0.1s;
-}
-
-.done:hover {
-  background-color: #2a3647;
-  color: white;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.1);
 }
 
 .done:hover .change-circle-color {
@@ -156,24 +145,8 @@ p {
 }
 
 .urgent-and-date {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
-  background-color: white;
-  border-radius: 30px;
   margin-top: 20px;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  transition: 0.1s;
-}
-
-.urgent-and-date:hover {
-  background-color: #2a3647;
-  color: white;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.1);
 }
 
 .urgent-and-date h4 {
@@ -186,8 +159,6 @@ p {
 .urgent {
   display: flex;
   padding-right: 40px;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
 }
 
@@ -199,67 +170,15 @@ p {
 }
 
 .tasks-in-board {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
   width: 30%;
-  border-radius: 30px;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  transition: 0.1s;
-}
-
-.tasks-in-board:hover {
-  background-color: #2a3647;
-  color: white;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.1);
 }
 
 .tasks-in-progress {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
   width: 168px;
-  border-radius: 30px;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  transition: 0.1s;
-}
-
-.tasks-in-progress:hover {
-  background-color: #2a3647;
-  color: white;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.1);
 }
 
 .awaiting-feedback {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
   width: 168px;
-  border-radius: 30px;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  transition: 0.1s;
-}
-
-.awaiting-feedback:hover {
-  background-color: #2a3647;
-  color: white;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.1);
-  transition: scale(102s);
 }
 
 #goodMorning {
@@ -268,9 +187,6 @@ p {
 
 .greeting {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding-left: 50px;
   padding-bottom: 50px;
 }
@@ -375,10 +291,6 @@ p {
     width: 100vw;
     height: 82vh;
     background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     z-index: 11;
     font-size: 24px;
 

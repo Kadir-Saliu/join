@@ -10,7 +10,6 @@ header {
   box-shadow: 0 3px 3px rgb(230, 231, 231);
 }
 
-/* Mobile logo - hidden by default, shown on mobile */
 .mobile-logo {
   display: none;
 }

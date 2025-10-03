@@ -347,7 +347,7 @@ const getRenderTicketDetailsTemplate = (
 function getRenderTasksTemplate() {
   return /*html*/ `
              <div onclick="goToBoardHtml()" class="toDo-and-done">
-              <div class="to-do">
+              <div class="to-do task-card-base flex-center">
                 <a href="">
                   <svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
                     <circle class="change-circle-color" cx="34.5" cy="35" r="34.5" fill="#2A3647" />
@@ -371,12 +371,12 @@ function getRenderTasksTemplate() {
                     </g>
                   </svg>
                 </a>
-                <div class="center">
+                <div class="center flex-column flex-center">
                   <h3>${toDos}</h3>
                   <p>To-do</p>
                 </div>
               </div>
-              <div onclick="goToBoardHtml()" class="done">
+              <div onclick="goToBoardHtml()" class="done task-card-base flex-center">
                 <a href="">
                   <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
                     <circle class="change-circle-color" cx="35" cy="35" r="34.5" fill="#2A3647" />
@@ -390,14 +390,14 @@ function getRenderTasksTemplate() {
                     />
                   </svg>
                 </a>
-                <div  class="center">
+                <div class="center flex-column flex-center">
                   <h3>${done}</h3>
                   <p>Done</p>
                 </div>
               </div>
             </div>
-            <div onclick="goToBoardHtml()" class="urgent-and-date">
-              <div class="urgent">
+            <div onclick="goToBoardHtml()" class="urgent-and-date task-card-base flex-center">
+              <div class="urgent flex-center">
                 <a href=""><img class="urgent-icon-responsiv" src="./assets/icon/urgent-orange-icon.svg" alt="" /></a>
                 <div>
                   <h3>${urgentTickets}</h3>
@@ -411,21 +411,21 @@ function getRenderTasksTemplate() {
               </div>
             </div>
             <div onclick="goToBoardHtml()" class="tasks-in-editing">
-              <div class="tasks-in-board">
+              <div class="tasks-in-board task-card-base flex-center flex-column">
                 <h3>${currentTickets.length}</h3>
                 <p>
                   Tasks in <br />
                   Board
                 </p>
               </div>
-              <div onclick="goToBoardHtml()" class="tasks-in-progress">
+              <div onclick="goToBoardHtml()" class="tasks-in-progress task-card-base flex-center flex-column">
                 <h3>${inProgress}</h3>
                 <p>
                   Tasks in <br />
                   Progress
                 </p>
               </div>
-              <div onclick="goToBoardHtml()" class="awaiting-feedback">
+              <div onclick="goToBoardHtml()" class="awaiting-feedback task-card-base flex-center flex-column">
                 <h3>${awaitFeedback}</h3>
                 <p>
                   Awaiting <br />
