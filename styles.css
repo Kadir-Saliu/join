@@ -32,10 +32,6 @@ main::-webkit-scrollbar {
   display: none;
 }
 
-.mobile-logo {
-  display: none;
-}
-
 .max-width-1920 {
   max-width: 1920px;
 }
