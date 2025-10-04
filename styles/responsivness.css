@@ -186,6 +186,8 @@
     padding: 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    padding-left: 10px;
+    overflow: auto;
   }
 
   main::-webkit-scrollbar {
