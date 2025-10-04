@@ -55,6 +55,7 @@ const getTicketTemplate = (
     <div
       draggable="true"
       ondragstart="startDragging(${index})"
+      ondragend="endDragging()"
       class="kanban-task"
       data-ticketIndex="${index}"
       data-ticketcounterid="${ticketCounterId}"

@@ -1,7 +1,6 @@
 const popup = document.getElementById("add-task-pop-up");
 const popuptask = document.getElementById("board-task-pop-up");
 const overlay = document.getElementById("board-overlay");
-let currentDraggedElement;
 const currentDate = new Date();
 const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
@@ -57,18 +56,18 @@ function getVariablesToRenderTickets(t) {
   let priority = t.priority || [];
   let subtasks = t.subtask || [];
   let ticketCounterId = t.id;
-  return {subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId, columnValue};
-}
-
-/**
- * Initiates the dragging process for a task at the specified index.
- * Sets the current dragged element and toggles the visibility of the "no task" container.
- *
- * @param {number} index - The index of the task to start dragging.
- */
-function startDragging(index) {
-  currentDraggedElement = index;
-  toggleNoTaskContainer();
+  return {
+    subtasks,
+    columnId,
+    title,
+    description,
+    category,
+    categoryCss,
+    assignedTo,
+    priority,
+    ticketCounterId,
+    columnValue,
+  };
 }
 
 /**
@@ -87,47 +86,6 @@ function calculateSubtaskCounter(subtasks) {
       }
     });
     subtaskWidth = (subtaskCount / subtasks.length) * 100;
-  }
-}
-
-/**
- * Enables an element to accept drop events by preventing the default handling of the dragover event.
- *
- * @param {DragEvent} ev - The drag event object.
- */
-function allowDrop(ev) {
-  ev.preventDefault();
-}
-
-/**
- * Saves the currently modified ticket to Firebase.
- *
- * Updates the corresponding ticket entry in the Firebase Realtime Database
- * using a PUT request. After saving, the updated tickets are also stored in
- * localStorage, and the UI is refreshed by calling `getTicketData()` and
- * `renderTickets()`.
- *
- * @async
- * @function saveChangedTicketInFirbase
- * @returns {Promise<void>} - Returns nothing but updates the database,
- *                            local storage, and re-renders the UI.
- */
-async function saveChangedTicketInFirbase() {
-  try {
-    await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[currentDraggedElement].id}.json`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allTickets[currentDraggedElement]),
-      }
-    );
-    await getTicketData();
-    allTickets = JSON.parse(localStorage.getItem("tickets"));
-  } catch (error) {
-    console.error("Error saving ticket:", error);
   }
 }
 
@@ -159,7 +117,9 @@ function filterTickets() {
   if (!filterTickets.previousLength) filterTickets.previousLength = 0;
   if (searchInput.length >= 3) {
     let filteredTickets = tickets.filter(
-      (ticket) => ticket.title.toLowerCase().includes(searchInput) || ticket.description.toLowerCase().includes(searchInput)
+      (ticket) =>
+        ticket.title.toLowerCase().includes(searchInput) ||
+        ticket.description.toLowerCase().includes(searchInput)
     );
     renderTickets(filteredTickets);
     filterTickets.previousLength = searchInput.length;
@@ -192,9 +152,30 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let assignedTo = ticket[index].assignedTo || [];
   let subtasks = ticket[index].subtask || [];
   if (mode === "view")
-    renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
+    renderTicketDetails(
+      category,
+      categoryColor,
+      title,
+      description,
+      formattedDate,
+      priority,
+      assignedTo,
+      subtasks,
+      index,
+      ticketCounterId
+    );
   else if (mode === "edit")
-    editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
+    editTicket(
+      title,
+      description,
+      dateForEditOverlay,
+      priority,
+      assignedTo,
+      subtasks,
+      index,
+      mode,
+      ticketCounterId
+    );
 }
 
 /**
@@ -210,9 +191,12 @@ async function checkEditedValues(ele, className) {
   let description = "";
   let date;
   let ticketCounterId = ele.dataset.ticketcounterid;
-  if (document.getElementById("task-title-edit").value) title = document.getElementById("task-title-edit").value;
-  if (document.getElementById("task-description-edit").value) description = document.getElementById("task-description-edit").value;
-  if (document.getElementById("task-date-edit").value) date = document.getElementById("task-date-edit").value;
+  if (document.getElementById("task-title-edit").value)
+    title = document.getElementById("task-title-edit").value;
+  if (document.getElementById("task-description-edit").value)
+    description = document.getElementById("task-description-edit").value;
+  if (document.getElementById("task-date-edit").value)
+    date = document.getElementById("task-date-edit").value;
   ele.dataset.mode = "view";
   return takeOverEditedTicket(ele, index, title, description, date, ticketCounterId, className);
 }
@@ -228,7 +212,15 @@ async function checkEditedValues(ele, className) {
  *
  * @returns {void}
  */
-function takeOverEditedTicket(ele, index, titleEdit, descriptionEdit, dateEdit, ticketCounterId, className) {
+function takeOverEditedTicket(
+  ele,
+  index,
+  titleEdit,
+  descriptionEdit,
+  dateEdit,
+  ticketCounterId,
+  className
+) {
   let editedTicket = {};
   checkNewEditedValues(titleEdit, editedTicket, descriptionEdit, dateEdit);
   editedTicket.priority = buttonPriority;
@@ -293,7 +285,9 @@ function checkNewEditedValues(titleEdit, editedTicket, descriptionEdit, dateEdit
  */
 async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId) {
   try {
-    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`);
+    let response = await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`
+    );
     let updatedTicket = await updateTicketParameters(response, ticketData);
     await putEditedTaskToFirebase(ticketCounterId, updatedTicket);
     renderTicketOverlay(ele);
@@ -316,13 +310,16 @@ async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId)
  * @returns {Promise<void>} - Resolves when the ticket has been successfully updated.
  */
 async function putEditedTaskToFirebase(ticketCounterId, updatedTicket) {
-  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedTicket),
-  });
+  await fetch(
+    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounterId}.json`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTicket),
+    }
+  );
 }
 
 /**
@@ -371,9 +368,12 @@ function addNewSubtask() {
  */
 async function deleteTicket(index) {
   try {
-    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${index}.json`,
+      {
+        method: "DELETE",
+      }
+    );
     updateUIAfterDelete(index);
   } catch (error) {
     console.error("Fehler beim Löschen des Tickets:", error);
