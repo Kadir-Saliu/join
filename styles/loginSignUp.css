@@ -340,10 +340,6 @@ input:-webkit-autofill {
   #btn-login-div-sign-up {
     margin: 18px 0;
   }
-
-  main {
-    padding-right: 20px !important;
-  }
 }
 
 @media (min-width: 2020px) {
