@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join Contacts</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icon/fav-icon.svg" />
+    <link rel="stylesheet" href="../styles/contacts.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../styles/navigation.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/accountNav.css" />
+    <link rel="stylesheet" href="../styles/addTaskBoard.css" />
+    <link rel="stylesheet" href="../styles/responsivness.css" />
+  </head>
+  <body onload="contactsInit()">
+    <div class="add-contact-successful d_none">Contact successfully created</div>
+    <div class="delete-contact-successful d_none">Contact successfully deleted</div>
+    <div class="edit-contact-successful d_none">Contact successfully edited</div>
+    <div class="body-background-overlay d_none"></div>
+    <div id="board-overlay-transparent" class="overlay transparent hide" onclick="popUpAccNav()"></div>
+    <div template="../htmlTemplates/navigation.html"></div>
+    <div template="../htmlTemplates/accountNav.html" class="account-nav-render-div hide"></div>
+    <div onclick="bubblingPrevention(event)" id="addContactOverlay" class="d_none">
+      <img class="close-icon" src="../assets/icon/close.svg" alt="" onclick="closeAddContactOverlay()" />
+      <div class="contact-overlay-header">
+        <img class="join-logo-img" src="../assets/imgs/join_navigation.png" alt="" />
+        <h1>Add contact</h1>
+        <p>Tasks are better with a team!</p>
+        <img class="add-contact-overlay-line" src="../assets/icon/add_contact_overlay_line.svg" alt="" />
+      </div>
+      <div class="contact-inputs-container">
+        <div id="contact-logo-div">
+          <img id="contact-person-logo" src="../assets//icon/add_contact_person_icon.svg" alt="" />
+        </div>
+        <div class="contact-inputs">
+          <div>
+            <input id="contactName" class="contact-input" type="text" placeholder="Name" spellcheck="false" required />
+            <img src="../assets/icon/user_grey.svg" alt="" id="icon-img" class="icon" />
+          </div>
+          <p id="name-error-msg" class="contact-error hide">Please enter a valid Name.</p>
+          <div>
+            <input id="contactEmail" class="contact-input" type="text" placeholder="Email" spellcheck="false" required />
+            <img src="../assets/icon/mail-icon-grey.svg" alt="" class="icon" />
+          </div>
+          <p id="email-error-msg" class="contact-error hide">Please enter a valid Email.</p>
+          <div>
+            <input id="contactPhone" class="contact-input" type="text" placeholder="Phone" spellcheck="false" required />
+            <img src="../assets/icon/call-grey.svg" alt="" class="icon" />
+          </div>
+          <p id="phone-error-msg" class="contact-error hide">Please enter a valid german Phone number.</p>
+
+          <div class="contact-inputs-buttons">
+            <button onclick="closeAddContactOverlay()" id="cancel-full-screen" class="cancel-button">Cancel x</button>
+            <button onclick="addContactToDatabase('name-error-msg', 'email-error-msg', 'phone-error-msg')" class="create-contact-button">Create contact &#10003;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div onclick="bubblingPrevention(event)" id="editOverlay" class="d_none"></div>
+    <header template="../htmlTemplates/header.html" class="header-responsive"></header>
+    <main>
+      <div class="contacts-page">
+        <div class="contacts-container">
+          <button onclick="openAddContactOverlay(event)" class="add-contact-button">
+            <span>Add new contact</span>
+            <img src="../assets/imgs/add_contact.png" alt="Add contact" />
+          </button>
+          <button onclick="openAddContactOverlay(event)" id="mobile-contact-button">
+            <img src="../assets/imgs/add_contact.png" alt="Add contact" />
+          </button>
+          <div id="contacts" class="contacts"></div>
+        </div>
+        <div id="header-contacts">
+          <div class="contacts-header">
+            <h1>Contacts</h1>
+            <img src="../assets/icon/Vector 5.svg" alt="" />
+            <span class="header-right-side">Better with a team</span>
+          </div>
+          <div class="contacts-details" id="contactDetails"></div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../script.js"></script>
+    <script src="../scripts/template.js"></script>
+    <script src="../scripts/editTemplates.js" defer></script>
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/contactsApiCalls.js"></script>
+  </body>
+</html>

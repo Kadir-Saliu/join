@@ -15,7 +15,7 @@ let tickets;
  * 1. Includes HTML content via `includeHTML()`.
  * 2. Removes the current user from localStorage using `removeUserfromLocalStorage()`.
  * 3. Schedules `addDisplayToContent()` to run after a 2.5-second delay.
- * 4. Adds an event listener to the logo element to trigger `addDisplayToContent()` 
+ * 4. Adds an event listener to the logo element to trigger `addDisplayToContent()`
  *    when its animation ends.
  *
  * @async
@@ -37,7 +37,7 @@ async function init() {
  * Initializes the summary page by loading navigation, greeting the user, and rendering tasks.
  *
  * This function calls `loadNavigationAndGreetUser()` to include the navigation HTML,
- * highlight the current page, and greet the user. It then calls `renderTasks()` 
+ * highlight the current page, and greet the user. It then calls `renderTasks()`
  * to display all tasks on the summary page.
  *
  * @async
@@ -126,10 +126,10 @@ async function getTicketData() {
   try {
     let response = await fetch(BASE_URL_TICKETS);
     let responseJson = await response.json();
-     if (!responseJson.ticket || Object.keys(responseJson.ticket).length === 0) {
+    if (!responseJson.ticket || Object.keys(responseJson.ticket).length === 0) {
       localStorage.setItem("tickets", JSON.stringify([]));
       return {};
-     }
+    }
     tickets = responseJson.ticket;
     let result = Object.values(tickets);
     localStorage.setItem("tickets", JSON.stringify(result));
@@ -145,7 +145,7 @@ async function getTicketData() {
  * @param {json} user
  * @returns contacts
  */
-async function getContactsData(user) {  
+async function getContactsData(user) {
   try {
     let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`);
     let responseJson = await response.json();
@@ -154,7 +154,7 @@ async function getContactsData(user) {
       .map(([firebaseKey, contact]) => ({
         ...contact,
         firebaseKey: firebaseKey,
-      }));      
+      }));
     return contacts;
   } catch (error) {
     console.log("Fehler beim Laden der Kontakte: ", error);
@@ -245,8 +245,7 @@ function greetUser() {
   if (loggedInUser.username) {
     loggedInUser.username === "Guest User"
       ? ((document.getElementById("goodMorning").innerText = "Good morning"), (document.getElementById("username").innerText = ""))
-      : ((document.getElementById("goodMorning").innerText = "Good morning,"),
-        (document.getElementById("username").innerText = loggedInUser.username));
+      : ((document.getElementById("goodMorning").innerText = "Good morning,"), (document.getElementById("username").innerText = loggedInUser.username));
     document.getElementById("profile").innerText = loggedInUser.initals;
   }
 }
@@ -316,7 +315,7 @@ function setProfileInitials() {
  * Redirects the current page to 'board.html' in the same directory.
  */
 function goToBoardHtml() {
-  location.href = "./board.html";
+  location.href = "./pages/board.html";
 }
 
 /**
