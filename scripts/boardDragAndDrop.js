@@ -47,7 +47,6 @@ function removeHighlight(ev) {
   const rect = ev.currentTarget.getBoundingClientRect();
   const x = ev.clientX;
   const y = ev.clientY;
-
   if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
     ev.currentTarget.classList.remove("highlight-drop");
   }
@@ -84,16 +83,13 @@ async function saveChangedTicketInFirbase(newIndex) {
  *                          stored in localStorage, and the board has been re-initialized.
  */
 async function fetchChangedTicket(newIndex) {
-  await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[newIndex].id}.json`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(allTickets[newIndex]),
-    }
-  );
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${allTickets[newIndex].id}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(allTickets[newIndex]),
+  });
   localStorage.setItem("tickets", JSON.stringify(allTickets));
   boardInit();
 }
