@@ -283,6 +283,10 @@
     display: flex;
   }
 
+  .mobile-navigation-div .mobile-hide {
+    display: flex;
+  }
+
   .kanban-board,
   .board-header {
     padding: 0;

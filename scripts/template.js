@@ -327,6 +327,18 @@ const getRenderTicketDetailsTemplate = (
 };
 
 /**
+ * Generates an HTML template string for a mobile navigation button.
+ *
+ * @param {string} direction - The direction of the button ("Up" or "Down").
+ * @param {number} index - The index of the ticket.
+ * @param {string} targetColumn - The target column to move to.
+ * @returns {string} The HTML string for the mobile navigation button.
+ */
+function getMobileNavigationButtonTemplate(direction, index, targetColumn) {
+  return /*html*/ `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, '${targetColumn}')">${direction}</button>`;
+}
+
+/**
  * Generates an HTML template string for rendering task statistics on the dashboard.
  *
  * The template includes sections for:

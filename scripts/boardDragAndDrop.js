@@ -106,22 +106,19 @@ async function fetchChangedTicket(newIndex) {
  * @returns {{upBtn: string, downBtn: string}} An object containing HTML strings for the "Up" and "Down" buttons.
  */
 function getColumnValue(columnValue, index) {
-  let upBtn;
-  let downBtn;
-  if (columnValue === "To do") {
-    upBtn = ``;
-    downBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'In progress')">Down</button>`;
-  } else if (columnValue === "In progress") {
-    upBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'To do')">Up</button>`;
-    downBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'Await feedback')">Down</button>`;
-  } else if (columnValue === "Await feedback") {
-    upBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'In progress')">Up</button>`;
-    downBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'done')">Down</button>`;
-  } else if (columnValue === "done") {
-    upBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'Await feedback')">Up</button>`;
-    downBtn = ``;
-  }
-  return { upBtn, downBtn };
+  const columnConfig = {
+    "To do": { up: null, down: "In progress" },
+    "In progress": { up: "To do", down: "Await feedback" },
+    "Await feedback": { up: "In progress", down: "done" },
+    done: { up: "Await feedback", down: null },
+  };
+
+  const config = columnConfig[columnValue];
+
+  return {
+    upBtn: config.up ? getMobileNavigationButtonTemplate("Up", index, config.up) : "",
+    downBtn: config.down ? getMobileNavigationButtonTemplate("Down", index, config.down) : "",
+  };
 }
 
 /**
