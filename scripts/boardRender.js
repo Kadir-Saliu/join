@@ -528,17 +528,6 @@ async function createUserIcons(assignedTo) {
 }
 
 /**
- * Moves the currently dragged ticket to the specified category (column).
- *
- * @param {string} category - The target category (column) to move the ticket to.
- */
-async function moveTo(category) {
-  allTickets[currentDraggedElement]["column"] = category;
-  await saveChangedTicketInFirbase();
-  renderTickets();
-}
-
-/**
  * Sets global edit information variables based on the data attributes of the given element.
  *
  * @param {HTMLElement} ele - The DOM element containing data attributes for ticket index, ticket counter ID, and mode.

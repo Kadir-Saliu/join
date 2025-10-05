@@ -194,15 +194,6 @@
     display: none;
   }
 
-  .title-main {
-    padding: 0;
-    gap: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin-bottom: 25px;
-  }
-
   .full-screen-border {
     display: none;
   }
@@ -212,7 +203,7 @@
   }
 
   .tasks-and-text {
-    padding: 0;
+    padding-left: 20px;
     width: 100%;
     margin-bottom: 11vh;
   }
@@ -233,10 +224,6 @@
   .urgent-and-date,
   .tasks-in-editing {
     margin-top: 4px;
-  }
-
-  .title-main {
-    margin-bottom: 5px;
   }
 
   main h1 {
@@ -295,6 +282,10 @@
   }
 
   .mobile-hide {
+    display: flex;
+  }
+
+  .mobile-navigation-div .mobile-hide {
     display: flex;
   }
 

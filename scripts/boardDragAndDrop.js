@@ -1,5 +1,32 @@
+// Drag and drop global variable
+let currentDraggedElement;
+
 /**
- * Handles the dragover event to highlight a drop target.
+ * Initiates the dragging process for a task at the specified index.
+ * Sets the current dragged element and toggles the visibility of the "no task" container.
+ *
+ * @param {number} index - The index of the task to start dragging.
+ */
+function startDragging(index) {
+  currentDraggedElement = index;
+  toggleNoTaskContainer();
+}
+
+/**
+ * Enables an element to accept drop events by preventing the default handling of the dragover event.
+ * Also ensures the highlight remains active during dragging.
+ *
+ * @param {DragEvent} ev - The drag event object.
+ */
+function allowDrop(ev) {
+  ev.preventDefault();
+  if (!ev.currentTarget.classList.contains("highlight-drop")) {
+    ev.currentTarget.classList.add("highlight-drop");
+  }
+}
+
+/**
+ * Handles the dragenter event to highlight a drop target.
  * Prevents the default behavior and adds the "highlight-drop" CSS class
  * to the current target element to visually indicate a valid drop area.
  *
@@ -12,11 +39,18 @@ function highlightDrop(ev) {
 
 /**
  * Removes the "highlight-drop" CSS class from the current drop target element.
+ * Only removes highlight if we're actually leaving the drop zone (not entering a child element).
  *
  * @param {DragEvent} ev - The drag event triggered when the drop target loses focus.
  */
 function removeHighlight(ev) {
-  ev.currentTarget.classList.remove("highlight-drop");
+  const rect = ev.currentTarget.getBoundingClientRect();
+  const x = ev.clientX;
+  const y = ev.clientY;
+
+  if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+    ev.currentTarget.classList.remove("highlight-drop");
+  }
 }
 
 /**
@@ -72,33 +106,34 @@ async function fetchChangedTicket(newIndex) {
  * @returns {{upBtn: string, downBtn: string}} An object containing HTML strings for the "Up" and "Down" buttons.
  */
 function getColumnValue(columnValue, index) {
-  let upBtn;
-  let downBtn;
-  if (columnValue === "To do") {
-    upBtn = ``;
-    downBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'In progress')">Down</button>`;
-  } else if (columnValue === "In progress") {
-    upBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'To do')">Up</button>`;
-    downBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'Await feedback')">Down</button>`;
-  } else if (columnValue === "Await feedback") {
-    upBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'In progress')">Up</button>`;
-    downBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'done')">Down</button>`;
-  } else if (columnValue === "done") {
-    upBtn = `<button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, 'Await feedback')">Up</button>`;
-    downBtn = ``;
-  }
-  return { upBtn, downBtn };
+  const columnConfig = {
+    "To do": { up: null, down: "In progress" },
+    "In progress": { up: "To do", down: "Await feedback" },
+    "Await feedback": { up: "In progress", down: "done" },
+    done: { up: "Await feedback", down: null },
+  };
+
+  const config = columnConfig[columnValue];
+
+  return {
+    upBtn: config.up ? getMobileNavigationButtonTemplate("Up", index, config.up) : "",
+    downBtn: config.down ? getMobileNavigationButtonTemplate("Down", index, config.down) : "",
+  };
 }
 
 /**
  * Moves the currently dragged ticket to the specified category (column).
+ * Only saves and rerenders if the ticket is actually moved to a different column.
  *
  * @param {string} category - The target category (column) to move the ticket to.
  */
 function moveTo(category) {
-  allTickets[currentDraggedElement]["column"] = category;  
-  saveChangedTicketInFirbase(currentDraggedElement);
-  document.querySelectorAll(".highlight-drop").forEach(el => {
+  const currentColumn = allTickets[currentDraggedElement]["column"];
+  if (currentColumn !== category) {
+    allTickets[currentDraggedElement]["column"] = category;
+    saveChangedTicketInFirbase(currentDraggedElement);
+  }
+  document.querySelectorAll(".highlight-drop").forEach((el) => {
     el.classList.remove("highlight-drop");
   });
 }
@@ -116,4 +151,15 @@ function mobileMoveTo(ele, event, category) {
   let id = ele.dataset.ticketindex;
   allTickets[id]["column"] = category;
   saveChangedTicketInFirbase(id);
+}
+
+/**
+ * Cleans up all drag and drop visual effects when dragging ends.
+ * This ensures highlights are removed even if the element is dropped outside valid zones.
+ */
+function endDragging() {
+  document.querySelectorAll(".highlight-drop").forEach((el) => {
+    el.classList.remove("highlight-drop");
+  });
+  currentDraggedElement = null;
 }
