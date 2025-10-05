@@ -126,12 +126,16 @@ function getColumnValue(columnValue, index) {
 
 /**
  * Moves the currently dragged ticket to the specified category (column).
+ * Only saves and rerenders if the ticket is actually moved to a different column.
  *
  * @param {string} category - The target category (column) to move the ticket to.
  */
 function moveTo(category) {
-  allTickets[currentDraggedElement]["column"] = category;
-  saveChangedTicketInFirbase(currentDraggedElement);
+  const currentColumn = allTickets[currentDraggedElement]["column"];
+  if (currentColumn !== category) {
+    allTickets[currentDraggedElement]["column"] = category;
+    saveChangedTicketInFirbase(currentDraggedElement);
+  }
   document.querySelectorAll(".highlight-drop").forEach((el) => {
     el.classList.remove("highlight-drop");
   });
