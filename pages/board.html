@@ -6,25 +6,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Join Board</title>
-  <link rel="icon" type="image/x-icon" href="./assets/icon/fav-icon.svg" />
-  <link rel="stylesheet" href="./styles/board.css" />
-  <link rel="stylesheet" href="./styles/header.css" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="./styles/navigation.css" />
-  <link rel="stylesheet" href="./styles/addTaskBoard.css" />
-  <link rel="stylesheet" href="./styles/accountNav.css" />
-  <link rel="stylesheet" href="./styles/boardTaskPopUp.css" />
-    <link rel="stylesheet" href="./styles/responsivness.css">
+  <link rel="icon" type="image/x-icon" href="../assets/icon/fav-icon.svg" />
+  <link rel="stylesheet" href="../styles/board.css" />
+  <link rel="stylesheet" href="../styles/header.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles/navigation.css" />
+  <link rel="stylesheet" href="../styles/addTaskBoard.css" />
+  <link rel="stylesheet" href="../styles/accountNav.css" />
+  <link rel="stylesheet" href="../styles/boardTaskPopUp.css" />
+    <link rel="stylesheet" href="../styles/responsivness.css">
 </head>
 
 <body onload="boardInit()">
-  <div template="navigation.html"></div>
-  <div template="accountNav.html" class="account-nav-render-div hide"></div>
-  <div template="boardTaskPopUp.html" class="hide slide-out" id="board-task-pop-up"></div>
- 
-
-  <header template="header.html" class="header-responsive"></header>
-
+  <div template="../htmlTemplates/navigation.html"></div>
+  <div template="../htmlTemplates/accountNav.html" class="account-nav-render-div hide"></div>
+  <div template="../htmlTemplates/boardTaskPopUp.html" class="hide slide-out" id="board-task-pop-up"></div>
+  <header template="../htmlTemplates/header.html" class="header-responsive"></header>
 
   <main class="max-width-1920">
     <div class="board-header">
@@ -33,7 +30,7 @@
         <div class="board-search">
           <input id="searchbar" type="text" placeholder="Find Task" oninput="filterTickets()" />
           <button onclick="filterTickets()" class="search-bar-lense-button">
-            <img  src="./assets/imgs/search_lense.png" class="search-bar-lense" alt="search lense" />
+            <img  src="../assets/imgs/search_lense.png" class="search-bar-lense" alt="search lense" />
           </button>
         </div>
         <button class="board-add-task full-screen-button" onclick="popUpAddTask(popup, 'To do')">
@@ -130,13 +127,13 @@
           <p>Priority</p>
           <div class="add-task-importance-selection">
             <button class="priority-button" onclick="setPriority('urgent', this)">
-              Urgent <img src="./assets/icon/red-arrows.svg" alt="" />
+              Urgent <img src="../assets/icon/red-arrows.svg" alt="" />
             </button>
             <button class="priority-button medium" onclick="setPriority('medium', this)" id="medium-priority-button">
-              Medium <img src="./assets/icon/orange-same.svg" alt="" />
+              Medium <img src="../assets/icon/orange-same.svg" alt="" />
             </button>
             <button class="priority-button" onclick="setPriority('low', this)">
-              Low <img src="./assets/icon/green-arrows.svg" alt="" />
+              Low <img src="../assets/icon/green-arrows.svg" alt="" />
             </button>
           </div>
           <p>Assigned to</p>
@@ -144,7 +141,7 @@
             <input id="drop-down-users-input-board" class="drop-down-selection" placeholder="Select Contacts to assign"
               onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img', 'drop-down-users-input-board')" oninput="filterUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-board')"/>
             <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-board', 'render-selected-users-board', 'drop-down-users-input-img', 'drop-down-users-input-board')">
-                <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
+                <img src="../assets/imgs/arrow_down.png" id="drop-down-users-input-img" alt="">
               </div>
           </div>
           <div id="drop-down-users-board" class="hide"></div>
@@ -155,7 +152,7 @@
           </div>
           <button class="drop-down-selection" id="category-button" onclick="popUpDropDownCategory('category-button-img', 'drop-down-category-board')">
             Select task category
-            <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
+            <img src="../assets/imgs/arrow_down.png" id="category-button-img" alt="">
           </button>
           <div id="drop-down-category-board" class="hide">
             <button onclick="setCategory('Technical Task', 'category-button', 'drop-down-category-board')">Technical
@@ -192,17 +189,17 @@
 
   
 
-  <img src="assets/icon/Added-to-Board.png" class="added-animation hide" id="added-userfeedback" />
+  <img src="../assets/icon/Added-to-Board.png" class="added-animation hide" id="added-userfeedback" />
 
-  <script src="./scripts/template.js"></script>
-  <script src="./scripts/editTemplates.js" defer></script>
-  <script src="./scripts/addTask.js"></script>
-  <script src="./scripts/addTaskSetData.js" defer></script>
-  <script src="./scripts/board.js"></script>
-  <script src="./scripts/boardRender.js" defer></script>
-  <script src="./scripts/boardDragAndDrop.js" defer></script>
-  <script src="./scripts/summary.js"></script>
-  <script src="script.js" defer></script>
+  <script src="../scripts/template.js"></script>
+  <script src="../scripts/editTemplates.js" defer></script>
+  <script src="../scripts/addTask.js"></script>
+  <script src="../scripts/addTaskSetData.js" defer></script>
+  <script src="../scripts/board.js"></script>
+  <script src="../scripts/boardRender.js" defer></script>
+  <script src="../scripts/boardDragAndDrop.js" defer></script>
+  <script src="../scripts/summary.js"></script>
+  <script src="../script.js" defer></script>
 </body>
 
 </html>

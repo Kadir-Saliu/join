@@ -40,7 +40,7 @@ async function checkLoginData(data) {
 
   if (user && user.Password === password) {
     saveUserToLocalStorage(user);
-    window.location.href = "summary.html";
+    window.location.href = "pages/summary.html";
   } else {
     wrongPassword();
   }
@@ -69,8 +69,7 @@ function wrongPassword() {
   document.getElementById("password-input").classList.add("wrongPassword");
   document.getElementById("mail-icon").classList.add("wrongPassword");
   document.getElementById("email-input").classList.add("wrongPassword");
-  document.getElementById("wrong-password-info").innerText =
-    "Check your email and password.Please try again.";
+  document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
   document.getElementById("password-input").value = "";
   document.getElementById("wrong-password-info").classList.add("wrongPasswordText");
 }
@@ -87,12 +86,8 @@ async function checkUserDataInput(event) {
     return;
   }
   if (!checkValidEmail()) return;
-  if (
-    document.getElementById("password-input-sign-up").value !==
-    document.getElementById("confirm-input-sign-up").value
-  ) {
-    document.getElementById("wrong-password-info-sign-up").innerText =
-      "Your passwords don't match.Please try again.";
+  if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
+    document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
     return;
@@ -129,8 +124,7 @@ function checkValidEmail() {
  */
 async function signUpUser() {
   if (!document.getElementById("checkbox-input-sign-up").checked) {
-    document.getElementById("missing-checkbox-info-sign-up").innerText =
-      "You need to accept the Privacy policy to continue.";
+    document.getElementById("missing-checkbox-info-sign-up").innerText = "You need to accept the Privacy policy to continue.";
     return;
   }
   const newUser = getNewUserData();
@@ -164,14 +158,11 @@ async function saveUserToFirebase(userData) {
     const response = await fetch(BASE_URL_USERS);
     const contacts = await response.json();
     const newId = Object.keys(contacts || {}).length;
-    await fetch(
-      `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...userData, id: newId }),
-      }
-    );
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...userData, id: newId }),
+    });
     showSuccessAnimationAndRedirect();
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
@@ -225,7 +216,7 @@ const loginAsGuest = () => {
     initals: "G",
   };
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-  window.location.href = "summary.html";
+  window.location.href = "pages/summary.html";
 };
 
 /**
@@ -344,8 +335,7 @@ const removeNameErrorMessage = (nameError, nameInput, userIcon) => {
  */
 function messageMissingPassword() {
   if (document.getElementById("password-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-password-info-sign-up").innerText =
-      "Please enter your password.";
+    document.getElementById("wrong-password-info-sign-up").innerText = "Please enter your password.";
     document.getElementById("password-input-sign-up").classList.add("wrongPassword");
     document.getElementById("lock-icon-sign-up").classList.add("wrongPassword");
   } else {
@@ -361,8 +351,7 @@ function messageMissingPassword() {
  */
 function messageMissingConfirmPassword() {
   if (document.getElementById("confirm-input-sign-up").value.trim() === "") {
-    document.getElementById("wrong-confirm-password-info-sign-up").innerText =
-      "Please enter your confirm password.";
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "Please enter your confirm password.";
     document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
     document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
   } else {

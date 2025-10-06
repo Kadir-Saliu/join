@@ -95,16 +95,6 @@ textarea {
   gap: 16px;
 }
 
-.add-task-importance-selection button {
-  height: 42px;
-  flex-grow: 1;
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 5px;
-  background-color: white;
-  cursor: pointer;
-  font-size: 16px;
-}
-
 .add-task-importance-selection button:hover {
   box-shadow: -1px 3px 3px rgba(0, 0, 0, 0.4);
 }

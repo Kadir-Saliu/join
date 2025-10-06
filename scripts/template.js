@@ -14,9 +14,7 @@ function userDropDownTemplate(name, inititals, index, id, isSelected, classCheck
         <span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}</span>
         <p>${name}</p>
       </div>
-      <input type="checkbox" class="user-checkbox-${
-        classChecker ? "add" : "edit"
-      }" value="${name}" ${isSelected ? "checked" : ""} onclick="renderSelectedUsers('${id}', '${
+      <input type="checkbox" class="user-checkbox-${classChecker ? "add" : "edit"}" value="${name}" ${isSelected ? "checked" : ""} onclick="renderSelectedUsers('${id}', '${
     classChecker ? "user-checkbox-add" : "user-checkbox-edit"
   }')">
 </label>
@@ -37,20 +35,7 @@ function userDropDownTemplate(name, inititals, index, id, isSelected, classCheck
  * @param {string} userSpans - HTML string representing assigned users.
  * @returns {string} HTML string representing the ticket template.
  */
-const getTicketTemplate = (
-  index,
-  title,
-  description,
-  category,
-  categoryCss,
-  priority,
-  subtasks,
-  ticketCounterId,
-  userSpans,
-  checkedSubtask,
-  upBtn,
-  downBtn
-) => {
+const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn) => {
   return /*html*/ `
     <div
       draggable="true"
@@ -75,15 +60,11 @@ const getTicketTemplate = (
         <div class="subtask-progress-grey-div ${checkedSubtask ? "" : "hide"}">
           <div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%"></div>
         </div>
-        <p class="subtask-count ${checkedSubtask ? "" : "hide"}">${subtaskCount}/${
-    subtasks.length
-  } Subtasks</p>
+        <p class="subtask-count ${checkedSubtask ? "" : "hide"}">${subtaskCount}/${subtasks.length} Subtasks</p>
       </div>
       <div class="assigned-users">
         <div>${userSpans}</div>
-        <img src="${
-          priority[0] && priority !== "-" ? `./assets/icon/${priority}.svg` : ""
-        }" alt="" />
+        <img src="${priority[0] && priority !== "-" ? `../assets/icon/${priority}.svg` : ""}" alt="" />
       </div>
     </div>
   `;
@@ -136,7 +117,7 @@ function getContactTemplate(initials, userName, email, phone, contactIconId) {
  */
 function getContactDetailsTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
-    <img src="./assets/icon/arrow-left-line.svg" alt="" id="leave-contact-details-btn" onclick="hideContactDetails()"  class="hide">
+    <img src="../assets/icon/arrow-left-line.svg" alt="" id="leave-contact-details-btn" onclick="hideContactDetails()"  class="hide">
     <div class="contact-information-mt">
       <div class="initials-and-username">
         <span class="contact-information-initials User-bc-${contactIconId}">${initials}</span>
@@ -144,11 +125,11 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
           <div class="contact-information-username">${userName}</div>
           <div class="edit-and-delete">
             <div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}', '${contactIconId}')" class="align-icon-and-text">
-              <img class="edit-delete-icons" src="./assets/icon/edit_contact.svg" alt="">
+              <img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
               <span>Edit</span>
             </div>
             <div onclick="deleteContactFromDatabase()" class="align-icon-and-text">
-              <img class="edit-delete-icons" src="./assets/icon/delete_contact.svg" alt="">
+              <img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
               <span>Delete</span>
             </div>
           </div>
@@ -176,11 +157,11 @@ function getContactDetailsTemplate(initials, userName, email, phone, contactIcon
  */
 function getEditOverlayContentTemplate(initials, userName, email, phone, contactIconId) {
   return /*html*/ `
-  <img class="close-icon" src="./assets/icon/close.svg" alt="" onclick="closeEditOverlay()" />
+  <img class="close-icon" src="../assets/icon/close.svg" alt="" onclick="closeEditOverlay()" />
     <div class="contact-overlay-header">
-        <img class="join-logo-img" src="./assets/imgs/join_navigation.png" alt="" />
+        <img class="join-logo-img" src="../assets/imgs/join_navigation.png" alt="" />
         <h1>Edit contact</h1>
-        <img class="add-contact-overlay-line" src="./assets/icon/add_contact_overlay_line.svg" alt="" />
+        <img class="add-contact-overlay-line" src="../assets/icon/add_contact_overlay_line.svg" alt="" />
       </div>
       <div class="contact-inputs-container">
         <div class="edit-overlay-initials User-bc-${contactIconId}">${initials}</div>
@@ -195,7 +176,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone, contact
               value="${userName}"
               required
             />
-            <img src="./assets/icon/user_grey.svg" alt="" class="icon" />
+            <img src="../assets/icon/user_grey.svg" alt="" class="icon" />
           </div>
           <p id="name-error-msg-edit" class="contact-error hide">Please enter a valid Name.</p>
           <div>
@@ -208,7 +189,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone, contact
               value="${email}"
               required
             />
-            <img src="./assets/icon/mail-icon-grey.svg" alt="" class="icon" />
+            <img src="../assets/icon/mail-icon-grey.svg" alt="" class="icon" />
           </div>
           <p id="email-error-msg-edit" class="contact-error hide">Please enter a valid Email.</p>
           <div>
@@ -221,7 +202,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone, contact
               value="${phone}"
               required
             />
-            <img src="./assets/icon/call-grey.svg" alt="" class="icon" />
+            <img src="../assets/icon/call-grey.svg" alt="" class="icon" />
           </div>
           <p id="phone-error-msg-edit" class="contact-error hide">Please enter a valid Phone number.</p>
           <div class="contact-inputs-buttons">
@@ -244,11 +225,7 @@ function getEditOverlayContentTemplate(initials, userName, email, phone, contact
  */
 const getRenderTicketDetailsSubtaskEleTemplate = (i, subtask, index, ticketCounterId) => {
   return /*html*/ `
-    <li><input data-index="${i}" ${
-    subtask.checked ? "checked" : ""
-  } data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${
-    subtask.text
-  }</li>
+    <li><input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}</li>
   `;
 };
 
@@ -284,18 +261,7 @@ const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user)
  * @param {string} subtaskEle - HTML string representing subtasks.
  * @returns {string} The HTML template string for the ticket details pop-up.
  */
-const getRenderTicketDetailsTemplate = (
-  category,
-  categoryColor,
-  title,
-  description,
-  date,
-  priority,
-  index,
-  ticketCounterId,
-  userSpans,
-  subtaskEle
-) => {
+const getRenderTicketDetailsTemplate = (category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle) => {
   return /*html*/ `
     <div id="task-pop-up-nav">
       <p class="${categoryColor}">${category}</p>
@@ -309,9 +275,7 @@ const getRenderTicketDetailsTemplate = (
     </div>
     <div class="pop-up-margin-b-25 gap-10">
       <p>Priority:</p>
-      <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${
-    priority && priority !== "-" ? `./assets/icon/${priority}.svg` : ""
-  }" alt=""></span>
+      <span>${priority.charAt(0).toUpperCase() + priority.slice(1)} <img src="${priority && priority !== "-" ? `../assets/icon/${priority}.svg` : ""}" alt=""></span>
     </div>
     <div class="pop-up-margin-b-25" id="assigned-users-div">
        ${userSpans}
@@ -321,8 +285,8 @@ const getRenderTicketDetailsTemplate = (
       <ul>${subtaskEle}</ul>
     </div>
     <div id="pop-up-bottom-buttons">
-      <button onclick="deleteTicket(${ticketCounterId})"><img src="./assets/icon/bin.svg" alt="">Delete</button>
-      <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="./assets/icon/pencil.svg" alt="">Edit</button>
+      <button onclick="deleteTicket(${ticketCounterId})"><img src="../assets/icon/bin.svg" alt="">Delete</button>
+      <button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)"><img src="../assets/icon/pencil.svg" alt="">Edit</button>
     </div>`;
 };
 
@@ -411,13 +375,13 @@ function getRenderTasksTemplate() {
             </div>
             <div onclick="goToBoardHtml()" class="urgent-and-date task-card-base flex-center">
               <div class="urgent flex-center">
-                <a href=""><img class="urgent-icon-responsiv" src="./assets/icon/urgent-orange-icon.svg" alt="" /></a>
+                <a href=""><img class="urgent-icon-responsiv" src="../assets/icon/urgent-orange-icon.svg" alt="" /></a>
                 <div>
                   <h3>${urgentTickets}</h3>
                   <p>Urgent</p>
                 </div>
               </div>
-              <img class="mobile-padding" src="./assets/icon/hyphen.svg" alt="" />
+              <img class="mobile-padding" src="../assets/icon/hyphen.svg" alt="" />
               <div class="deadline">
                 <h4>${deadline}</h4>
                 <p>Upcoming Deadline</p>

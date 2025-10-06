@@ -636,7 +636,8 @@ hr {
     left: 24px;
   }
 
-  button {
+  .cancel-button,
+  .create-contact-button {
     font-size: 16px !important;
   }
 

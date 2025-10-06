@@ -1,8 +1,7 @@
 /**
- * Opens/closes popup elements with animation and handles task-related UI state.
- *
- * @param {HTMLElement} ele - The popup element to animate.
- * @param {string} [columnV] - Optional column value for add task popup.
+ * Toggles popup visibility with animation.
+ * @param {HTMLElement} ele - Popup element to animate.
+ * @param {string} [columnV] - Optional column value.
  */
 function popUpAddTask(ele, columnV) {
   if (columnV) columnVal = columnV;
@@ -21,8 +20,8 @@ function popUpAddTask(ele, columnV) {
 }
 
 /**
- * Shows a popup with slide-in animation and disables scrolling.
- * @param {HTMLElement} ele - The popup element to show.
+ * Shows popup with slide-in animation and disables scrolling.
+ * @param {HTMLElement} ele - Popup element.
  */
 function showPopUp(ele) {
   ele.classList.remove("hide", "slide-out");
@@ -34,10 +33,9 @@ function showPopUp(ele) {
 }
 
 /**
- * Hides a popup with slide-out animation and enables scrolling.
- * @param {HTMLElement} ele - The popup element to hide.
+ * Hides popup with slide-out animation and enables scrolling.
+ * @param {HTMLElement} ele - Popup element.
  */
-
 function hidePopUp(ele) {
   ele.classList.remove("slide-in");
   ele.classList.add("slide-out");
@@ -50,11 +48,8 @@ function hidePopUp(ele) {
 }
 
 /**
- * Handles closing a popup via its overlay element.
- * Retrieves the target popup element using the overlay's data-target attribute,
- * and calls the popUpAddTask function with the popup element if it exists.
- *
- * @param {HTMLElement} overlayElement - The overlay element that was interacted with.
+ * Closes popup via overlay click.
+ * @param {HTMLElement} overlayElement - Overlay element.
  */
 function closeViaOverlay(overlayElement) {
   const targetId = overlayElement.dataset.target;
@@ -63,24 +58,20 @@ function closeViaOverlay(overlayElement) {
     popUpAddTask(popupElement);
   }
 }
+
 /**
- * Toggles the visibility of the task information and task edit sections on the board,
- * and renders the ticket overlay for the specified element.
- *
- * @param {HTMLElement} ele - The DOM element representing the ticket to be rendered in the overlay.
+ * Toggles between task info and edit views.
+ * @param {HTMLElement} ele - Ticket element.
  */
 function switchEditInfoMenu(ele) {
   document.getElementById("board-task-information").classList.toggle("hide");
   document.getElementById("board-task-edit").classList.toggle("hide");
   renderTicketOverlay(ele);
 }
+
 /**
- * Renders a list of tickets into their respective board columns.
- * Uses provided tickets or gets tickets from localStorage with key "tickets" if no parameter is provided.
- *
- * @async
- * @param {Array<Object>} [tickets] - Optional array of ticket objects to render. If not provided, tickets are loaded from localStorage.
- * @returns {Promise<void>} Resolves when all tickets have been rendered to the DOM.
+ * Renders tickets to board columns.
+ * @param {Array<Object>} [tickets] - Ticket objects (defaults to localStorage).
  */
 async function renderTickets(tickets) {
   document.getElementById("to-do-div").innerHTML = "";
@@ -91,78 +82,37 @@ async function renderTickets(tickets) {
   await renderAllTickets(ticketsToRender);
   toggleNoTaskContainer(ticketsToRender);
 }
+
 /**
- * Renders all tickets on the board.
- *
- * Iterates over all stored tickets, prepares their data using
- * `getVariablesToRenderTickets`, and inserts the tickets into
- * the corresponding column with `ticketTemplate`. Additionally,
- * it calculates subtask counters and renders their progress.
- *
- * @async
- * @function renderAllTickets
- * @param {Array<Object>} tickets - The tickets to render. Defaults to allTickets if not provided.
- * @returns {Promise<void>} - Returns nothing but updates the UI.
+ * Renders all tickets to their respective columns.
+ * @param {Array<Object>} tickets - Tickets to render.
  */
 async function renderAllTickets(tickets = allTickets) {
   for (const [index, t] of Object.entries(tickets)) {
     if (t) {
-      const {
-        subtasks,
-        columnId,
-        title,
-        description,
-        category,
-        categoryCss,
-        assignedTo,
-        priority,
-        ticketCounterId,
-        columnValue,
-      } = getVariablesToRenderTickets(t);
+      const { subtasks, columnId, title, description, category, categoryCss, assignedTo, priority, ticketCounterId, columnValue } = getVariablesToRenderTickets(t);
       calculateSubtaskCounter(subtasks);
-      document.getElementById(columnId).innerHTML += await ticketTemplate(
-        title,
-        description,
-        category,
-        categoryCss,
-        assignedTo,
-        priority,
-        index,
-        subtasks,
-        ticketCounterId,
-        columnValue
-      );
+      document.getElementById(columnId).innerHTML += await ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId, columnValue);
       renderSubtaskProgress(index, subtasks);
     }
   }
 }
+
 /**
- * Generates an HTML snippet for a ticket , rendering assigned user icons concurrently.
- *
- * @async
- * @param {string} title - The ticket's title.
- * @param {string} description - A brief description of the ticket.
- * @param {string} category - The category or type of the ticket.
- * @param {string} categoryCss - CSS class suffix to style the category badge.
- * @param {string[]} assignedTo - Array of user full names assigned to the ticket.
- * @param {string} priority - Priority level (e.g. "low", "medium", "high").
- * @param {number} index - Zero‑based index of the ticket in a list.
- * @param {Array<object>} subtasks - An array of subtask objects, each with its own properties.
- * @returns {Promise<string[]>} A promise that resolves to an array of HTML `<span>` strings containing rendered user icons.
- *
+ * Generates HTML for a ticket with user icons.
+ * @param {string} title - Ticket title.
+ * @param {string} description - Ticket description.
+ * @param {string} category - Ticket category.
+ * @param {string} categoryCss - Category CSS class.
+ * @param {string[]} assignedTo - Assigned user names.
+ * @param {string} priority - Priority level.
+ * @param {number} index - Ticket index.
+ * @param {Array<object>} subtasks - Subtask objects.
+ * @param {string} ticketCounterId - Ticket ID.
+ * @param {string} columnValue - Column value.
+ * @returns {Promise<string>} HTML string.
  */
-async function ticketTemplate(
-  title,
-  description,
-  category,
-  categoryCss,
-  assignedTo,
-  priority,
-  index,
-  subtasks,
-  ticketCounterId,
-  columnValue
-) {
+async function ticketTemplate(title, description, category, categoryCss, assignedTo, priority, index, subtasks, ticketCounterId, columnValue) {
   let userSpans = await getUserspans(assignedTo);
   let checkedSubtask = false;
   let { upBtn, downBtn } = getColumnValue(columnValue, index);
@@ -171,33 +121,13 @@ async function ticketTemplate(
       if (subtask.checked) checkedSubtask = true;
     });
   }
-  return getTicketTemplate(
-    index,
-    title,
-    description,
-    category,
-    categoryCss,
-    priority,
-    subtasks,
-    ticketCounterId,
-    userSpans,
-    checkedSubtask,
-    upBtn,
-    downBtn
-  );
+  return getTicketTemplate(index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn);
 }
 
 /**
- * Generates user icon span elements for a list of assigned users.
- *
- * - Displays up to 5 user icons with their initials and background color.
- * - If there are more than 5 users, an additional "+X" icon is appended,
- *   where X is the number of remaining hidden users.
- *
- * @async
- * @function getUserspans
- * @param {string[]} assignedTo - Array of user names assigned to the task.
- * @returns {Promise<string>} A string containing the HTML for the rendered user spans.
+ * Generates user icon spans (max 5, shows +X for overflow).
+ * @param {string[]} assignedTo - User names.
+ * @returns {Promise<string>} HTML string with user icons.
  */
 async function getUserspans(assignedTo) {
   let userSpansArray = await Promise.all(
@@ -214,32 +144,26 @@ async function getUserspans(assignedTo) {
   );
   if (assignedTo.length > 5) {
     let hiddenCount = assignedTo.length - 5;
-    userSpansArray.push(
-      `<span class="user-icon-rendered User-bc-14" id="hidden-users">+${hiddenCount}</span>`
-    );
+    userSpansArray.push(`<span class="user-icon-rendered User-bc-14" id="hidden-users">+${hiddenCount}</span>`);
   }
   let userSpans = userSpansArray.join("");
   return userSpans;
 }
 
 /**
- * Displays the subtask progress element for a given index if there is at least one subtask.
- *
- * @param {number} index - The index used to identify the subtask progress element.
- * @param {Array} subtasks - An array of subtasks to check for existence.
+ * Shows subtask progress if subtasks exist.
+ * @param {number} index - Element index.
+ * @param {Array} subtasks - Subtasks array.
  */
 function renderSubtaskProgress(index, subtasks) {
   if (subtasks[0]) {
     document.getElementById(`p-subtask-${index}`).classList.remove("hide");
   }
 }
+
 /**
- * Toggles the visibility of "no tasks" containers for each board column
- * ("To do", "In progress", "Await feedback", "done") based on whether
- * there are any tickets in each column. Uses the helper function
- * `checkTicketsForToggle` to show or hide the corresponding container.
- *
- * @param {Array<Object>} tickets - The tickets to check. Defaults to allTickets if not provided.
+ * Toggles "no tasks" containers based on column content.
+ * @param {Array<Object>} tickets - Tickets to check.
  */
 function toggleNoTaskContainer(tickets = allTickets) {
   let allTicketsToDo = tickets.filter((obj) => obj.column == "To do");
@@ -251,13 +175,10 @@ function toggleNoTaskContainer(tickets = allTickets) {
   checkTicketsForToggle(allTicketsFeedback, "noTasksFeedback");
   checkTicketsForToggle(allTicketsDone, "noTasksDone");
 }
+
 /**
- * Asynchronously fetches ticket data and renders the ticket overlay for the selected element.
- *
- * @async
- * @function renderTicketOverlay
- * @param {HTMLElement} ele - The DOM element that triggered the overlay, containing `data-ticketindex` and `data-mode` attributes.
- * @returns {Promise<void>} Resolves when the ticket overlay has been rendered.
+ * Fetches and renders ticket overlay.
+ * @param {HTMLElement} ele - Element with ticket data attributes.
  */
 async function renderTicketOverlay(ele) {
   try {
@@ -273,47 +194,22 @@ async function renderTicketOverlay(ele) {
     console.log(error);
   }
 }
+
 /**
- * Renders the HTML elements required for editing a ticket.
- *
- * Clears existing subtasks and replaces the edit form content with the
- * corresponding ticket template. It also highlights the currently selected
- * priority button based on the given priority value.
- *
- * @function renderHTMLElementsForEditing
- * @param {string} title - The title of the ticket.
- * @param {string} description - The description of the ticket.
- * @param {string} dateForEditOverlay - The due date to be displayed in the edit overlay.
- * @param {HTMLElement[]} userSpans - The list of user span elements assigned to the ticket.
- * @param {HTMLElement[]} subtaskEle - The list of subtask elements to render.
- * @param {number|string} index - The index or identifier of the ticket in the list.
- * @param {string|number} ticketCounterId - The unique ticket ID.
- * @param {string} mode - The current mode of the editor (e.g., "edit" or "view").
- * @param {string} priority - The ticket priority (e.g., "urgent", "medium", "low").
- * @returns {void}
+ * Renders ticket edit form and sets priority.
+ * @param {string} title - Ticket title.
+ * @param {string} description - Ticket description.
+ * @param {string} dateForEditOverlay - Due date.
+ * @param {string} userSpans - User HTML.
+ * @param {string} subtaskEle - Subtask HTML.
+ * @param {string} index - Ticket index.
+ * @param {string} ticketCounterId - Ticket ID.
+ * @param {string} mode - Edit mode.
+ * @param {string} priority - Priority level.
  */
-function renderHTMLElementsForEditing(
-  title,
-  description,
-  dateForEditOverlay,
-  userSpans,
-  subtaskEle,
-  index,
-  ticketCounterId,
-  mode,
-  priority
-) {
+function renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority) {
   document.getElementById("subtask-render-div").innerHTML = "";
-  document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(
-    title,
-    description,
-    dateForEditOverlay,
-    userSpans,
-    subtaskEle,
-    index,
-    ticketCounterId,
-    mode
-  );
+  document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode);
   document.querySelectorAll(".set-priority").forEach((ele) => {
     if (ele.innerText.toLowerCase().trim() === priority) {
       ele.classList.add(priority);
@@ -321,36 +217,21 @@ function renderHTMLElementsForEditing(
     } else ele.classList.remove(ele.innerText.toLowerCase().trim());
   });
 }
+
 /**
- * Builds and returns an array of HTML snippets representing assigned users for a ticket detail view.
- * Each user is rendered with an icon (initials) styled dynamically based on user-specific details.
- *
- * @async
- * @param {string} category - The ticket's category or type.
- * @param {string} categoryColor - CSS class or color indicator for styling the category.
- * @param {string} title - Title of the ticket.
- * @param {string} description - Description text for the ticket.
- * @param {string|Date} date - Date associated with ticket (e.g. creation or due date).
- * @param {string} priority - Priority level (e.g. "low", "medium", "high").
- * @param {string[]} assignedTo - Array of full names of users assigned to the ticket.
- * @param {Array<object>} subtasks - Array of subtask objects related to the ticket.
- * @param {number} index - Zero-based index of the ticket in a list or collection.
- * @returns {Promise<string[]>} Promise resolving to an array of HTML `<div>` strings,
- * each containing user initials and name inside styled elements.
- * @throws {Error} If fetching details via `getUserDetails(user)` fails for any user.
+ * Renders ticket detail view with users and subtasks.
+ * @param {string} category - Ticket category.
+ * @param {string} categoryColor - Category color class.
+ * @param {string} title - Ticket title.
+ * @param {string} description - Ticket description.
+ * @param {string} date - Date string.
+ * @param {string} priority - Priority level.
+ * @param {string[]} assignedTo - Assigned users.
+ * @param {Array<object>} subtasks - Subtasks.
+ * @param {number} index - Ticket index.
+ * @param {string} ticketCounterId - Ticket ID.
  */
-async function renderTicketDetails(
-  category,
-  categoryColor,
-  title,
-  description,
-  date,
-  priority,
-  assignedTo,
-  subtasks,
-  index,
-  ticketCounterId
-) {
+async function renderTicketDetails(category, categoryColor, title, description, date, priority, assignedTo, subtasks, index, ticketCounterId) {
   let userSpansArray = await Promise.all(
     assignedTo.map(async (user, i) => {
       let renderedUserBgIndex = await getUserDetails(user);
@@ -364,35 +245,13 @@ async function renderTicketDetails(
     })
   );
   let userSpans = userSpansArray.join("");
-  let subtaskEle = subtasks
-    .map((subtask, i) => {
-      return getRenderTicketDetailsSubtaskEleTemplate(i, subtask, index, ticketCounterId);
-    })
-    .join("");
-  document.getElementById("board-task-information").innerHTML = getRenderTicketDetailsTemplate(
-    category,
-    categoryColor,
-    title,
-    description,
-    date,
-    priority,
-    index,
-    ticketCounterId,
-    userSpans,
-    subtaskEle
-  );
+  let subtaskEle = subtasks.map((subtask, i) => getRenderTicketDetailsSubtaskEleTemplate(i, subtask, index, ticketCounterId)).join("");
+  document.getElementById("board-task-information").innerHTML = getRenderTicketDetailsTemplate(category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle);
 }
+
 /**
- * Removes a subtask from the editable subtask array and updates the UI.
- *
- * If the `subtaskEditArray` contains items, this function removes the subtask
- * at the index specified in the element's `data-index` attribute. Afterwards,
- * it checks the edited values and re-renders the ticket overlay to reflect the changes.
- *
- * @async
- * @function spliceEditSubArray
- * @param {HTMLElement} ele - The DOM element representing the subtask to remove, which should have a `data-index` attribute.
- * @returns {Promise<void>} - Resolves after updating the subtask array and re-rendering the overlay.
+ * Removes subtask from edit array and re-renders.
+ * @param {HTMLElement} ele - Element with data-index.
  */
 async function spliceEditSubArray(ele) {
   if (subtaskEditArray.length > 0) {
@@ -401,11 +260,10 @@ async function spliceEditSubArray(ele) {
     renderTicketOverlay(ele);
   }
 }
+
 /**
- * Toggles the checked state of a subtask for a given ticket and saves the update to Firebase.
- *
- * @param {HTMLInputElement} input - The input element representing the subtask checkbox.
- *   Must have `data-index` (subtask index) and `data-ticketindex` (ticket index) attributes.
+ * Toggles subtask checked state and saves to Firebase.
+ * @param {HTMLInputElement} input - Checkbox with data attributes.
  */
 function toggleSubtask(input) {
   let subIndex = input.dataset.index;
@@ -418,81 +276,44 @@ function toggleSubtask(input) {
   };
   saveEditedTaskToFirebase(input, ticketIndex, partialUpdate, ticketCounterIndex);
 }
+
 /**
- * Sets the minimum selectable date for the input element with the ID "task-date".
- * The minimum date is specified by the variable `today`, which should be defined elsewhere in the code.
+ * Sets minimum date for task date input.
  */
 function minDate() {
   const dateInput = document.getElementById("task-date");
   dateInput.setAttribute("min", today);
 }
+
 /**
- * Generates an array of HTML `<span>` snippets representing users assigned to a ticket in edit mode.
- * Fetches user-specific styling information concurrently and renders each user's initials with styling.
- *
- * @async
- * @param {string} title - The ticket title.
- * @param {string} description - A description of the ticket.
- * @param {string} priority - Priority level (e.g. "low", "medium", "high").
- * @param {string[]} assignedTo - Array of full names of users assigned to the ticket.
- * @param {Array<object>} subtasks - Array of subtask objects related to the ticket.
- * @param {number} index - Zero-based index of the ticket in the list or UI.
- * @param {string} mode - Mode identifier indicating how the ticket is being edited.
- * @returns {Promise<string[]>} A promise resolving to an array of `<span>` HTML strings,
- * each showing a user's initials, styled dynamically, and with a data-name attribute.
- * @throws {Error} If any call to `getUserDetails(user)` fails.
+ * Prepares and renders ticket edit form.
+ * @param {string} title - Ticket title.
+ * @param {string} description - Description.
+ * @param {string} dateForEditOverlay - Date.
+ * @param {string} priority - Priority.
+ * @param {string[]} assignedTo - Assigned users.
+ * @param {Array<object>} subtasks - Subtasks.
+ * @param {number} index - Index.
+ * @param {string} mode - Mode.
+ * @param {string} ticketCounterId - Ticket ID.
  */
-async function editTicket(
-  title,
-  description,
-  dateForEditOverlay,
-  priority,
-  assignedTo,
-  subtasks,
-  index,
-  mode,
-  ticketCounterId
-) {
+async function editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId) {
   let userSpansArray = await iterateThroughUsersForVisualization(assignedTo);
   let userSpans = userSpansArray.join("");
   let subtaskEle = subtasks
     .map((subtask, i) => {
-      return getEditTicketSubtaskEleTemplate(
-        subtask,
-        i,
-        dataTicketIndex,
-        dataTicketCounterId,
-        dataMode
-      );
+      return getEditTicketSubtaskEleTemplate(subtask, i, dataTicketIndex, dataTicketCounterId, dataMode);
     })
     .join("");
   subtaskEditArray = [];
   subtasks.forEach((subtask) => subtaskEditArray.push(subtask.text));
-  renderHTMLElementsForEditing(
-    title,
-    description,
-    dateForEditOverlay,
-    userSpans,
-    subtaskEle,
-    index,
-    ticketCounterId,
-    mode,
-    priority
-  );
+  renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority);
 }
+
 /**
- * Iterates through the assigned users and generates visualization elements.
- *
- * For each user, their details are retrieved using `getUserDetails`, a safe
- * background index is calculated, and their initials are extracted. These values
- * are then used to generate user span elements via
- * `getEditTicketUserSpansArrayTemplate`.
- *
- * @async
- * @function iterateThroughUsersForVisualization
- * @param {string[]} assignedTo - A list of users assigned to the ticket.
- * @returns {Promise<HTMLElement[]>} A promise that resolves to an array of
- *                                   rendered user span elements for visualization.
+ * Creates user visualization elements (max 5 + overflow indicator).
+ * @param {string[]} assignedTo - Assigned users.
+ * @returns {Promise<string[]>} User icon HTML array.
  */
 async function iterateThroughUsersForVisualization(assignedTo) {
   let userSpansArray = await createUserIcons(assignedTo);
@@ -504,13 +325,11 @@ async function iterateThroughUsersForVisualization(assignedTo) {
   }
   return userSpansArray;
 }
+
 /**
- * Generates an array of user icon HTML templates for up to 5 assigned users.
- * Each icon displays the user's initials and a background color index.
- *
- * @async
- * @param {string[]} assignedTo - Array of user names assigned to a ticket.
- * @returns {Promise<string[]>} Promise resolving to an array of HTML strings representing user icons.
+ * Generates user icon HTML for up to 5 users.
+ * @param {string[]} assignedTo - User names.
+ * @returns {Promise<string[]>} User icon HTML array.
  */
 async function createUserIcons(assignedTo) {
   return await Promise.all(
@@ -528,19 +347,17 @@ async function createUserIcons(assignedTo) {
 }
 
 /**
- * Sets global edit information variables based on the data attributes of the given element.
- *
- * @param {HTMLElement} ele - The DOM element containing data attributes for ticket index, ticket counter ID, and mode.
+ * Sets global edit variables from element data attributes.
+ * @param {HTMLElement} ele - Element with data attributes.
  */
 function setGlobalEditInformation(ele) {
   dataTicketIndex = ele.dataset.ticketindex;
   dataTicketCounterId = ele.dataset.ticketcounterid;
   dataMode = ele.dataset.mode;
 }
+
 /**
- * Retrieves the value of the "greetingShown" flag from sessionStorage.
- * Indicates whether the greeting has already been displayed in the current session.
- * @type {string|null} "true" if the greeting was shown, otherwise null if not set.
+ * Handles greeting animation on page load.
  */
 document.addEventListener("DOMContentLoaded", () => {
   const greetingShown = sessionStorage.getItem("greetingShown");

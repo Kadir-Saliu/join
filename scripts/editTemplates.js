@@ -1,5 +1,3 @@
-
-
 /**
  * Generates an HTML string for rendering a subtask list item with edit and delete buttons.
  *
@@ -8,16 +6,16 @@
  * @returns {string} The HTML string representing the subtask list item.
  */
 function addSubtaskRenderDiv(subtaskValue, subtaskCounter) {
-  return /*html*/  `
+  return /*html*/ `
   <li onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
       ${subtaskValue} 
       <div class="li-buttons hide">
           <button data-index="${subtaskCounter}" onclick="editSubtask(this)">
-              <img src="./assets/icon/pencil.svg">
+              <img src=".../assets/icon/pencil.svg">
           </button>
           <div class="add-task-form-divider"></div>
           <button data-index="${subtaskCounter}" onclick="deleteSubtask(this, '${subtaskValue}')">
-              <img src="./assets/icon/bin.svg">
+              <img src=".../assets/icon/bin.svg">
           </button>
       </div>
   </li>
@@ -35,12 +33,14 @@ function editSubtaskRender(listValue, dataId) {
   return /*html*/ `   
   <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
   <div class="edit-subtask-div li-buttons">
-      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
-          <img src="./assets/icon/bin.svg">
+      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${
+    dataMode ? `data-mode="${dataMode}"` : ""
+  } onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
+          <img src="../assets/icon/bin.svg">
       </button>
       <div class="add-task-form-divider"></div>
       <button data-index="${dataId}"  onclick="confirmEditedSubtask(this, '${listValue}', '${dataId}-${listValue}', '${listValue}-${dataId}')">
-          <img src="./assets/icon/check.png">
+          <img src="../assets/icon/check.png">
       </button>
   </div>
   `;
@@ -57,12 +57,14 @@ function editSubtaskInEditMenuRender(listValue, dataId) {
   return /*html*/ `   
   <input type="text" value="${listValue}" id='${dataId}-${listValue}'/>
   <div class="edit-subtask-div li-buttons">
-      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${dataMode ? `data-mode="${dataMode}"` : ""} onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
-          <img src="./assets/icon/bin.svg">
+      <button data-index="${dataId}" ${dataTicketIndex ? `data-ticketindex="${dataTicketIndex}"` : ""} ${dataTicketCounterId ? `data-ticketcounterid="${dataTicketCounterId}"` : ""} ${
+    dataMode ? `data-mode="${dataMode}"` : ""
+  } onclick="deleteSubtask(this, '${listValue}'); spliceEditSubArray(this)">
+          <img src="../assets/icon/bin.svg">
       </button>
       <div class="add-task-form-divider"></div>
       <button data-index="${dataId}"  onclick="confirmEditedSubtaskInEditMenu(this, '${listValue}', '${dataId}-${listValue}', '${listValue}-${dataId}')">
-          <img src="./assets/icon/check.png">
+          <img src="../assets/icon/check.png">
       </button>
   </div>
   `;
@@ -81,11 +83,11 @@ function confirmEditedSubtaskRender(subtaskArrayText, listId, dataId) {
   ${subtaskArrayText}
     <div class="li-buttons hide" id="buttons-${listId}">
     <button data-index="${dataId}" onclick="editSubtask(this)">
-        <img src="./assets/icon/pencil.svg">
+        <img src="../assets/icon/pencil.svg">
     </button>
     <div class="add-task-form-divider"></div>
     <button data-index="${dataId}" onclick="deleteSubtask(this)">
-        <img src="./assets/icon/bin.svg">
+        <img src="../assets/icon/bin.svg">
     </button>
   </div>
   `;
@@ -104,11 +106,11 @@ function confirmEditedSubtaskInEditMenuRender(inputText, listId, dataIndex) {
   ${inputText}
   <div class="li-buttons hide" id="buttons-${listId}">
   <button data-index="${dataIndex}" onclick="editSubtask(this)">
-      <img src="./assets/icon/pencil.svg">
+      <img src="../assets/icon/pencil.svg">
   </button>
   <div class="add-task-form-divider"></div>
   <button data-index="${dataIndex}" onclick="deleteSubtask(this)">
-      <img src="./assets/icon/bin.svg">
+      <img src="../assets/icon/bin.svg">
   </button>
   </div>
   `;
@@ -122,21 +124,17 @@ function confirmEditedSubtaskInEditMenuRender(inputText, listId, dataIndex) {
  */
 function addNewSubtaskRender() {
   return /*html*/ `
-  <li class="subtask-li" data-index="${
-    subtaskEditArray.length - 1
-  }" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
+  <li class="subtask-li" data-index="${subtaskEditArray.length - 1}" onmouseenter="hoverButtons(this)" onmouseleave="removeHoverButtons(this)">
     ${document.getElementById("edit-subtask").value}
     <div class="li-buttons hide">
-      <button data-index="${
-        subtaskEditArray.length - 1
-      }" onclick="editSubtaskInEditMenu(this)">
-          <img src="./assets/icon/pencil.svg">
+      <button data-index="${subtaskEditArray.length - 1}" onclick="editSubtaskInEditMenu(this)">
+          <img src="../assets/icon/pencil.svg">
       </button>
       <div class="add-task-form-divider"></div>
-      <button data-index="${
-        subtaskEditArray.length - 1
-      }" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
-          <img src="./assets/icon/bin.svg">
+      <button data-index="${subtaskEditArray.length - 1}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${
+    subtask.value
+  }'); spliceEditSubArray(this)">
+          <img src="../assets/icon/bin.svg">
       </button>
     </div>
   </li>`;
@@ -174,11 +172,11 @@ const getEditTicketSubtaskEleTemplate = (subtask, i, dataTicketIndex, dataTicket
       ${subtask.text}
       <div class="li-buttons hide">
         <button data-index="${i}" onclick="editSubtaskInEditMenu(this)">
-          <img src="./assets/icon/pencil.svg">
+          <img src="../assets/icon/pencil.svg">
         </button>
         <div class="add-task-form-divider"></div>
         <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
-          <img src="./assets/icon/bin.svg">
+          <img src="../assets/icon/bin.svg">
         </button>
       </div>
     </li>
@@ -214,15 +212,15 @@ const getEditTicketTemplate = (title, description, dateForEditOverlay, userSpans
       <input type="date" id="task-date-edit" value="${dateForEditOverlay}">
       <p class="margin-top-24">Priority</p>
       <div class="add-task-importance-selection">
-          <button class="priority-button set-priority" onclick="setPriority('urgent', this)">Urgent <img src="./assets/icon/red-arrows.svg" alt=""></button>
-          <button class="priority-button set-priority" onclick="setPriority('medium', this)">Medium <img src="./assets/icon/orange-same.svg" alt=""></button>
-          <button class="priority-button set-priority" onclick="setPriority('low', this)">Low <img src="./assets/icon/green-arrows.svg" alt=""></button>
+          <button class="priority-button set-priority" onclick="setPriority('urgent', this)">Urgent <img src="../assets/icon/red-arrows.svg" alt=""></button>
+          <button class="priority-button set-priority" onclick="setPriority('medium', this)">Medium <img src="../assets/icon/orange-same.svg" alt=""></button>
+          <button class="priority-button set-priority" onclick="setPriority('low', this)">Low <img src="../assets/icon/green-arrows.svg" alt=""></button>
       </div>
       <p class="margin-top-24">Assigned to</p>
       <div id="drop-down-users-input-div">
         <input id="drop-down-users-input" class="drop-down-selection edit-302" placeholder="Select Contacts to assign" oninput="filterUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input')" onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')" autocomplete="off" />
         <div id="drop-down-users-input-img-div"  onclick="dropDownUsers('drop-down-users-edit', 'edit-render-user', 'drop-down-users-input-img-edit', 'drop-down-users-input')">
-              <img src="./assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
+              <img src="../assets/imgs/arrow_down.png" id="drop-down-users-input-img-edit" alt="">
             </div>
       </div>
       <div id="drop-down-users-edit" class="hide">

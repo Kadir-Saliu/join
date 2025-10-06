@@ -21,7 +21,7 @@ function setPriority(prio, clickedButton) {
 function setCategory(category, idButton, idDropDown) {
   buttonCategory = category;
   document.getElementById(idButton).innerHTML = `${buttonCategory}
-                                                    <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
+                                                    <img src="../assets/imgs/arrow_down.png" id="category-button-img" alt="">
                                                     `;
   document.getElementById(idDropDown).classList.add("hide");
 }
@@ -33,9 +33,9 @@ function setCategory(category, idButton, idDropDown) {
  */
 async function changeDropDownArrow(id) {
   if (document.getElementById(id).src.includes("arrow_down")) {
-    document.getElementById(id).src = "./assets/imgs/arrow_up.png";
+    document.getElementById(id).src = "../assets/imgs/arrow_up.png";
   } else if (document.getElementById(id).src.includes("arrow_up")) {
-    document.getElementById(id).src = "./assets/imgs/arrow_down.png";
+    document.getElementById(id).src = "../assets/imgs/arrow_down.png";
   }
 }
 
@@ -49,9 +49,7 @@ async function changeDropDownArrow(id) {
  */
 async function createNewTicket(columnValue, className) {
   let selectedUsers = getSelectedUsers(className);
-  let counterResponse = await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`
-  );
+  let counterResponse = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`);
   let ticketCounter = await counterResponse.json();
   if (ticketCounter === null) {
     ticketCounter = 0;
@@ -99,10 +97,7 @@ function addSubtask() {
       text: subtask.value,
       checked: subtask.checked,
     });
-    document.getElementById("subtask-render-div").innerHTML += addSubtaskRenderDiv(
-      subtask.value,
-      subtaskCounter
-    );
+    document.getElementById("subtask-render-div").innerHTML += addSubtaskRenderDiv(subtask.value, subtaskCounter);
     subtaskCounter++;
     subtask.value = "";
     document.getElementById("subtask-clear-button").classList.add("hide");
@@ -245,10 +240,7 @@ function deleteSubtask(ele, liVal) {
   subtaskValue.splice(index, 1);
 
   for (let index = 0; index < subtaskArray.length; index++) {
-    if (
-      ele.parentElement.parentElement.innerText === subtaskArray[index].text &&
-      ele.dataset.index == index
-    ) {
+    if (ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
       subtaskArray.splice(index, 1);
     }
   }
@@ -285,16 +277,13 @@ async function saveTaskToFirebase(ticketData, ticketCounter) {
  * @returns {Promise<void>} A promise that resolves when the ticket data has been saved.
  */
 async function saveTicketData(ticketData, ticketCounter) {
-  await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ticketData),
-    }
-  );
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticket/${ticketCounter}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(ticketData),
+  });
 }
 
 /**
@@ -310,9 +299,7 @@ async function saveTaskToFirebasePassalong() {
   setTimeout(async () => {
     addedUserfeedback.classList.add("hide");
     addedUserfeedback.classList.remove("show");
-    window.location.href.includes("board.html")
-      ? (await getTicketData(), renderTickets())
-      : (window.location.href = "board.html");
+    window.location.href.includes("pages/board.html") ? (await getTicketData(), renderTickets()) : (window.location.href = "pages/board.html");
   }, 3000);
   if (addTaskPopUp) addTaskPopUp.classList.add("hide");
   if (bordOverlay) bordOverlay.classList.add("hide");
@@ -328,16 +315,13 @@ async function saveTaskToFirebasePassalong() {
  * @returns {Promise<void>} A promise that resolves when the update is complete.
  */
 async function updateTicketCounter(ticketCounter) {
-  await fetch(
-    `https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ticketCounter),
-    }
-  );
+  await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets/ticketCounter.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(ticketCounter),
+  });
 }
 
 document.getElementById("task-date").setAttribute("min", new Date().toISOString().split("T")[0]);
