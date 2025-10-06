@@ -100,7 +100,6 @@ const popUpContactDetails = () => {
     header.style.bottom = "10vh";
     header.style.left = "0";
     header.style.right = "0";
-    header.style.zIndex = "1400";
     header.style.backgroundColor = "rgb(246, 247, 248)";
     document.getElementById("leave-contact-details-btn").classList.remove("hide");
   }
@@ -113,7 +112,6 @@ const popUpContactDetails = () => {
 const hideContactDetails = () => {
   document.getElementById("header-contacts").style.display = "none";
 };
-
 
 /**
  * Validates a German phone number.
