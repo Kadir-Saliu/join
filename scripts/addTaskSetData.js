@@ -21,7 +21,7 @@ function setPriority(prio, clickedButton) {
 function setCategory(category, idButton, idDropDown) {
   buttonCategory = category;
   document.getElementById(idButton).innerHTML = `${buttonCategory}
-                                                    <img src="./assets/imgs/arrow_down.png" id="category-button-img" alt="">
+                                                    <img src="../assets/imgs/arrow_down.png" id="category-button-img" alt="">
                                                     `;
   document.getElementById(idDropDown).classList.add("hide");
 }
@@ -33,9 +33,9 @@ function setCategory(category, idButton, idDropDown) {
  */
 async function changeDropDownArrow(id) {
   if (document.getElementById(id).src.includes("arrow_down")) {
-    document.getElementById(id).src = "./assets/imgs/arrow_up.png";
+    document.getElementById(id).src = "../assets/imgs/arrow_up.png";
   } else if (document.getElementById(id).src.includes("arrow_up")) {
-    document.getElementById(id).src = "./assets/imgs/arrow_down.png";
+    document.getElementById(id).src = "../assets/imgs/arrow_down.png";
   }
 }
 

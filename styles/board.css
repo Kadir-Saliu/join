@@ -423,21 +423,6 @@ button {
   background-color: rgb(246, 247, 248);
 }
 
-.add-task-importance-selection button.urgent {
-  background-color: rgb(255, 61, 0);
-  color: white;
-}
-
-.add-task-importance-selection button.medium {
-  background-color: rgb(255, 168, 0);
-  color: white;
-}
-
-.add-task-importance-selection button.low {
-  background-color: rgb(122, 226, 41);
-  color: white;
-}
-
 .urgent img,
 .medium img,
 .low img {
