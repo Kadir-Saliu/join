@@ -435,5 +435,6 @@
   .add-task-form {
     height: 50vh;
     margin-bottom: 24px;
+    overflow-x: hidden;
   }
 }
