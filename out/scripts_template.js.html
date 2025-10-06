@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scripts/template.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scripts/template.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Generates an HTML template for a user dropdown item.
+ *
+ * @param {string} name - The name of the user.
+ * @param {string} inititals - The initials of the user to display in the icon.
+ * @param {number} index - The index used for styling and data attributes.
+ * @param {string|number} id - The unique identifier for the user, used in the checkbox onclick handler.
+ * @returns {string} The HTML string representing the user dropdown item.
+ */
+function userDropDownTemplate(name, inititals, index, id, isSelected, classChecker) {
+  return /*html*/ `
+    &lt;label>
+      &lt;div>
+        &lt;span class="user-icon User-bc-${index}" data-bcIndex="${index}">${inititals}&lt;/span>
+        &lt;p>${name}&lt;/p>
+      &lt;/div>
+      &lt;input type="checkbox" class="user-checkbox-${classChecker ? "add" : "edit"}" value="${name}" ${isSelected ? "checked" : ""} onclick="renderSelectedUsers('${id}', '${
+    classChecker ? "user-checkbox-add" : "user-checkbox-edit"
+  }')">
+&lt;/label>
+  `;
+}
+
+/**
+ * Generates an HTML template string for a kanban ticket/task.
+ *
+ * @param {number} index - The index of the ticket in the list.
+ * @param {string} title - The title of the ticket.
+ * @param {string} description - The description of the ticket.
+ * @param {string} category - The category of the ticket.
+ * @param {string} categoryCss - The CSS class for the ticket category.
+ * @param {string} priority - The priority of the ticket (used for icon).
+ * @param {Array} subtasks - Array of subtasks associated with the ticket.
+ * @param {number|string} ticketCounterId - Unique identifier for the ticket.
+ * @param {string} userSpans - HTML string representing assigned users.
+ * @returns {string} HTML string representing the ticket template.
+ */
+const getTicketTemplate = (index, title, description, category, categoryCss, priority, subtasks, ticketCounterId, userSpans, checkedSubtask, upBtn, downBtn) => {
+  return /*html*/ `
+    &lt;div
+      draggable="true"
+      ondragstart="startDragging(${index})"
+      ondragend="endDragging()"
+      class="kanban-task"
+      data-ticketIndex="${index}"
+      data-ticketcounterid="${ticketCounterId}"
+      data-mode="view"
+      onclick="popUpAddTask(popuptask); renderTicketOverlay(this);"
+    >
+      &lt;div class="ticket-header">
+        &lt;div class="task-type ${categoryCss}">${category}&lt;/div>
+        &lt;div class="mobile-navigation-div">
+          ${upBtn}
+          ${downBtn}
+        &lt;/div>
+      &lt;/div>
+      &lt;h4 class="content-limitation">${title}&lt;/h4>
+      &lt;p class="content-limitation">${description}&lt;/p>
+      &lt;div id="p-subtask-${index}" class="subtask-progress-div hide">
+        &lt;div class="subtask-progress-grey-div ${checkedSubtask ? "" : "hide"}">
+          &lt;div class="subtask-progress-blue-div" style="width: ${subtaskWidth}%">&lt;/div>
+        &lt;/div>
+        &lt;p class="subtask-count ${checkedSubtask ? "" : "hide"}">${subtaskCount}/${subtasks.length} Subtasks&lt;/p>
+      &lt;/div>
+      &lt;div class="assigned-users">
+        &lt;div>${userSpans}&lt;/div>
+        &lt;img src="${priority[0] &amp;&amp; priority !== "-" ? `../assets/icon/${priority}.svg` : ""}" alt="" />
+      &lt;/div>
+    &lt;/div>
+  `;
+};
+
+/**
+ * Generates an HTML template containing a letter and a horizontal rule.
+ *
+ * @param {string} inital - The initial letter to display in the template.
+ * @returns {string} The HTML string for the template.
+ */
+function getInitialTemplate(inital) {
+  return /*html*/ `
+    &lt;div class="letter">${inital}&lt;/div>
+    &lt;hr>
+  `;
+}
+
+/**
+ * Generates an HTML template string for displaying a contact.
+ *
+ * @param {string} initials - The initials of the contact.
+ * @param {string} userName - The name of the contact.
+ * @param {string} email - The email address of the contact.
+ * @param {string|number} phone - The phone number of the contact.
+ * @param {string|number} contactIconId - The identifier for the contact's icon/background color.
+ * @returns {string} The HTML template string representing the contact.
+ */
+function getContactTemplate(initials, userName, email, phone, contactIconId) {
+  return /*html*/ `
+    &lt;div onclick="showContactsDetails('${initials}','${userName}', '${email}', '${phone}', '${contactIconId}', this)" class="contact" data-contact="${userName}">
+        &lt;div class="contact-initials User-bc-${contactIconId}">${initials}&lt;/div>
+        &lt;div class="contact-details">
+            &lt;div class="contact-list-name">${userName}&lt;/div>
+            &lt;div class="email-color">${email}&lt;/div>
+        &lt;/div>
+    &lt;/div>
+  `;
+}
+
+/**
+ * Generates an HTML template string for displaying contact details.
+ *
+ * @param {string} initials - The initials of the contact.
+ * @param {string} userName - The name of the contact.
+ * @param {string} email - The email address of the contact.
+ * @param {string} phone - The phone number of the contact.
+ * @param {string|number} contactIconId - The identifier used for the contact's icon background color.
+ * @returns {string} The HTML template string for the contact details.
+ */
+function getContactDetailsTemplate(initials, userName, email, phone, contactIconId) {
+  return /*html*/ `
+    &lt;img src="../assets/icon/arrow-left-line.svg" alt="" id="leave-contact-details-btn" onclick="hideContactDetails()"  class="hide">
+    &lt;div class="contact-information-mt">
+      &lt;div class="initials-and-username">
+        &lt;span class="contact-information-initials User-bc-${contactIconId}">${initials}&lt;/span>
+        &lt;div>
+          &lt;div class="contact-information-username">${userName}&lt;/div>
+          &lt;div class="edit-and-delete">
+            &lt;div onclick="openEditOverlayWithBubblingPrevention(event, '${initials}', '${userName}', '${email}', '${phone}', '${contactIconId}')" class="align-icon-and-text">
+              &lt;img class="edit-delete-icons" src="../assets/icon/edit_contact.svg" alt="">
+              &lt;span>Edit&lt;/span>
+            &lt;/div>
+            &lt;div onclick="deleteContactFromDatabase()" class="align-icon-and-text">
+              &lt;img class="edit-delete-icons" src="../assets/icon/delete_contact.svg" alt="">
+              &lt;span>Delete&lt;/span>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>  
+    &lt;/div>
+    &lt;div class="contact-information-headline">Contact Information&lt;/div>
+    &lt;div class="contact-information">
+      &lt;span>&lt;b>Email&lt;/b>&lt;/span>
+      &lt;span class="email-color">${email}&lt;/span>
+      &lt;span>&lt;b>Phone&lt;/b>&lt;/span>
+      &lt;span>+${phone}&lt;/span>
+    &lt;/div>
+  `;
+}
+
+/**
+ * Generates the HTML content for the edit contact overlay.
+ *
+ * @param {string} initials - The initials of the contact to display.
+ * @param {string} userName - The name of the contact to prefill in the input.
+ * @param {string} email - The email of the contact to prefill in the input.
+ * @param {string} phone - The phone number of the contact to prefill in the input.
+ * @returns {string} The HTML string for the edit contact overlay.
+ */
+function getEditOverlayContentTemplate(initials, userName, email, phone, contactIconId) {
+  return /*html*/ `
+  &lt;img class="close-icon" src="../assets/icon/close.svg" alt="" onclick="closeEditOverlay()" />
+    &lt;div class="contact-overlay-header">
+        &lt;img class="join-logo-img" src="../assets/imgs/join_navigation.png" alt="" />
+        &lt;h1>Edit contact&lt;/h1>
+        &lt;img class="add-contact-overlay-line" src="../assets/icon/add_contact_overlay_line.svg" alt="" />
+      &lt;/div>
+      &lt;div class="contact-inputs-container">
+        &lt;div class="edit-overlay-initials User-bc-${contactIconId}">${initials}&lt;/div>
+        &lt;div class="contact-inputs">
+          &lt;div>
+            &lt;input
+              id="editContactName"
+              class="contact-input"
+              type="text"
+              placeholder="Name"
+              spellcheck="false"
+              value="${userName}"
+              required
+            />
+            &lt;img src="../assets/icon/user_grey.svg" alt="" class="icon" />
+          &lt;/div>
+          &lt;p id="name-error-msg-edit" class="contact-error hide">Please enter a valid Name.&lt;/p>
+          &lt;div>
+            &lt;input
+              id="editContactEmail"
+              class="contact-input"
+              type="text"
+              placeholder="Email"
+              spellcheck="false"
+              value="${email}"
+              required
+            />
+            &lt;img src="../assets/icon/mail-icon-grey.svg" alt="" class="icon" />
+          &lt;/div>
+          &lt;p id="email-error-msg-edit" class="contact-error hide">Please enter a valid Email.&lt;/p>
+          &lt;div>
+            &lt;input
+              id="editContactPhone"
+              class="contact-input"
+              type="text"
+              placeholder="Phone"
+              spellcheck="false"
+              value="${phone}"
+              required
+            />
+            &lt;img src="../assets/icon/call-grey.svg" alt="" class="icon" />
+          &lt;/div>
+          &lt;p id="phone-error-msg-edit" class="contact-error hide">Please enter a valid Phone number.&lt;/p>
+          &lt;div class="contact-inputs-buttons">
+            &lt;button onclick="deleteContactFromDatabase()" class="cancel-button">Delete&lt;/button>
+            &lt;button onclick="saveEditedContactToDatabase('name-error-msg-edit', 'email-error-msg-edit', 'phone-error-msg-edit')" class="create-contact-button">Save &amp;#10003;&lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+  `;
+}
+
+/**
+ * Generates an HTML template string for a subtask list item in ticket details.
+ *
+ * @param {number} i - The index of the subtask in the list.
+ * @param {{ checked: boolean, text: string }} subtask - The subtask object containing its checked state and text.
+ * @param {number} index - The index of the ticket.
+ * @param {number|string} ticketCounterId - The unique identifier for the ticket counter.
+ * @returns {string} The HTML string representing the subtask list item.
+ */
+const getRenderTicketDetailsSubtaskEleTemplate = (i, subtask, index, ticketCounterId) => {
+  return /*html*/ `
+    &lt;li>&lt;input data-index="${i}" ${subtask.checked ? "checked" : ""} data-ticketindex="${index}" data-ticketcounterid="${ticketCounterId}" type="checkbox" onclick="toggleSubtask(this)">${subtask.text}&lt;/li>
+  `;
+};
+
+/**
+ * Generates an HTML template string for rendering ticket user details.
+ *
+ * @param {number|string} safeIndex - A safe index used for generating a unique CSS class for the user icon.
+ * @param {string} initials - The initials of the user to display inside the user icon.
+ * @param {string} user - The full name or identifier of the user to display.
+ * @returns {string} An HTML string representing the user details section.
+ */
+const getRenderTicketDetailsUserSpansArrayTemplate = (safeIndex, initials, user) => {
+  return /*html*/ `
+    &lt;div class="ticket-detail-user-div">
+      &lt;span class="user-icon-rendered User-bc-${safeIndex}">${initials}&lt;/span>
+      &lt;span>${user}&lt;/span>
+    &lt;/div>
+  `;
+};
+
+/**
+ * Generates an HTML template string for rendering ticket details in a pop-up.
+ *
+ * @param {string} category - The category of the ticket.
+ * @param {string} categoryColor - The CSS class for the category color.
+ * @param {string} title - The title of the ticket.
+ * @param {string} description - The description of the ticket.
+ * @param {string} date - The due date of the ticket.
+ * @param {string} priority - The priority level of the ticket.
+ * @param {number} index - The index of the ticket in the list.
+ * @param {number|string} ticketCounterId - The unique identifier for the ticket.
+ * @param {string} userSpans - HTML string representing assigned users.
+ * @param {string} subtaskEle - HTML string representing subtasks.
+ * @returns {string} The HTML template string for the ticket details pop-up.
+ */
+const getRenderTicketDetailsTemplate = (category, categoryColor, title, description, date, priority, index, ticketCounterId, userSpans, subtaskEle) => {
+  return /*html*/ `
+    &lt;div id="task-pop-up-nav">
+      &lt;p class="${categoryColor}">${category}&lt;/p>
+      &lt;button  onclick="popUpAddTask(popuptask)">X&lt;/button>
+    &lt;/div>
+    &lt;h1 class="pop-up-margin-b-25">${title}&lt;/h1>
+    &lt;p class="pop-up-margin-b-25" id="pop-up-task-description">${description}&lt;/p>
+    &lt;div class="pop-up-margin-b-25 gap-10" id="pop-up-deadline">
+      &lt;p>Due date:&lt;/p>
+      &lt;p>${date}&lt;/p>
+    &lt;/div>
+    &lt;div class="pop-up-margin-b-25 gap-10">
+      &lt;p>Priority:&lt;/p>
+      &lt;span>${priority.charAt(0).toUpperCase() + priority.slice(1)} &lt;img src="${priority &amp;&amp; priority !== "-" ? `../assets/icon/${priority}.svg` : ""}" alt="">&lt;/span>
+    &lt;/div>
+    &lt;div class="pop-up-margin-b-25" id="assigned-users-div">
+       ${userSpans}
+    &lt;/div>
+    &lt;div id="subtasks-div" class="pop-up-margin-b-25">
+      &lt;p>Subtasks&lt;/p>
+      &lt;ul>${subtaskEle}&lt;/ul>
+    &lt;/div>
+    &lt;div id="pop-up-bottom-buttons">
+      &lt;button onclick="deleteTicket(${ticketCounterId})">&lt;img src="../assets/icon/bin.svg" alt="">Delete&lt;/button>
+      &lt;button data-ticketIndex=${index} data-ticketcounterid="${ticketCounterId}" data-mode="edit" onclick="switchEditInfoMenu(this); setGlobalEditInformation(this)">&lt;img src="../assets/icon/pencil.svg" alt="">Edit&lt;/button>
+    &lt;/div>`;
+};
+
+/**
+ * Generates an HTML template string for a mobile navigation button.
+ *
+ * @param {string} direction - The direction of the button ("Up" or "Down").
+ * @param {number} index - The index of the ticket.
+ * @param {string} targetColumn - The target column to move to.
+ * @returns {string} The HTML string for the mobile navigation button.
+ */
+function getMobileNavigationButtonTemplate(direction, index, targetColumn) {
+  return /*html*/ `&lt;button class="mobile-hide" data-ticketIndex="${index}" onclick="mobileMoveTo(this, event, '${targetColumn}')">${direction}&lt;/button>`;
+}
+
+/**
+ * Generates an HTML template string for rendering task statistics on the dashboard.
+ *
+ * The template includes sections for:
+ * - To-do and Done tasks
+ * - Urgent tasks and upcoming deadlines
+ * - Tasks in board, in progress, and awaiting feedback
+ *
+ * The template expects the following variables to be defined in the scope:
+ * - toDos: Number of to-do tasks
+ * - done: Number of completed tasks
+ * - urgentTickets: Number of urgent tasks
+ * - deadline: Upcoming deadline (string or date)
+ * - currentTickets: Array of current tickets/tasks
+ * - inProgress: Number of tasks in progress
+ * - awaitFeedback: Number of tasks awaiting feedback
+ *
+ * @returns {string} HTML template string for rendering the dashboard task statistics.
+ */
+function getRenderTasksTemplate() {
+  return /*html*/ `
+             &lt;div onclick="goToBoardHtml()" class="toDo-and-done">
+              &lt;div class="to-do task-card-base flex-center">
+                &lt;a href="">
+                  &lt;svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
+                    &lt;circle class="change-circle-color" cx="34.5" cy="35" r="34.5" fill="#2A3647" />
+                    &lt;mask
+                      id="mask0_319113_6282"
+                      style="mask-type: alpha"
+                      maskUnits="userSpaceOnUse"
+                      x="18"
+                      y="19"
+                      width="33"
+                      height="32"
+                    >
+                      &lt;rect x="18.5" y="19" width="32" height="32" fill="#D9D9D9" />
+                    &lt;/mask>
+                    &lt;g mask="url(#mask0_319113_6282)">
+                      &lt;path
+                        class="change-contents-color"
+                        d="M25.1667 44.3332H27.0333L38.5333 32.8332L36.6667 30.9665L25.1667 42.4665V44.3332ZM44.2333 30.8998L38.5667 25.2998L40.4333 23.4332C40.9444 22.9221 41.5722 22.6665 42.3167 22.6665C43.0611 22.6665 43.6889 22.9221 44.2 23.4332L46.0667 25.2998C46.5778 25.8109 46.8444 26.4276 46.8667 27.1498C46.8889 27.8721 46.6444 28.4887 46.1333 28.9998L44.2333 30.8998ZM42.3 32.8665L28.1667 46.9998H22.5V41.3332L36.6333 27.1998L42.3 32.8665Z"
+                        fill="white"
+                      />
+                    &lt;/g>
+                  &lt;/svg>
+                &lt;/a>
+                &lt;div class="center flex-column flex-center">
+                  &lt;h3>${toDos}&lt;/h3>
+                  &lt;p>To-do&lt;/p>
+                &lt;/div>
+              &lt;/div>
+              &lt;div onclick="goToBoardHtml()" class="done task-card-base flex-center">
+                &lt;a href="">
+                  &lt;svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
+                    &lt;circle class="change-circle-color" cx="35" cy="35" r="34.5" fill="#2A3647" />
+                    &lt;path
+                      class="change-contents-color"
+                      d="M20.0283 35.0001L31.2571 46.0662L49.9717 23.9341"
+                      stroke="white"
+                      stroke-width="7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  &lt;/svg>
+                &lt;/a>
+                &lt;div class="center flex-column flex-center">
+                  &lt;h3>${done}&lt;/h3>
+                  &lt;p>Done&lt;/p>
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+            &lt;div onclick="goToBoardHtml()" class="urgent-and-date task-card-base flex-center">
+              &lt;div class="urgent flex-center">
+                &lt;a href="">&lt;img class="urgent-icon-responsiv" src="../assets/icon/urgent-orange-icon.svg" alt="" />&lt;/a>
+                &lt;div>
+                  &lt;h3>${urgentTickets}&lt;/h3>
+                  &lt;p>Urgent&lt;/p>
+                &lt;/div>
+              &lt;/div>
+              &lt;img class="mobile-padding" src="../assets/icon/hyphen.svg" alt="" />
+              &lt;div class="deadline">
+                &lt;h4>${deadline}&lt;/h4>
+                &lt;p>Upcoming Deadline&lt;/p>
+              &lt;/div>
+            &lt;/div>
+            &lt;div onclick="goToBoardHtml()" class="tasks-in-editing">
+              &lt;div class="tasks-in-board task-card-base flex-center flex-column">
+                &lt;h3>${currentTickets.length}&lt;/h3>
+                &lt;p>
+                  Tasks in &lt;br />
+                  Board
+                &lt;/p>
+              &lt;/div>
+              &lt;div onclick="goToBoardHtml()" class="tasks-in-progress task-card-base flex-center flex-column">
+                &lt;h3>${inProgress}&lt;/h3>
+                &lt;p>
+                  Tasks in &lt;br />
+                  Progress
+                &lt;/p>
+              &lt;/div>
+              &lt;div onclick="goToBoardHtml()" class="awaiting-feedback task-card-base flex-center flex-column">
+                &lt;h3>${awaitFeedback}&lt;/h3>
+                &lt;p>
+                  Awaiting &lt;br />
+                  Feedback
+                &lt;/p>
+              &lt;/div>
+            &lt;/div>
+  `;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addContactToDatabase">addContactToDatabase</a></li><li><a href="global.html#addDisplayToContent">addDisplayToContent</a></li><li><a href="global.html#addNewSubtask">addNewSubtask</a></li><li><a href="global.html#addNewSubtaskRender">addNewSubtaskRender</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskRenderDiv">addSubtaskRenderDiv</a></li><li><a href="global.html#addTaskInit">addTaskInit</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#awaitFeedback">awaitFeedback</a></li><li><a href="global.html#boardInit">boardInit</a></li><li><a href="global.html#bubblingPrevention">bubblingPrevention</a></li><li><a href="global.html#buildTicket">buildTicket</a></li><li><a href="global.html#cacheFirebaseKeys">cacheFirebaseKeys</a></li><li><a href="global.html#calculateSubtaskCounter">calculateSubtaskCounter</a></li><li><a href="global.html#changeDropDownArrow">changeDropDownArrow</a></li><li><a href="global.html#checkEditedValues">checkEditedValues</a></li><li><a href="global.html#checkEmail">checkEmail</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#checkLoginValues">checkLoginValues</a></li><li><a href="global.html#checkNewEditedValues">checkNewEditedValues</a></li><li><a href="global.html#checkRequiredInput">checkRequiredInput</a></li><li><a href="global.html#checkRequiredInputCategory">checkRequiredInputCategory</a></li><li><a href="global.html#checkRequiredInputTaskDate">checkRequiredInputTaskDate</a></li><li><a href="global.html#checkRequiredInputTaskTitle">checkRequiredInputTaskTitle</a></li><li><a href="global.html#checkSignUpValues">checkSignUpValues</a></li><li><a href="global.html#checkTicketsForToggle">checkTicketsForToggle</a></li><li><a href="global.html#checkUserDataInput">checkUserDataInput</a></li><li><a href="global.html#checkValidEmail">checkValidEmail</a></li><li><a href="global.html#clearContactForm">clearContactForm</a></li><li><a href="global.html#clearEditForm">clearEditForm</a></li><li><a href="global.html#clearSubtaskValue">clearSubtaskValue</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#clearValidationFeedback">clearValidationFeedback</a></li><li><a href="global.html#closeAddContactOverlay">closeAddContactOverlay</a></li><li><a href="global.html#closeDropDowns">closeDropDowns</a></li><li><a href="global.html#closeEditOverlay">closeEditOverlay</a></li><li><a href="global.html#closeViaOverlay">closeViaOverlay</a></li><li><a href="global.html#confirmEditedSubtask">confirmEditedSubtask</a></li><li><a href="global.html#confirmEditedSubtaskInEditMenu">confirmEditedSubtaskInEditMenu</a></li><li><a href="global.html#confirmEditedSubtaskInEditMenuRender">confirmEditedSubtaskInEditMenuRender</a></li><li><a href="global.html#confirmEditedSubtaskRender">confirmEditedSubtaskRender</a></li><li><a href="global.html#contactsInit">contactsInit</a></li><li><a href="global.html#createNewTicket">createNewTicket</a></li><li><a href="global.html#createUserIcons">createUserIcons</a></li><li><a href="global.html#defineTicketDetailVariables">defineTicketDetailVariables</a></li><li><a href="global.html#deleteContactFromDatabase">deleteContactFromDatabase</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTicket">deleteTicket</a></li><li><a href="global.html#done">done</a></li><li><a href="global.html#dropDownUsers">dropDownUsers</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editSubtaskInEditMenu">editSubtaskInEditMenu</a></li><li><a href="global.html#editSubtaskInEditMenuRender">editSubtaskInEditMenuRender</a></li><li><a href="global.html#editSubtaskRender">editSubtaskRender</a></li><li><a href="global.html#editTicket">editTicket</a></li><li><a href="global.html#endDragging">endDragging</a></li><li><a href="global.html#escapeQuotes">escapeQuotes</a></li><li><a href="global.html#fetchChangedTicket">fetchChangedTicket</a></li><li><a href="global.html#filterTickets">filterTickets</a></li><li><a href="global.html#filterUsers">filterUsers</a></li><li><a href="global.html#finishEdit">finishEdit</a></li><li><a href="global.html#getBGIndex">getBGIndex</a></li><li><a href="global.html#getColumnValue">getColumnValue</a></li><li><a href="global.html#getContactDetailsTemplate">getContactDetailsTemplate</a></li><li><a href="global.html#getContactTemplate">getContactTemplate</a></li><li><a href="global.html#getContactsData">getContactsData</a></li><li><a href="global.html#getEditOverlayContentTemplate">getEditOverlayContentTemplate</a></li><li><a href="global.html#getEditTicketSubtaskEleTemplate">getEditTicketSubtaskEleTemplate</a></li><li><a href="global.html#getEditTicketTemplate">getEditTicketTemplate</a></li><li><a href="global.html#getEditTicketUserSpansArrayTemplate">getEditTicketUserSpansArrayTemplate</a></li><li><a href="global.html#getInitialTemplate">getInitialTemplate</a></li><li><a href="global.html#getMobileNavigationButtonTemplate">getMobileNavigationButtonTemplate</a></li><li><a href="global.html#getNewUserData">getNewUserData</a></li><li><a href="global.html#getRenderTasksTemplate">getRenderTasksTemplate</a></li><li><a href="global.html#getRenderTicketDetailsSubtaskEleTemplate">getRenderTicketDetailsSubtaskEleTemplate</a></li><li><a href="global.html#getRenderTicketDetailsTemplate">getRenderTicketDetailsTemplate</a></li><li><a href="global.html#getRenderTicketDetailsUserSpansArrayTemplate">getRenderTicketDetailsUserSpansArrayTemplate</a></li><li><a href="global.html#getSelectedUsers">getSelectedUsers</a></li><li><a href="global.html#getTicketData">getTicketData</a></li><li><a href="global.html#getTicketTemplate">getTicketTemplate</a></li><li><a href="global.html#getUserDetails">getUserDetails</a></li><li><a href="global.html#getUsersData">getUsersData</a></li><li><a href="global.html#getUserspans">getUserspans</a></li><li><a href="global.html#getVariablesToRenderTickets">getVariablesToRenderTickets</a></li><li><a href="global.html#goToBoardHtml">goToBoardHtml</a></li><li><a href="global.html#greetUser">greetUser</a></li><li><a href="global.html#hideContactDetails">hideContactDetails</a></li><li><a href="global.html#hidePopUp">hidePopUp</a></li><li><a href="global.html#highlightDrop">highlightDrop</a></li><li><a href="global.html#highlightPageInNav">highlightPageInNav</a></li><li><a href="global.html#hoverButtons">hoverButtons</a></li><li><a href="global.html#inProgress">inProgress</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeCurrentUser">initializeCurrentUser</a></li><li><a href="global.html#iterateContacts">iterateContacts</a></li><li><a href="global.html#iterateThroughUsersForVisualization">iterateThroughUsersForVisualization</a></li><li><a href="global.html#iterateUsers">iterateUsers</a></li><li><a href="global.html#loadNavigationAndGreetUser">loadNavigationAndGreetUser</a></li><li><a href="global.html#loadNavigationAndSetInitials">loadNavigationAndSetInitials</a></li><li><a href="global.html#loginAsGuest">loginAsGuest</a></li><li><a href="global.html#messageMissingConfirmPassword">messageMissingConfirmPassword</a></li><li><a href="global.html#messageMissingName">messageMissingName</a></li><li><a href="global.html#messageMissingPassword">messageMissingPassword</a></li><li><a href="global.html#minDate">minDate</a></li><li><a href="global.html#mobileMoveTo">mobileMoveTo</a></li><li><a href="global.html#moveTo">moveTo</a></li><li><a href="global.html#openAddContactOverlay">openAddContactOverlay</a></li><li><a href="global.html#openEditOverlay">openEditOverlay</a></li><li><a href="global.html#openEditOverlayWithBubblingPrevention">openEditOverlayWithBubblingPrevention</a></li><li><a href="global.html#overlayValidation">overlayValidation</a></li><li><a href="global.html#popUpAccNav">popUpAccNav</a></li><li><a href="global.html#popUpAddTask">popUpAddTask</a></li><li><a href="global.html#popUpContactDetails">popUpContactDetails</a></li><li><a href="global.html#popUpDropDownCategory">popUpDropDownCategory</a></li><li><a href="global.html#popUpDropDownUsersInBoard">popUpDropDownUsersInBoard</a></li><li><a href="global.html#putEditedContactToDatabase">putEditedContactToDatabase</a></li><li><a href="global.html#putEditedTaskToFirebase">putEditedTaskToFirebase</a></li><li><a href="global.html#putNewContactToDatabase">putNewContactToDatabase</a></li><li><a href="global.html#queryThroughListElements">queryThroughListElements</a></li><li><a href="global.html#removeHideOnInput">removeHideOnInput</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#removeHoverButtons">removeHoverButtons</a></li><li><a href="global.html#removeNameErrorMessage">removeNameErrorMessage</a></li><li><a href="global.html#removeUserfromLocalStorage">removeUserfromLocalStorage</a></li><li><a href="global.html#renderAllTickets">renderAllTickets</a></li><li><a href="global.html#renderCheckedUsers">renderCheckedUsers</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderHTMLElementsForEditing">renderHTMLElementsForEditing</a></li><li><a href="global.html#renderIcons">renderIcons</a></li><li><a href="global.html#renderSelectedUsers">renderSelectedUsers</a></li><li><a href="global.html#renderSubtaskProgress">renderSubtaskProgress</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#renderTicketDetails">renderTicketDetails</a></li><li><a href="global.html#renderTicketOverlay">renderTicketOverlay</a></li><li><a href="global.html#renderTickets">renderTickets</a></li><li><a href="global.html#resetPriority">resetPriority</a></li><li><a href="global.html#saveChangedTicketInFirbase">saveChangedTicketInFirbase</a></li><li><a href="global.html#saveEditedContactToDatabase">saveEditedContactToDatabase</a></li><li><a href="global.html#saveEditedTaskToFirebase">saveEditedTaskToFirebase</a></li><li><a href="global.html#saveTaskToFirebase">saveTaskToFirebase</a></li><li><a href="global.html#saveTaskToFirebasePassalong">saveTaskToFirebasePassalong</a></li><li><a href="global.html#saveTicketData">saveTicketData</a></li><li><a href="global.html#saveUserToFirebase">saveUserToFirebase</a></li><li><a href="global.html#saveUserToLocalStorage">saveUserToLocalStorage</a></li><li><a href="global.html#scrollToNewContact">scrollToNewContact</a></li><li><a href="global.html#setCategory">setCategory</a></li><li><a href="global.html#setGlobalEditInformation">setGlobalEditInformation</a></li><li><a href="global.html#setNameError">setNameError</a></li><li><a href="global.html#setPriority">setPriority</a></li><li><a href="global.html#setProfileInitials">setProfileInitials</a></li><li><a href="global.html#showAddSuccessMessage">showAddSuccessMessage</a></li><li><a href="global.html#showContacts">showContacts</a></li><li><a href="global.html#showContactsDetails">showContactsDetails</a></li><li><a href="global.html#showDeleteSuccessMessage">showDeleteSuccessMessage</a></li><li><a href="global.html#showEditSuccessMessage">showEditSuccessMessage</a></li><li><a href="global.html#showPopUp">showPopUp</a></li><li><a href="global.html#showSuccessAnimationAndRedirect">showSuccessAnimationAndRedirect</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#sortContactByInitials">sortContactByInitials</a></li><li><a href="global.html#sortedTickets">sortedTickets</a></li><li><a href="global.html#spliceEditSubArray">spliceEditSubArray</a></li><li><a href="global.html#startDragging">startDragging</a></li><li><a href="global.html#summaryInit">summaryInit</a></li><li><a href="global.html#switchEditInfoMenu">switchEditInfoMenu</a></li><li><a href="global.html#switchPasswordIcon">switchPasswordIcon</a></li><li><a href="global.html#switchPasswordVisibility">switchPasswordVisibility</a></li><li><a href="global.html#takeOverEditedTicket">takeOverEditedTicket</a></li><li><a href="global.html#ticketTemplate">ticketTemplate</a></li><li><a href="global.html#toDos">toDos</a></li><li><a href="global.html#toggleCategoryDropdown">toggleCategoryDropdown</a></li><li><a href="global.html#toggleNoTaskContainer">toggleNoTaskContainer</a></li><li><a href="global.html#toggleSubtask">toggleSubtask</a></li><li><a href="global.html#toogleInputMenu">toogleInputMenu</a></li><li><a href="global.html#uncheckAllUserIcons">uncheckAllUserIcons</a></li><li><a href="global.html#upcomingTickets">upcomingTickets</a></li><li><a href="global.html#updateTicketCounter">updateTicketCounter</a></li><li><a href="global.html#updateTicketParameters">updateTicketParameters</a></li><li><a href="global.html#updateUIAfterDelete">updateUIAfterDelete</a></li><li><a href="global.html#urgentTickets">urgentTickets</a></li><li><a href="global.html#userDropDownTemplate">userDropDownTemplate</a></li><li><a href="global.html#validateEmail">validateEmail</a></li><li><a href="global.html#validateFullName">validateFullName</a></li><li><a href="global.html#validatePhoneNumber">validatePhoneNumber</a></li><li><a href="global.html#wrongPassword">wrongPassword</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Oct 06 2025 13:59:26 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

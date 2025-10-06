@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: script.js</title>
+    <title>JSDoc: Source: scripts/loginSignUp.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: script.js</h1>
+    <h1 class="page-title">Source: scripts/loginSignUp.js</h1>
 
     
 
@@ -26,348 +26,368 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const BASE_URL = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/";
-const BASE_URL_USERS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users.json";
-const BASE_URL_TICKETS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/tickets.json";
-const BASE_URL_CONTACTS = "https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
-let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || {
-  username: "",
-  initals: "",
-};
-let tickets;
-
-/**
- * Initializes the application by loading HTML, clearing user data, and handling animations.
- *
- * This function performs the following steps:
- * 1. Includes HTML content via `includeHTML()`.
- * 2. Removes the current user from localStorage using `removeUserfromLocalStorage()`.
- * 3. Schedules `addDisplayToContent()` to run after a 2.5-second delay.
- * 4. Adds an event listener to the logo element to trigger `addDisplayToContent()`
- *    when its animation ends.
- *
- * @async
- * @function init
- * @returns {Promise&lt;void>} - Resolves after the HTML is loaded and event listeners are set.
+            <pre class="prettyprint source linenums"><code>/**
+ * shows start content, after the start animation finished
  */
-async function init() {
-  await includeHTML();
-  removeUserfromLocalStorage();
-  setTimeout(addDisplayToContent, 2500);
-  getTicketData();
-  const logo = document.querySelector(".slide-out-tl");
-  logo.addEventListener("animationend", () => {
-    addDisplayToContent();
-  });
+function addDisplayToContent() {
+  document.getElementById("header-div").classList.remove("animation-hide");
+  document.getElementById("login-div").classList.remove("animation-hide");
+  document.getElementById("footer").classList.remove("animation-hide");
 }
 
-/**
- * Initializes the summary page by loading navigation, greeting the user, and rendering tasks.
- *
- * This function calls `loadNavigationAndGreetUser()` to include the navigation HTML,
- * highlight the current page, and greet the user. It then calls `renderTasks()`
- * to display all tasks on the summary page.
- *
- * @async
- * @function summaryInit
- * @returns {Promise&lt;void>} - Resolves after navigation is loaded and tasks are rendered.
- */
-async function summaryInit() {
-  loadNavigationAndGreetUser();
-  renderTasks();
-}
-
-/**
- * Initializes the board page by setting up navigation, loading tickets, and rendering content.
- *
- * This function performs the following steps:
- * 1. Calls `loadNavigationAndSetInitials()` to load the navigation and display user initials.
- * 2. Retrieves ticket data via `getTicketData()`.
- * 3. Updates the visibility of the "no tasks" container using `toggleNoTaskContainer()`.
- * 4. Renders all tickets on the board with `renderTickets()`.
- * 5. Sets the minimum date for relevant date inputs using `minDate()`.
- *
- * @async
- * @function boardInit
- * @returns {Promise&lt;void>} - Resolves after the board is fully initialized and tickets are rendered.
- */
-async function boardInit() {
-  loadNavigationAndSetInitials();
-  getTicketData();
-  toggleNoTaskContainer();
-  renderTickets();
-  minDate();
-}
-
-/**
- * Initializes the "Add Task" page by loading navigation and displaying user initials.
- *
- * This function calls `loadNavigationAndSetInitials()` to include the navigation
- * HTML and show the current user's initials.
- *
- * @async
- * @function addTaskInit
- * @returns {Promise&lt;void>} - Resolves after navigation is loaded and initials are set.
- */
-async function addTaskInit() {
-  loadNavigationAndSetInitials();
-}
-
-/**
- * Initializes the contacts page by loading navigation, displaying user initials, and showing contacts.
- *
- * This function performs the following steps:
- * 1. Calls `loadNavigationAndSetInitials()` to include the navigation HTML and display the current user's initials.
- * 2. Calls `showContacts()` to render the list of contacts on the page.
- *
- * @async
- * @function contactsInit
- * @returns {Promise&lt;void>} - Resolves after navigation is loaded and contacts are displayed.
- */
-async function contactsInit() {
-  loadNavigationAndSetInitials();
-  showContacts();
-}
-
-/**
- * get contact data
- * @param {*} event - parameter to prevent Default behaviour
- */
-async function getUsersData(event) {
-  event.preventDefault();
-  try {
-    let response = await fetch(BASE_URL_USERS);
-    let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter((user) => user !== null);
-    checkLoginData({ users });
-  } catch (error) {
-    console.log("error");
-  }
-}
-
-/**
- * This function gets all tickets from the database
- *
- * @returns tickets
- */
-async function getTicketData() {
-  try {
-    let response = await fetch(BASE_URL_TICKETS);
-    let responseJson = await response.json();
-    if (!responseJson.ticket || Object.keys(responseJson.ticket).length === 0) {
-      localStorage.setItem("tickets", JSON.stringify([]));
-      return {};
-    }
-    tickets = responseJson.ticket;
-    let result = Object.values(tickets);
-    localStorage.setItem("tickets", JSON.stringify(result));
-    return tickets;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/**
- * This function gets the contact list of the user.
- *
- * @param {json} user
- * @returns contacts
- */
-async function getContactsData(user) {
-  try {
-    let response = await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/contacts/${user.id}.json`);
-    let responseJson = await response.json();
-    let contacts = Object.entries(responseJson || {})
-      .filter(([, contact]) => contact !== null)
-      .map(([firebaseKey, contact]) => ({
-        ...contact,
-        firebaseKey: firebaseKey,
-      }));
-    return contacts;
-  } catch (error) {
-    console.log("Fehler beim Laden der Kontakte: ", error);
-  }
-}
-
-/**
- * Fetches and returns the subtasks data for a given ticket ID from the Firebase Realtime Database.
- *
- * @async
- * @param {string|number} id - The unique identifier of the ticket.
- * @returns {Promise&lt;Array>} A promise that resolves to an array of subtasks associated with the ticket.
- */
-async function includeHTML() {
-  let includeElements = document.querySelectorAll("[template]");
-  for (let i = 0; i &lt; includeElements.length; i++) {
-    const element = includeElements[i];
-    file = element.getAttribute("template");
-    let resp = await fetch(file);
-    if (resp.ok) {
-      element.innerHTML = await resp.text();
-    } else {
-      element.innerHTML = "Page not found";
-    }
-  }
-}
-
-/**
- * Toggles the visibility of the account navigation panel and its overlay.
- * Adds or removes the "hide" class from the account navigation div and the overlay element.
- */
-function popUpAccNav() {
-  document.getElementsByClassName("account-nav-render-div")[0].classList.toggle("hide");
-  document.getElementById("board-overlay-transparent").classList.toggle("hide");
-}
-
-/**
- * Toggles the visibility of the category drop-down menu by adding or removing the "hide" class
- * from the element with the ID "drop-down-category".
- */
-function popUpDropDownCategory(imgId, id) {
-  const dropDown = document.getElementById(id);
-  dropDown.classList.toggle("hide");
-  changeDropDownArrow(imgId);
-  if (!dropDown.classList.contains("hide")) {
-    toggleCategoryDropdown(dropDown, imgId);
-  }
-}
-
-/**
- * Toggles the visibility of a category dropdown and sets up an event listener to close it when clicking outside.
- *
- * @param {HTMLElement} dropDown - The dropdown element to toggle.
- * @param {string} imgId - The ID of the image element whose arrow should be changed.
- */
-function toggleCategoryDropdown(dropDown, imgId) {
-  function outsideClickHandler(event) {
-    if (!dropDown.contains(event.target)) {
-      dropDown.classList.add("hide");
-      changeDropDownArrow(imgId);
-      document.removeEventListener("click", outsideClickHandler);
-    }
-  }
+window.addEventListener("DOMContentLoaded", () => {
+  /**
+   * Represents the "Sign Up" button element in the DOM. Used to avoid conflicts with the login Div.
+   * Used to handle user interactions for signing up.
+   * @type {HTMLButtonElement}
+   */
+  const btn = document.getElementById("sign-up-btn");
   setTimeout(() => {
-    document.addEventListener("click", outsideClickHandler);
-  }, 0);
+    btn.removeAttribute("disabled");
+  }, 2500);
+});
+
+/**
+ * switching from-log in menu to sign-up menu and vice versa
+ */
+function toogleInputMenu() {
+  document.getElementById("header-div").classList.toggle("animation-hide");
+  document.getElementById("login-div").classList.toggle("animation-hide");
+  document.getElementById("sign-up-div").classList.toggle("animation-hide");
 }
 
 /**
- * Toggles the visibility of the users dropdown menu in the board.
- * Adds or removes the "hide" class from the element with ID "drop-down-users-board".
+ * checking if email match password
+ * @param {*} data - parameter for the firebase contacts
+ * @returns {Promise&lt;boolean>} - returns true if login is successful
  */
-function popUpDropDownUsersInBoard() {
-  document.getElementById("drop-down-users-board").classList.toggle("hide");
-}
+async function checkLoginData(data) {
+  const email = document.getElementById("email-input").value;
+  const password = document.getElementById("password-input").value;
+  const user = data.users.find((user) => user.Email === email);
 
-/**
- * This function removes the username and intitals from the local storage
- */
-function removeUserfromLocalStorage() {
-  localStorage.removeItem("loggedInUser");
-}
-
-/**
- * This function checks if a user is logged in and greets them. If the guest login is used, the greeting contains only "Good morning".
- */
-function greetUser() {
-  if (loggedInUser.username) {
-    loggedInUser.username === "Guest User"
-      ? ((document.getElementById("goodMorning").innerText = "Good morning"), (document.getElementById("username").innerText = ""))
-      : ((document.getElementById("goodMorning").innerText = "Good morning,"), (document.getElementById("username").innerText = loggedInUser.username));
-    document.getElementById("profile").innerText = loggedInUser.initals;
-  }
-}
-
-/**
- * This function is responsible for the background-color change of the nav-item respective to the current page.
- */
-function highlightPageInNav() {
-  let currentPage = location.pathname.split("/").pop();
-  document.querySelectorAll("a.nav-item").forEach((link) => {
-    let linkPage = link.getAttribute("href").replace("./", "");
-    link.classList.remove("active");
-    if (linkPage === currentPage) {
-      link.classList.add("active");
-    }
-  });
-}
-
-/**
- * Loads the navigation HTML, highlights the current page, and greets the user.
- *
- * This function first includes the navigation HTML via `includeHTML()`, then
- * highlights the active page in the navigation using `highlightPageInNav()`,
- * and finally displays a greeting to the user with `greetUser()`.
- *
- * @async
- * @function loadNavigationAndGreetUser
- * @returns {Promise&lt;void>} - Resolves after the navigation is loaded, the page is highlighted, and the user is greeted.
- */
-async function loadNavigationAndGreetUser() {
-  await includeHTML();
-  highlightPageInNav();
-  greetUser();
-}
-
-/**
- * Loads the navigation HTML, highlights the current page in the navigation,
- * and greets the user. This function asynchronously includes the navigation
- * HTML, then updates the navigation UI and displays a greeting.
- *
- * @async
- * @function
- * @returns {Promise&lt;void>} Resolves when navigation is loaded and user is greeted.
- */
-async function loadNavigationAndSetInitials() {
-  await includeHTML();
-  highlightPageInNav();
-  setProfileInitials();
-}
-
-/**
- * Sets the profile element's text to the logged-in user's initials if available,
- * otherwise sets it to "G".
- *
- * Assumes the existence of a global `loggedInUser` object with `username` and `initals` properties,
- * and an element with the ID "profile" in the DOM.
- */
-function setProfileInitials() {
-  if (loggedInUser.username) {
-    document.getElementById("profile").innerText = loggedInUser.initals;
+  if (user &amp;&amp; user.Password === password) {
+    saveUserToLocalStorage(user);
+    window.location.href = "pages/summary.html";
   } else {
-    document.getElementById("profile").innerText = "G";
+    wrongPassword();
   }
 }
 
 /**
- * Redirects the current page to 'board.html' in the same directory.
+ * Saves user information to localStorage with username and initials.
+ * @param {Object} user - The user object containing user details.
+ * @param {string} user.name - The full name of the user.
  */
-function goToBoardHtml() {
-  location.href = "./pages/board.html";
+function saveUserToLocalStorage(user) {
+  loggedInUser.username = user.name;
+  const parts = user.name.trim().split(" ");
+  loggedInUser.initals = parts[0][0];
+  if (parts.length > 1) {
+    loggedInUser.initals += parts[1][0];
+  }
+  localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 }
 
 /**
- * Asynchronously retrieves the ID of a user by their name.
- *
- * Fetches the list of users from the BASE_URL_USERS endpoint, filters out null entries,
- * and searches for a user with the specified name. Returns the user's ID if found,
- * otherwise returns 0. Logs an error and returns 0 if the fetch operation fails.
- *
+ * function to add wrong password class to the input fields and the icon
+ */
+function wrongPassword() {
+  document.getElementById("lock-icon").classList.add("wrongPassword");
+  document.getElementById("password-input").classList.add("wrongPassword");
+  document.getElementById("mail-icon").classList.add("wrongPassword");
+  document.getElementById("email-input").classList.add("wrongPassword");
+  document.getElementById("wrong-password-info").innerText = "Check your email and password.Please try again.";
+  document.getElementById("password-input").value = "";
+  document.getElementById("wrong-password-info").classList.add("wrongPasswordText");
+}
+
+/**
+ * check data from the sign up form
+ * @param {*} event - parameter to prevent default behaviour
+ * @returns {Promise&lt;void>} - returns nothing, handles form validation
+ */
+async function checkUserDataInput(event) {
+  event.preventDefault();
+  if (!document.getElementById("sign-up-div").checkValidity()) {
+    document.getElementById("sign-up-div").reportValidity();
+    return;
+  }
+  if (!checkValidEmail()) return;
+  if (document.getElementById("password-input-sign-up").value !== document.getElementById("confirm-input-sign-up").value) {
+    document.getElementById("wrong-password-info-sign-up").innerText = "Your passwords don't match.Please try again.";
+    document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
+    return;
+  }
+  await signUpUser();
+}
+
+/**
+ * Validates email format in sign-up form and updates UI accordingly.
+ * @returns {boolean} True if email is valid, false otherwise.
+ */
+function checkValidEmail() {
+  const emailInput = document.getElementById("email-input-sign-up");
+  const emailValue = emailInput.value.trim();
+  const emailError = document.getElementById("wrong-email-info-sign-up");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailValue)) {
+    emailError.innerText = "Please enter a valid email address.";
+    emailInput.classList.add("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.add("wrongPassword");
+    return false;
+  } else {
+    emailError.innerText = "";
+    emailInput.classList.remove("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
+    return true;
+  }
+}
+
+/**
+ * Handles user sign-up process after privacy policy validation.
  * @async
- * @param {string} user - The name of the user to search for.
- * @returns {Promise&lt;number>} The ID of the found user, or 0 if not found or on error.
+ * @returns {Promise&lt;void>}
  */
-async function getUserDetails(user) {
-  try {
-    let response = await fetch(BASE_URL_USERS);
-    let responseJson = await response.json();
-    let users = Object.values(responseJson || {}).filter((u) => u !== null);
-    let foundUser = users.find((u) => u.name === user);
-    return foundUser ? foundUser.id : 0;
-  } catch (error) {
-    console.error("error");
-    return 0;
+async function signUpUser() {
+  if (!document.getElementById("checkbox-input-sign-up").checked) {
+    document.getElementById("missing-checkbox-info-sign-up").innerText = "You need to accept the Privacy policy to continue.";
+    return;
   }
+  const newUser = getNewUserData();
+  await saveUserToFirebase(newUser);
+}
+
+/**
+ * Retrieves user data from sign-up form and updates localStorage.
+ * @returns {Object} User object with name, email, and password.
+ */
+function getNewUserData() {
+  const newUser = {
+    name: document.getElementById("name-input-sign-up").value.trim(),
+    Email: document.getElementById("email-input-sign-up").value.trim(),
+    Password: document.getElementById("password-input-sign-up").value.trim(),
+  };
+  loggedInUser.username = newUser.name;
+  const nameParts = newUser.name.split(" ");
+  if (nameParts.length >= 2) loggedInUser.initals = nameParts[0][0] + nameParts[1][0];
+  else loggedInUser.initals = nameParts[0][0];
+  localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+  return newUser;
+}
+
+/**
+ * function to put data to firebase
+ * @param {*} userData - parameter from function sigUpUser - Data from input.value
+ */
+async function saveUserToFirebase(userData) {
+  try {
+    const response = await fetch(BASE_URL_USERS);
+    const contacts = await response.json();
+    const newId = Object.keys(contacts || {}).length;
+    await fetch(`https://join-3193b-default-rtdb.europe-west1.firebasedatabase.app/users/${newId}.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...userData, id: newId }),
+    });
+    showSuccessAnimationAndRedirect();
+  } catch (error) {
+    console.error("Fehler beim Speichern:", error);
+  }
+}
+
+/**
+ * switch icon and cursor if password input has a value
+ * @param {*} el - this attribut from oninput element
+ */
+function switchPasswordIcon(el) {
+  el.nextElementSibling.src = "./assets/icon/eye_slash_grey.svg";
+  el.nextElementSibling.style.cursor = "pointer";
+}
+
+/**
+ * switch icon and password visibility, if password icon is clicked
+ * @param {*} element - this attribut from onclick element
+ * @returns {void} - changes element properties
+ */
+function switchPasswordVisibility(element) {
+  if (element.src.includes("/assets/icon/eye_slash_grey.svg")) {
+    element.previousElementSibling.type = "text";
+    return (element.src = "./assets/icon/eye_grey.svg");
+  } else if (element.src.includes("/assets/icon/eye_grey.svg")) {
+    element.previousElementSibling.type = "password";
+    element.src = "./assets/icon/eye_slash_grey.svg";
+  }
+}
+
+/**
+ * Userfeedback Animation for succesfully Sign Up
+ */
+function showSuccessAnimationAndRedirect() {
+  const overlay = document.getElementById("signup-overlay");
+  const message = document.getElementById("signup-message");
+  overlay.style.display = "flex";
+  overlay.style.animation = "fadeOutOverlay 3.5s forwards";
+  message.style.animation = "slideMessage 3.5s forwards";
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 3500);
+}
+
+/**
+ * Logs in user as guest and redirects to summary page.
+ */
+const loginAsGuest = () => {
+  loggedInUser = {
+    username: "Guest User",
+    initals: "G",
+  };
+  localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+  window.location.href = "pages/summary.html";
+};
+
+/**
+ * Validates if a name contains exactly two words (first name and surname).
+ * @param {string} name - The name to validate.
+ * @returns {boolean} True if the name has exactly two words, false otherwise.
+ */
+function validateFullName(name) {
+  const trimmedName = name.trim();
+  const words = trimmedName.split(/\s+/);
+  return words.length === 2 &amp;&amp; words.every((word) => word.length > 0);
+}
+
+/**
+ * Validates the sign-up form input fields and enables or disables the sign-up button accordingly.
+ * Button is only enabled when all fields are filled, email is valid, passwords match, and checkbox is checked.
+ */
+function checkSignUpValues() {
+  const nameInput = document.getElementById("name-input-sign-up").value.trim();
+  const emailInput = document.getElementById("email-input-sign-up").value.trim();
+  const passwordInput = document.getElementById("password-input-sign-up").value.trim();
+  const confirmInput = document.getElementById("confirm-input-sign-up").value.trim();
+  const checkbox = document.getElementById("checkbox-input-sign-up").checked;
+  const btn = document.getElementById("btn-sign-up");
+  const allFieldsFilled = nameInput &amp;&amp; emailInput &amp;&amp; passwordInput &amp;&amp; confirmInput &amp;&amp; checkbox;
+  const nameValid = validateFullName(nameInput);
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
+  const passwordsMatch = passwordInput === confirmInput;
+  btn.toggleAttribute("disabled", !(allFieldsFilled &amp;&amp; nameValid &amp;&amp; emailValid &amp;&amp; passwordsMatch));
+}
+
+/**
+ * Enables/disables login button based on email and password input.
+ */
+function checkLoginValues() {
+  const emailInput = document.getElementById("email-input").value.trim();
+  const passwordInput = document.getElementById("password-input").value.trim();
+  const btn = document.getElementById("btn-login-div").querySelector(".grey-btn");
+  if (emailInput === "" || passwordInput === "") {
+    btn.setAttribute("disabled", "disabled");
+  } else {
+    btn.removeAttribute("disabled");
+  }
+}
+
+/**
+ * Validates email format in sign-up form and applies styling.
+ * @returns {void}
+ */
+function checkEmail() {
+  const emailInput = document.getElementById("email-input-sign-up");
+  const emailValue = emailInput.value.trim();
+  const emailError = document.getElementById("wrong-email-info-sign-up");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailValue)) {
+    emailError.innerText = "Please enter a valid email address.";
+    emailInput.classList.add("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    emailError.innerText = "";
+    emailInput.classList.remove("wrongPassword");
+    document.getElementById("mail-icon-sign-up").classList.remove("wrongPassword");
+  }
+  checkSignUpValues();
+}
+
+/**
+ * Validates the sign-up name input field.
+ * Checks if name is empty or doesn't contain exactly two words (first name and surname).
+ * Displays appropriate error messages and styling.
+ */
+function messageMissingName() {
+  const nameValue = document.getElementById("name-input-sign-up").value.trim();
+  const nameError = document.getElementById("wrong-name-info-sign-up");
+  const nameInput = document.getElementById("name-input-sign-up");
+  const userIcon = document.getElementById("user-icon-sign-up");
+  if (nameValue === "") {
+    setNameError(nameError, nameInput, userIcon, "Please enter your name.");
+  } else if (!validateFullName(nameValue)) {
+    setNameError(nameError, nameInput, userIcon, "Please enter your first and last name.");
+  } else {
+    removeNameErrorMessage(nameError, nameInput, userIcon);
+  }
+  checkSignUpValues();
+}
+
+/**
+ * Sets error styling and message for name input validation.
+ * @param {HTMLElement} nameError - Error message element
+ * @param {HTMLElement} nameInput - Name input field element
+ * @param {HTMLElement} userIcon - User icon element
+ * @param {string} errorMessage - Error message text
+ */
+const setNameError = (nameError, nameInput, userIcon, errorMessage) => {
+  nameError.innerText = errorMessage;
+  nameInput.classList.add("wrongPassword");
+  userIcon.classList.add("wrongPassword");
+};
+
+/**
+ * Removes error styling and message from name input validation.
+ * @param {HTMLElement} nameError - Error message element
+ * @param {HTMLElement} nameInput - Name input field element
+ * @param {HTMLElement} userIcon - User icon element
+ */
+const removeNameErrorMessage = (nameError, nameInput, userIcon) => {
+  nameError.innerText = "";
+  nameInput.classList.remove("wrongPassword");
+  userIcon.classList.remove("wrongPassword");
+};
+
+/**
+ * Checks if the sign-up password input field is empty.
+ * If empty, displays an error message and applies error styling to the input and lock icon.
+ * If not empty, clears the error message and removes error styling.
+ */
+function messageMissingPassword() {
+  if (document.getElementById("password-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-password-info-sign-up").innerText = "Please enter your password.";
+    document.getElementById("password-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("lock-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    document.getElementById("wrong-password-info-sign-up").innerText = "";
+    document.getElementById("password-input-sign-up").classList.remove("wrongPassword");
+    document.getElementById("lock-icon-sign-up").classList.remove("wrongPassword");
+  }
+  checkSignUpValues();
+}
+
+/**
+ * Validates confirm password field and applies styling.
+ */
+function messageMissingConfirmPassword() {
+  if (document.getElementById("confirm-input-sign-up").value.trim() === "") {
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "Please enter your confirm password.";
+    document.getElementById("confirm-input-sign-up").classList.add("wrongPassword");
+    document.getElementById("confirm-icon-sign-up").classList.add("wrongPassword");
+  } else {
+    document.getElementById("wrong-confirm-password-info-sign-up").innerText = "";
+    document.getElementById("confirm-input-sign-up").classList.remove("wrongPassword");
+    document.getElementById("confirm-icon-sign-up").classList.remove("wrongPassword");
+  }
+  checkSignUpValues();
 }
 </code></pre>
         </article>
