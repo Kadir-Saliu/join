@@ -48,15 +48,34 @@ function hidePopUp(ele) {
 }
 
 /**
- * Closes popup via overlay click.
+ * Closes popup via overlay click and refreshes the board with latest data.
  * @param {HTMLElement} overlayElement - Overlay element.
  */
-function closeViaOverlay(overlayElement) {
+async function closeViaOverlay(overlayElement) {
   const targetId = overlayElement.dataset.target;
   const popupElement = document.getElementById(targetId);
   if (popupElement) {
     popUpAddTask(popupElement);
+    if (targetId === "add-task-pop-up" || popupElement.id === "board-task-pop-up") {
+      await getTicketData();
+      renderTickets();
+    }
   }
+}
+
+/**
+ * Closes the ticket popup and refreshes the board with latest data.
+ * This function ensures that any changes made to tickets are properly
+ * reflected on the board after closing the popup.
+ *
+ * @async
+ * @function closeTicketAndRefresh
+ * @returns {Promise<void>} - Resolves after the popup is closed and board is refreshed.
+ */
+async function closeTicketAndRefresh() {
+  popUpAddTask(popuptask);
+  await getTicketData();
+  renderTickets();
 }
 
 /**
