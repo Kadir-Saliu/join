@@ -31,7 +31,7 @@ function toogleInputMenu() {
 /**
  * checking if email match password
  * @param {*} data - parameter for the firebase contacts
- * @returns
+ * @returns {Promise<boolean>} - returns true if login is successful
  */
 async function checkLoginData(data) {
   const email = document.getElementById("email-input").value;
@@ -77,7 +77,7 @@ function wrongPassword() {
 /**
  * check data from the sign up form
  * @param {*} event - parameter to prevent default behaviour
- * @returns
+ * @returns {Promise<void>} - returns nothing, handles form validation
  */
 async function checkUserDataInput(event) {
   event.preventDefault();
@@ -181,7 +181,7 @@ function switchPasswordIcon(el) {
 /**
  * switch icon and password visibility, if password icon is clicked
  * @param {*} element - this attribut from onclick element
- * @returns
+ * @returns {void} - changes element properties
  */
 function switchPasswordVisibility(element) {
   if (element.src.includes("/assets/icon/eye_slash_grey.svg")) {

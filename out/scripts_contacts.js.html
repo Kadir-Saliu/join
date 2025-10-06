@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scripts/contacts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scripts/contacts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let currentUser = null;
+let contacts = [];
+let currentOverlayId = null;
+const firebaseKeys = [];
+const name = document.getElementById("contactName");
+const email = document.getElementById("contactEmail");
+const phone = document.getElementById("contactPhone");
+
+/**
+ * Iterates over the global `contacts` array and pushes each contact's
+ * `firebaseKey` (converted to an integer) into the global `firebaseKeys` array,
+ * if the contact has a `firebaseKey` property.
+ */
+const cacheFirebaseKeys = () => {
+  firebaseKeys.length = 0;
+  contacts.forEach((contact) => {
+    if (contact.firebaseKey) {
+      firebaseKeys.push(parseInt(contact.firebaseKey));
+    }
+  });
+};
+
+/**
+ * This function finds the current logged in user, fetches the respective contact list and renders it after the list is sorted
+ */
+const showContacts = async () => {
+  await initializeCurrentUser();
+  contacts = await getContactsData(currentUser);
+  cacheFirebaseKeys();
+  contacts.sort((a, b) => a.name.localeCompare(b.name));
+  let sortedContacts = {};
+  contacts.forEach(async (contact) => {
+    sortContactByInitials(contact, sortedContacts);
+  });
+  let contactsRef = document.getElementById("contacts");
+  contactsRef.innerHTML = "";
+  renderContacts(sortedContacts, contactsRef);
+};
+
+/**
+ * This function takes a sorted array and saves them in an object which has the respective letters as keys
+ *
+ * @param {string} contact - a contact that gets sorted into respective key value in object
+ * @param {Object} sortedContacts - object to save the values in
+ */
+const sortContactByInitials = (contact, sortedContacts) => {
+  let inital = contact.name.charAt(0).toUpperCase();
+  if (!sortedContacts[inital]) {
+    sortedContacts[inital] = [];
+  }
+  sortedContacts[inital].push(contact);
+};
+
+/**
+ * This function renders the contact list after it has been sorted.
+ *
+ * @param {object} sortedContacts - object that contains the sorted contacts list
+ * @param {Element} contactsRef - the element where the contacts list will be rendered
+ */
+const renderContacts = (sortedContacts, contactsRef) => {
+  Object.keys(sortedContacts).forEach((inital) => {
+    contactsRef.innerHTML += getInitialTemplate(inital);
+    sortedContacts[inital].forEach((contact) => {
+      let initials = contact.name.split(" ")[0][0] + contact.name.split(" ")[1][0];
+      let userName = escapeQuotes(contact.name);
+      let email = escapeQuotes(contact.email);
+      let phone = escapeQuotes(contact.phone);
+      let safeIndex = contact.firebaseKey;
+      let contactIconId = ((safeIndex - 1) % 15) + 1;
+      contactsRef.innerHTML += getContactTemplate(initials, userName, email, phone, contactIconId, contact);
+    });
+  });
+};
+
+/**
+ * Displays the contact details in the contact details section.
+ * @param {string} initials - The contact's initials.
+ * @param {string} userName - The contact's name.
+ * @param {string} email - The contact's email address.
+ * @param {string} phone - The contact's phone number.
+ * @param {HTMLElement} clickedElement - The clicked contact element.
+ */
+const showContactsDetails = (initials, userName, email, phone, contactIconId, clickedElement) => {
+  document.querySelectorAll(".contact").forEach((contact) => contact.classList.remove("active"));
+  document.querySelectorAll(".contact-initials").forEach((contactInitials) => contactInitials.classList.remove("active"));
+  clickedElement.classList.add("active");
+  const initialsElement = clickedElement.querySelector(".contact-initials");
+  initialsElement.classList.add("active");
+  const contactDetailsRef = document.getElementById("contactDetails");
+  contactDetailsRef.innerHTML = "";
+  contactDetailsRef.innerHTML = getContactDetailsTemplate(initials, userName, email, phone, contactIconId);
+  contactDetailsRef.classList.add("active");
+  if (window.innerWidth &lt;= 1130) popUpContactDetails();
+};
+
+/**
+ * Escapes single quotes in a string for safe usage in HTML or JS.
+ * @param {string} str - The input string.
+ * @returns {string} The escaped string.
+ */
+const escapeQuotes = (str) => {
+  return str.replace(/'/g, "\\'");
+};
+
+/**
+ * Toggles the visibility of the "add contact" overlay.
+ * If the overlay is hidden, it will be shown and an event listener will be added to close it when clicking outside.
+ * Also displays a background overlay to indicate modal state.
+ */
+const openAddContactOverlay = (event) => {
+  event.stopPropagation();
+  const contactOverlayRef = document.getElementById("addContactOverlay");
+  if (contactOverlayRef.classList.contains("d_none")) {
+    contactOverlayRef.classList.remove("d_none");
+    contactOverlayRef.classList.add("active");
+    document.querySelector(".body-background-overlay").classList.remove("d_none");
+    document.body.addEventListener("click", closeAddContactOverlay);
+  }
+};
+
+/**
+ * Closes the contact overlay by removing the "active" class and adding the "d_none" class
+ * to hide the overlay and its background. Also hides the body background overlay.
+ */
+const closeAddContactOverlay = () => {
+  const contactOverlayRef = document.getElementById("addContactOverlay");
+  contactOverlayRef.classList.remove("active");
+  contactOverlayRef.classList.add("d_none");
+  document.querySelector(".body-background-overlay").classList.add("d_none");
+  document.getElementById("name-error-msg").classList.add("hide");
+  document.getElementById("email-error-msg").classList.add("hide");
+  document.getElementById("phone-error-msg").classList.add("hide");
+};
+
+/**
+ * Opens the edit overlay and populates it with content.
+ * Shows the overlay by adding the active class, removing the hidden class,
+ * displaying the background overlay, and adding a click listener to close it.
+ */
+const openEditOverlay = (initials, userName, email, phone, contactIconId) => {
+  const editOverlayRef = document.getElementById("editOverlay");
+  editOverlayRef.innerHTML = getEditOverlayContentTemplate(initials, userName, email, phone, contactIconId);
+  if (editOverlayRef.classList.contains("d_none")) {
+    editOverlayRef.classList.add("active");
+    editOverlayRef.classList.remove("d_none");
+    document.querySelector(".body-background-overlay").classList.remove("d_none");
+    document.body.addEventListener("click", closeEditOverlay);
+  }
+};
+
+/**
+ * Closes the edit overlay by removing the active class and adding the hidden class.
+ * Also hides the background overlay and removes event listeners.
+ */
+const closeEditOverlay = () => {
+  const editOverlayRef = document.getElementById("editOverlay");
+  editOverlayRef.classList.remove("active");
+  editOverlayRef.classList.add("d_none");
+  document.querySelector(".body-background-overlay").classList.add("d_none");
+};
+
+/**
+ * Opens the edit overlay while preventing event bubbling.
+ * Stops the propagation of the given event and then opens the edit overlay.
+ *
+ * @param {Event} event - The event object to stop propagation for
+ */
+const openEditOverlayWithBubblingPrevention = (event, initials, userName, email, phone, contactIconId) => {
+  event.stopPropagation();
+  openEditOverlay(initials, userName, email, phone, contactIconId);
+};
+
+/**
+ * Prevents event bubbling for the given event.
+ * @param {Event} event - The event to stop propagation for.
+ */
+const bubblingPrevention = (event) => {
+  event.stopPropagation();
+};
+
+/**
+ * Adds a click event listener to the element with the class "add-contact-button".
+ * Prevents the click event from bubbling up to parent elements.
+ *
+ * @param {MouseEvent} event - The click event object.
+ */
+document.querySelector(".add-contact-button").addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+
+/**
+ * Adds a new contact to the database using values from input fields.
+ * Validates that all fields (name, email, phone) are filled and that the name
+ * contains both first name and surname.
+ * If valid, creates a new contact object and saves it to the database,
+ * updates the contact list, closes the add contact overlay, and clears the form.
+ * Alerts the user if any field is missing or name format is invalid.
+ *
+ * @async
+ * @function addContactToDatabase
+ * @returns {Promise&lt;void>}
+ */
+const addContactToDatabase = async (nameVal, emailVal, phoneVal) => {
+  const nameValue = name.value;
+  const emailValue = email.value;
+  const phoneValue = phone.value;
+  if (!overlayValidation(nameValue, emailValue, phoneValue, nameVal, emailVal, phoneVal)) return;
+  let newContact = { name: nameValue, email: emailValue, phone: phoneValue };
+  await putNewContactToDatabase(newContact);
+  closeAddContactOverlay();
+  clearContactForm();
+  showAddSuccessMessage();
+  setTimeout(() => {
+    scrollToNewContact(newContact);
+  }, 100);
+};
+
+/**
+ * Displays an "add contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showAddSuccessMessage
+ * @description Shows the add contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showAddSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".add-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Displays a "delete contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showDeleteSuccessMessage
+ * @description Shows the delete contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showDeleteSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".delete-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Displays an "edit contact successful" message with fade-in and fade-out animations.
+ * The message appears after 50ms, stays visible for 2 seconds, then fades out
+ * over 400ms before being hidden again.
+ *
+ * @function showEditSuccessMessage
+ * @description Shows the edit contact success message element by manipulating CSS classes
+ * to create a smooth animation sequence (show → fade in → fade out → hide).
+ */
+const showEditSuccessMessage = () => {
+  const successMessageRef = document.querySelector(".edit-contact-successful");
+  successMessageRef.classList.remove("d_none");
+  setTimeout(() => {
+    successMessageRef.classList.add("active");
+  }, 50);
+  setTimeout(() => {
+    successMessageRef.classList.remove("active");
+    setTimeout(() => {
+      successMessageRef.classList.add("d_none");
+    }, 400);
+  }, 2000);
+};
+
+/**
+ * Clears the values of the contact form input fields: name, email, and phone.
+ * Resets the input fields with IDs 'contactName', 'contactEmail', and 'contactPhone' to empty strings.
+ */
+const clearContactForm = () => {
+  document.getElementById("contactName").value = "";
+  document.getElementById("contactEmail").value = "";
+  document.getElementById("contactPhone").value = "";
+};
+
+/**
+ * Clears the values of the edit contact form fields (name, email, and phone).
+ * Resets the input fields to empty strings if they exist in the DOM.
+ */
+const clearEditForm = () => {
+  const editContactName = document.getElementById("editContactName");
+  const editContactEmail = document.getElementById("editContactEmail");
+  const editContactPhone = document.getElementById("editContactPhone");
+
+  if (editContactName &amp;&amp; editContactEmail &amp;&amp; editContactPhone) {
+    editContactName.value = "";
+    editContactEmail.value = "";
+    editContactPhone.value = "";
+  }
+};
+
+/**
+ * Saves the edited contact information to the Firebase database.
+ *
+ * This function retrieves the currently selected contact's name from the DOM,
+ * finds the corresponding contact object, collects the edited values from the
+ * input fields, validates that the name contains both first name and surname,
+ * and updates the contact in the database using a PUT request.
+ * After saving, it closes the edit overlay, clears the edit form, and refreshes
+ * the contact list display.
+ *
+ * @async
+ * @function
+ * @returns {Promise&lt;void>} Resolves when the contact has been updated and the UI refreshed.
+ */
+const saveEditedContactToDatabase = async (nameVal, emailVal, phoneVal) => {
+  const contactName = document.querySelector(".contact-information-username").innerText;
+  const contact = contacts.find((contact) => contact.name === contactName);
+  const editedName = document.getElementById("editContactName").value.trim();
+  const editedEmail = document.getElementById("editContactEmail").value;
+  const editedPhone = document.getElementById("editContactPhone").value;
+  if (!overlayValidation(editedName, editedEmail, editedPhone, nameVal, emailVal, phoneVal)) return;
+  const editedContact = { name: editedName, email: editedEmail, phone: editedPhone };
+  await putEditedContactToDatabase(editedContact, contact);
+  finishEdit();
+};
+
+/**
+ * Validates if a name contains exactly two words (first name and surname).
+ * @param {string} name - The name to validate.
+ * @returns {boolean} True if the name has exactly two words, false otherwise.
+ */
+const validateFullName = (name) => {
+  const trimmedName = name.trim();
+  const words = trimmedName.split(/\s+/);
+  return words.length === 2 &amp;&amp; words.every((word) => word.length > 0);
+};
+
+/**
+ * Validates the input fields for contact forms (add/edit contact overlays).
+ *
+ * @param {string} editedName - The name to validate (must be a full name with first and last name)
+ * @param {string} editedEmail - The email address to validate
+ * @param {string} editedPhone - The phone number to validate
+ * @param {string} nameVal - The ID of the name error message element
+ * @param {string} emailVal - The ID of the email error message element
+ * @param {string} phoneVal - The ID of the phone error message element
+ * @returns {boolean} Returns true if all validations pass, false otherwise
+ *
+ * @description This function performs the following validations:
+ * - Validates that the name contains both first and last name using validateFullName()
+ * - Validates the email format using validateEmail()
+ * - Validates the phone number format using validatePhoneNumber()
+ * - Shows/hides error message elements by manipulating CSS classes based on validation results
+ */
+const overlayValidation = (editedName, editedEmail, editedPhone, nameVal, emailVal, phoneVal) => {
+  let isValid = true;
+  if (!validateFullName(editedName)) {
+    document.getElementById(nameVal).classList.remove("hide");
+    isValid = false;
+  } else document.getElementById(nameVal).classList.add("hide");
+  if (!validateEmail(editedEmail)) {
+    document.getElementById(emailVal).classList.remove("hide");
+    isValid = false;
+  } else document.getElementById(emailVal).classList.add("hide");
+  if (!validatePhoneNumber(editedPhone)) {
+    document.getElementById(phoneVal).classList.remove("hide");
+    isValid = false;
+  } else document.getElementById(phoneVal).classList.add("hide");
+  return isValid;
+};
+
+/**
+ * Validates whether the given string is a properly formatted email address.
+ *
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} Returns true if the email is valid, otherwise false.
+ */
+const validateEmail = (email) => {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return false;
+  }
+  return true;
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addContactToDatabase">addContactToDatabase</a></li><li><a href="global.html#addDisplayToContent">addDisplayToContent</a></li><li><a href="global.html#addNewSubtask">addNewSubtask</a></li><li><a href="global.html#addNewSubtaskRender">addNewSubtaskRender</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskRenderDiv">addSubtaskRenderDiv</a></li><li><a href="global.html#addTaskInit">addTaskInit</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#awaitFeedback">awaitFeedback</a></li><li><a href="global.html#boardInit">boardInit</a></li><li><a href="global.html#bubblingPrevention">bubblingPrevention</a></li><li><a href="global.html#buildTicket">buildTicket</a></li><li><a href="global.html#cacheFirebaseKeys">cacheFirebaseKeys</a></li><li><a href="global.html#calculateSubtaskCounter">calculateSubtaskCounter</a></li><li><a href="global.html#changeDropDownArrow">changeDropDownArrow</a></li><li><a href="global.html#checkEditedValues">checkEditedValues</a></li><li><a href="global.html#checkEmail">checkEmail</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#checkLoginValues">checkLoginValues</a></li><li><a href="global.html#checkNewEditedValues">checkNewEditedValues</a></li><li><a href="global.html#checkRequiredInput">checkRequiredInput</a></li><li><a href="global.html#checkRequiredInputCategory">checkRequiredInputCategory</a></li><li><a href="global.html#checkRequiredInputTaskDate">checkRequiredInputTaskDate</a></li><li><a href="global.html#checkRequiredInputTaskTitle">checkRequiredInputTaskTitle</a></li><li><a href="global.html#checkSignUpValues">checkSignUpValues</a></li><li><a href="global.html#checkTicketsForToggle">checkTicketsForToggle</a></li><li><a href="global.html#checkUserDataInput">checkUserDataInput</a></li><li><a href="global.html#checkValidEmail">checkValidEmail</a></li><li><a href="global.html#clearContactForm">clearContactForm</a></li><li><a href="global.html#clearEditForm">clearEditForm</a></li><li><a href="global.html#clearSubtaskValue">clearSubtaskValue</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#clearValidationFeedback">clearValidationFeedback</a></li><li><a href="global.html#closeAddContactOverlay">closeAddContactOverlay</a></li><li><a href="global.html#closeDropDowns">closeDropDowns</a></li><li><a href="global.html#closeEditOverlay">closeEditOverlay</a></li><li><a href="global.html#closeViaOverlay">closeViaOverlay</a></li><li><a href="global.html#confirmEditedSubtask">confirmEditedSubtask</a></li><li><a href="global.html#confirmEditedSubtaskInEditMenu">confirmEditedSubtaskInEditMenu</a></li><li><a href="global.html#confirmEditedSubtaskInEditMenuRender">confirmEditedSubtaskInEditMenuRender</a></li><li><a href="global.html#confirmEditedSubtaskRender">confirmEditedSubtaskRender</a></li><li><a href="global.html#contactsInit">contactsInit</a></li><li><a href="global.html#createNewTicket">createNewTicket</a></li><li><a href="global.html#createUserIcons">createUserIcons</a></li><li><a href="global.html#defineTicketDetailVariables">defineTicketDetailVariables</a></li><li><a href="global.html#deleteContactFromDatabase">deleteContactFromDatabase</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTicket">deleteTicket</a></li><li><a href="global.html#done">done</a></li><li><a href="global.html#dropDownUsers">dropDownUsers</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editSubtaskInEditMenu">editSubtaskInEditMenu</a></li><li><a href="global.html#editSubtaskInEditMenuRender">editSubtaskInEditMenuRender</a></li><li><a href="global.html#editSubtaskRender">editSubtaskRender</a></li><li><a href="global.html#editTicket">editTicket</a></li><li><a href="global.html#endDragging">endDragging</a></li><li><a href="global.html#escapeQuotes">escapeQuotes</a></li><li><a href="global.html#fetchChangedTicket">fetchChangedTicket</a></li><li><a href="global.html#filterTickets">filterTickets</a></li><li><a href="global.html#filterUsers">filterUsers</a></li><li><a href="global.html#finishEdit">finishEdit</a></li><li><a href="global.html#getBGIndex">getBGIndex</a></li><li><a href="global.html#getColumnValue">getColumnValue</a></li><li><a href="global.html#getContactDetailsTemplate">getContactDetailsTemplate</a></li><li><a href="global.html#getContactTemplate">getContactTemplate</a></li><li><a href="global.html#getContactsData">getContactsData</a></li><li><a href="global.html#getEditOverlayContentTemplate">getEditOverlayContentTemplate</a></li><li><a href="global.html#getEditTicketSubtaskEleTemplate">getEditTicketSubtaskEleTemplate</a></li><li><a href="global.html#getEditTicketTemplate">getEditTicketTemplate</a></li><li><a href="global.html#getEditTicketUserSpansArrayTemplate">getEditTicketUserSpansArrayTemplate</a></li><li><a href="global.html#getInitialTemplate">getInitialTemplate</a></li><li><a href="global.html#getMobileNavigationButtonTemplate">getMobileNavigationButtonTemplate</a></li><li><a href="global.html#getNewUserData">getNewUserData</a></li><li><a href="global.html#getRenderTasksTemplate">getRenderTasksTemplate</a></li><li><a href="global.html#getRenderTicketDetailsSubtaskEleTemplate">getRenderTicketDetailsSubtaskEleTemplate</a></li><li><a href="global.html#getRenderTicketDetailsTemplate">getRenderTicketDetailsTemplate</a></li><li><a href="global.html#getRenderTicketDetailsUserSpansArrayTemplate">getRenderTicketDetailsUserSpansArrayTemplate</a></li><li><a href="global.html#getSelectedUsers">getSelectedUsers</a></li><li><a href="global.html#getTicketData">getTicketData</a></li><li><a href="global.html#getTicketTemplate">getTicketTemplate</a></li><li><a href="global.html#getUserDetails">getUserDetails</a></li><li><a href="global.html#getUsersData">getUsersData</a></li><li><a href="global.html#getUserspans">getUserspans</a></li><li><a href="global.html#getVariablesToRenderTickets">getVariablesToRenderTickets</a></li><li><a href="global.html#goToBoardHtml">goToBoardHtml</a></li><li><a href="global.html#greetUser">greetUser</a></li><li><a href="global.html#hideContactDetails">hideContactDetails</a></li><li><a href="global.html#hidePopUp">hidePopUp</a></li><li><a href="global.html#highlightDrop">highlightDrop</a></li><li><a href="global.html#highlightPageInNav">highlightPageInNav</a></li><li><a href="global.html#hoverButtons">hoverButtons</a></li><li><a href="global.html#inProgress">inProgress</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeCurrentUser">initializeCurrentUser</a></li><li><a href="global.html#iterateContacts">iterateContacts</a></li><li><a href="global.html#iterateThroughUsersForVisualization">iterateThroughUsersForVisualization</a></li><li><a href="global.html#iterateUsers">iterateUsers</a></li><li><a href="global.html#loadNavigationAndGreetUser">loadNavigationAndGreetUser</a></li><li><a href="global.html#loadNavigationAndSetInitials">loadNavigationAndSetInitials</a></li><li><a href="global.html#loginAsGuest">loginAsGuest</a></li><li><a href="global.html#messageMissingConfirmPassword">messageMissingConfirmPassword</a></li><li><a href="global.html#messageMissingName">messageMissingName</a></li><li><a href="global.html#messageMissingPassword">messageMissingPassword</a></li><li><a href="global.html#minDate">minDate</a></li><li><a href="global.html#mobileMoveTo">mobileMoveTo</a></li><li><a href="global.html#moveTo">moveTo</a></li><li><a href="global.html#openAddContactOverlay">openAddContactOverlay</a></li><li><a href="global.html#openEditOverlay">openEditOverlay</a></li><li><a href="global.html#openEditOverlayWithBubblingPrevention">openEditOverlayWithBubblingPrevention</a></li><li><a href="global.html#overlayValidation">overlayValidation</a></li><li><a href="global.html#popUpAccNav">popUpAccNav</a></li><li><a href="global.html#popUpAddTask">popUpAddTask</a></li><li><a href="global.html#popUpContactDetails">popUpContactDetails</a></li><li><a href="global.html#popUpDropDownCategory">popUpDropDownCategory</a></li><li><a href="global.html#popUpDropDownUsersInBoard">popUpDropDownUsersInBoard</a></li><li><a href="global.html#putEditedContactToDatabase">putEditedContactToDatabase</a></li><li><a href="global.html#putEditedTaskToFirebase">putEditedTaskToFirebase</a></li><li><a href="global.html#putNewContactToDatabase">putNewContactToDatabase</a></li><li><a href="global.html#queryThroughListElements">queryThroughListElements</a></li><li><a href="global.html#removeHideOnInput">removeHideOnInput</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#removeHoverButtons">removeHoverButtons</a></li><li><a href="global.html#removeNameErrorMessage">removeNameErrorMessage</a></li><li><a href="global.html#removeUserfromLocalStorage">removeUserfromLocalStorage</a></li><li><a href="global.html#renderAllTickets">renderAllTickets</a></li><li><a href="global.html#renderCheckedUsers">renderCheckedUsers</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderHTMLElementsForEditing">renderHTMLElementsForEditing</a></li><li><a href="global.html#renderIcons">renderIcons</a></li><li><a href="global.html#renderSelectedUsers">renderSelectedUsers</a></li><li><a href="global.html#renderSubtaskProgress">renderSubtaskProgress</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#renderTicketDetails">renderTicketDetails</a></li><li><a href="global.html#renderTicketOverlay">renderTicketOverlay</a></li><li><a href="global.html#renderTickets">renderTickets</a></li><li><a href="global.html#resetPriority">resetPriority</a></li><li><a href="global.html#saveChangedTicketInFirbase">saveChangedTicketInFirbase</a></li><li><a href="global.html#saveEditedContactToDatabase">saveEditedContactToDatabase</a></li><li><a href="global.html#saveEditedTaskToFirebase">saveEditedTaskToFirebase</a></li><li><a href="global.html#saveTaskToFirebase">saveTaskToFirebase</a></li><li><a href="global.html#saveTaskToFirebasePassalong">saveTaskToFirebasePassalong</a></li><li><a href="global.html#saveTicketData">saveTicketData</a></li><li><a href="global.html#saveUserToFirebase">saveUserToFirebase</a></li><li><a href="global.html#saveUserToLocalStorage">saveUserToLocalStorage</a></li><li><a href="global.html#scrollToNewContact">scrollToNewContact</a></li><li><a href="global.html#setCategory">setCategory</a></li><li><a href="global.html#setGlobalEditInformation">setGlobalEditInformation</a></li><li><a href="global.html#setNameError">setNameError</a></li><li><a href="global.html#setPriority">setPriority</a></li><li><a href="global.html#setProfileInitials">setProfileInitials</a></li><li><a href="global.html#showAddSuccessMessage">showAddSuccessMessage</a></li><li><a href="global.html#showContacts">showContacts</a></li><li><a href="global.html#showContactsDetails">showContactsDetails</a></li><li><a href="global.html#showDeleteSuccessMessage">showDeleteSuccessMessage</a></li><li><a href="global.html#showEditSuccessMessage">showEditSuccessMessage</a></li><li><a href="global.html#showPopUp">showPopUp</a></li><li><a href="global.html#showSuccessAnimationAndRedirect">showSuccessAnimationAndRedirect</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#sortContactByInitials">sortContactByInitials</a></li><li><a href="global.html#sortedTickets">sortedTickets</a></li><li><a href="global.html#spliceEditSubArray">spliceEditSubArray</a></li><li><a href="global.html#startDragging">startDragging</a></li><li><a href="global.html#summaryInit">summaryInit</a></li><li><a href="global.html#switchEditInfoMenu">switchEditInfoMenu</a></li><li><a href="global.html#switchPasswordIcon">switchPasswordIcon</a></li><li><a href="global.html#switchPasswordVisibility">switchPasswordVisibility</a></li><li><a href="global.html#takeOverEditedTicket">takeOverEditedTicket</a></li><li><a href="global.html#ticketTemplate">ticketTemplate</a></li><li><a href="global.html#toDos">toDos</a></li><li><a href="global.html#toggleCategoryDropdown">toggleCategoryDropdown</a></li><li><a href="global.html#toggleNoTaskContainer">toggleNoTaskContainer</a></li><li><a href="global.html#toggleSubtask">toggleSubtask</a></li><li><a href="global.html#toogleInputMenu">toogleInputMenu</a></li><li><a href="global.html#uncheckAllUserIcons">uncheckAllUserIcons</a></li><li><a href="global.html#upcomingTickets">upcomingTickets</a></li><li><a href="global.html#updateTicketCounter">updateTicketCounter</a></li><li><a href="global.html#updateTicketParameters">updateTicketParameters</a></li><li><a href="global.html#updateUIAfterDelete">updateUIAfterDelete</a></li><li><a href="global.html#urgentTickets">urgentTickets</a></li><li><a href="global.html#userDropDownTemplate">userDropDownTemplate</a></li><li><a href="global.html#validateEmail">validateEmail</a></li><li><a href="global.html#validateFullName">validateFullName</a></li><li><a href="global.html#validatePhoneNumber">validatePhoneNumber</a></li><li><a href="global.html#wrongPassword">wrongPassword</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Oct 06 2025 13:59:26 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
