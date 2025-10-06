@@ -552,7 +552,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 4px;
   list-style-type: disc;
   height: 24px;
   padding-left: 12px;
@@ -689,6 +689,7 @@ button {
 #subtasks-div li {
   font-size: 14px;
   margin-left: 0;
+  margin-bottom: 8px;
   padding: 4px 8px;
   border-radius: 5px;
 }
@@ -713,6 +714,17 @@ button {
 
 #subtask-edit-render {
   padding-top: 20px;
+}
+
+#subtask-render-div {
+  max-height: 160px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#subtask-render-div::-webkit-scrollbar {
+  display: none;
 }
 
 .min-height-task {
