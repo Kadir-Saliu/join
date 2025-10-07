@@ -175,7 +175,7 @@ const getEditTicketSubtaskEleTemplate = (subtask, i, dataTicketIndex, dataTicket
           <img src="../assets/icon/pencil.svg">
         </button>
         <div class="add-task-form-divider"></div>
-        <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.value}'); spliceEditSubArray(this)">
+        <button data-index="${i}" data-ticketindex="${dataTicketIndex}" data-ticketcounterid="${dataTicketCounterId}" data-mode="${dataMode}" onclick="deleteSubtask(this, '${subtask.text}'); spliceEditSubArray(this)">
           <img src="../assets/icon/bin.svg">
         </button>
       </div>
