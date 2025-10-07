@@ -717,14 +717,28 @@ button {
 }
 
 #subtask-render-div {
-  max-height: 160px;
+  min-height: 100px;
+  max-height: 250px;
   overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: thin;
 }
 
 #subtask-render-div::-webkit-scrollbar {
-  display: none;
+  width: 6px;
+}
+
+#subtask-render-div::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+#subtask-render-div::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+#subtask-render-div::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
 }
 
 .min-height-task {

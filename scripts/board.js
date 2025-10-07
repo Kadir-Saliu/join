@@ -105,9 +105,7 @@ function filterTickets() {
   const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
   if (!filterTickets.previousLength) filterTickets.previousLength = 0;
   if (searchInput.length >= 3) {
-    let filteredTickets = tickets.filter(
-      (ticket) => ticket.title.toLowerCase().includes(searchInput) || ticket.description.toLowerCase().includes(searchInput)
-    );
+    let filteredTickets = tickets.filter((ticket) => ticket.title.toLowerCase().includes(searchInput) || ticket.description.toLowerCase().includes(searchInput));
     renderTickets(filteredTickets);
     filterTickets.previousLength = searchInput.length;
   } else if (filterTickets.previousLength >= 3) {
@@ -138,10 +136,8 @@ async function defineTicketDetailVariables(ticket, mode, index, ticketCounterId)
   let priority = ticket[index].priority || "-";
   let assignedTo = ticket[index].assignedTo || [];
   let subtasks = ticket[index].subtask || [];
-  if (mode === "view")
-    renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
-  else if (mode === "edit")
-    editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
+  if (mode === "view") renderTicketDetails(category, categoryColor, title, description, formattedDate, priority, assignedTo, subtasks, index, ticketCounterId);
+  else if (mode === "edit") editTicket(title, description, dateForEditOverlay, priority, assignedTo, subtasks, index, mode, ticketCounterId);
 }
 
 /**
@@ -244,7 +240,8 @@ async function saveEditedTaskToFirebase(ele, index, ticketData, ticketCounterId)
     let updatedTicket = await updateTicketParameters(response, ticketData);
     await putEditedTaskToFirebase(ticketCounterId, updatedTicket);
     renderTicketOverlay(ele);
-    getTicketData();
+    await getTicketData();
+    renderTickets();
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }

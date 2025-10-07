@@ -83,6 +83,7 @@ async function closeTicketAndRefresh() {
  * @param {HTMLElement} ele - Ticket element.
  */
 function switchEditInfoMenu(ele) {
+  setGlobalEditInformation(ele);
   document.getElementById("board-task-information").classList.toggle("hide");
   document.getElementById("board-task-edit").classList.toggle("hide");
   renderTicketOverlay(ele);
@@ -227,7 +228,6 @@ async function renderTicketOverlay(ele) {
  * @param {string} priority - Priority level.
  */
 function renderHTMLElementsForEditing(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode, priority) {
-  document.getElementById("subtask-render-div").innerHTML = "";
   document.getElementById("board-task-edit").innerHTML = getEditTicketTemplate(title, description, dateForEditOverlay, userSpans, subtaskEle, index, ticketCounterId, mode);
   document.querySelectorAll(".set-priority").forEach((ele) => {
     if (ele.innerText.toLowerCase().trim() === priority) {
