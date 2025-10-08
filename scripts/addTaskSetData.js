@@ -146,19 +146,14 @@ function removeHoverButtons(parentElement) {
 
 /**
  * Shows or hides the subtask clear button and divider based on the input element's value.
- * If the input is not empty, removes the "hide" class to display the elements.
- * If the input is empty, adds the "hide" class to hide the elements.
+ * Toggles the "hide" class to show elements when input has content, hide when empty.
  *
  * @param {HTMLInputElement} inputElement - The input element to check for a non-empty value.
  */
 function removeHideOnInput(inputElement) {
-  if (inputElement.value.trim() !== "") {
-    document.getElementById("subtask-clear-button").classList.remove("hide");
-    document.getElementById("subtask-button-div-divider").classList.remove("hide");
-  } else {
-    document.getElementById("subtask-clear-button").classList.add("hide");
-    document.getElementById("subtask-button-div-divider").classList.add("hide");
-  }
+  const hasContent = inputElement.value.trim() !== "";
+  document.getElementById("subtask-clear-button").classList.toggle("hide", !hasContent);
+  document.getElementById("subtask-button-div-divider").classList.toggle("hide", !hasContent);
 }
 
 /**
