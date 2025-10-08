@@ -1,4 +1,3 @@
-// Drag and drop global variable
 let currentDraggedElement;
 
 /**
