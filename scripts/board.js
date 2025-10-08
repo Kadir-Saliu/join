@@ -19,31 +19,19 @@ let allTickets = JSON.parse(getTickets);
  * Extracts and prepares all necessary variables from a ticket object
  * to be used for rendering in the board UI.
  *
- * Formats the column name for DOM usage, ensures optional fields
- * have default values, and returns a structured object containing
- * all relevant ticket data.
+ * @param {Object} ticket - The ticket object
  *
- * @function getVariablesToRenderTickets
- * @param {Object} t - The ticket object.
- * @param {string} t.column - The board column where the ticket belongs.
- * @param {string} [t.description=""] - Optional description of the ticket.
- * @param {string} t.title - The ticket title.
- * @param {string} t.category - The ticket category.
- * @param {string[]} [t.assignedTo=[]] - List of assigned users.
- * @param {string[]} [t.priority=[]] - Ticket priority.
- * @param {Array} [t.subtask=[]] - List of subtasks.
- * @param {string|number} t.id - Unique ticket ID.
- *
- * @returns {Object} An object with prepared ticket variables.
- * @returns {Array} return.subtasks - The ticket subtasks.
- * @returns {string} return.columnId - The formatted DOM column ID.
- * @returns {string} return.title - The ticket title.
- * @returns {string} return.description - The ticket description.
- * @returns {string} return.category - The ticket category.
- * @returns {string} return.categoryCss - Category formatted for CSS usage.
- * @returns {string[]} return.assignedTo - Assigned users.
- * @returns {string[]} return.priority - Ticket priority.
- * @returns {string|number} return.ticketCounterId - Unique ticket ID.
+ * @returns {Object} An object with prepared ticket variables
+ * @returns {Array} returns.subtasks - The ticket subtasks
+ * @returns {string} returns.columnId - The formatted DOM column ID
+ * @returns {string} returns.columnValue - The original column value
+ * @returns {string} returns.title - The ticket title
+ * @returns {string} returns.description - The ticket description
+ * @returns {string} returns.category - The ticket category
+ * @returns {string} returns.categoryCss - Category formatted for CSS usage
+ * @returns {string[]} returns.assignedTo - Assigned users
+ * @returns {string[]} returns.priority - Ticket priority
+ * @returns {string|number} returns.ticketCounterId - Unique ticket ID
  */
 function getVariablesToRenderTickets(ticket) {
   const columnId = `${ticket.column.replace(" ", "-").toLowerCase()}-div`;

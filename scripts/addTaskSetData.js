@@ -108,15 +108,15 @@ function addSubtask() {
 /**
  * Enables editing mode for a subtask element by updating its attributes and rendering the edit UI.
  *
- * @param {HTMLElement} ele - The element that triggered the edit action, typically an edit button within the subtask.
+ * @param {HTMLElement} editButton - The element that triggered the edit action, typically an edit button within the subtask.
  */
-function editSubtask(ele) {
-  let liVal = ele.parentElement.parentElement.innerText;
-  ele.parentElement.parentElement.removeAttribute("onmouseenter");
-  ele.parentElement.parentElement.removeAttribute("onmouseleave");
-  ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
-  ele.parentElement.parentElement.innerHTML = editSubtaskRender(liVal, ele.dataset.index);
-  document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");
+function editSubtask(editButton) {
+  let subtaskText = editButton.parentElement.parentElement.innerText;
+  editButton.parentElement.parentElement.removeAttribute("onmouseenter");
+  editButton.parentElement.parentElement.removeAttribute("onmouseleave");
+  editButton.parentElement.parentElement.setAttribute("id", `${subtaskText}-${editButton.dataset.index}`);
+  editButton.parentElement.parentElement.innerHTML = editSubtaskRender(subtaskText, editButton.dataset.index);
+  document.getElementById(`${subtaskText}-${editButton.dataset.index}`).classList.add("edit-div");
 }
 
 /**
@@ -124,24 +124,24 @@ function editSubtask(ele) {
  * Removes mouse event attributes, sets a new ID, replaces its inner HTML with an edit form,
  * and adds the "edit-div" class for styling.
  *
- * @param {HTMLElement} ele - The element that triggered the edit, typically an edit button within the subtask.
+ * @param {HTMLElement} editButton - The element that triggered the edit, typically an edit button within the subtask.
  */
-function editSubtaskInEditMenu(ele) {
-  let liVal = ele.parentElement.parentElement.innerText;
-  ele.parentElement.parentElement.removeAttribute("onmouseenter");
-  ele.parentElement.parentElement.removeAttribute("onmouseleave");
-  ele.parentElement.parentElement.setAttribute("id", `${liVal}-${ele.dataset.index}`);
-  ele.parentElement.parentElement.innerHTML = editSubtaskInEditMenuRender(liVal, ele.dataset.index);
-  document.getElementById(`${liVal}-${ele.dataset.index}`).classList.add("edit-div");
+function editSubtaskInEditMenu(editButton) {
+  let subtaskText = editButton.parentElement.parentElement.innerText;
+  editButton.parentElement.parentElement.removeAttribute("onmouseenter");
+  editButton.parentElement.parentElement.removeAttribute("onmouseleave");
+  editButton.parentElement.parentElement.setAttribute("id", `${subtaskText}-${editButton.dataset.index}`);
+  editButton.parentElement.parentElement.innerHTML = editSubtaskInEditMenuRender(subtaskText, editButton.dataset.index);
+  document.getElementById(`${subtaskText}-${editButton.dataset.index}`).classList.add("edit-div");
 }
 
 /**
  * Hides the first child element of the given element by adding the "hide" class.
  *
- * @param {HTMLElement} ele - The parent element whose first child will be hidden.
+ * @param {HTMLElement} parentElement - The parent element whose first child will be hidden.
  */
-function removeHoverButtons(ele) {
-  ele.firstElementChild.classList.add("hide");
+function removeHoverButtons(parentElement) {
+  parentElement.firstElementChild.classList.add("hide");
 }
 
 /**
@@ -233,19 +233,20 @@ function resetPriority() {
 /**
  * Deletes a subtask from the subtask array and removes its corresponding DOM element.
  *
- * @param {HTMLElement} ele - The element that triggered the delete action, typically a button within the subtask.
+ * @param {HTMLElement} deleteButton - The element that triggered the delete action, typically a button within the subtask.
+ * @param {string} subtaskText - The text content of the subtask to be deleted.
  */
-function deleteSubtask(ele, liVal) {
-  let index = subtaskValue.indexOf(liVal);
+function deleteSubtask(deleteButton, subtaskText) {
+  let index = subtaskValue.indexOf(subtaskText);
   subtaskValue.splice(index, 1);
 
   for (let index = 0; index < subtaskArray.length; index++) {
-    if (ele.parentElement.parentElement.innerText === subtaskArray[index].text && ele.dataset.index == index) {
+    if (deleteButton.parentElement.parentElement.innerText === subtaskArray[index].text && deleteButton.dataset.index == index) {
       subtaskArray.splice(index, 1);
     }
   }
   subtaskCounter--;
-  ele.parentElement.parentElement.remove();
+  deleteButton.parentElement.parentElement.remove();
 }
 
 /**
