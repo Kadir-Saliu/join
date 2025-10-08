@@ -325,7 +325,6 @@ function getRenderTasksTemplate() {
   return /*html*/ `
              <div onclick="goToBoardHtml()" class="toDo-and-done">
               <div class="to-do task-card-base flex-center">
-                <a href="">
                   <svg xmlns="http://www.w3.org/2000/svg" width="69" height="70" viewBox="0 0 69 70" fill="none">
                     <circle class="change-circle-color" cx="34.5" cy="35" r="34.5" fill="#2A3647" />
                     <mask
@@ -347,14 +346,12 @@ function getRenderTasksTemplate() {
                       />
                     </g>
                   </svg>
-                </a>
                 <div class="center flex-column flex-center">
                   <h3>${toDos}</h3>
                   <p>To-do</p>
                 </div>
               </div>
               <div onclick="goToBoardHtml()" class="done task-card-base flex-center">
-                <a href="">
                   <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70" fill="none">
                     <circle class="change-circle-color" cx="35" cy="35" r="34.5" fill="#2A3647" />
                     <path
@@ -366,7 +363,6 @@ function getRenderTasksTemplate() {
                       stroke-linejoin="round"
                     />
                   </svg>
-                </a>
                 <div class="center flex-column flex-center">
                   <h3>${done}</h3>
                   <p>Done</p>
@@ -375,7 +371,7 @@ function getRenderTasksTemplate() {
             </div>
             <div onclick="goToBoardHtml()" class="urgent-and-date task-card-base flex-center">
               <div class="urgent flex-center">
-                <a href=""><img class="urgent-icon-responsiv" src="../assets/icon/urgent-orange-icon.svg" alt="" /></a>
+                <img class="urgent-icon-responsiv" src="../assets/icon/urgent-orange-icon.svg" alt="" />
                 <div>
                   <h3>${urgentTickets}</h3>
                   <p>Urgent</p>

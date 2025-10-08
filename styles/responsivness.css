@@ -151,10 +151,6 @@
     margin-top: 24px;
   }
 
-  #sign-up-div {
-    margin-top: 14vh;
-  }
-
   #btn-login-div {
     flex-direction: column;
     width: 60%;
@@ -172,6 +168,7 @@
 
   #sign-up-div {
     width: 90%;
+    margin-top: 14vh;
   }
 
   .menu-input {

@@ -312,10 +312,15 @@ function setProfileInitials() {
 }
 
 /**
- * Redirects the current page to 'board.html' in the same directory.
+ * Redirects the current page to 'board.html', handling different directory contexts.
  */
 function goToBoardHtml() {
-  location.href = "./pages/board.html";
+  const currentPath = location.pathname;
+  if (currentPath.includes("/pages/")) {
+    location.href = "./board.html";
+  } else {
+    location.href = "./pages/board.html";
+  }
 }
 
 /**
